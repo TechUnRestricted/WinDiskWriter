@@ -6,10 +6,9 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#ifndef DiskWriter_h
-#define DiskWriter_h
-
 #import "FileSystems.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface DiskWriter: NSObject {
     NSString *_mountedWindowsISO;
@@ -31,4 +30,4 @@
 
 @end
 
-#endif /* DiskWriter_h */
+NS_ASSUME_NONNULL_END

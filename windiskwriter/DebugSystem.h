@@ -6,8 +6,7 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#ifndef DebugSystem_h
-#define DebugSystem_h
+NS_ASSUME_NONNULL_BEGIN
 
 #ifdef DEBUG
 #   define DebugLog(...) NSLog(__VA_ARGS__)
@@ -15,4 +14,4 @@
 #   define DebugLog(...) (void)0
 #endif
 
-#endif /* DebugSystem_h */
+NS_ASSUME_NONNULL_END

@@ -6,12 +6,11 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#ifndef FileSystems_h
-#define FileSystems_h
+NS_ASSUME_NONNULL_BEGIN
 
 enum FileSystems {
     FAT32,
     ExFAT
 };
 
-#endif /* FileSystems_h */
+NS_ASSUME_NONNULL_END
