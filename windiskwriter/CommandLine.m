@@ -12,7 +12,7 @@
 
 @implementation CommandLine
 
-+ (NSString * _Nullable)execute: (NSString *)executable
++ (NSData * _Nullable)execute: (NSString *)executable
                   withArguments: (NSArray *)arguments {
     @try {
         NSPipe *pipe = [NSPipe pipe];
@@ -25,7 +25,7 @@
         NSFileHandle *file = [pipe fileHandleForReading];
         [task launch];
 
-        return [[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+        return [file readDataToEndOfFile];
     } @catch (NSException *exception) {
         DebugLog(@"An error occurred while executing a terminal command [Arguments: %@], [Error: {%@, %@}]",
                  [arguments componentsJoinedByString:@", "],
