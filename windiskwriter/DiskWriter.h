@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)getMountedWindowsISO;
 - (NSString *)getDestinationDevice;
 
-+ (NSString *)getWindowsSourceMountPath: (NSString *)isoPath;
+//- (NSString * _Nullable)getWindowsSourceMountPath: (NSString *)isoPath;
 
 - (instancetype)init NS_UNAVAILABLE;
 

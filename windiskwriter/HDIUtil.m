@@ -82,5 +82,17 @@
     return _imagePath;
 }
 
+- (NSString *)getBSDEntry {
+    return _BSDEntry;
+}
+
+- (NSString *)getMountPoint {
+    return _mountPoint;
+}
+
+- (NSString *)getVolumeKind {
+    return _volumeKind;
+}
+
 @end
 

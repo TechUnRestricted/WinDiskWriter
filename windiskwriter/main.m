@@ -26,12 +26,10 @@ int main(int argc, const char *argv[]) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
-		
-		/*DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"disk9"];*/
-		
-		HDIUtil *hdiUtil = [[HDIUtil alloc] initWithImagePath:@"/Users/macintosh/Windows x64.iso"];
-		[hdiUtil attachImage];
-		
+		printUsage();
+		DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"/dev/disk9s9"];
+		DebugLog(@"Mounted Windows ISO: %@", [diskWriter getMountedWindowsISO]);
+		DebugLog(@"Destination Device: %@", [diskWriter getDestinationDevice]);
 	}
 	return 0;
 }
