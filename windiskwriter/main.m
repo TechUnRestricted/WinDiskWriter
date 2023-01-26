@@ -13,6 +13,7 @@
 #import "newfs_msdos.h"
 #import "DiskWriter.h"
 #import "CommandLine.h"
+#import "HDIUtil.h"
 
 /// Checking if the application is running as Root
 bool hasElevatedRights(void);
@@ -20,20 +21,16 @@ void printUsage(void);
 
 int main(int argc, const char *argv[]) {
 	@autoreleasepool {
-
-		NSString *output = [CommandLine execute:@"/usr/bin/hdiutil" withArguments:@[@"attach"]];
-		printf("Output: %s\n", [output UTF8String]);
-		
-		exit(69);
 		if (!hasElevatedRights()) {
 			printf("This program is not running as Root.\n");
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
 		
-		DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Volumes/Macintosh HD/Users/macintoshf" destinationDevice:@"Penos"];
+		/*DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"disk9"];*/
 		
-		printf("Mounted ISO: %s\n", [[diskWriter getMountedWindowsISO] UTF8String]);
+		HDIUtil *hdiUtil = [[HDIUtil alloc] initWithImagePath:@"/Users/macintosh/Windows x64.iso"];
+		[hdiUtil attachImage];
 		
 	}
 	return 0;
