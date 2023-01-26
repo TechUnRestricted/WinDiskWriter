@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (NSString * _Nullable)execute: (NSString *)executable
-                  withArguments: (NSArray *)arguments;
++ (NSData * _Nullable)execute: (NSString *)executable
+                withArguments: (NSArray *)arguments;
 @end
 
 NS_ASSUME_NONNULL_END
