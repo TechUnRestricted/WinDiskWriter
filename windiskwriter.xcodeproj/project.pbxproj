@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
+		E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
+		E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
+		E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E25946012982A77F000C60A4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
+		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
+		E2CCB26F2982AD32004EE171 /* newfs_msdos.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = newfs_msdos.c; sourceTree = "<group>"; };
+		E2CCB2702982AD32004EE171 /* wipefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wipefs.h; sourceTree = "<group>"; };
+		E2CCB2712982AD32004EE171 /* wipefs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = wipefs.cpp; sourceTree = "<group>"; };
+		E2CCB2722982AD32004EE171 /* ExtentManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExtentManager.cpp; sourceTree = "<group>"; };
+		E2CCB2732982AD32004EE171 /* ExtentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtentManager.h; sourceTree = "<group>"; };
+		E2CCB2742982AD5B004EE171 /* newfs_msdos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = newfs_msdos.h; sourceTree = "<group>"; };
+		E2CCB2752982C7A4004EE171 /* DiskWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskWriter.m; sourceTree = "<group>"; };
+		E2CCB2772982C7B1004EE171 /* DiskWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskWriter.h; sourceTree = "<group>"; };
+		E2CCB2782982CB90004EE171 /* FileSystems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystems.h; sourceTree = "<group>"; };
+		E2CCB2792982D23A004EE171 /* DebugSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugSystem.h; sourceTree = "<group>"; };
+		E2CCB27A2982F8C3004EE171 /* HDIUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDIUtil.m; sourceTree = "<group>"; };
+		E2CCB27C2982F8CD004EE171 /* HDIUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDIUtil.h; sourceTree = "<group>"; };
+		E2CCB27D2982FB1B004EE171 /* CommandLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommandLine.h; sourceTree = "<group>"; };
+		E2CCB27E2982FB1B004EE171 /* CommandLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandLine.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E25946002982A77F000C60A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E25945FA2982A77F000C60A4 = {
+			isa = PBXGroup;
+			children = (
+				E25946052982A77F000C60A4 /* windiskwriter */,
+				E25946042982A77F000C60A4 /* Products */,
+				E2CCB26D2982AD32004EE171 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E25946042982A77F000C60A4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E25946032982A77F000C60A4 /* windiskwriter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E25946052982A77F000C60A4 /* windiskwriter */ = {
+			isa = PBXGroup;
+			children = (
+				E25946062982A77F000C60A4 /* main.m */,
+				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
+				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
+				E2CCB27A2982F8C3004EE171 /* HDIUtil.m */,
+				E2CCB27D2982FB1B004EE171 /* CommandLine.h */,
+				E2CCB27E2982FB1B004EE171 /* CommandLine.m */,
+				E2CCB27C2982F8CD004EE171 /* HDIUtil.h */,
+				E2CCB2782982CB90004EE171 /* FileSystems.h */,
+				E2CCB2792982D23A004EE171 /* DebugSystem.h */,
+			);
+			path = windiskwriter;
+			sourceTree = "<group>";
+		};
+		E2CCB26D2982AD32004EE171 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB26E2982AD32004EE171 /* newfs_msdos */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E2CCB26E2982AD32004EE171 /* newfs_msdos */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB26F2982AD32004EE171 /* newfs_msdos.c */,
+				E2CCB2742982AD5B004EE171 /* newfs_msdos.h */,
+				E2CCB2702982AD32004EE171 /* wipefs.h */,
+				E2CCB2712982AD32004EE171 /* wipefs.cpp */,
+				E2CCB2722982AD32004EE171 /* ExtentManager.cpp */,
+				E2CCB2732982AD32004EE171 /* ExtentManager.h */,
+			);
+			name = newfs_msdos;
+			path = libs/newfs_msdos;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E25946022982A77F000C60A4 /* windiskwriter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E259460A2982A77F000C60A4 /* Build configuration list for PBXNativeTarget "windiskwriter" */;
+			buildPhases = (
+				E25945FF2982A77F000C60A4 /* Sources */,
+				E25946002982A77F000C60A4 /* Frameworks */,
+				E25946012982A77F000C60A4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = windiskwriter;
+			productName = windiskwriter;
+			productReference = E25946032982A77F000C60A4 /* windiskwriter */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E25945FB2982A77F000C60A4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1320;
+				ORGANIZATIONNAME = TechUnRestricted;
+				TargetAttributes = {
+					E25946022982A77F000C60A4 = {
+						CreatedOnToolsVersion = 11.7;
+					};
+				};
+			};
+			buildConfigurationList = E25945FE2982A77F000C60A4 /* Build configuration list for PBXProject "windiskwriter" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E25945FA2982A77F000C60A4;
+			productRefGroup = E25946042982A77F000C60A4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E25946022982A77F000C60A4 /* windiskwriter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E25945FF2982A77F000C60A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E25946072982A77F000C60A4 /* main.m in Sources */,
+				E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */,
+				E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */,
+				E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E25946082982A77F000C60A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E25946092982A77F000C60A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E259460B2982A77F000C60A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E259460C2982A77F000C60A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E25945FE2982A77F000C60A4 /* Build configuration list for PBXProject "windiskwriter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E25946082982A77F000C60A4 /* Debug */,
+				E25946092982A77F000C60A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E259460A2982A77F000C60A4 /* Build configuration list for PBXNativeTarget "windiskwriter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E259460B2982A77F000C60A4 /* Debug */,
+				E259460C2982A77F000C60A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E25945FB2982A77F000C60A4 /* Project object */;
+}
