@@ -26,11 +26,10 @@ int main(int argc, const char *argv[]) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
-		printUsage();
 		
-		DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"/dev/disk9s9"];
+		DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"/Volumes/NO NAME"];
 		DebugLog(@"Mounted Windows ISO: %@", [diskWriter getMountedWindowsISO]);
-		DebugLog(@"Destination Device: %@", [diskWriter getDestinationDevice]);
+		DebugLog(@"Destination Device: %@", [diskWriter getDestinationDiskInfo].BSDName);
 		
 	}
 	return 0;

@@ -14,6 +14,7 @@
 @implementation DAWrapper {
     DASessionRef diskSession;
     DADiskRef currentDisk;
+    struct DiskInfo diskInfo;
 }
 
 - (void)initDiskSession {
@@ -28,8 +29,9 @@
         DebugLog(@"Can't create DADisk from BSD Name.");
     } else {
         DebugLog(@"Successfully created DADisk from BSD Name.");
+        [self initDiskInfo];
     }
-    
+
     return self;
 }
 
@@ -41,13 +43,13 @@
         DebugLog(@"Can't create DADisk from Volume Path.");
     } else {
         DebugLog(@"Successfully created DADisk from Volume Path.");
+        [self initDiskInfo];
     }
     
     return self;
 }
 
-- (struct DiskInfo)getDiskInfo {
-    struct DiskInfo diskInfo;
+- (void)initDiskInfo {
     NSDictionary *diskDescription = CFBridgingRelease(DADiskCopyDescription(currentDisk));
     
     diskInfo.isDrive = [[diskDescription objectForKey:@"DAMediaWhole"] boolValue];
@@ -78,6 +80,11 @@
     diskInfo.busName = [diskDescription objectForKey:@"DABusName"];
     diskInfo.deviceVendor = [diskDescription objectForKey:@"DADeviceVendor"];
     
+    diskInfo.uuid = CFBridgingRelease(CFUUIDCreateString(nil, (CFUUIDRef)[diskDescription objectForKey:@"DAVolumeUUID"]));
+    
+}
+
+- (struct DiskInfo) getDiskInfo {
     return diskInfo;
 }
 

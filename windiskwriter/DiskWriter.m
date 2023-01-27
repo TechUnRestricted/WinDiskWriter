@@ -9,17 +9,24 @@
 #import <Foundation/Foundation.h>
 #import "HDIUtil.h"
 #import "DiskWriter.h"
+#import "DAWrapper.h"
 #import "DebugSystem.h"
 #import "Extensions/NSString+Common.h"
 
-@implementation DiskWriter
+@implementation DiskWriter {
+    DAWrapper *destinationDeviceDAWrapper;
+    
+    NSString *_mountedWindowsISO;
+    NSString *_destinationDevice;
+    //struct DiskInfo windowsImageDiskInfo;
+}
 
 - (NSString *)getMountedWindowsISO {
     return _mountedWindowsISO;
 }
 
-- (NSString *)getDestinationDevice {
-    return _destinationDevice;
+- (struct DiskInfo)getDestinationDiskInfo {
+    return [destinationDeviceDAWrapper getDiskInfo];
 }
 
 - (void)initWindowsSourceMountPath: (NSString *)isoPath {
@@ -65,33 +72,31 @@
         @"disk", @"/dev/disk",
         @"rdisk", @"/dev/rdisk"
     ]]) {
-        
-        /* DISKARBITRATION CHECK */
+        DebugLog(@"Received device destination path was defined as BSD Name.");
+        destinationDeviceDAWrapper = [[DAWrapper alloc] initWithBSDName:destinationDevice];
+    }
+    else if ([destinationDevice hasPrefix:@"/Volumes/"]) {
+        DebugLog(@"Received device destination path was defined as Mounted Volume.");
+        if (@available(macOS 10.7, *)) {
+            destinationDeviceDAWrapper = [[DAWrapper alloc] initWithVolumePath:destinationDevice];
+        } else {
+            // TODO: Fix Mac OS X 10.6 Snow Leopard support
+            DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call."
+                     //"Security measures are ignored. Assume that the user entered everything correctly."
+            );
+        }
     }
     
-    /*return;
-    if ([destinationDevice hasPrefix:@"/Volumes/"]) {
-
-        
-
-        
-        if (!isDirectory) {
-            
-            return;
-        }
-        
-        _destinationDevice = destinationDevice;
-        return;
-    }*/
+    if ([destinationDeviceDAWrapper getDiskInfo].BSDName == NULL) {
+        DebugLog(@"The specified destination device is invalid.");
+    }
 }
 
 - (instancetype)initWithWindowsISO: (NSString *)windowsISO
                  destinationDevice: (NSString *)destinationDevice {
-    
     [self initWindowsSourceMountPath:windowsISO];
     [self initDestinationDevice:destinationDevice];
-    
-    
+        
     /*if ([mountedWindowsISO hasPrefix: @"/Volumes/"]) {
      
      }*/

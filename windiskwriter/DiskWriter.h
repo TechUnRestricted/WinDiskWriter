@@ -10,16 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DiskWriter: NSObject {
-    NSString *_mountedWindowsISO;
-    NSString *_destinationDevice;
-}
+@interface DiskWriter: NSObject
 
 @property(nonatomic) enum FileSystems fileSystem;
 @property(nonatomic) bool doNotErase;
 
 - (NSString *)getMountedWindowsISO;
-- (NSString *)getDestinationDevice;
+- (struct DiskInfo)getDestinationDiskInfo;
 
 //- (NSString * _Nullable)getWindowsSourceMountPath: (NSString *)isoPath;
 
