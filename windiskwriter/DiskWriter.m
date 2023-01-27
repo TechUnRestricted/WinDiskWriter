@@ -96,10 +96,6 @@
                  destinationDevice: (NSString *)destinationDevice {
     [self initWindowsSourceMountPath:windowsISO];
     [self initDestinationDevice:destinationDevice];
-        
-    /*if ([mountedWindowsISO hasPrefix: @"/Volumes/"]) {
-     
-     }*/
     
     return self;
 }
