@@ -80,8 +80,33 @@
     diskInfo.busName = [diskDescription objectForKey:@"DABusName"];
     diskInfo.deviceVendor = [diskDescription objectForKey:@"DADeviceVendor"];
     
-    diskInfo.uuid = CFBridgingRelease(CFUUIDCreateString(nil, (CFUUIDRef)[diskDescription objectForKey:@"DAVolumeUUID"]));
+    /* EXC_BAD_ADDRESS */
+    // diskInfo.uuid = CFBridgingRelease(CFUUIDCreateString(nil, (CFUUIDRef)[diskDescription objectForKey:@"DAVolumeUUID"]));
     
+}
+
+struct CallbackWrapper {
+    dispatch_semaphore_t semaphore;
+    DAReturn daReturn;
+};
+
+void unmountDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
+    struct CallbackWrapper *callbackWrapper = context;
+    callbackWrapper->daReturn = DADissenterGetStatus(dissenter);
+    dispatch_semaphore_signal(callbackWrapper->semaphore);
+}
+
+- (DAReturn)unmountDiskWithOptions: (DADiskOptions)options {
+    struct CallbackWrapper callbackWrapper;
+    callbackWrapper.semaphore = dispatch_semaphore_create(0);
+
+    dispatch_queue_t unmountDiskQueue = dispatch_queue_create("Unmount Disk Queue", NULL);
+
+    DADiskUnmount(currentDisk, options, unmountDiskCallback, &callbackWrapper);
+    DASessionSetDispatchQueue(diskSession, unmountDiskQueue);
+    dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
+  
+    return callbackWrapper.daReturn;
 }
 
 - (struct DiskInfo) getDiskInfo {
