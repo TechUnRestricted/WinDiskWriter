@@ -10,6 +10,7 @@
 #import "HDIUtil.h"
 #import "DiskWriter.h"
 #import "DebugSystem.h"
+#import "Extensions/NSString+Common.h"
 
 @implementation DiskWriter
 
@@ -60,9 +61,15 @@
         return;
     }
     
-    if ([destinationDevice hasPrefix:@"/dev/disk"])
+    if ([destinationDevice hasOneOfThePrefixes:@[
+        @"disk", @"/dev/disk",
+        @"rdisk", @"/dev/rdisk"
+    ]]) {
+        
+        /* DISKARBITRATION CHECK */
+    }
     
-    return;
+    /*return;
     if ([destinationDevice hasPrefix:@"/Volumes/"]) {
 
         
@@ -75,7 +82,7 @@
         
         _destinationDevice = destinationDevice;
         return;
-    }
+    }*/
 }
 
 - (instancetype)initWithWindowsISO: (NSString *)windowsISO

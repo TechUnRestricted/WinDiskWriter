@@ -7,35 +7,33 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <unistd.h>
 
 #import "DebugSystem.h"
 #import "newfs_msdos.h"
 #import "DiskWriter.h"
 #import "CommandLine.h"
 #import "HDIUtil.h"
+#import "HelperFunctions.h"
+#import "Extensions/NSString+Common.h"
+#import "DAWrapper.h"
 
-/// Checking if the application is running as Root
-bool hasElevatedRights(void);
 void printUsage(void);
 
 int main(int argc, const char *argv[]) {
 	@autoreleasepool {
-		if (!hasElevatedRights()) {
+		if (![HelperFunctions hasElevatedRights]) {
 			printf("This program is not running as Root.\n");
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
 		printUsage();
+		
 		DiskWriter *diskWriter = [[DiskWriter alloc] initWithWindowsISO:@"/Users/macintosh/Windows x64.iso" destinationDevice:@"/dev/disk9s9"];
 		DebugLog(@"Mounted Windows ISO: %@", [diskWriter getMountedWindowsISO]);
 		DebugLog(@"Destination Device: %@", [diskWriter getDestinationDevice]);
+		
 	}
 	return 0;
-}
-
-bool hasElevatedRights(void) {
-	return getuid() == 0;
 }
 
 void printUsage(void) {
