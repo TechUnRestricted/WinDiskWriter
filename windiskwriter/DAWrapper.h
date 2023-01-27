@@ -38,14 +38,14 @@ struct DiskInfo {
     NSString *deviceRevision;
     NSString *busName;
     NSString *deviceVendor;
+    NSString *uuid;
 };
 
 @interface DAWrapper : NSObject
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName;
-- (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath;
-
-- (struct DiskInfo)getDiskInfo;
+- (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName API_AVAILABLE(macosx(10.4));
+- (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath API_AVAILABLE(macosx(10.7));
+- (struct DiskInfo) getDiskInfo;
 @end
 
 NS_ASSUME_NONNULL_END
