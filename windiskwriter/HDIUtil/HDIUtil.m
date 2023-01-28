@@ -21,7 +21,7 @@
         DebugLog(@"Adding custom arguments to the HDIUtil attach command [%@].", [arguments componentsJoinedByString:@", "]);
     }
     
-    NSData *commandLineData = [CommandLine execute:_hdiutilPath withArguments:localArgumentsArray];
+    NSData *commandLineData = [CommandLine execute:_hdiutilPath withArguments:localArgumentsArray].data;
     
     NSString *plistLoadErrorDescription;
     NSDictionary *plist = [NSPropertyListSerialization

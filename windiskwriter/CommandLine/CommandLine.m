@@ -12,29 +12,35 @@
 
 @implementation CommandLine
 
-+ (NSData * _Nullable)execute: (NSString *)executable
-                  withArguments: (NSArray *)arguments {
++ (struct CommandLineReturn)execute: (NSString *)executable
+                      withArguments: (NSArray *)arguments {
+    struct CommandLineReturn commandLineReturn;
     @try {
         NSPipe *pipe = [NSPipe pipe];
-
+        
         NSTask *task = [[NSTask alloc] init];
         [task setLaunchPath: executable];
         [task setArguments: arguments];
         [task setStandardOutput: pipe];
-
+        
         NSFileHandle *file = [pipe fileHandleForReading];
         [task launch];
-
-        return [file readDataToEndOfFile];
+        
+        commandLineReturn.data = [file readDataToEndOfFile];
+        commandLineReturn.terminationStatus = [task terminationStatus];
+        commandLineReturn.processIdentifier = [task processIdentifier];
+        commandLineReturn.terminationReason = [task terminationReason];
+        
+        return commandLineReturn;
     } @catch (NSException *exception) {
         DebugLog(@"An error occurred while executing a terminal command [Arguments: %@], [Error: {%@, %@}]",
                  [arguments componentsJoinedByString:@", "],
                  [exception reason],
                  [exception name]
-        );
+                 );
     }
     
-    return NULL;
+    return commandLineReturn;
 }
 
 @end

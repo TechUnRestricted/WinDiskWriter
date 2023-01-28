@@ -162,6 +162,38 @@
             endingLineNumber = "32"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "87957FA3-C2B2-4909-B7E9-D7D7E034822F - cf2026f96a0771b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "windiskwriter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/main.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "228">
+               </Location>
+               <Location
+                  uuid = "87957FA3-C2B2-4909-B7E9-D7D7E034822F - 9d909af1071aa0e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destructor_8_s16_s24_s32_s40_s48_s56_s64_s72_s80_s88_s96_s104_s112_s120_s128_s136"
+                  moduleName = "windiskwriter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/main.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -174,8 +206,8 @@
             filePath = "windiskwriter/DiskManager/DiskManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "-getDiskInfo"
             landmarkType = "7">
          </BreakpointContent>
