@@ -27,12 +27,9 @@ int main(int argc, const char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 		
-		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"/dev/disk4s2"];
-		struct DiskInfo info = [diskManager getDiskInfo];
-		diskManager;
-		
-		BOOL result = [diskManager diskUtilEraseVolumeWithFilesystem:@"FAT32" newName:NULL];
-		result;
+		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"disk4"];
+		BOOL result = [diskManager diskUtilEraseDiskWithPartitionScheme:PartitionSchemeMBR filesystem:FilesystemExFAT newName:@"D0R1K"];
+		NSLog(@"%d", result);
 		printUsage();
 	}
 	return 0;

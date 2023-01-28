@@ -12,6 +12,7 @@
 #import "DebugSystem.h"
 #import "CommandLine.h"
 #import "HelperFunctions.h"
+#import "Filesystems/Filesystems.h"
 
 @implementation DiskManager {
     DASessionRef diskSession;
@@ -45,7 +46,6 @@
         DebugLog(@"Can't create DADisk from Volume Path.");
     } else {
         DebugLog(@"Successfully created DADisk from Volume Path.");
-        // [self initDiskInfo];
     }
     
     return self;
@@ -94,10 +94,8 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     return callbackWrapper.daReturn;
 }
 
-- (BOOL)diskUtilEraseVolumeWithFilesystem: (NSString * _Nonnull)filesystem
+- (BOOL)diskUtilEraseVolumeWithFilesystem: (Filesystem)filesystem
                                   newName: (NSString * _Nullable)newName {
-    
-    
     if (newName == NULL) {
         newName = [HelperFunctions randomStringWithLength:11];
         DebugLog(@"New Name was not specified in diskUtilEraseVolumeWithFilesystem. Generating random NSString: [ %@ ].", newName);
@@ -120,13 +118,67 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     ];
     
     if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
-        DebugLog(@"Successfully erased volume.");
+        DebugLog(@"Successfully erased volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
+                 filesystem,
+                 newName,
+                 diskInfo.BSDName
+        );
         return YES;
     } else {
-        DebugLog(@"An Error has occured while erasing the volume.");
+        DebugLog(@"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
+                 filesystem,
+                 newName,
+                 diskInfo.BSDName
+        );
     }
 
     return NO;
+}
+
+- (BOOL)diskUtilEraseDiskWithPartitionScheme: (PartitionScheme _Nonnull)partitionScheme
+                                  filesystem: (Filesystem _Nonnull)filesystem
+                                     newName: (NSString * _Nullable)newName {
+   if (newName == NULL) {
+        newName = [HelperFunctions randomStringWithLength:11];
+        DebugLog(@"New Name was not specified in diskUtilEraseDiskWithPartitionScheme. Generating random NSString: [ %@ ].", newName);
+    } else {
+        newName = [newName uppercaseString];
+    }
+    
+    struct DiskInfo diskInfo = [self getDiskInfo];
+    if (diskInfo.BSDName == NULL) {
+        DebugLog(@"Specified BSD Name does not exist. Can't erase this volume.");
+        return NO;
+    }
+    
+    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil"
+                                                        withArguments:@[@"eraseDisk",
+                                                                        filesystem,
+                                                                        newName,
+                                                                        partitionScheme,
+                                                                        diskInfo.BSDName
+                                                                      ]
+    ];
+    
+    if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
+        DebugLog(@"Successfully erased Disk. [Filesystem: %@; Partition Scheme: %@; New Label: %@; BSD Name: %@]",
+                 filesystem,
+                 partitionScheme,
+                 newName,
+                 diskInfo.BSDName
+        );
+        return YES;
+    } else {
+        DebugLog(@"An Error has occured while erasing the Disk. [Filesystem: %@; Partition Scheme: %@; New Label: %@; BSD Name: %@]",
+                 filesystem,
+                 partitionScheme,
+                 newName,
+                 diskInfo.BSDName
+        );
+    }
+
+    return NO;
+    
 }
 
 - (struct DiskInfo) getDiskInfo {
