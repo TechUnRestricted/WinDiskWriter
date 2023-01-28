@@ -11,7 +11,7 @@
 #import "DiskWriter.h"
 #import "DAWrapper.h"
 #import "DebugSystem.h"
-#import "Extensions/NSString+Common.h"
+#import "../Extensions/NSString+Common.h"
 
 @implementation DiskWriter {
     DAWrapper *destinationDeviceDAWrapper;
