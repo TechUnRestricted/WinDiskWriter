@@ -90,20 +90,39 @@ struct CallbackWrapper {
     DAReturn daReturn;
 };
 
-void unmountDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
+void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     struct CallbackWrapper *callbackWrapper = context;
-    callbackWrapper->daReturn = DADissenterGetStatus(dissenter);
+    
+    if (dissenter != NULL) {
+        callbackWrapper->daReturn = DADissenterGetStatus(dissenter);
+    } else {
+        callbackWrapper->daReturn = kDAReturnSuccess;
+    }
+    
     dispatch_semaphore_signal(callbackWrapper->semaphore);
 }
 
-- (DAReturn)unmountDiskWithOptions: (DADiskOptions)options {
+- (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options {
     struct CallbackWrapper callbackWrapper;
     callbackWrapper.semaphore = dispatch_semaphore_create(0);
 
-    dispatch_queue_t unmountDiskQueue = dispatch_queue_create("Unmount Disk Queue", NULL);
+    dispatch_queue_t dispatchDiskQueue = dispatch_queue_create("Unmount Disk Queue", NULL);
 
-    DADiskUnmount(currentDisk, options, unmountDiskCallback, &callbackWrapper);
-    DASessionSetDispatchQueue(diskSession, unmountDiskQueue);
+    DADiskUnmount(currentDisk, options, daDiskCallback, &callbackWrapper);
+    DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
+    dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
+    
+    return callbackWrapper.daReturn;
+}
+
+- (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options {
+    struct CallbackWrapper callbackWrapper;
+    callbackWrapper.semaphore = dispatch_semaphore_create(0);
+
+    dispatch_queue_t dispatchDiskQueue = dispatch_queue_create("Mount Disk Queue", NULL);
+
+    DADiskMount(currentDisk, NULL, options, daDiskCallback, &callbackWrapper);
+    DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
   
     return callbackWrapper.daReturn;

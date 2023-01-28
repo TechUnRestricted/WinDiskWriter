@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HelperFunctions : NSObject
 + (BOOL) hasElevatedRights;
-//+ (BOOL) hasOneOfThePrefixes:(NSString *)prefixes, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 NS_ASSUME_NONNULL_END

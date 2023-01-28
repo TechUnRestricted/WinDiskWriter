@@ -85,19 +85,14 @@
 			isa = PBXGroup;
 			children = (
 				E2CCB2882983E5D9004EE171 /* Extensions */,
+				E2CCB29229854D91004EE171 /* DiskWriter */,
+				E2CCB29329854D9B004EE171 /* DAWrapper */,
+				E2CCB29429854DA4004EE171 /* HDIUtil */,
+				E2CCB29529854DAC004EE171 /* CommandLine */,
+				E2CCB29629854DB8004EE171 /* HelperFunctions */,
 				E25946062982A77F000C60A4 /* main.m */,
-				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
-				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
-				E2CCB28C2983EE60004EE171 /* DAWrapper.h */,
-				E2CCB28D2983EE60004EE171 /* DAWrapper.m */,
-				E2CCB27A2982F8C3004EE171 /* HDIUtil.m */,
-				E2CCB27C2982F8CD004EE171 /* HDIUtil.h */,
-				E2CCB27D2982FB1B004EE171 /* CommandLine.h */,
-				E2CCB27E2982FB1B004EE171 /* CommandLine.m */,
 				E2CCB2782982CB90004EE171 /* FileSystems.h */,
 				E2CCB2792982D23A004EE171 /* DebugSystem.h */,
-				E2CCB28429833695004EE171 /* HelperFunctions.h */,
-				E2CCB28529833695004EE171 /* HelperFunctions.m */,
 			);
 			path = windiskwriter;
 			sourceTree = "<group>";
@@ -131,6 +126,51 @@
 				E2CCB28A2983E5F2004EE171 /* NSString+Common.m */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E2CCB29229854D91004EE171 /* DiskWriter */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
+				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
+			);
+			path = DiskWriter;
+			sourceTree = "<group>";
+		};
+		E2CCB29329854D9B004EE171 /* DAWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB28C2983EE60004EE171 /* DAWrapper.h */,
+				E2CCB28D2983EE60004EE171 /* DAWrapper.m */,
+			);
+			path = DAWrapper;
+			sourceTree = "<group>";
+		};
+		E2CCB29429854DA4004EE171 /* HDIUtil */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB27A2982F8C3004EE171 /* HDIUtil.m */,
+				E2CCB27C2982F8CD004EE171 /* HDIUtil.h */,
+			);
+			path = HDIUtil;
+			sourceTree = "<group>";
+		};
+		E2CCB29529854DAC004EE171 /* CommandLine */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB27D2982FB1B004EE171 /* CommandLine.h */,
+				E2CCB27E2982FB1B004EE171 /* CommandLine.m */,
+			);
+			path = CommandLine;
+			sourceTree = "<group>";
+		};
+		E2CCB29629854DB8004EE171 /* HelperFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB28429833695004EE171 /* HelperFunctions.h */,
+				E2CCB28529833695004EE171 /* HelperFunctions.m */,
+			);
+			path = HelperFunctions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
