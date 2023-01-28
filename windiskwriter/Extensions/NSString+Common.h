@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSString (Common)
 - (BOOL)hasOneOfThePrefixes:(NSArray *)prefixes;
 - (BOOL)hasOneOfTheSuffixes:(NSArray *)suffixes;
+- (BOOL)isOneOfTheValues:(NSArray *)values;
 @end
 
 NS_ASSUME_NONNULL_END

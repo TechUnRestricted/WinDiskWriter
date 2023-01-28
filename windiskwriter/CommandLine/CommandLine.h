@@ -9,12 +9,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+struct CommandLineReturn {
+    NSData *data;
+    int processIdentifier;
+    int terminationStatus;
+    NSTaskTerminationReason terminationReason;
+};
+
 @interface CommandLine : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (NSData * _Nullable)execute: (NSString *)executable
-                withArguments: (NSArray *)arguments;
++ (struct CommandLineReturn)execute: (NSString *)executable
+                      withArguments: (NSArray *)arguments;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "DiskManager.h"
 #import "DebugSystem.h"
+#import "CommandLine.h"
 
 @implementation DiskManager {
     DASessionRef diskSession;
@@ -90,6 +91,14 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
   
     return callbackWrapper.daReturn;
+}
+
+- (BOOL)diskUtilEraseVolume:(NSString  *_Nonnull)volume filesystem:(NSString *)filesystem newName:(NSString *)newName {
+    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil" withArguments:@[@"eraseVolume", @"FAT32", newName]];
+    //NSData *terminalOutputData = [CommandLine execute:@"/usr/sbin/diskutil" withArguments:@[@"eraseVolume", @"FAT32", @""]];
+    //NSString *terminalOutputString = [[NSString alloc] initWithData:terminalOutputData encoding:NSUTF8StringEncoding];
+    
+    return NO;
 }
 
 - (struct DiskInfo) getDiskInfo {

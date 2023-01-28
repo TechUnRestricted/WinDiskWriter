@@ -28,4 +28,13 @@
     return NO;
 }
 
+- (BOOL)isOneOfTheValues:(NSArray *)values {
+    for (NSString *value in values) {
+        if (self == value) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 @end
