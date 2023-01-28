@@ -60,7 +60,7 @@ struct DiskInfo {
     NSString *uuid;
 };
 
-@interface DAWrapper : NSObject
+@interface DiskManager : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName API_AVAILABLE(macosx(10.4));
 - (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath API_AVAILABLE(macosx(10.7));

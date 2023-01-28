@@ -15,7 +15,7 @@
 #import "HDIUtil.h"
 #import "HelperFunctions.h"
 #import "Extensions/NSString+Common.h"
-#import "DAWrapper.h"
+#import "DiskManager.h"
 
 void printUsage(void);
 
@@ -27,6 +27,9 @@ int main(int argc, const char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 		
+		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"/dev/disk4e"];
+		struct DiskInfo diskInfo = [diskManager getDiskInfo];
+		diskInfo;
 	}
 	return 0;
 }
