@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Filesystems/Filesystems.h"
 #import <DiskArbitration/DiskArbitration.h>
+#import "PartitionSchemes/PartitionSchemes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -68,8 +70,12 @@ struct DiskInfo {
 - (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options;
 - (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options;
 
-- (BOOL)diskUtilEraseVolumeWithFilesystem: (NSString * _Nonnull)filesystem
+- (BOOL)diskUtilEraseVolumeWithFilesystem: (Filesystem _Nonnull)filesystem
                                   newName: (NSString * _Nullable)newName;
+
+- (BOOL)diskUtilEraseDiskWithPartitionScheme: (PartitionScheme _Nonnull)partitionScheme
+                                  filesystem: (Filesystem _Nonnull)filesystem
+                                     newName: (NSString * _Nullable)newName;
 
 - (struct DiskInfo) getDiskInfo;
 @end

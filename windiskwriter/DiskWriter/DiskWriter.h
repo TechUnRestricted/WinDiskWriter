@@ -6,13 +6,11 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "FileSystems.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DiskWriter: NSObject
 
-@property(nonatomic) enum FileSystems fileSystem;
+// @property(nonatomic) enum FileSystems fileSystem;
 @property(nonatomic) bool doNotErase;
 
 - (NSString *)getMountedWindowsISO;
