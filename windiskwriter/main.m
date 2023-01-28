@@ -27,9 +27,13 @@ int main(int argc, const char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 		
-		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"/dev/disk4e"];
-		struct DiskInfo diskInfo = [diskManager getDiskInfo];
-		diskInfo;
+		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"/dev/disk4s2"];
+		struct DiskInfo info = [diskManager getDiskInfo];
+		diskManager;
+		
+		BOOL result = [diskManager diskUtilEraseVolumeWithFilesystem:@"FAT32" newName:NULL];
+		result;
+		printUsage();
 	}
 	return 0;
 }

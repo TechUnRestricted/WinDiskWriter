@@ -30,7 +30,7 @@ enum MountUnmountResult {
 */
 
 struct DiskInfo {
-    BOOL isDrive;
+    BOOL isWholeDrive;
     BOOL isInternal;
     BOOL isMountable;
     BOOL isRemovable;
@@ -57,7 +57,7 @@ struct DiskInfo {
     NSString *deviceRevision;
     NSString *busName;
     NSString *deviceVendor;
-    NSString *uuid;
+    NSString *volumeUUID;
 };
 
 @interface DiskManager : NSObject
@@ -67,6 +67,9 @@ struct DiskInfo {
 
 - (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options;
 - (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options;
+
+- (BOOL)diskUtilEraseVolumeWithFilesystem: (NSString * _Nonnull)filesystem
+                                  newName: (NSString * _Nullable)newName;
 
 - (struct DiskInfo) getDiskInfo;
 @end

@@ -25,6 +25,7 @@
         
         NSFileHandle *file = [pipe fileHandleForReading];
         [task launch];
+        [task waitUntilExit];
         
         commandLineReturn.data = [file readDataToEndOfFile];
         commandLineReturn.terminationStatus = [task terminationStatus];
@@ -33,11 +34,12 @@
         
         return commandLineReturn;
     } @catch (NSException *exception) {
-        DebugLog(@"An error occurred while executing a terminal command [Arguments: %@], [Error: {%@, %@}]",
+        DebugLog(@"An error occurred while executing a terminal command [Executable: %@; Arguments: { %@ }], [Error: {%@, %@}]",
+                 executable,
                  [arguments componentsJoinedByString:@", "],
                  [exception reason],
                  [exception name]
-                 );
+        );
     }
     
     return commandLineReturn;

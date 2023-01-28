@@ -21,11 +21,16 @@
         DebugLog(@"Adding custom arguments to the HDIUtil attach command [%@].", [arguments componentsJoinedByString:@", "]);
     }
     
-    NSData *commandLineData = [CommandLine execute:_hdiutilPath withArguments:localArgumentsArray].data;
+    struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath withArguments:localArgumentsArray];
+    
+    if (commandLineReturn.terminationStatus != EXIT_SUCCESS) {
+        DebugLog(@"hdiutil exited not with EXIT_SUCCESS status.");
+        return NO;
+    }
     
     NSString *plistLoadErrorDescription;
     NSDictionary *plist = [NSPropertyListSerialization
-                           propertyListFromData: commandLineData
+                           propertyListFromData: commandLineReturn.data
                            mutabilityOption: NSPropertyListImmutable
                            format: NULL
                            errorDescription: &plistLoadErrorDescription];
