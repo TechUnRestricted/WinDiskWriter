@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "HDIUtil.h"
 #import "DiskWriter.h"
-#import "DAWrapper.h"
+#import "DiskManager.h"
 #import "DebugSystem.h"
 #import "../Extensions/NSString+Common.h"
 
 @implementation DiskWriter {
-    DAWrapper *destinationDeviceDAWrapper;
+    DiskManager *destinationDeviceDAWrapper;
     
     NSString *_mountedWindowsISO;
     NSString *_destinationDevice;
@@ -73,12 +73,12 @@
         @"rdisk", @"/dev/rdisk"
     ]]) {
         DebugLog(@"Received device destination path was defined as BSD Name.");
-        destinationDeviceDAWrapper = [[DAWrapper alloc] initWithBSDName:destinationDevice];
+        destinationDeviceDAWrapper = [[DiskManager alloc] initWithBSDName:destinationDevice];
     }
     else if ([destinationDevice hasPrefix:@"/Volumes/"]) {
         DebugLog(@"Received device destination path was defined as Mounted Volume.");
         if (@available(macOS 10.7, *)) {
-            destinationDeviceDAWrapper = [[DAWrapper alloc] initWithVolumePath:destinationDevice];
+            destinationDeviceDAWrapper = [[DiskManager alloc] initWithVolumePath:destinationDevice];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call."

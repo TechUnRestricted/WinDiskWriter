@@ -13,7 +13,7 @@
 		E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
 		E2CCB28629833695004EE171 /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
 		E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
-		E2CCB28E2983EE60004EE171 /* DAWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DAWrapper.m */; };
+		E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,8 +49,8 @@
 		E2CCB28529833695004EE171 /* HelperFunctions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelperFunctions.m; sourceTree = "<group>"; };
 		E2CCB2892983E5F2004EE171 /* NSString+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Common.h"; sourceTree = "<group>"; };
 		E2CCB28A2983E5F2004EE171 /* NSString+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Common.m"; sourceTree = "<group>"; };
-		E2CCB28C2983EE60004EE171 /* DAWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAWrapper.h; sourceTree = "<group>"; };
-		E2CCB28D2983EE60004EE171 /* DAWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAWrapper.m; sourceTree = "<group>"; };
+		E2CCB28C2983EE60004EE171 /* DiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskManager.h; sourceTree = "<group>"; };
+		E2CCB28D2983EE60004EE171 /* DiskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +86,7 @@
 			children = (
 				E2CCB2882983E5D9004EE171 /* Extensions */,
 				E2CCB29229854D91004EE171 /* DiskWriter */,
-				E2CCB29329854D9B004EE171 /* DAWrapper */,
+				E2CCB29329854D9B004EE171 /* DiskManager */,
 				E2CCB29429854DA4004EE171 /* HDIUtil */,
 				E2CCB29529854DAC004EE171 /* CommandLine */,
 				E2CCB29629854DB8004EE171 /* HelperFunctions */,
@@ -137,13 +137,13 @@
 			path = DiskWriter;
 			sourceTree = "<group>";
 		};
-		E2CCB29329854D9B004EE171 /* DAWrapper */ = {
+		E2CCB29329854D9B004EE171 /* DiskManager */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCB28C2983EE60004EE171 /* DAWrapper.h */,
-				E2CCB28D2983EE60004EE171 /* DAWrapper.m */,
+				E2CCB28C2983EE60004EE171 /* DiskManager.h */,
+				E2CCB28D2983EE60004EE171 /* DiskManager.m */,
 			);
-			path = DAWrapper;
+			path = DiskManager;
 			sourceTree = "<group>";
 		};
 		E2CCB29429854DA4004EE171 /* HDIUtil */ = {
@@ -235,7 +235,7 @@
 				E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */,
 				E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */,
 				E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */,
-				E2CCB28E2983EE60004EE171 /* DAWrapper.m in Sources */,
+				E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */,
 				E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
