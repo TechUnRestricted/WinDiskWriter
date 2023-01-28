@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HelperFunctions : NSObject
 + (BOOL) hasElevatedRights;
++ (NSString *)randomStringWithLength: (uint64_t)requiredLength;
+
 @end
 
 NS_ASSUME_NONNULL_END

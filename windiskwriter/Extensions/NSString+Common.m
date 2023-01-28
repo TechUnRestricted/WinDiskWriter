@@ -10,7 +10,7 @@
 
 @implementation NSString (Common)
 
-- (BOOL)hasOneOfThePrefixes:(NSArray *)prefixes {
+- (BOOL)hasOneOfThePrefixes: (NSArray *)prefixes {
     for (NSString *prefix in prefixes) {
         if ([self hasPrefix:prefix]) {
             return YES;
@@ -19,7 +19,7 @@
     return NO;
 }
 
-- (BOOL)hasOneOfTheSuffixes:(NSArray *)suffixes {
+- (BOOL)hasOneOfTheSuffixes: (NSArray *)suffixes {
     for (NSString *suffix in suffixes) {
         if ([self hasSuffix:suffix]) {
             return YES;
@@ -28,7 +28,7 @@
     return NO;
 }
 
-- (BOOL)isOneOfTheValues:(NSArray *)values {
+- (BOOL)isOneOfTheValues: (NSArray *)values {
     for (NSString *value in values) {
         if (self == value) {
             return YES;

@@ -11,6 +11,7 @@
 #import "DiskManager.h"
 #import "DebugSystem.h"
 #import "CommandLine.h"
+#import "HelperFunctions.h"
 
 @implementation DiskManager {
     DASessionRef diskSession;
@@ -93,11 +94,38 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     return callbackWrapper.daReturn;
 }
 
-- (BOOL)diskUtilEraseVolume:(NSString  *_Nonnull)volume filesystem:(NSString *)filesystem newName:(NSString *)newName {
-    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil" withArguments:@[@"eraseVolume", @"FAT32", newName]];
-    //NSData *terminalOutputData = [CommandLine execute:@"/usr/sbin/diskutil" withArguments:@[@"eraseVolume", @"FAT32", @""]];
-    //NSString *terminalOutputString = [[NSString alloc] initWithData:terminalOutputData encoding:NSUTF8StringEncoding];
+- (BOOL)diskUtilEraseVolumeWithFilesystem: (NSString * _Nonnull)filesystem
+                                  newName: (NSString * _Nullable)newName {
     
+    
+    if (newName == NULL) {
+        newName = [HelperFunctions randomStringWithLength:11];
+        DebugLog(@"New Name was not specified in diskUtilEraseVolumeWithFilesystem. Generating random NSString: [ %@ ].", newName);
+    } else {
+        newName = [newName uppercaseString];
+    }
+    
+    struct DiskInfo diskInfo = [self getDiskInfo];
+    if (diskInfo.BSDName == NULL) {
+        DebugLog(@"Specified BSD Name does not exist. Can't erase this volume.");
+        return NO;
+    }
+    
+    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil"
+                                                        withArguments:@[@"eraseVolume",
+                                                                        filesystem,
+                                                                        newName,
+                                                                        diskInfo.BSDName
+                                                                      ]
+    ];
+    
+    if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
+        DebugLog(@"Successfully erased volume.");
+        return YES;
+    } else {
+        DebugLog(@"An Error has occured while erasing the volume.");
+    }
+
     return NO;
 }
 
@@ -105,7 +133,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     struct DiskInfo diskInfo;
     NSDictionary *diskDescription = CFBridgingRelease(DADiskCopyDescription(currentDisk));
     
-    diskInfo.isDrive = [[diskDescription objectForKey:@"DAMediaWhole"] boolValue];
+    diskInfo.isWholeDrive = [[diskDescription objectForKey:@"DAMediaWhole"] boolValue];
     diskInfo.isInternal = [[diskDescription objectForKey:@"DADeviceInternal"] boolValue];
     diskInfo.isMountable = [[diskDescription objectForKey:@"DAVolumeMountable"] boolValue];
     diskInfo.isRemovable = [[diskDescription objectForKey:@"DAMediaRemovable"] boolValue];
@@ -133,8 +161,10 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     diskInfo.busName = [diskDescription objectForKey:@"DABusName"];
     diskInfo.deviceVendor = [diskDescription objectForKey:@"DADeviceVendor"];
 
-    /* EXC_BAD_ACCESS */
-    // diskInfo.uuid = CFBridgingRelease(CFUUIDCreateString(nil, (CFUUIDRef)[diskDescription objectForKey:@"DAVolumeUUID"]));
+    id tempVolumeUUID = [diskDescription objectForKey:@"DAVolumeUUID"];    
+    if (tempVolumeUUID != NULL) {
+        diskInfo.volumeUUID = CFBridgingRelease(CFUUIDCreateString(nil, (CFUUIDRef)tempVolumeUUID));
+    }
     
     return diskInfo;
 }
