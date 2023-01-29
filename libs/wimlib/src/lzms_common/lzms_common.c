@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Weverything"
+
 /*
  * lzms_common.c - Common code for LZMS compression and decompression
  */
