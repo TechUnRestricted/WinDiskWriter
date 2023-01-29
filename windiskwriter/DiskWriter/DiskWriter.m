@@ -11,10 +11,11 @@
 #import "DiskWriter.h"
 #import "DiskManager.h"
 #import "DebugSystem.h"
+#import "Filesystems.h"
 #import "../Extensions/NSString+Common.h"
 
 @implementation DiskWriter {
-    DiskManager *destinationDeviceDAWrapper;
+    DiskManager *_destinationDeviceDAWrapper;
     
     NSString *_mountedWindowsISO;
     NSString *_destinationDevice;
@@ -26,7 +27,7 @@
 }
 
 - (struct DiskInfo)getDestinationDiskInfo {
-    return [destinationDeviceDAWrapper getDiskInfo];
+    return [_destinationDeviceDAWrapper getDiskInfo];
 }
 
 - (void)initWindowsSourceMountPath: (NSString *)isoPath {
@@ -47,7 +48,7 @@
     }
     
     DebugLog(@"The type of the passed \"%@\" is defined as: File.", isoPath);
-    if (![[isoPath lowercaseString] hasSuffix:@".iso"]) {
+    if (![[[isoPath lowercaseString] pathExtension] isEqual: @"iso"]) {
         DebugLog(@"This file does not have an .iso extension.");
         return;
     }
@@ -73,29 +74,94 @@
         @"rdisk", @"/dev/rdisk"
     ]]) {
         DebugLog(@"Received device destination path was defined as BSD Name.");
-        destinationDeviceDAWrapper = [[DiskManager alloc] initWithBSDName:destinationDevice];
+        _destinationDeviceDAWrapper = [[DiskManager alloc] initWithBSDName:destinationDevice];
     }
     else if ([destinationDevice hasPrefix:@"/Volumes/"]) {
         DebugLog(@"Received device destination path was defined as Mounted Volume.");
         if (@available(macOS 10.7, *)) {
-            destinationDeviceDAWrapper = [[DiskManager alloc] initWithVolumePath:destinationDevice];
+            _destinationDeviceDAWrapper = [[DiskManager alloc] initWithVolumePath:destinationDevice];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call."
                      //"Security measures are ignored. Assume that the user entered everything correctly."
-            );
+                     );
         }
     }
     
-    if ([destinationDeviceDAWrapper getDiskInfo].BSDName == NULL) {
+    if ([_destinationDeviceDAWrapper getDiskInfo].BSDName == NULL) {
         DebugLog(@"The specified destination device is invalid.");
     }
 }
 
+- (BOOL)writeWindowsISO {
+    NSFileManager *localFileManager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:_mountedWindowsISO];
+    
+    NSString *fileName = nil;
+    while ((fileName = [dirEnum nextObject])) {
+        NSString *sourceFilePath = [_mountedWindowsISO stringByAppendingPathComponent:fileName];
+        NSString *destinationPasteFilePath = [_mountedWindowsISO stringByAppendingPathComponent:fileName];
+        
+        BOOL isDirectory;
+        [localFileManager fileExistsAtPath:sourceFilePath isDirectory:&isDirectory];
+        
+        if (isDirectory) {
+            NSError *createDirectoryError;
+            BOOL directoryCreated = [localFileManager createDirectoryAtPath:destinationPasteFilePath
+                                                withIntermediateDirectories:YES
+                                                                 attributes:NULL
+                                                                      error:&createDirectoryError];
+            DebugLog(@"Creating directory: { %@ } = %@",
+                     destinationPasteFilePath,
+                     (directoryCreated ? @"Success" : @"Failure")
+            );
+            
+            continue;
+        }
+        
+        NSError *getFileAttributesError;
+        NSDictionary *currentFileAttributes = [localFileManager attributesOfItemAtPath:sourceFilePath error:&getFileAttributesError];
+        
+        if (getFileAttributesError != NULL) {
+            DebugLog(@"Can't get \"%@\"file attributes. Let's skip this file...", sourceFilePath);
+            continue;
+        }
+        
+        if ([currentFileAttributes fileSize] > 0 && _fileSystem == FilesystemFAT32) {
+            if ([[[sourceFilePath lowercaseString] pathExtension] isEqual: @"wim"]) {
+                
+            }
+        }
+        
+        
+        NSError *copyFileError;
+        BOOL fileCopied = [localFileManager copyItemAtPath:sourceFilePath
+                                                    toPath:destinationPasteFilePath
+                                                     error:&copyFileError
+        ];
+        DebugLog(@"Copying file to: { %@ } = %@",
+                 destinationPasteFilePath,
+                 (fileCopied ? @"Success": @"Failure")
+        );
+        
+        if (!fileCopied) {
+            DebugLog(@"Failure reason: { %@ }",
+                [copyFileError localizedFailureReason]
+            );
+        }
+        
+    }
+    
+    return NO;
+}
+
 - (instancetype)initWithWindowsISO: (NSString *)windowsISO
-                 destinationDevice: (NSString *)destinationDevice {
+                 destinationDevice: (NSString *)destinationDevice
+                        filesystem: (Filesystem)filesystem {
+    
     [self initWindowsSourceMountPath:windowsISO];
     [self initDestinationDevice:destinationDevice];
+    _fileSystem = filesystem;
     
     return self;
 }
