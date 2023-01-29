@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Weverything"
+
 /**
  * @file wimlib.h
  * @brief External header for wimlib.

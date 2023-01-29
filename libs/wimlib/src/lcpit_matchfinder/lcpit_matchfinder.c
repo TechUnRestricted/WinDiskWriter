@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Weverything"
+
 /*
  * lcpit_matchfinder.c
  *

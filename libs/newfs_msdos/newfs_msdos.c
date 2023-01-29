@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Weverything"
+
 /*
  * Copyright (c) 2000-2006, 2008, 2010-2011 Apple Inc. All rights reserved.
  *

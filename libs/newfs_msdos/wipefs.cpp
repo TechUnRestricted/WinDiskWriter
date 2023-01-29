@@ -1,3 +1,7 @@
+// TODO: Fix Mac OS X <10.11 compatibility
+
+#pragma clang diagnostic ignored "-Weverything"
+
 /*
  * Copyright (c) 2008 Apple Inc. All rights reserved.
  *
