@@ -14,15 +14,17 @@
 #import "Filesystems.h"
 #import "../Extensions/NSString+Common.h"
 
+const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
+
 @implementation DiskWriter {
+    // DiskManager *_sourceDeviceDAWrapper;
     DiskManager *_destinationDeviceDAWrapper;
     
     NSString *_mountedWindowsISO;
     NSString *_destinationDevice;
-    //struct DiskInfo windowsImageDiskInfo;
 }
 
-- (NSString *)getMountedWindowsISO {
+- (NSString * _Nullable)getMountedWindowsISO {
     return _mountedWindowsISO;
 }
 
@@ -48,7 +50,7 @@
     }
     
     DebugLog(@"The type of the passed \"%@\" is defined as: File.", isoPath);
-    if (![[[isoPath lowercaseString] pathExtension] isEqual: @"iso"]) {
+    if (![[[isoPath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
         DebugLog(@"This file does not have an .iso extension.");
         return;
     }
@@ -82,9 +84,8 @@
             _destinationDeviceDAWrapper = [[DiskManager alloc] initWithVolumePath:destinationDevice];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
-            DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call."
-                     //"Security measures are ignored. Assume that the user entered everything correctly."
-                     );
+            DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call. Specify the device using the BSD name."
+            );
         }
     }
     
@@ -94,6 +95,38 @@
 }
 
 - (BOOL)writeWindowsISO {
+    struct DiskInfo destinationDiskInfo = [_destinationDeviceDAWrapper getDiskInfo];
+    
+    if (!destinationDiskInfo.isBSDUnit) {
+        DebugLog(@"The specified destination device does not appear to be valid, as it has been determined that it is not a BSD device.");
+        return NO;
+    }
+    
+    BOOL eraseWasSuccessful = NO;
+    if (destinationDiskInfo.isWholeDrive) {
+        DebugLog(@"Formatting the entire disk with the following options: [PartitionScheme: \"%@\"; Filesystem: \"%@\"]",
+                 PartitionSchemeMBR,
+                 _filesystem
+        );
+        eraseWasSuccessful = [_destinationDeviceDAWrapper diskUtilEraseDiskWithPartitionScheme: PartitionSchemeMBR
+                                                                                    filesystem: _filesystem
+                                                                                       newName: NULL];
+    } else {
+        DebugLog(@"Formatting the volume with the following options: [Filesystem: \"%@\"]",
+                 _filesystem
+        );
+        eraseWasSuccessful = [_destinationDeviceDAWrapper diskUtilEraseVolumeWithFilesystem: _filesystem
+                                                                                    newName: NULL];
+        
+    }
+    
+    if (eraseWasSuccessful) {
+        DebugLog(@"Formatting completed successfully!");
+    } else {
+        DebugLog(@"An error occurred during formatting.");
+        return NO;
+    }
+    
     NSFileManager *localFileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:_mountedWindowsISO];
     
@@ -107,14 +140,14 @@
         
         if (isDirectory) {
             NSError *createDirectoryError;
-            BOOL directoryCreated = [localFileManager createDirectoryAtPath:destinationPasteFilePath
-                                                withIntermediateDirectories:YES
-                                                                 attributes:NULL
-                                                                      error:&createDirectoryError];
+            BOOL directoryCreated = [localFileManager createDirectoryAtPath: destinationPasteFilePath
+                                                withIntermediateDirectories: YES
+                                                                 attributes: NULL
+                                                                      error: &createDirectoryError];
             DebugLog(@"Creating directory: { %@ } = %@",
                      destinationPasteFilePath,
                      (directoryCreated ? @"Success" : @"Failure")
-            );
+                     );
             
             continue;
         }
@@ -127,17 +160,26 @@
             continue;
         }
         
-        if ([currentFileAttributes fileSize] > 0 && _fileSystem == FilesystemFAT32) {
-            if ([[[sourceFilePath lowercaseString] pathExtension] isEqual: @"wim"]) {
-                
+        if ([currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE && _filesystem == FilesystemFAT32) {
+            NSString *filePathExtension = [[sourceFilePath lowercaseString] pathExtension];
+            
+            if ([filePathExtension isEqualToString: @"wim"]) {
+                // TODO: Implement .wim file splitting
+            } else if ([filePathExtension isEqualToString:@"esd"]) {
+                // TODO: Implement .esd file splitting
+                DebugLog(@"Splitting .esd files into multiple parts is currently not available. Further copying is pointless...");
+                return NO;
+            } else {
+                DebugLog(@"This file cannot be copied to FAT32 because this type of file cannot be splitted into multiple parts. Further copying is pointless...");
+                return NO;
             }
         }
         
         
         NSError *copyFileError;
-        BOOL fileCopied = [localFileManager copyItemAtPath:sourceFilePath
-                                                    toPath:destinationPasteFilePath
-                                                     error:&copyFileError
+        BOOL fileCopied = [localFileManager copyItemAtPath: sourceFilePath
+                                                    toPath: destinationPasteFilePath
+                                                     error: &copyFileError
         ];
         DebugLog(@"Copying file to: { %@ } = %@",
                  destinationPasteFilePath,
@@ -146,7 +188,7 @@
         
         if (!fileCopied) {
             DebugLog(@"Failure reason: { %@ }",
-                [copyFileError localizedFailureReason]
+                     [copyFileError localizedFailureReason]
             );
         }
         
@@ -155,13 +197,20 @@
     return NO;
 }
 
-- (instancetype)initWithWindowsISO: (NSString *)windowsISO
-                 destinationDevice: (NSString *)destinationDevice
-                        filesystem: (Filesystem)filesystem {
+- (instancetype)initWithWindowsISO: (NSString * _Nonnull)windowsISO
+                 destinationDevice: (NSString * _Nonnull)destinationDevice
+                        filesystem: (Filesystem _Nonnull)filesystem {
     
     [self initWindowsSourceMountPath:windowsISO];
     [self initDestinationDevice:destinationDevice];
-    _fileSystem = filesystem;
+    
+    // _eraseDestinationDevice = NO;
+    
+    if (filesystem == NULL) {
+        _filesystem = FilesystemFAT32;
+    } else {
+        _filesystem = filesystem;
+    }
     
     return self;
 }
