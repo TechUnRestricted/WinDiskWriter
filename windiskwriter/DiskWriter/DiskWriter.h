@@ -6,7 +6,6 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "Filesystems.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DiskWriter: NSObject
@@ -16,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (BOOL)writeWindows11ISOWithSourcePath: (NSString *)sourcePath
                         destinationPath: (NSString *)destinationPath
-                  bypassTPMRequirements: (BOOL)bypassTPMRequirements
+                  bypassTPMRequirements: (BOOL)bypassTPMAndSecureBootRequirements
                                 isFAT32: (BOOL)isFAT32;
 
 @end
