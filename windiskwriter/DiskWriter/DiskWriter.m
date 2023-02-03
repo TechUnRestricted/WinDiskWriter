@@ -12,27 +12,14 @@
 #import "DiskManager.h"
 #import "DebugSystem.h"
 #import "Filesystems.h"
-#import "../Extensions/NSString+Common.h"
+#import "HelperFunctions.h"
+#import "NSString+Common.h"
 
 const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
 
-@implementation DiskWriter {
-    // DiskManager *_sourceDeviceDAWrapper;
-    DiskManager *_destinationDeviceDAWrapper;
-    
-    NSString *_mountedWindowsISO;
-    NSString *_destinationDevice;
-}
+@implementation DiskWriter
 
-- (NSString * _Nullable)getMountedWindowsISO {
-    return _mountedWindowsISO;
-}
-
-- (struct DiskInfo)getDestinationDiskInfo {
-    return [_destinationDeviceDAWrapper getDiskInfo];
-}
-
-- (void)initWindowsSourceMountPath: (NSString *)isoPath {
++ (NSString * _Nullable)getImageSourceMountPath: (NSString * _Nonnull)isoPath {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
     BOOL isDirectory;
@@ -40,48 +27,51 @@ const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
     
     if (!exists) {
         DebugLog(@"File [directory] \"%@\" doesn't exist.", isoPath);
-        return;
+        return NULL;
     }
     
     if (isDirectory) {
         DebugLog(@"The type of the passed \"%@\" is defined as: Directory.", isoPath);
-        _mountedWindowsISO = isoPath;
-        return;
+        return isoPath;
     }
     
     DebugLog(@"The type of the passed \"%@\" is defined as: File.", isoPath);
     if (![[[isoPath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
         DebugLog(@"This file does not have an .iso extension.");
-        return;
+        return NULL;
     }
     
     HDIUtil *hdiutil = [[HDIUtil alloc] initWithImagePath:isoPath];
     if([hdiutil attachImageWithArguments:@[@"-readonly", @"-noverify", @"-noautofsck", @"-noautoopen"]]) {
-        _mountedWindowsISO = [hdiutil getMountPoint];
+        return [hdiutil getMountPoint];
     }
+    
+    return NULL;
 }
 
-- (void)initDestinationDevice: (NSString *)destinationDevice {
++ (DiskManager * _Nullable)getDestinationDevice: (NSString *)inputPath {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     BOOL isDirectory;
-    BOOL exists = [fileManager fileExistsAtPath:destinationDevice isDirectory:&isDirectory];
+    BOOL exists = [fileManager fileExistsAtPath:inputPath isDirectory:&isDirectory];
     
     if (!exists) {
         DebugLog(@"The given Destination path does not exist.");
-        return;
+        return NULL;
     }
     
-    if ([destinationDevice hasOneOfThePrefixes:@[
+    DiskManager *destinationDeviceDM;
+    
+    if ([inputPath hasOneOfThePrefixes:@[
         @"disk", @"/dev/disk",
         @"rdisk", @"/dev/rdisk"
     ]]) {
         DebugLog(@"Received device destination path was defined as BSD Name.");
-        _destinationDeviceDAWrapper = [[DiskManager alloc] initWithBSDName:destinationDevice];
+        destinationDeviceDM = [[DiskManager alloc] initWithBSDName:inputPath];
     }
-    else if ([destinationDevice hasPrefix:@"/Volumes/"]) {
+    else if ([inputPath hasPrefix:@"/Volumes/"]) {
         DebugLog(@"Received device destination path was defined as Mounted Volume.");
         if (@available(macOS 10.7, *)) {
-            _destinationDeviceDAWrapper = [[DiskManager alloc] initWithVolumePath:destinationDevice];
+            destinationDeviceDM = [[DiskManager alloc] initWithVolumePath:inputPath];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             DebugLog(@"Can't load Destination device info from Mounted Volume. Prevented Unsupported API Call. Specify the device using the BSD name."
@@ -89,51 +79,34 @@ const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
         }
     }
     
-    if ([_destinationDeviceDAWrapper getDiskInfo].BSDName == NULL) {
-        DebugLog(@"The specified destination device is invalid.");
-    }
-}
-
-- (BOOL)writeWindowsISO {
-    struct DiskInfo destinationDiskInfo = [_destinationDeviceDAWrapper getDiskInfo];
-    
-    if (!destinationDiskInfo.isBSDUnit) {
-        DebugLog(@"The specified destination device does not appear to be valid, as it has been determined that it is not a BSD device.");
-        return NO;
-    }
-    
-    BOOL eraseWasSuccessful = NO;
-    if (destinationDiskInfo.isWholeDrive) {
-        DebugLog(@"Formatting the entire disk with the following options: [PartitionScheme: \"%@\"; Filesystem: \"%@\"]",
-                 PartitionSchemeMBR,
-                 _filesystem
-        );
-        eraseWasSuccessful = [_destinationDeviceDAWrapper diskUtilEraseDiskWithPartitionScheme: PartitionSchemeMBR
-                                                                                    filesystem: _filesystem
-                                                                                       newName: NULL];
-    } else {
-        DebugLog(@"Formatting the volume with the following options: [Filesystem: \"%@\"]",
-                 _filesystem
-        );
-        eraseWasSuccessful = [_destinationDeviceDAWrapper diskUtilEraseVolumeWithFilesystem: _filesystem
-                                                                                    newName: NULL];
+    if (destinationDeviceDM == NULL) {
         
     }
     
-    if (eraseWasSuccessful) {
-        DebugLog(@"Formatting completed successfully!");
-    } else {
-        DebugLog(@"An error occurred during formatting.");
-        return NO;
+    if ([destinationDeviceDM getDiskInfo].BSDName == NULL) {
+        DebugLog(@"The specified destination device is invalid.");
     }
     
-    NSFileManager *localFileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:_mountedWindowsISO];
+    return destinationDeviceDM;
+}
+
++ (BOOL)splitWIMWithOriginFilePath: (NSString *)originWIMFilePath
+            destinationWIMFilePath: (NSString *)destinationWIMFilePath {
     
+}
+
++ (BOOL)writeWindows11ISOWithSourcePath: (NSString *)sourcePath
+                        destinationPath: (NSString *)destinationPath
+                  bypassTPMRequirements: (BOOL)bypassTPMRequirements
+                                isFAT32: (BOOL)isFAT32 { // TODO: Come up with a more elegant solution
+    
+    NSFileManager *localFileManager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *dirEnum = [localFileManager enumeratorAtPath:sourcePath];
+        
     NSString *fileName = nil;
     while ((fileName = [dirEnum nextObject])) {
-        NSString *sourceFilePath = [_mountedWindowsISO stringByAppendingPathComponent:fileName];
-        NSString *destinationPasteFilePath = [_mountedWindowsISO stringByAppendingPathComponent:fileName];
+        NSString *sourceFilePath = [sourcePath stringByAppendingPathComponent:fileName];
+        NSString *destinationPasteFilePath = [destinationPath stringByAppendingPathComponent:fileName];
         
         BOOL isDirectory;
         [localFileManager fileExistsAtPath:sourceFilePath isDirectory:&isDirectory];
@@ -160,11 +133,14 @@ const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
             continue;
         }
         
-        if ([currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE && _filesystem == FilesystemFAT32) {
+        if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE /* destinationDiskInfo.mediaKind */) {
             NSString *filePathExtension = [[sourceFilePath lowercaseString] pathExtension];
             
             if ([filePathExtension isEqualToString: @"wim"]) {
                 // TODO: Implement .wim file splitting
+                BOOL wimSplitSuccessful = [DiskWriter splitWIMWithOriginFilePath:sourceFilePath
+                                                          destinationWIMFilePath:[destinationPasteFilePath stringByDeletingLastPathComponent]];
+                // DebugLog(<#...#>)
             } else if ([filePathExtension isEqualToString:@"esd"]) {
                 // TODO: Implement .esd file splitting
                 DebugLog(@"Splitting .esd files into multiple parts is currently not available. Further copying is pointless...");
@@ -194,25 +170,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
         
     }
     
-    return NO;
-}
-
-- (instancetype)initWithWindowsISO: (NSString * _Nonnull)windowsISO
-                 destinationDevice: (NSString * _Nonnull)destinationDevice
-                        filesystem: (Filesystem _Nonnull)filesystem {
-    
-    [self initWindowsSourceMountPath:windowsISO];
-    [self initDestinationDevice:destinationDevice];
-    
-    // _eraseDestinationDevice = NO;
-    
-    if (filesystem == NULL) {
-        _filesystem = FilesystemFAT32;
-    } else {
-        _filesystem = filesystem;
-    }
-    
-    return self;
+    return YES;
 }
 
 @end
