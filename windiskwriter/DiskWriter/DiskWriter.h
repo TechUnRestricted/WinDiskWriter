@@ -11,20 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DiskWriter: NSObject
 
-@property(nonatomic, nonnull) Filesystem filesystem;
-// @property(nonatomic) bool eraseDestinationDevice UNAVAILABLE_ATTRIBUTE;
-
-- (NSString * _Nullable)getMountedWindowsISO;
-- (struct DiskInfo)getDestinationDiskInfo;
-
-//- (NSString * _Nullable)getWindowsSourceMountPath: (NSString *)isoPath;
-
 - (BOOL)writeWindowsISO;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithWindowsISO: (NSString * _Nonnull)windowsISO
-                 destinationDevice: (NSString * _Nonnull)destinationDevice
-                        filesystem: (Filesystem _Nonnull)filesystem;
++ (BOOL)writeWindows11ISOWithSourcePath: (NSString *)sourcePath
+                        destinationPath: (NSString *)destinationPath
+                  bypassTPMRequirements: (BOOL)bypassTPMRequirements
+                                isFAT32: (BOOL)isFAT32;
 
 @end
 

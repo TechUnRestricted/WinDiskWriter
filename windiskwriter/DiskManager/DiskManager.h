@@ -38,12 +38,16 @@ struct DiskInfo {
     BOOL isRemovable;
     BOOL isDeviceUnit;
     BOOL isWritable;
-    BOOL isBSDUnit;
     BOOL isEncrypted;
     BOOL isNetworkVolume;
     BOOL isEjectable;
     
+    NSNumber *BSDUnit;
+    
     NSNumber *mediaSize;
+    NSNumber *mediaBSDMajor;
+    NSNumber *mediaBSDMinor;
+
     NSNumber *blockSize;
     NSNumber *appearanceTime;
     
@@ -51,6 +55,9 @@ struct DiskInfo {
     NSString *deviceModel;
     NSString *BSDName;
     NSString *mediaKind;
+    NSString *volumeKind;
+    NSString *volumeName;
+    NSString *volumePath;
     NSString *mediaPath;
     NSString *mediaName;
     NSString *mediaContent;

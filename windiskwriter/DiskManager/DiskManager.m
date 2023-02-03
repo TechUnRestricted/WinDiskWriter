@@ -44,6 +44,7 @@
     
     if (currentDisk == NULL) {
         DebugLog(@"Can't create DADisk from Volume Path.");
+        return NULL;
     } else {
         DebugLog(@"Successfully created DADisk from Volume Path.");
     }
@@ -191,12 +192,16 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     diskInfo.isRemovable = [[diskDescription objectForKey:@"DAMediaRemovable"] boolValue];
     diskInfo.isDeviceUnit = [[diskDescription objectForKey:@"DADeviceUnit"] boolValue];
     diskInfo.isWritable = [[diskDescription objectForKey:@"DAMediaWritable"] boolValue];
-    diskInfo.isBSDUnit = [[diskDescription objectForKey:@"DAMediaBSDUnit"] boolValue];
     diskInfo.isEncrypted = [[diskDescription objectForKey:@"DAMediaEncrypted"] boolValue];
     diskInfo.isNetworkVolume = [[diskDescription objectForKey:@"DAVolumeNetwork"] boolValue];
     diskInfo.isEjectable = [[diskDescription objectForKey:@"DAMediaEjectable"] boolValue];
 
+    diskInfo.BSDUnit = [diskDescription objectForKey:@"DAMediaBSDUnit"];
+    
     diskInfo.mediaSize = [diskDescription objectForKey:@"DAMediaSize"];
+    diskInfo.mediaBSDMajor = [diskDescription objectForKey:@"DAMediaBSDMajor"];
+    diskInfo.mediaBSDMinor = [diskDescription objectForKey:@"DAMediaBSDMinor"];
+
     diskInfo.blockSize = [diskDescription objectForKey:@"DAMediaBlockSize"];
     diskInfo.appearanceTime = [diskDescription objectForKey:@"DAAppearanceTime"];
 
@@ -204,6 +209,9 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     diskInfo.deviceModel = [diskDescription objectForKey:@"DADeviceModel"];
     diskInfo.BSDName = [diskDescription objectForKey:@"DAMediaBSDName"];
     diskInfo.mediaKind = [diskDescription objectForKey:@"DAMediaKind"];
+    diskInfo.volumeKind = [diskDescription objectForKey:@"DAVolumeKind"];
+    diskInfo.volumeName = [diskDescription objectForKey:@"DAVolumeName"];
+    diskInfo.volumePath = [diskDescription objectForKey:@"DAVolumePath"];
     diskInfo.mediaPath = [diskDescription objectForKey:@"DAMediaPath"];
     diskInfo.mediaName = [diskDescription objectForKey:@"DAMediaName"];
     diskInfo.mediaContent = [diskDescription objectForKey:@"DAMediaContent"];
