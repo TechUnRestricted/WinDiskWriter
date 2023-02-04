@@ -9,9 +9,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 #ifdef DEBUG
-#   define DebugLog(...) NSLog(__VA_ARGS__)
+    #define DebugLog(FORMAT, ...) fprintf(stderr,"%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 #else
-#   define DebugLog(...) (void)0
+    #define DebugLog(...) {}
 #endif
 
 NS_ASSUME_NONNULL_END

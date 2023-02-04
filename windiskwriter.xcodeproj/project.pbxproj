@@ -82,6 +82,8 @@
 		E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B152986FA1D000B24A1 /* unix_apply.c */; };
 		E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B162986FA1D000B24A1 /* xpress_compress.c */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
+		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
+		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
 		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
 		E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
@@ -268,6 +270,10 @@
 		E2247B172986FA1D000B24A1 /* decompressor_ops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decompressor_ops.h; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
 		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
+		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
+		E289E2BB298EE0BD0011B620 /* BootModes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootModes.m; sourceTree = "<group>"; };
+		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
+		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
 		E2B52BBB29858D8000DF362B /* Filesystems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Filesystems.h; sourceTree = "<group>"; };
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
@@ -840,6 +846,33 @@
 			path = windiskwriter;
 			sourceTree = "<group>";
 		};
+		E289E2B9298EE08D0011B620 /* BootModes */ = {
+			isa = PBXGroup;
+			children = (
+				E289E2BA298EE0BD0011B620 /* BootModes.h */,
+				E289E2BB298EE0BD0011B620 /* BootModes.m */,
+			);
+			path = BootModes;
+			sourceTree = "<group>";
+		};
+		E289E2BD298EE6260011B620 /* NSString */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCB2892983E5F2004EE171 /* NSString+Common.h */,
+				E2CCB28A2983E5F2004EE171 /* NSString+Common.m */,
+			);
+			path = NSString;
+			sourceTree = "<group>";
+		};
+		E289E2BE298EE6310011B620 /* NSFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */,
+				E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */,
+			);
+			path = NSFileManager;
+			sourceTree = "<group>";
+		};
 		E2B52BBA29858D6E00DF362B /* Filesystems */ = {
 			isa = PBXGroup;
 			children = (
@@ -861,8 +894,8 @@
 		E2CCB2882983E5D9004EE171 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCB2892983E5F2004EE171 /* NSString+Common.h */,
-				E2CCB28A2983E5F2004EE171 /* NSString+Common.m */,
+				E289E2BD298EE6260011B620 /* NSString */,
+				E289E2BE298EE6310011B620 /* NSFileManager */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -879,6 +912,7 @@
 		E2CCB29329854D9B004EE171 /* DiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				E289E2B9298EE08D0011B620 /* BootModes */,
 				E2B52BBA29858D6E00DF362B /* Filesystems */,
 				E2B52BBE2985923400DF362B /* PartitionSchemes */,
 				E2CCB28C2983EE60004EE171 /* DiskManager.h */,
@@ -1038,6 +1072,7 @@
 				E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */,
 				E2247B4E2986FA1E000B24A1 /* registry.c in Sources */,
 				E2247B192986FA1D000B24A1 /* join.c in Sources */,
+				E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */,
 				E2247B322986FA1D000B24A1 /* split.c in Sources */,
 				E22478EA2985E0E6000B24A1 /* newfs_msdos.c in Sources */,
 				E2247B572986FA1E000B24A1 /* win32_capture.c in Sources */,
@@ -1049,6 +1084,7 @@
 				E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */,
 				E2247B212986FA1D000B24A1 /* util.c in Sources */,
 				E2247B442986FA1E000B24A1 /* win32_apply.c in Sources */,
+				E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */,
 				E2247B462986FA1E000B24A1 /* export_image.c in Sources */,
 				E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */,
 				E2247B5B2986FA1E000B24A1 /* metadata_resource.c in Sources */,

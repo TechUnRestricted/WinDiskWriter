@@ -199,17 +199,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "05C0EB39-38A8-466B-BC87-15F17EBAB1D4"
+            uuid = "5FBDD50B-5D63-46FC-B731-176F3D4FD5DB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "windiskwriter/main.m"
+            filePath = "windiskwriter/DiskWriter/DiskWriter.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "main(argc, argv)"
-            landmarkType = "9">
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "+writeWindowsISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
