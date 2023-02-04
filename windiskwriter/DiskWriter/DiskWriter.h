@@ -6,17 +6,19 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-NS_ASSUME_NONNULL_BEGIN
+#import "BootModes.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface DiskWriter: NSObject
 
 - (BOOL)writeWindowsISO;
 
 - (instancetype)init NS_UNAVAILABLE;
-+ (BOOL)writeWindows11ISOWithSourcePath: (NSString *)sourcePath
-                        destinationPath: (NSString *)destinationPath
-                  bypassTPMRequirements: (BOOL)bypassTPMAndSecureBootRequirements
-                                isFAT32: (BOOL)isFAT32;
++ (BOOL)writeWindowsISOWithSourcePath: (NSString * _Nonnull)sourcePath
+                      destinationPath: (NSString * _Nonnull)destinationPath
+   bypassTPMAndSecureBootRequirements: (BOOL)bypassTPMAndSecureBootRequirements
+                             bootMode: (BootMode)bootMode
+                              isFAT32: (BOOL)isFAT32;
 
 @end
 

@@ -14,7 +14,7 @@
 #import "CommandLine.h"
 #import "HDIUtil.h"
 #import "HelperFunctions.h"
-#import "Extensions/NSString+Common.h"
+#import "NSString+Common.h"
 #import "DiskManager.h"
 
 void printUsage(void);
@@ -27,9 +27,16 @@ int main(int argc, const char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 		
-		DiskManager *diskManager = [[DiskManager alloc] initWithBSDName:@"disk4"];
-		BOOL result = [diskManager diskUtilEraseDiskWithPartitionScheme:PartitionSchemeMBR filesystem:FilesystemExFAT newName:@"D0R1K"];
-		NSLog(@"%d", result);
+		BOOL result = [DiskWriter writeWindowsISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
+												destinationPath: @"/Volumes/D0R1K"
+							 bypassTPMAndSecureBootRequirements: NO
+													   bootMode: BootModeLegacy
+														isFAT32: YES
+		];
+		
+		NSLog(@"Writing was: %@", (result ? @"👍🏿" : @"👎🏿"));
+		
+		
 		printUsage();
 	}
 	return 0;
