@@ -51,7 +51,7 @@ typedef BOOL (^FileWriteResult)(struct FileWriteInfo fileWriteInfo, enum DWMessa
                                bootMode: (BootMode _Nonnull)bootMode
                                 isFAT32: (BOOL)isFAT32
                                   error: (NSError **)error
-                               progressController: (FileWriteResult _Nullable)progressTracker;
+                     progressController: (FileWriteResult _Nullable)progressTracker;
 
 @end
 

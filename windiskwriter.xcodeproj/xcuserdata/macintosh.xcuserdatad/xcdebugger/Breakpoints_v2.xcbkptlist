@@ -212,5 +212,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "windiskwriter/DiskWriter/DiskWriter.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "+writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7 - f1dcfa2cc23cd16a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[DiskWriter writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:]"
+                  moduleName = "windiskwriter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/DiskWriter/DiskWriter.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "234"
+                  endingLineNumber = "234"
+                  offsetFromSymbolStart = "2484">
+               </Location>
+               <Location
+                  uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7 - f1dcfa2cc23cd16a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[DiskWriter writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:]"
+                  moduleName = "windiskwriter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/DiskWriter/DiskWriter.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "234"
+                  endingLineNumber = "234"
+                  offsetFromSymbolStart = "2508">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
