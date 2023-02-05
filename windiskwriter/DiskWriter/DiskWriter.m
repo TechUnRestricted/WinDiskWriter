@@ -54,7 +54,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                                bootMode: (BootMode _Nonnull)bootMode
                                 isFAT32: (BOOL)isFAT32 // TODO: Come up with a more elegant solution
                                   error: (NSError **)error
-                               callback: (FileWriteResult _Nullable)progressTracker
+                     progressController: (FileWriteResult _Nullable)progressController
 {
     
     if (bootMode == BootModeLegacy) {
@@ -91,6 +91,17 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     NSError *entityEnumerationError = NULL;
     NSDirectoryEnumerator *entityEnumeration = [localFileManager subpathsOfDirectoryAtPath: sourcePath
                                                                                      error: &entityEnumerationError];
+    
+    if (entityEnumerationError != NULL) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: packageName
+                                         code: -4
+                                     userInfo: @"Can't enumerate entites in the specified source path."];
+        }
+        
+        return NO;
+    }
+    
     uint64_t filesCopied = 0;
     uint64_t sourceFilesCount = [(NSArray *)entityEnumeration count];
     
@@ -100,7 +111,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         fileWriteInfo.destinationFilePath = [destinationPath stringByAppendingPathComponent: sourceEntityRelativePath];
         
         fileWriteInfo.entitiesRemain = sourceFilesCount - ++filesCopied;
-        fileWriteInfo.result = FileWriteResultFailure;
+        fileWriteInfo.message = DWMessageFailure;
         
         BOOL isDirectory;
         [localFileManager fileExistsAtPath: fileWriteInfo.sourceFilePath
@@ -112,34 +123,36 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                                                 withIntermediateDirectories: YES
                                                                  attributes: NULL
                                                                       error: &createDirectoryError];
-            fileWriteInfo.result = FileWriteResultSuccess;
+            
+            if (createDirectoryError == NULL) {
+                fileWriteInfo.message = DWMessageSuccess;
+            }
         } else {
             NSError *getFileAttributesError;
             NSDictionary *currentFileAttributes = [localFileManager attributesOfItemAtPath: fileWriteInfo.sourceFilePath
                                                                                      error: &getFileAttributesError];
             
             if (getFileAttributesError != NULL) {
-                fileWriteInfo.result = FileWriteResultCantGetFileAttributes;
+                fileWriteInfo.message = DWMessageCantGetFileAttributes;
             }
             else if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE) {
                 NSString *filePathExtension = [[fileWriteInfo.sourceFilePath lowercaseString] pathExtension];
                 
                 if ([filePathExtension isEqualToString: @"wim"]) {
-                    // TODO: Implement .wim file splitting
                     enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
                                                                             destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
                                                                                maxSliceSizeInBytes: 1500000000
                     ];
                     
                     if (wimSplitResult == WIMLIB_ERR_SUCCESS) {
-                        fileWriteInfo.result = FileWriteResultSuccess;
+                        fileWriteInfo.message = DWMessageSuccess;
                     }
                     
                 } else if ([filePathExtension isEqualToString:@"esd"]) {
                     // TODO: Implement .esd file splitting
-                    fileWriteInfo.result = FileWriteResultUnsupportedOperation;
+                    fileWriteInfo.message = DWMessageUnsupportedOperation;
                 } else {
-                    fileWriteInfo.result = FileWriteResultFileIsTooLarge;
+                    fileWriteInfo.message = DWMessageFileIsTooLarge;
                 }
             } else {
                 NSError *copyFileError;
@@ -149,14 +162,25 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                 ];
                 
                 if (fileCopied) {
-                    fileWriteInfo.result = FileWriteResultSuccess;
+                    fileWriteInfo.message = DWMessageSuccess;
                 }
             }
         }
         
-        if (progressTracker != NULL && !progressTracker(fileWriteInfo)) {
+        /*
+         * Stopping the writing process if:
+         * - The callback function was not passed to the parameters and
+         * - Сopying the last file was not successful
+         * Or:
+         * - The callback function returned NO
+         */
+        
+        if (progressController == NULL && (fileWriteInfo.message != DWMessageSuccess)) {
+            return NO;
+        } else if (!progressController(fileWriteInfo)) {
             return NO;
         }
+        
     }
     return YES;
 }
