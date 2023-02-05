@@ -26,19 +26,28 @@ int main(int argc, const char *argv[]) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
+		
 		NSError *writeError = NULL;
 		BOOL result = [DiskWriter writeWindows11ISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
 												  destinationPath: @"/Volumes/D0R1K"
 							   bypassTPMAndSecureBootRequirements: NO
-														 bootMode: BootModeLegacy
+														 bootMode: BootModeUEFI
 														  isFAT32: YES
 															error: &writeError
-														 callback:^BOOL(struct FileWriteInfo fileWriteInfo) {
-			
+											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo) {
+			DebugLog(@"Copying file \"%@\" → \"%@\": %@",
+					 fileWriteInfo.sourceFilePath,
+					 fileWriteInfo.destinationFilePath,
+					 (fileWriteInfo.message == DWMessageSuccess ? @"👍🏿" : @"👎🏿")
+			);
 			
 			return YES;
+		}];
+		
+		if (writeError != NULL) {
+			DebugLog(@"An error has occurred while writing the image: [%@]", [writeError userInfo]);
 		}
-		];
+		
 		
 		NSLog(@"Writing was: %@", (result ? @"👍🏿" : @"👎🏿"));
 		

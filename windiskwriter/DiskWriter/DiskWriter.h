@@ -10,19 +10,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-enum FileWriteResult {
-    FileWriteResultFailure,
-    FileWriteResultSuccess,
-    FileWriteResultCantGetFileAttributes,
-    FileWriteResultFileIsTooLarge,
-    FileWriteResultUnsupportedOperation,
+enum DWMessage {
+    DWMessageFailure,
+    DWMessageSuccess,
+    DWMessageCantGetFileAttributes,
+    DWMessageFileIsTooLarge,
+    DWMessageUnsupportedOperation,
+   
 };
 
 struct FileWriteInfo {
     NSString * _Nonnull sourceFilePath;
     NSString * _Nonnull destinationFilePath;
     uint64_t entitiesRemain;
-    enum FileWriteResult result;
+    enum DWMessage message;
 };
 
 typedef BOOL (^FileWriteResult)(struct FileWriteInfo);
@@ -38,7 +39,7 @@ typedef BOOL (^FileWriteResult)(struct FileWriteInfo);
                                bootMode: (BootMode _Nonnull)bootMode
                                 isFAT32: (BOOL)isFAT32
                                   error: (NSError **)error
-                               callback: (FileWriteResult _Nullable)progressTracker;
+                               progressController: (FileWriteResult _Nullable)progressTracker;
 
 @end
 
