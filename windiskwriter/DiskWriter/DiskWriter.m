@@ -87,6 +87,9 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         
         return NO;
     }
+
+    if (progressController == NULL) {
+    }
     
     NSError *entityEnumerationError = NULL;
     NSDirectoryEnumerator *entityEnumeration = [localFileManager subpathsOfDirectoryAtPath: sourcePath
@@ -111,76 +114,86 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         fileWriteInfo.destinationFilePath = [destinationPath stringByAppendingPathComponent: sourceEntityRelativePath];
         
         fileWriteInfo.entitiesRemain = sourceFilesCount - ++filesCopied;
-        fileWriteInfo.message = DWMessageFailure;
         
         BOOL isDirectory;
         [localFileManager fileExistsAtPath: fileWriteInfo.sourceFilePath
                                isDirectory: &isDirectory];
         
         if (isDirectory) {
+            if (!progressController(fileWriteInfo, DWMessageCreateDirectoryProcess)) {
+                return NO;
+            }
+            
             NSError *createDirectoryError;
             BOOL directoryCreated = [localFileManager createDirectoryAtPath: fileWriteInfo.destinationFilePath
                                                 withIntermediateDirectories: YES
                                                                  attributes: NULL
                                                                       error: &createDirectoryError];
             
-            if (createDirectoryError == NULL) {
-                fileWriteInfo.message = DWMessageSuccess;
+            if (!progressController(fileWriteInfo, (directoryCreated ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure))) {
+                return NO;
             }
         } else {
+            if (!progressController(fileWriteInfo, DWMessageGetFileAttributesProcess)) {
+                return NO;
+            }
+            
             NSError *getFileAttributesError;
             NSDictionary *currentFileAttributes = [localFileManager attributesOfItemAtPath: fileWriteInfo.sourceFilePath
                                                                                      error: &getFileAttributesError];
             
-            if (getFileAttributesError != NULL) {
-                fileWriteInfo.message = DWMessageCantGetFileAttributes;
+            if (!progressController(fileWriteInfo, (getFileAttributesError == NULL ? DWMessageGetFileAttributesSuccess : DWMessageGetFileAttributesFailure))) {
+                return NO;
             }
             else if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE) {
                 NSString *filePathExtension = [[fileWriteInfo.sourceFilePath lowercaseString] pathExtension];
                 
                 if ([filePathExtension isEqualToString: @"wim"]) {
+                    if (!progressController(fileWriteInfo, DWMessageSplitWindowsImageProcess)) {
+                        return NO;
+                    }
+                    
                     enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
                                                                             destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
                                                                                maxSliceSizeInBytes: 1500000000
                     ];
                     
-                    if (wimSplitResult == WIMLIB_ERR_SUCCESS) {
-                        fileWriteInfo.message = DWMessageSuccess;
+                    if (!progressController(fileWriteInfo, (wimSplitResult == WIMLIB_ERR_SUCCESS ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure))) {
+                        return NO;
                     }
                     
                 } else if ([filePathExtension isEqualToString:@"esd"]) {
                     // TODO: Implement .esd file splitting
-                    fileWriteInfo.message = DWMessageUnsupportedOperation;
+                    if (!progressController(fileWriteInfo, DWMessageUnsupportedOperation)) {
+                        return NO;
+                    }
                 } else {
-                    fileWriteInfo.message = DWMessageFileIsTooLarge;
+                    if (!progressController(fileWriteInfo, DWMessageFileIsTooLarge)) {
+                        return NO;
+                    }
                 }
             } else {
-                NSError *copyFileError;
-                BOOL fileCopied = [localFileManager copyItemAtPath: fileWriteInfo.sourceFilePath
-                                                            toPath: fileWriteInfo.destinationFilePath
-                                                             error: &copyFileError
-                ];
+                if (!progressController(fileWriteInfo, DWMessageWriteFileProcess)) {
+                    return NO;
+                }
                 
-                if (fileCopied) {
-                    fileWriteInfo.message = DWMessageSuccess;
+                if (![localFileManager fileExistsAtPath:destinationPath]) {
+                    NSError *copyFileError;
+                    BOOL fileCopied = [localFileManager copyItemAtPath: fileWriteInfo.sourceFilePath
+                                                                toPath: fileWriteInfo.destinationFilePath
+                                                                 error: &copyFileError
+                    ];
+                    
+                    if (!progressController(fileWriteInfo, (filesCopied ? DWMessageWriteFileSuccess : DWMessageWriteFileFailure))) {
+                        return NO;
+                    }
+                } else {
+                    if (!progressController(fileWriteInfo, DWMessageEntityAlreadyExists)) {
+                        return NO;
+                    }
                 }
             }
         }
-        
-        /*
-         * Stopping the writing process if:
-         * - The callback function was not passed to the parameters and
-         * - Сopying the last file was not successful
-         * Or:
-         * - The callback function returned NO
-         */
-        
-        if (progressController == NULL && (fileWriteInfo.message != DWMessageSuccess)) {
-            return NO;
-        } else if (!progressController(fileWriteInfo)) {
-            return NO;
-        }
-        
     }
     return YES;
 }
