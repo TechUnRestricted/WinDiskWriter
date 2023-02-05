@@ -34,12 +34,54 @@ int main(int argc, const char *argv[]) {
 														 bootMode: BootModeUEFI
 														  isFAT32: YES
 															error: &writeError
-											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo) {
-			DebugLog(@"Copying file \"%@\" → \"%@\": %@",
-					 fileWriteInfo.sourceFilePath,
-					 fileWriteInfo.destinationFilePath,
-					 (fileWriteInfo.message == DWMessageSuccess ? @"👍🏿" : @"👎🏿")
-			);
+											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {
+			switch (message) {
+				case DWMessageGetFileAttributesProcess:
+					DebugLog(@"Getting file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageGetFileAttributesSuccess:
+					DebugLog(@"Got file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageGetFileAttributesFailure:
+					DebugLog(@"Can't get file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageCreateDirectoryProcess:
+					DebugLog(@"Creating Directory: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageCreateDirectorySuccess:
+					DebugLog(@"Directory successfully created: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageCreateDirectoryFailure:
+					DebugLog(@"Can't create Directory: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageSplitWindowsImageProcess:
+					DebugLog(@"Splitting Windows Image: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageSplitWindowsImageSuccess:
+					DebugLog(@"Windows Image successfully splitted: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageSplitWindowsImageFailure:
+					DebugLog(@"Can't split Windows Image: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageWriteFileProcess:
+					DebugLog(@"Writing File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageWriteFileSuccess:
+					DebugLog(@"File was successfully written: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageWriteFileFailure:
+					DebugLog(@"Can't write File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageFileIsTooLarge:
+					DebugLog(@"File is too large: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageUnsupportedOperation:
+					DebugLog(@"Unsupported operation with this type of File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageEntityAlreadyExists:
+					DebugLog(@"File already exists: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+			}
 			
 			return YES;
 		}];

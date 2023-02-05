@@ -11,22 +11,34 @@
 NS_ASSUME_NONNULL_BEGIN
 
 enum DWMessage {
-    DWMessageFailure,
-    DWMessageSuccess,
-    DWMessageCantGetFileAttributes,
+    DWMessageGetFileAttributesProcess,
+    DWMessageGetFileAttributesSuccess,
+    DWMessageGetFileAttributesFailure,
+    
+    DWMessageCreateDirectoryProcess,
+    DWMessageCreateDirectorySuccess,
+    DWMessageCreateDirectoryFailure,
+    
+    DWMessageSplitWindowsImageProcess,
+    DWMessageSplitWindowsImageSuccess,
+    DWMessageSplitWindowsImageFailure,
+    
+    DWMessageWriteFileProcess,
+    DWMessageWriteFileSuccess,
+    DWMessageWriteFileFailure,
+    
     DWMessageFileIsTooLarge,
     DWMessageUnsupportedOperation,
-   
+    DWMessageEntityAlreadyExists
 };
 
 struct FileWriteInfo {
     NSString * _Nonnull sourceFilePath;
     NSString * _Nonnull destinationFilePath;
     uint64_t entitiesRemain;
-    enum DWMessage message;
 };
 
-typedef BOOL (^FileWriteResult)(struct FileWriteInfo);
+typedef BOOL (^FileWriteResult)(struct FileWriteInfo fileWriteInfo, enum DWMessage message);
 
 @interface DiskWriter: NSObject
 
