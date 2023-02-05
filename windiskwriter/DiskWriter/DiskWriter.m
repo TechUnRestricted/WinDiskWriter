@@ -87,7 +87,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         
         return NO;
     }
-
+    
     if (progressController == NULL) {
     }
     
@@ -115,6 +115,15 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         
         fileWriteInfo.entitiesRemain = sourceFilesCount - ++filesCopied;
         
+        /*
+         *************************************************************
+         * We determine whether the current entity is a folder.      *
+         * If it is a folder, then create it on the destination disk *
+         * (Necessary in order to copy each file individually, not   *
+         * the entire directory at once)                             *
+         *************************************************************
+         */
+        
         BOOL isDirectory;
         [localFileManager fileExistsAtPath: fileWriteInfo.sourceFilePath
                                isDirectory: &isDirectory];
@@ -133,65 +142,98 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
             if (!progressController(fileWriteInfo, (directoryCreated ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure))) {
                 return NO;
             }
+            continue;
+        }
+        
+        if (!progressController(fileWriteInfo, DWMessageGetFileAttributesProcess)) {
+            return NO;
+        }
+        
+        /*
+         *****************************************************
+         * We get a list of attributes for the current file. *
+         * It is necessary to determine its size.            *
+         *****************************************************
+         */
+        
+        NSError *getFileAttributesError;
+        NSDictionary *currentFileAttributes = [localFileManager attributesOfItemAtPath: fileWriteInfo.sourceFilePath
+                                                                                 error: &getFileAttributesError];
+        
+        if (getFileAttributesError == NULL) {
+            if (!progressController(fileWriteInfo, DWMessageGetFileAttributesSuccess)) {
+                return NO;
+            }
         } else {
-            if (!progressController(fileWriteInfo, DWMessageGetFileAttributesProcess)) {
+            if (!progressController(fileWriteInfo, DWMessageGetFileAttributesFailure)) {
                 return NO;
             }
+            continue;
+        }
+        
+        /*
+         ******************************************************************
+         * If the file system of the destination device is FAT32,         *
+         * we need to check the possibilities of circumventing the limits *
+         * of the maximum file size [>4GB] (if possible).                 *
+         ******************************************************************
+         */
+        
+        if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE) {
+            NSString *filePathExtension = [[fileWriteInfo.sourceFilePath lowercaseString] pathExtension];
             
-            NSError *getFileAttributesError;
-            NSDictionary *currentFileAttributes = [localFileManager attributesOfItemAtPath: fileWriteInfo.sourceFilePath
-                                                                                     error: &getFileAttributesError];
-            
-            if (!progressController(fileWriteInfo, (getFileAttributesError == NULL ? DWMessageGetFileAttributesSuccess : DWMessageGetFileAttributesFailure))) {
-                return NO;
-            }
-            else if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE) {
-                NSString *filePathExtension = [[fileWriteInfo.sourceFilePath lowercaseString] pathExtension];
-                
-                if ([filePathExtension isEqualToString: @"wim"]) {
-                    if (!progressController(fileWriteInfo, DWMessageSplitWindowsImageProcess)) {
-                        return NO;
-                    }
-                    
-                    enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
-                                                                            destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
-                                                                               maxSliceSizeInBytes: 1500000000
-                    ];
-                    
-                    if (!progressController(fileWriteInfo, (wimSplitResult == WIMLIB_ERR_SUCCESS ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure))) {
-                        return NO;
-                    }
-                    
-                } else if ([filePathExtension isEqualToString:@"esd"]) {
-                    // TODO: Implement .esd file splitting
-                    if (!progressController(fileWriteInfo, DWMessageUnsupportedOperation)) {
-                        return NO;
-                    }
-                } else {
-                    if (!progressController(fileWriteInfo, DWMessageFileIsTooLarge)) {
-                        return NO;
-                    }
+            /* At the moment , separation is only possible for .wim files */
+            if ([filePathExtension isEqualToString: @"wim"]) {
+                continue;
+                if (!progressController(fileWriteInfo, DWMessageSplitWindowsImageProcess)) {
+                    return NO;
                 }
-            } else {
-                if (!progressController(fileWriteInfo, DWMessageWriteFileProcess)) {
+
+                enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
+                                                                        destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
+                                                                           maxSliceSizeInBytes: 1500000000
+                ];
+                
+                if (!progressController(fileWriteInfo, (wimSplitResult == WIMLIB_ERR_SUCCESS ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure))) {
                     return NO;
                 }
                 
-                if (![localFileManager fileExistsAtPath:destinationPath]) {
-                    NSError *copyFileError;
-                    BOOL fileCopied = [localFileManager copyItemAtPath: fileWriteInfo.sourceFilePath
-                                                                toPath: fileWriteInfo.destinationFilePath
-                                                                 error: &copyFileError
-                    ];
-                    
-                    if (!progressController(fileWriteInfo, (filesCopied ? DWMessageWriteFileSuccess : DWMessageWriteFileFailure))) {
-                        return NO;
-                    }
-                } else {
-                    if (!progressController(fileWriteInfo, DWMessageEntityAlreadyExists)) {
-                        return NO;
-                    }
+            } else if ([filePathExtension isEqualToString:@"esd"]) {
+                // TODO: Implement .esd file splitting
+                if (!progressController(fileWriteInfo, DWMessageUnsupportedOperation)) {
+                    return NO;
                 }
+            } else {
+                if (!progressController(fileWriteInfo, DWMessageFileIsTooLarge)) {
+                    return NO;
+                }
+            }
+            continue;
+        }
+        
+        /*
+         *****************************************
+         * Writing Files to the destination path *
+         *****************************************
+         */
+        
+        if (!progressController(fileWriteInfo, DWMessageWriteFileProcess)) {
+            return NO;
+        }
+        
+        if (![localFileManager fileExistsAtPath:fileWriteInfo.destinationFilePath]) {
+            NSError *copyFileError;
+            BOOL copyWasSuccessful = [localFileManager copyItemAtPath: fileWriteInfo.sourceFilePath
+                                                        toPath: fileWriteInfo.destinationFilePath
+                                                         error: &copyFileError
+            ];
+            
+            if (!progressController(fileWriteInfo, (copyWasSuccessful ? DWMessageWriteFileSuccess : DWMessageWriteFileFailure))) {
+                return NO;
+            }
+        } else {
+            if (!progressController(fileWriteInfo, DWMessageEntityAlreadyExists)) {
+                return NO;
             }
         }
     }
