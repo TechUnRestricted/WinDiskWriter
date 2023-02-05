@@ -274,6 +274,7 @@
 		E289E2BB298EE0BD0011B620 /* BootModes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootModes.m; sourceTree = "<group>"; };
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
 		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
+		E289E2C5298FDFC00011B620 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E2B52BBB29858D8000DF362B /* Filesystems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Filesystems.h; sourceTree = "<group>"; };
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
@@ -842,6 +843,7 @@
 				E2CCB29629854DB8004EE171 /* HelperFunctions */,
 				E25946062982A77F000C60A4 /* main.m */,
 				E2CCB2792982D23A004EE171 /* DebugSystem.h */,
+				E289E2C5298FDFC00011B620 /* Constants.h */,
 			);
 			path = windiskwriter;
 			sourceTree = "<group>";

@@ -26,16 +26,21 @@ int main(int argc, const char *argv[]) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
-		
-		BOOL result = [DiskWriter writeWindowsISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
-												destinationPath: @"/Volumes/D0R1K"
-							 bypassTPMAndSecureBootRequirements: NO
-													   bootMode: BootModeLegacy
-														isFAT32: YES
+		NSError *writeError = NULL;
+		BOOL result = [DiskWriter writeWindows11ISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
+												  destinationPath: @"/Volumes/D0R1K"
+							   bypassTPMAndSecureBootRequirements: NO
+														 bootMode: BootModeLegacy
+														  isFAT32: YES
+															error: &writeError
+														 callback:^BOOL(struct FileWriteInfo fileWriteInfo) {
+			
+			
+			return YES;
+		}
 		];
 		
 		NSLog(@"Writing was: %@", (result ? @"👍🏿" : @"👎🏿"));
-		
 		
 		printUsage();
 	}
