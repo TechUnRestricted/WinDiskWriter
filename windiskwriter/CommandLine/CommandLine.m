@@ -8,12 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "CommandLine.h"
-#import "DebugSystem.h"
 
 @implementation CommandLine
 
 + (struct CommandLineReturn)execute: (NSString *)executable
-                      withArguments: (NSArray *)arguments {
+                          arguments: (NSArray *)arguments {
     struct CommandLineReturn commandLineReturn;
     @try {
         NSPipe *pipe = [NSPipe pipe];
@@ -34,12 +33,7 @@
         
         return commandLineReturn;
     } @catch (NSException *exception) {
-        DebugLog(@"An error occurred while executing a terminal command [Executable: %@; Arguments: { %@ }], [Error: {%@, %@}]",
-                 executable,
-                 [arguments componentsJoinedByString:@", "],
-                 [exception reason],
-                 [exception name]
-        );
+        /* An error occurred while executing a terminal command */
     }
     
     return commandLineReturn;

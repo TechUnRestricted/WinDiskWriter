@@ -7,31 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import "DebugSystem.h"
-#import "newfs_msdos.h"
-#import "DiskWriter.h"
-#import "CommandLine.h"
-#import "HDIUtil.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
+#import "DebugSystem.h"
+#import "CommandLine.h"
 #import "DiskManager.h"
+#import "DiskWriter.h"
+#import "HDIUtil.h"
 
 void printUsage(void);
 
 int main(int argc, const char *argv[]) {
 	@autoreleasepool {
-		if (![HelperFunctions hasElevatedRights]) {
-			printf("This program is not running as Root.\n");
-			printUsage();
-			exit(EXIT_FAILURE);
-		}
-		
 		NSError *writeError = NULL;
 		BOOL result = [DiskWriter writeWindows11ISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
 												  destinationPath: @"/Volumes/D0R1K"
 							   bypassTPMAndSecureBootRequirements: NO
-														 bootMode: BootModeUEFI
+														 bootMode: BootModeLegacy
 														  isFAT32: YES
 															error: &writeError
 											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {

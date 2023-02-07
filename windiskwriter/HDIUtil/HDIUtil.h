@@ -18,8 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong, nonatomic, readwrite) NSString *hdiutilPath;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithImagePath: (NSString *)imagePath;
-- (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments;
-- (BOOL)attachImage;
+- (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments
+                           error: (NSError *_Nullable *_Nullable)error;
+- (BOOL)attachImageWithError: (NSError *_Nullable *_Nullable)attachImageError;
 
 - (NSString *)getImagePath;
 - (NSString *)getBSDEntry;

@@ -7,7 +7,6 @@
 //
 
 #import "HelperFunctions.h"
-#import <unistd.h>
 
 @implementation HelperFunctions
 
