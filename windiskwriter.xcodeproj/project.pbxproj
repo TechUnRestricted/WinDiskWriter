@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E22478EA2985E0E6000B24A1 /* newfs_msdos.c in Sources */ = {isa = PBXBuildFile; fileRef = E22478E42985E0E6000B24A1 /* newfs_msdos.c */; };
-		E22478EB2985E0E6000B24A1 /* wipefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22478E72985E0E6000B24A1 /* wipefs.cpp */; };
-		E22478EC2985E0E6000B24A1 /* ExtentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22478E82985E0E6000B24A1 /* ExtentManager.cpp */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -30,7 +27,6 @@
 		E2247B292986FA1D000B24A1 /* reference.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A942986FA1D000B24A1 /* reference.c */; };
 		E2247B2A2986FA1D000B24A1 /* x86_cpu_features.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A972986FA1D000B24A1 /* x86_cpu_features.c */; };
 		E2247B2B2986FA1D000B24A1 /* lzms_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9B2986FA1D000B24A1 /* lzms_common.c */; };
-		E2247B2C2986FA1D000B24A1 /* assert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9C2986FA1D000B24A1 /* assert.cpp */; };
 		E2247B2D2986FA1D000B24A1 /* integrity.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9D2986FA1D000B24A1 /* integrity.c */; };
 		E2247B2E2986FA1D000B24A1 /* file_io.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA02986FA1D000B24A1 /* file_io.c */; };
 		E2247B2F2986FA1D000B24A1 /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA12986FA1D000B24A1 /* verify.c */; };
@@ -117,12 +113,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E22478E42985E0E6000B24A1 /* newfs_msdos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = newfs_msdos.c; sourceTree = "<group>"; };
-		E22478E52985E0E6000B24A1 /* newfs_msdos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newfs_msdos.h; sourceTree = "<group>"; };
-		E22478E62985E0E6000B24A1 /* wipefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wipefs.h; sourceTree = "<group>"; };
-		E22478E72985E0E6000B24A1 /* wipefs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wipefs.cpp; sourceTree = "<group>"; };
-		E22478E82985E0E6000B24A1 /* ExtentManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExtentManager.cpp; sourceTree = "<group>"; };
-		E22478E92985E0E6000B24A1 /* ExtentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtentManager.h; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A602986FA1D000B24A1 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -171,7 +161,6 @@
 		E2247A982986FA1D000B24A1 /* x86_cpu_features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x86_cpu_features.h; sourceTree = "<group>"; };
 		E2247A9A2986FA1D000B24A1 /* lzms_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzms_common.h; sourceTree = "<group>"; };
 		E2247A9B2986FA1D000B24A1 /* lzms_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzms_common.c; sourceTree = "<group>"; };
-		E2247A9C2986FA1D000B24A1 /* assert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assert.cpp; sourceTree = "<group>"; };
 		E2247A9D2986FA1D000B24A1 /* integrity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = integrity.c; sourceTree = "<group>"; };
 		E2247A9F2986FA1D000B24A1 /* file_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_io.h; sourceTree = "<group>"; };
 		E2247AA02986FA1D000B24A1 /* file_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = file_io.c; sourceTree = "<group>"; };
@@ -309,22 +298,8 @@
 			isa = PBXGroup;
 			children = (
 				E2247A5C2986FA1D000B24A1 /* wimlib */,
-				E22478E32985E0E6000B24A1 /* newfs_msdos */,
 			);
 			path = libs;
-			sourceTree = "<group>";
-		};
-		E22478E32985E0E6000B24A1 /* newfs_msdos */ = {
-			isa = PBXGroup;
-			children = (
-				E22478E42985E0E6000B24A1 /* newfs_msdos.c */,
-				E22478E52985E0E6000B24A1 /* newfs_msdos.h */,
-				E22478E62985E0E6000B24A1 /* wipefs.h */,
-				E22478E72985E0E6000B24A1 /* wipefs.cpp */,
-				E22478E82985E0E6000B24A1 /* ExtentManager.cpp */,
-				E22478E92985E0E6000B24A1 /* ExtentManager.h */,
-			);
-			path = newfs_msdos;
 			sourceTree = "<group>";
 		};
 		E2247A5C2986FA1D000B24A1 /* wimlib */ = {
@@ -408,7 +383,6 @@
 				E2247A842986FA1D000B24A1 /* types.h */,
 				E2247A942986FA1D000B24A1 /* reference.c */,
 				E2247A952986FA1D000B24A1 /* guid.h */,
-				E2247A9C2986FA1D000B24A1 /* assert.cpp */,
 				E2247A9D2986FA1D000B24A1 /* integrity.c */,
 				E2247AA12986FA1D000B24A1 /* verify.c */,
 				E2247AA82986FA1D000B24A1 /* split.c */,
@@ -1010,7 +984,6 @@
 			files = (
 				E2247B532986FA1E000B24A1 /* timestamp.c in Sources */,
 				E2247B542986FA1E000B24A1 /* compress_parallel.c in Sources */,
-				E2247B2C2986FA1D000B24A1 /* assert.cpp in Sources */,
 				E2247B1C2986FA1D000B24A1 /* unix_capture.c in Sources */,
 				E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */,
 				E2247B202986FA1D000B24A1 /* tagged_items.c in Sources */,
@@ -1021,7 +994,6 @@
 				E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */,
 				E2247B592986FA1E000B24A1 /* header.c in Sources */,
 				E2247B222986FA1D000B24A1 /* compress.c in Sources */,
-				E22478EC2985E0E6000B24A1 /* ExtentManager.cpp in Sources */,
 				E2247B432986FA1E000B24A1 /* textfile.c in Sources */,
 				E2247B5C2986FA1E000B24A1 /* iterate_dir.c in Sources */,
 				E2247B3E2986FA1E000B24A1 /* win32_common.c in Sources */,
@@ -1046,7 +1018,6 @@
 				E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */,
 				E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */,
 				E2247B342986FA1D000B24A1 /* template.c in Sources */,
-				E22478EB2985E0E6000B24A1 /* wipefs.cpp in Sources */,
 				E2247B282986FA1D000B24A1 /* xml_windows.c in Sources */,
 				E2247B352986FA1D000B24A1 /* solid.c in Sources */,
 				E2247B242986FA1D000B24A1 /* security.c in Sources */,
@@ -1076,7 +1047,6 @@
 				E2247B192986FA1D000B24A1 /* join.c in Sources */,
 				E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */,
 				E2247B322986FA1D000B24A1 /* split.c in Sources */,
-				E22478EA2985E0E6000B24A1 /* newfs_msdos.c in Sources */,
 				E2247B572986FA1E000B24A1 /* win32_capture.c in Sources */,
 				E2247B482986FA1E000B24A1 /* update_image.c in Sources */,
 				E2247B232986FA1D000B24A1 /* decompress.c in Sources */,
@@ -1105,8 +1075,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1164,8 +1134,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;

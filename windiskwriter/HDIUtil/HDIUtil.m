@@ -8,23 +8,29 @@
 
 #import <Foundation/Foundation.h>
 #import "CommandLine.h"
+#import "Constants.h"
 #import "HDIUtil.h"
-#import "DebugSystem.h"
 
 @implementation HDIUtil: NSObject
 
-- (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments {
+- (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments
+                           error: (NSError *_Nullable *_Nullable)error {
     NSMutableArray *localArgumentsArray = [NSMutableArray arrayWithArray:@[@"attach", _imagePath, @"-plist"]];
     
     if (arguments != NULL) {
+        /* Adding custom arguments to the HDIUtil attach command */
         [localArgumentsArray addObjectsFromArray:arguments];
-        DebugLog(@"Adding custom arguments to the HDIUtil attach command [%@].", [arguments componentsJoinedByString:@", "]);
     }
     
-    struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath withArguments:localArgumentsArray];
+    struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath arguments:localArgumentsArray];
     
     if (commandLineReturn.terminationStatus != EXIT_SUCCESS) {
-        DebugLog(@"hdiutil exited not with EXIT_SUCCESS status.");
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: -1
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"hdiutil exited not with EXIT_SUCCESS status."}];
+        }
         return NO;
     }
     
@@ -36,25 +42,45 @@
                            errorDescription: &plistLoadErrorDescription];
     
     if (plist == NULL) {
-        DebugLog(@"An error occurred while reading output from hdiutil. [%@]", plistLoadErrorDescription);
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: -1
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"An error occurred while reading output from hdiutil."}];
+        }
         return NO;
     }
     
-    DebugLog(@"Output from hdiutil was successfully parsed into NSDictionary. [%@]", plist);
+    /* Output from hdiutil was successfully parsed into NSDictionary */
     
     NSArray *systemEntities = [plist objectForKey:@"system-entities"];
     if (systemEntities == NULL) {
-        DebugLog(@"Can't load \"system-entities\" from parsed plist.");
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: -1
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"Can't load \"system-entities\" from parsed plist."}];
+        }
         return NO;
     }
     
     if ([systemEntities count] == 0) {
-        DebugLog(@"This image does not contain any System Entity.");
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: -1
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"This image does not contain any System Entity."}];
+        }
         return NO;
     }
     
     if ([systemEntities count] > 1) {
-        DebugLog(@"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image.");
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: -1
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image."}];
+        }
         return NO;
     }
     
@@ -66,8 +92,13 @@
     return YES;
 }
 
-- (BOOL)attachImage {
-    [self attachImageWithArguments:NULL];
+- (BOOL)attachImageWithError: (NSError *_Nullable *_Nullable)attachImageError {
+    NSError *attachWithArgumentsError = NULL;
+    [self attachImageWithArguments:NULL
+                             error: &attachWithArgumentsError];
+    if (attachImageError != NULL) {
+        *attachImageError = attachWithArgumentsError;
+    }
     return YES;
 }
 

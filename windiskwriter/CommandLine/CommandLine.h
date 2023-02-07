@@ -21,7 +21,7 @@ struct CommandLineReturn {
 - (instancetype)init NS_UNAVAILABLE;
 
 + (struct CommandLineReturn)execute: (NSString *)executable
-                      withArguments: (NSArray *)arguments;
+                          arguments: (NSArray *)arguments;
 @end
 
 NS_ASSUME_NONNULL_END

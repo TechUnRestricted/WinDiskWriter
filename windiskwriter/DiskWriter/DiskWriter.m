@@ -7,17 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HDIUtil.h"
-#import "DiskWriter.h"
-#import "DiskManager.h"
-#import "DebugSystem.h"
-#import "Filesystems.h"
-#import "BootModes.h"
+#import "NSFileManager+Common.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
-#import "NSFileManager+Common.h"
-#import "wimlib.h"
+#import "DiskManager.h"
+#import "Filesystems.h"
+#import "DiskWriter.h"
+#import "BootModes.h"
 #import "constants.h"
+#import "HDIUtil.h"
+#import "wimlib.h"
 
 const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
 
@@ -53,15 +52,15 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
      bypassTPMAndSecureBootRequirements: (BOOL)bypassTPMAndSecureBootRequirements
                                bootMode: (BootMode _Nonnull)bootMode
                                 isFAT32: (BOOL)isFAT32 // TODO: Come up with a more elegant solution
-                                  error: (NSError **)error
+                                  error: (NSError *_Nullable *_Nullable)error
                      progressController: (FileWriteResult _Nullable)progressController
 {
     
     if (bootMode == BootModeLegacy) {
         if (error != NULL) {
-            *error = [NSError errorWithDomain: packageName
+            *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @"Legacy Boot Mode is not supported yet."];
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"Legacy Boot Mode is not supported yet."}];
         }
         
         return NO;
@@ -70,9 +69,9 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     NSFileManager *localFileManager = [NSFileManager defaultManager];
     if (![localFileManager folderExistsAtPath: sourcePath]) {
         if (error != NULL) {
-            *error = [NSError errorWithDomain: packageName
+            *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -2
-                                     userInfo: @"Source Path does not exist."];
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"Source Path does not exist."}];
         }
         
         return NO;
@@ -80,9 +79,9 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     
     if (![localFileManager folderExistsAtPath: destinationPath]) {
         if (error != NULL) {
-            *error = [NSError errorWithDomain: packageName
+            *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -3
-                                     userInfo: @"Destination Path does not exist."];
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"Destination Path does not exist."}];
         }
         
         return NO;
@@ -97,9 +96,9 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     
     if (entityEnumerationError != NULL) {
         if (error != NULL) {
-            *error = [NSError errorWithDomain: packageName
+            *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -4
-                                     userInfo: @"Can't enumerate entites in the specified source path."];
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"Can't enumerate entites in the specified source path."}];
         }
         
         return NO;
@@ -188,7 +187,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                 if (!progressController(fileWriteInfo, DWMessageSplitWindowsImageProcess)) {
                     return NO;
                 }
-
+                
                 enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
                                                                         destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
                                                                            maxSliceSizeInBytes: 1500000000
@@ -198,7 +197,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                     return NO;
                 }
                 
-            } else if ([filePathExtension isEqualToString:@"esd"]) {
+            } else if ([filePathExtension isEqualToString: @"esd"]) {
                 // TODO: Implement .esd file splitting
                 if (!progressController(fileWriteInfo, DWMessageUnsupportedOperation)) {
                     return NO;
@@ -224,8 +223,8 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         if (![localFileManager fileExistsAtPath:fileWriteInfo.destinationFilePath]) {
             NSError *copyFileError;
             BOOL copyWasSuccessful = [localFileManager copyItemAtPath: fileWriteInfo.sourceFilePath
-                                                        toPath: fileWriteInfo.destinationFilePath
-                                                         error: &copyFileError
+                                                               toPath: fileWriteInfo.destinationFilePath
+                                                                error: &copyFileError
             ];
             
             if (!progressController(fileWriteInfo, (copyWasSuccessful ? DWMessageWriteFileSuccess : DWMessageWriteFileFailure))) {
