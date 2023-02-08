@@ -27,12 +27,20 @@
     [self initDiskSession];
     currentDisk = DADiskCreateFromBSDName(kCFAllocatorDefault, diskSession, [bsdName UTF8String]);
     
+    if (currentDisk == NULL) {
+        return NULL;
+    }
+    
     return self;
 }
 
 - (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath {
     [self initDiskSession];
     currentDisk = DADiskCreateFromVolumePath(kCFAllocatorDefault, diskSession, (CFURLRef)[NSURL fileURLWithPath:volumePath]);
+    
+    if (currentDisk == NULL) {
+        return NULL;
+    }
     
     return self;
 }
@@ -80,6 +88,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     return callbackWrapper.daReturn;
 }
 
+// TODO: Merge base logic [diskUtilEraseVolumeWithFilesystem + diskUtilEraseDiskWithPartitionScheme]
 - (BOOL)diskUtilEraseVolumeWithFilesystem: (Filesystem)filesystem
                                   newName: (NSString * _Nullable)newName
                                     error: (NSError *_Nullable *_Nullable)error {
@@ -95,7 +104,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     if (diskInfo.BSDName == NULL) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
+                                         code: DMErrorCodeSpecifiedBSDNameDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY:
                                                      @"Specified BSD Name does not exist. Can't erase this volume."}];
         }
@@ -115,7 +124,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     } else {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
+                                         code: DMErrorCodeEraseDiskFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
                                                                      filesystem,
                                                                      newName,
@@ -143,8 +152,9 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     if (diskInfo.BSDName == NULL) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"Specified BSD Name does not exist. Can't erase this volume."}
+                                         code: DMErrorCodeSpecifiedBSDNameDoesNotExist
+                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                                     @"Specified BSD Name does not exist. Can't erase this volume."}
             ];
         }
         return NO;
@@ -164,7 +174,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     } else {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
+                                         code: DMErrorCodeEraseDiskFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"An Error has occured while erasing the Disk. [Filesystem: %@; Partition Scheme: %@; New Label: %@; BSD Name: %@]",
                                                                      filesystem,
                                                                      partitionScheme,

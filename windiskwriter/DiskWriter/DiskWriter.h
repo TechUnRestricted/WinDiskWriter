@@ -32,6 +32,13 @@ enum DWMessage {
     DWMessageEntityAlreadyExists
 };
 
+enum DWErrorCode {
+    DWErrorCodeUnsupportedBootMode = 100,
+    DWErrorCodeSourcePathDoesNotExist,
+    DWErrorCodeDestinationPathDoesNotExist,
+    DWErrorCodeEnumerateSourceFilesFailure,
+};
+
 struct FileWriteInfo {
     NSString * _Nonnull sourceFilePath;
     NSString * _Nonnull destinationFilePath;

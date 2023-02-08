@@ -59,7 +59,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     if (bootMode == BootModeLegacy) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
+                                         code: DWErrorCodeUnsupportedBootMode
                                      userInfo: @{DEFAULT_ERROR_KEY: @"Legacy Boot Mode is not supported yet."}];
         }
         
@@ -70,7 +70,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     if (![localFileManager folderExistsAtPath: sourcePath]) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -2
+                                         code: DWErrorCodeSourcePathDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY: @"Source Path does not exist."}];
         }
         
@@ -80,7 +80,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     if (![localFileManager folderExistsAtPath: destinationPath]) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -3
+                                         code: DWErrorCodeDestinationPathDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY: @"Destination Path does not exist."}];
         }
         
@@ -97,7 +97,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     if (entityEnumerationError != NULL) {
         if (error != NULL) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -4
+                                         code: DWErrorCodeEnumerateSourceFilesFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: @"Can't enumerate entites in the specified source path."}];
         }
         

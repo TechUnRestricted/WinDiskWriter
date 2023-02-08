@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
-#import "DebugSystem.h"
 #import "CommandLine.h"
 #import "DiskManager.h"
 #import "DiskWriter.h"
@@ -29,49 +28,49 @@ int main(int argc, const char *argv[]) {
 											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {
 			switch (message) {
 				case DWMessageGetFileAttributesProcess:
-					DebugLog(@"Getting file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Getting file Attributes: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageGetFileAttributesSuccess:
-					DebugLog(@"Got file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Got file Attributes: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageGetFileAttributesFailure:
-					DebugLog(@"Can't get file Attributes: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Can't get file Attributes: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageCreateDirectoryProcess:
-					DebugLog(@"Creating Directory: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"Creating Directory: [%@]", fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageCreateDirectorySuccess:
-					DebugLog(@"Directory successfully created: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"Directory successfully created: [%@]", fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageCreateDirectoryFailure:
-					DebugLog(@"Can't create Directory: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"Can't create Directory: [%@]", fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageSplitWindowsImageProcess:
-					DebugLog(@"Splitting Windows Image: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Splitting Windows Image: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageSplitWindowsImageSuccess:
-					DebugLog(@"Windows Image successfully splitted: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Windows Image successfully splitted: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageSplitWindowsImageFailure:
-					DebugLog(@"Can't split Windows Image: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"Can't split Windows Image: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageWriteFileProcess:
-					DebugLog(@"Writing File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"Writing File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageWriteFileSuccess:
-					DebugLog(@"File was successfully written: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"File was successfully written: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageWriteFileFailure:
-					DebugLog(@"Can't write File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"Can't write File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageFileIsTooLarge:
-					DebugLog(@"File is too large: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"File is too large: [%@]", fileWriteInfo.sourceFilePath);
 					break;
 				case DWMessageUnsupportedOperation:
-					DebugLog(@"Unsupported operation with this type of File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"Unsupported operation with this type of File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
 					break;
 				case DWMessageEntityAlreadyExists:
-					DebugLog(@"File already exists: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"File already exists: [%@]", fileWriteInfo.destinationFilePath);
 					break;
 			}
 			
@@ -79,11 +78,27 @@ int main(int argc, const char *argv[]) {
 		}];
 		
 		if (writeError != NULL) {
-			DebugLog(@"An error has occurred while writing the image: [%@]", [writeError userInfo]);
+			IOLog(@"An error has occurred while writing the image: [%@]", [writeError userInfo]);
 		}
 		
-		
-		NSLog(@"Writing was: %@", (result ? @"👍🏿" : @"👎🏿"));
+		NSArray *availableArguments = @[
+			@"-s", // Source
+			@"-d", // Destination
+			@"-f"  // Filesystem
+		];
+
+		NSArray *applicationArguments = NSProcessInfo.processInfo.arguments;
+		for (int currentIndex = 0; currentIndex < [applicationArguments count]; currentIndex++) {
+			NSString *currentArgument = [applicationArguments objectAtIndex:currentIndex];
+
+			if ([currentArgument isEqualToString:@"-s"]) {
+				
+			} else if ([currentArgument isEqualToString:@"-d"]) {
+				
+			} else if ([currentArgument isEqualToString:@"-f"]) {
+				
+			}
+		}
 		
 		printUsage();
 	}
@@ -116,7 +131,7 @@ void printUsage(void) {
 		   "            /dev/diskXsY     { 'X' — disk number; Y — partition number }\n"
 		   "      Volume Path:\n"
 		   "            /Volumes/XXXXXX  { 'XXXXXX' — partition name }\n"
-		   "--filesystem\n"
+		   "-f [Filesystem]\n"
 		   "      FAT32                  { Default }\n"
 		   "      ExFAT                  { May require an external ExFatDxe.efi EFI driver }\n"
 		   "--no-erase                   { Do not erase the target Device }\n"
