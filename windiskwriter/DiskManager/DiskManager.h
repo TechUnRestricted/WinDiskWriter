@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
  };
  */
 
+enum DMErrorCode {
+    DMErrorCodeSpecifiedBSDNameDoesNotExist = 100,
+    DMErrorCodeEraseDiskFailure,
+};
+
 struct DiskInfo {
     BOOL isWholeDrive;
     BOOL isInternal;

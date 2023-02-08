@@ -10,10 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define IOLog(FORMAT, ...) fprintf(stderr,"%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+
 @interface HelperFunctions : NSObject
+- (instancetype)init NS_UNAVAILABLE;
 + (BOOL) hasElevatedRights;
 + (NSString *)randomStringWithLength: (uint64_t)requiredLength;
-
 @end
 
 NS_ASSUME_NONNULL_END
