@@ -17,6 +17,13 @@
 
 void printUsage(void);
 
+enum AvailableArguments {
+	ArgumentSourceDirectory,
+	ArgumentDestinationDevice,
+	ArgumentFilesystem,
+	ArgumentDoNotErase,
+};
+
 int main(int argc, const char *argv[]) {
 	@autoreleasepool {
 		NSError *writeError = NULL;
@@ -87,21 +94,21 @@ int main(int argc, const char *argv[]) {
 		ArgumentsHandler *argumentsHandler = [[ArgumentsHandler alloc]
 											  initWithProcessArguments: applicationArguments
 											  argumentObjects: @[[[ArgumentObject alloc] initWithName: @"-s"
-																							 uniqueID: @1
+																							 uniqueID: ArgumentSourceDirectory
 																						   isRequired: YES
 																							 isPaired: YES],
 																 [[ArgumentObject alloc] initWithName: @"-d"
-																							 uniqueID: @2
+																							 uniqueID: ArgumentDestinationDevice
 																						   isRequired: YES
 																							 isPaired: YES
 																 ],
 																 [[ArgumentObject alloc] initWithName: @"-f"
-																							 uniqueID: @2
+																							 uniqueID: ArgumentFilesystem
 																						   isRequired: NO
 																							 isPaired: YES
 																 ],
 																 [[ArgumentObject alloc] initWithName: @"--noerase"
-																							 uniqueID: @2
+																							 uniqueID: ArgumentDoNotErase
 																						   isRequired: NO
 																							 isPaired: NO
 																 ]
@@ -109,18 +116,35 @@ int main(int argc, const char *argv[]) {
 		];
 		
 		NSError *argumentsHandlerError = NULL;
-		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithCallback:
-									   ^BOOL(ArgumentObject * _Nonnull argumentObject, BOOL success, NSString * _Nullable pair) {
-			IOLog(@"[Tag: %@] [Success: %@] [Pair: %@]",
+		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithErrorHandler: &argumentsHandlerError
+																					callback: ^void(ArgumentObject * _Nonnull argumentObject, NSString * _Nullable pair) {
+			
+			switch (argumentObject.uniqueID) {
+				case ArgumentSourceDirectory:
+					break;
+				case ArgumentDestinationDevice:
+					break;
+				case ArgumentFilesystem:
+					break;
+				case ArgumentDoNotErase:
+					break;
+				default:
+					break;
+			}
+			
+			IOLog(@"[Tag: %@] [Pair: %@]",
 				  argumentObject.name,
-				  (success ? @"Yes" : @"No"),
 				  (pair != NULL ? pair : @"")
-			);
-			return NO;
-		}
-																				   error: &argumentsHandlerError];
+				  );
+
+		}];
+		
 		IOLog(@"Handler result: %@",
 			  (argumentsHandlerResult ? @"Success" : @"Failure"));
+		
+		if (argumentsHandlerError != NULL) {
+			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:@"Reason"]);
+		}
 		
 		// printUsage();
 	}

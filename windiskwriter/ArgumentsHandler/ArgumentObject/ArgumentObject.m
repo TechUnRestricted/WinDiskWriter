@@ -11,7 +11,7 @@
 @implementation ArgumentObject
 
 - (instancetype)initWithName: (NSString *_Nonnull)name
-                    uniqueID: (id _Nullable)uniqueID
+                    uniqueID: (int)uniqueID
                   isRequired: (BOOL)isRequired
                     isPaired: (BOOL)isPaired {
     _name = name;

@@ -13,14 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ArgumentObject : NSObject
 
 @property (strong, nonatomic, readonly) NSString *_Nonnull name;
-@property (strong, nonatomic, readonly) id _Nullable uniqueID;
+@property (nonatomic, readonly) int uniqueID;
 @property (nonatomic, readonly) BOOL isRequired;
 @property (nonatomic, readonly) BOOL isPaired;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithName: (NSString *_Nonnull)name
-                    uniqueID: (id _Nullable)uniqueID
+                    uniqueID: (int)uniqueID
                   isRequired: (BOOL)isRequired
                     isPaired: (BOOL)isPaired;
 
