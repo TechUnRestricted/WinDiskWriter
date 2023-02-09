@@ -11,5 +11,5 @@
 Filesystem const FilesystemFAT32 = @"FAT32";
 Filesystem const FilesystemFAT16 = @"FAT16";
 Filesystem const FilesystemFAT12 = @"FAT12";
-Filesystem const FilesystemExFAT = @"ExFAT";
+Filesystem const FilesystemExFAT = @"EXFAT";
 

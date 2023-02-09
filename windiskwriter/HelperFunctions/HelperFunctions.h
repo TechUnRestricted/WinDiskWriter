@@ -7,15 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DiskManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 #define IOLog(FORMAT, ...) fprintf(stderr,"%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
+enum ImageMountError {
+    ImageMountErrorFileDoesNotExist,
+    ImageMountErrorFileIsNotISO
+};
+
+enum DestinationDeviceError {
+    DestinationDeviceErrorBadPath,
+    DestinationDeviceErrorUnsupportedAPICall,
+    DestinationDeviceErrorInvalidBSDName
+};
+
 @interface HelperFunctions : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 + (BOOL) hasElevatedRights;
 + (NSString *)randomStringWithLength: (uint64_t)requiredLength;
++ (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
+                                           error: (NSError *_Nullable *_Nullable)error;
++ (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
+                                                 error: (NSError *_Nullable *_Nullable)error;
 @end
 
 NS_ASSUME_NONNULL_END

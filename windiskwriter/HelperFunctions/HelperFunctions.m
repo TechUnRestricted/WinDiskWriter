@@ -7,14 +7,18 @@
 //
 
 #import "HelperFunctions.h"
+#import "NSString+Common.h"
+#import "DiskManager.h"
+#import "Constants.h"
+#import "HDIUtil.h"
+
+NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
 
 @implementation HelperFunctions
 
 + (BOOL) hasElevatedRights {
     return getuid() == 0;
 }
-
-NSString *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
 
 + (NSString *)randomStringWithLength: (uint64_t)requiredLength {
     NSMutableString *generatedString = [NSMutableString stringWithCapacity:requiredLength];
@@ -25,6 +29,88 @@ NSString *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     }
     
     return generatedString;
+}
+
++ (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
+                                           error: (NSError *_Nullable *_Nullable)error {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    BOOL isDirectory;
+    BOOL exists = [fileManager fileExistsAtPath:sourcePath isDirectory:&isDirectory];
+    
+    if (!exists) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: ImageMountErrorFileDoesNotExist
+                                     userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"File [directory] \"%@\" doesn't exist.", sourcePath]}
+            ];
+        }
+        return NULL;
+    }
+    
+    if (isDirectory) {
+        return sourcePath;
+    }
+    
+    if (![[[sourcePath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: ImageMountErrorFileIsNotISO
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"This file does not have an .iso extension."}
+            ];
+        }
+        return NULL;
+    }
+    
+    HDIUtil *hdiutil = [[HDIUtil alloc] initWithImagePath:sourcePath];
+    NSError *hdiutilError = NULL;
+    if([hdiutil attachImageWithArguments:@[@"-readonly", @"-noverify", @"-noautofsck", @"-noautoopen"]
+                                   error: &hdiutilError]) {
+        return [hdiutil getMountPoint];
+    }
+    
+    return NULL;
+}
+
++ (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
+                                                  error: (NSError *_Nullable *_Nullable)error {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    BOOL isDirectory;
+    BOOL exists = [fileManager fileExistsAtPath:devicePath isDirectory:&isDirectory];
+    
+    if (!exists) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain: PACKAGE_NAME
+                                         code: DestinationDeviceErrorBadPath
+                                     userInfo: @{DEFAULT_ERROR_KEY: @"The given Destination path does not exist."}
+            ];
+        }
+        return NULL;
+    }
+    
+    if ([devicePath hasOneOfThePrefixes:@[
+        @"disk", @"/dev/disk",
+        @"rdisk", @"/dev/rdisk"
+    ]]) {
+        /* Received device destination path was defined as BSD Name. */
+        return [[DiskManager alloc] initWithBSDName:devicePath];
+    }
+    else if ([devicePath hasPrefix:@"/Volumes/"]) {
+        /* Received device destination path was defined as Mounted Volume. */
+        if (@available(macOS 10.7, *)) {
+            return [[DiskManager alloc] initWithVolumePath:devicePath];
+        } else {
+            // TODO: Fix Mac OS X 10.6 Snow Leopard support
+            if (error != NULL) {
+                *error = [NSError errorWithDomain: PACKAGE_NAME
+                                             code: DestinationDeviceErrorUnsupportedAPICall
+                                         userInfo: @{DEFAULT_ERROR_KEY: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."}
+                ];
+            }
+            return NULL;
+        }
+    }
+    return NULL;
 }
 
 @end
