@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
+#import "ArgumentsHandler.h"
 #import "CommandLine.h"
 #import "DiskManager.h"
 #import "DiskWriter.h"
@@ -81,26 +82,47 @@ int main(int argc, const char *argv[]) {
 			IOLog(@"An error has occurred while writing the image: [%@]", [writeError userInfo]);
 		}
 		
-		NSArray *availableArguments = @[
-			@"-s", // Source
-			@"-d", // Destination
-			@"-f"  // Filesystem
-		];
-
 		NSArray *applicationArguments = NSProcessInfo.processInfo.arguments;
-		for (int currentIndex = 0; currentIndex < [applicationArguments count]; currentIndex++) {
-			NSString *currentArgument = [applicationArguments objectAtIndex:currentIndex];
-
-			if ([currentArgument isEqualToString:@"-s"]) {
-				
-			} else if ([currentArgument isEqualToString:@"-d"]) {
-				
-			} else if ([currentArgument isEqualToString:@"-f"]) {
-				
-			}
-		}
 		
-		printUsage();
+		ArgumentsHandler *argumentsHandler = [[ArgumentsHandler alloc]
+											  initWithProcessArguments: applicationArguments
+											  argumentObjects: @[[[ArgumentObject alloc] initWithName: @"-s"
+																							 uniqueID: @1
+																						   isRequired: YES
+																							 isPaired: YES],
+																 [[ArgumentObject alloc] initWithName: @"-d"
+																							 uniqueID: @2
+																						   isRequired: YES
+																							 isPaired: YES
+																 ],
+																 [[ArgumentObject alloc] initWithName: @"-f"
+																							 uniqueID: @2
+																						   isRequired: NO
+																							 isPaired: YES
+																 ],
+																 [[ArgumentObject alloc] initWithName: @"--noerase"
+																							 uniqueID: @2
+																						   isRequired: NO
+																							 isPaired: NO
+																 ]
+															   ]
+		];
+		
+		NSError *argumentsHandlerError = NULL;
+		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithCallback:
+									   ^BOOL(ArgumentObject * _Nonnull argumentObject, BOOL success, NSString * _Nullable pair) {
+			IOLog(@"[Tag: %@] [Success: %@] [Pair: %@]",
+				  argumentObject.name,
+				  (success ? @"Yes" : @"No"),
+				  (pair != NULL ? pair : @"")
+			);
+			return NO;
+		}
+																				   error: &argumentsHandlerError];
+		IOLog(@"Handler result: %@",
+			  (argumentsHandlerResult ? @"Success" : @"Failure"));
+		
+		// printUsage();
 	}
 	return 0;
 }
