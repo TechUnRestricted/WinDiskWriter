@@ -76,12 +76,12 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-f"
-            isEnabled = "NO">
+            argument = "-p"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;Var&quot;"
-            isEnabled = "NO">
+            argument = "GPT"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

@@ -16,7 +16,8 @@ enum AHErrorCode {
     AHErrorCodeObjectCastingFailure,
     AHErrorCodeObjectNamesCheckingFailure,
     AHErrorCodeDuplicateArgumentKeys,
-    AHErrorCodeCantFindPairValue
+    AHErrorCodeCantFindPairValue,
+    AHErrorCodeMissingRequiredArgument
 };
 
 @interface ArgumentsHandler : NSObject
