@@ -22,6 +22,7 @@ enum AvailableArguments {
 	ArgumentSourceDirectory,
 	ArgumentDestinationDevice,
 	ArgumentFilesystem,
+	ArgumentPartitionScheme,
 	ArgumentDoNotErase,
 };
 
@@ -110,6 +111,11 @@ int main(int argc, const char *argv[]) {
 																						   isRequired: NO
 																							 isPaired: YES
 																 ],
+																 [[ArgumentObject alloc] initWithName: @"-p"
+																							 uniqueID: ArgumentPartitionScheme
+																						   isRequired: NO
+																							 isPaired: YES
+																 ],
 																 [[ArgumentObject alloc] initWithName: @"--noerase"
 																							 uniqueID: ArgumentDoNotErase
 																						   isRequired: NO
@@ -119,8 +125,10 @@ int main(int argc, const char *argv[]) {
 		];
 		
 		__block NSString *imageSource = NULL;
-		__block NSString *destinationDevice = NULL;
-		__block Filesystem filesystem = NULL;
+		__block NSString *destinationPath = NULL;
+		__block DiskManager *destinationDM = NULL;
+		__block Filesystem filesystem = FilesystemFAT32;
+		__block PartitionScheme partitionScheme = PartitionSchemeMBR;
 		__block BOOL doNotErase = NO;
 		
 		NSError *argumentsHandlerError = NULL;
@@ -145,15 +153,9 @@ int main(int argc, const char *argv[]) {
 						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", [[error userInfo] objectForKey:DEFAULT_ERROR_KEY]);
 						exit(EXIT_FAILURE);
 					}
-					
-					NSString *bsdName = [diskManager getDiskInfo].BSDName;
-					if (bsdName == NULL) {
-						IOLog(@"[ERROR (Can't get Destination Device BSD Name)].");
-						exit(EXIT_FAILURE);
-					}
-					
-					destinationDevice = bsdName;
-					
+
+					destinationPath = pair;
+					destinationDM = diskManager;
 					break;
 				}
 				case ArgumentFilesystem: {
@@ -165,6 +167,20 @@ int main(int argc, const char *argv[]) {
 						filesystem = FilesystemExFAT;
 					} else {
 						IOLog(@"[ERROR (Passed an unrecognized filesystem personality)]: '%@'", pair);
+						exit(EXIT_FAILURE);
+					}
+					
+					break;
+				}
+				case ArgumentPartitionScheme: {
+					NSString *uppercasePair = [pair uppercaseString];
+					
+					if ([uppercasePair isEqualToString:@"MBR"]) {
+						partitionScheme = PartitionSchemeMBR;
+					} else if ([uppercasePair isEqualToString:@"GPT"]) {
+						partitionScheme = PartitionSchemeGPT;
+					} else {
+						IOLog(@"[ERROR (Passed an unrecognized partition scheme)]: '%@'", pair);
 						exit(EXIT_FAILURE);
 					}
 					
@@ -188,11 +204,32 @@ int main(int argc, const char *argv[]) {
 			  (argumentsHandlerResult ? @"Success" : @"Failure"));
 		
 		if (argumentsHandlerError != NULL) {
-			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:@"Reason"]);
+			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
 		}
 	
+		struct DiskInfo destinationDiskInfo = [destinationDM getDiskInfo];
+		if (!doNotErase) {
+			NSString *newPartitionName = [HelperFunctions randomStringWithLength:11];
+			NSError *eraseError = NULL;
+			
+			BOOL eraseWasSuccessful = NO;
+			if (destinationDiskInfo.isWholeDrive) {
+				eraseWasSuccessful = [destinationDM diskUtilEraseDiskWithPartitionScheme:partitionScheme
+														 filesystem:filesystem
+															newName:newPartitionName
+															  error:&eraseError];
+			} else {
+				eraseWasSuccessful = [destinationDM diskUtilEraseVolumeWithFilesystem:filesystem
+														 newName:newPartitionName
+																				error:&eraseError];
+			}
+			
+			IOLog(@"Erasing was: %@", (eraseWasSuccessful ? @"+" : @"-"));
+			
+		}
 		
-		// printUsage();
+		
+		
 	}
 	return EXIT_SUCCESS;
 }

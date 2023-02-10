@@ -91,6 +91,21 @@
         }
     }
     
+    for (ArgumentObject *currentObject in _argumentObjects) {
+        if (!currentObject.isRequired) { continue; }
+        
+        if (![processedArgs containsObject:currentObject.name]) {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain: PACKAGE_NAME
+                                             code: AHErrorCodeMissingRequiredArgument
+                                         userInfo: @{DEFAULT_ERROR_KEY:
+                                                         [NSString stringWithFormat: @"The required Argument '%@' is missing.", currentObject.name]}
+                ];
+            }
+            return NO;
+        }
+    }
+    
     return YES;
     
     /* Checking for the possibility of safe type casting [] */
