@@ -13,6 +13,7 @@
 #import "Constants.h"
 #import "HelperFunctions.h"
 #import "Filesystems/Filesystems.h"
+#import "NSString+Common.h"
 
 @implementation DiskManager {
     DASessionRef diskSession;
@@ -184,6 +185,13 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         }
         return NO;
     }
+}
+
++ (BOOL) isBSDPath: (NSString *)path {
+    return [path hasOneOfThePrefixes:@[
+        @"disk", @"/dev/disk",
+        @"rdisk", @"/dev/rdisk"
+    ]];
 }
 
 - (struct DiskInfo) getDiskInfo {

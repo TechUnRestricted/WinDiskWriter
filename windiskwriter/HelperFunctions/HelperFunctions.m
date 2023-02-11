@@ -73,29 +73,35 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 }
 
 + (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
-                                                  error: (NSError *_Nullable *_Nullable)error {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    BOOL isDirectory;
-    BOOL exists = [fileManager fileExistsAtPath:devicePath isDirectory:&isDirectory];
+                                           isBSDDevice: (BOOL *_Nullable)isBSDDevice
+                                                 error: (NSError *_Nullable *_Nullable)error {
     
-    if (!exists) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DestinationDeviceErrorBadPath
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"The given Destination path does not exist."}
-            ];
+    if ([DiskManager isBSDPath:devicePath]) {
+        if (isBSDDevice != NULL) {
+            *isBSDDevice = YES;
         }
-        return NULL;
-    }
-    
-    if ([devicePath hasOneOfThePrefixes:@[
-        @"disk", @"/dev/disk",
-        @"rdisk", @"/dev/rdisk"
-    ]]) {
         /* Received device destination path was defined as BSD Name. */
         return [[DiskManager alloc] initWithBSDName:devicePath];
     }
     else if ([devicePath hasPrefix:@"/Volumes/"]) {
+        if (isBSDDevice != NULL) {
+            *isBSDDevice = NO;
+        }
+        
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        BOOL isDirectory;
+        BOOL exists = [fileManager fileExistsAtPath:devicePath isDirectory:&isDirectory];
+        
+        if (!exists) {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain: PACKAGE_NAME
+                                             code: DestinationDeviceErrorBadPath
+                                         userInfo: @{DEFAULT_ERROR_KEY: @"The given Destination path does not exist."}
+                ];
+            }
+            return NULL;
+        }
+        
         /* Received device destination path was defined as Mounted Volume. */
         if (@available(macOS 10.7, *)) {
             return [[DiskManager alloc] initWithVolumePath:devicePath];

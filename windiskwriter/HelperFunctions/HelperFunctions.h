@@ -31,6 +31,7 @@ enum DestinationDeviceError {
 + (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
                                            error: (NSError *_Nullable *_Nullable)error;
 + (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
+                                           isBSDDevice: (BOOL *_Nullable)isBSDDevice
                                                  error: (NSError *_Nullable *_Nullable)error;
 @end
 

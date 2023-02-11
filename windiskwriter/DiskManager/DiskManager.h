@@ -91,6 +91,7 @@ struct DiskInfo {
                                      newName: (NSString * _Nullable)newName
                                        error: (NSError *_Nullable *_Nullable)error;
 
++ (BOOL) isBSDPath: (NSString *)path;
 - (struct DiskInfo) getDiskInfo;
 @end
 
