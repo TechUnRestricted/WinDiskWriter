@@ -64,7 +64,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;/Volumes/D0R1K/&quot;"
+            argument = "disk7"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

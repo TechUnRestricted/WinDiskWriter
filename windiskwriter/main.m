@@ -28,72 +28,16 @@ enum AvailableArguments {
 
 int main(int argc, const char *argv[]) {
 	@autoreleasepool {
-		/*
-		NSError *writeError = NULL;
-		BOOL result = [DiskWriter writeWindows11ISOWithSourcePath: @"/Volumes/CCCOMA_X64FRE_RU-RU_DV9"
-												  destinationPath: @"/Volumes/D0R1K"
-							   bypassTPMAndSecureBootRequirements: NO
-														 bootMode: BootModeLegacy
-														  isFAT32: YES
-															error: &writeError
-											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {
-			switch (message) {
-				case DWMessageGetFileAttributesProcess:
-					IOLog(@"Getting file Attributes: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageGetFileAttributesSuccess:
-					IOLog(@"Got file Attributes: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageGetFileAttributesFailure:
-					IOLog(@"Can't get file Attributes: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageCreateDirectoryProcess:
-					IOLog(@"Creating Directory: [%@]", fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageCreateDirectorySuccess:
-					IOLog(@"Directory successfully created: [%@]", fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageCreateDirectoryFailure:
-					IOLog(@"Can't create Directory: [%@]", fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageSplitWindowsImageProcess:
-					IOLog(@"Splitting Windows Image: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageSplitWindowsImageSuccess:
-					IOLog(@"Windows Image successfully splitted: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageSplitWindowsImageFailure:
-					IOLog(@"Can't split Windows Image: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageWriteFileProcess:
-					IOLog(@"Writing File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageWriteFileSuccess:
-					IOLog(@"File was successfully written: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageWriteFileFailure:
-					IOLog(@"Can't write File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageFileIsTooLarge:
-					IOLog(@"File is too large: [%@]", fileWriteInfo.sourceFilePath);
-					break;
-				case DWMessageUnsupportedOperation:
-					IOLog(@"Unsupported operation with this type of File: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
-					break;
-				case DWMessageEntityAlreadyExists:
-					IOLog(@"File already exists: [%@]", fileWriteInfo.destinationFilePath);
-					break;
-			}
-			
-			return YES;
-		}];
-		
-		if (writeError != NULL) {
-			IOLog(@"An error has occurred while writing the image: [%@]", [writeError userInfo]);
-		}
-		*/
-		
 		NSArray *applicationArguments = NSProcessInfo.processInfo.arguments;
+		
+		if ([applicationArguments count] <= 1) {
+			printUsage();
+			exit(EXIT_FAILURE);
+		}
+		
+		/*
+		 * Initializing the list of arguments that are available for processing by the program
+		 */
 		
 		ArgumentsHandler *argumentsHandler = [[ArgumentsHandler alloc]
 											  initWithProcessArguments: applicationArguments
@@ -130,6 +74,7 @@ int main(int argc, const char *argv[]) {
 		__block Filesystem filesystem = FilesystemFAT32;
 		__block PartitionScheme partitionScheme = PartitionSchemeMBR;
 		__block BOOL doNotErase = NO;
+		__block BOOL isBSDDevice = NO;
 		
 		NSError *argumentsHandlerError = NULL;
 		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithErrorHandler: &argumentsHandlerError
@@ -147,13 +92,15 @@ int main(int argc, const char *argv[]) {
 				}
 				case ArgumentDestinationDevice: {
 					NSError *error = NULL;
-					DiskManager *diskManager = [HelperFunctions getDiskManagerWithDevicePath:pair error:&error];
+					DiskManager *diskManager = [HelperFunctions getDiskManagerWithDevicePath: pair
+																				 isBSDDevice: &isBSDDevice
+																					   error: &error];
 					
 					if (error != NULL) {
 						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", [[error userInfo] objectForKey:DEFAULT_ERROR_KEY]);
 						exit(EXIT_FAILURE);
 					}
-
+					
 					destinationPath = pair;
 					destinationDM = diskManager;
 					break;
@@ -197,7 +144,7 @@ int main(int argc, const char *argv[]) {
 				  argumentObject.name,
 				  (pair != NULL ? pair : @"")
 				  );
-
+			
 		}];
 		
 		IOLog(@"Handler result: %@",
@@ -206,29 +153,109 @@ int main(int argc, const char *argv[]) {
 		if (argumentsHandlerError != NULL) {
 			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
 		}
-	
+		
+		/* Prepairing to write an Image to the Destination Device */
+		
+		/* Erasing the Disk if required */
 		struct DiskInfo destinationDiskInfo = [destinationDM getDiskInfo];
+		NSString *targetPartitionPath = destinationPath;
+		
 		if (!doNotErase) {
 			NSString *newPartitionName = [HelperFunctions randomStringWithLength:11];
+			targetPartitionPath = [@"/Volumes/" stringByAppendingPathComponent: newPartitionName];
+			
 			NSError *eraseError = NULL;
 			
 			BOOL eraseWasSuccessful = NO;
 			if (destinationDiskInfo.isWholeDrive) {
 				eraseWasSuccessful = [destinationDM diskUtilEraseDiskWithPartitionScheme:partitionScheme
-														 filesystem:filesystem
-															newName:newPartitionName
-															  error:&eraseError];
+																			  filesystem:filesystem
+																				 newName:newPartitionName
+																				   error:&eraseError];
 			} else {
 				eraseWasSuccessful = [destinationDM diskUtilEraseVolumeWithFilesystem:filesystem
-														 newName:newPartitionName
+																			  newName:newPartitionName
 																				error:&eraseError];
 			}
 			
-			IOLog(@"Erasing was: %@", (eraseWasSuccessful ? @"+" : @"-"));
-			
+			IOLog(@"Erase Status: %@", (eraseWasSuccessful ? @"Success" : @"Failure"));
+			if (eraseError != NULL) {
+				IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+				exit(EXIT_FAILURE);
+			}
+		} else {
+			if (isBSDDevice) {
+				IOLog(@"You cannot use '--noerase' argument with BSD Disk Path specified.");
+				exit(EXIT_FAILURE);
+			}
 		}
 		
 		
+		NSError *writeError = NULL;
+		BOOL writeResult = [DiskWriter writeWindows11ISOWithSourcePath: imageSource
+												  destinationPath: targetPartitionPath
+							   bypassTPMAndSecureBootRequirements: NO
+														 bootMode: BootModeUEFI
+														  isFAT32: [filesystem isEqualToString:@"FAT32"]
+															error: &writeError
+											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {
+			switch (message) {
+				case DWMessageGetFileAttributesProcess:
+					IOLog(@"[Getting file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageGetFileAttributesSuccess:
+					IOLog(@"[Got file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageGetFileAttributesFailure:
+					IOLog(@"[Can't get file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageCreateDirectoryProcess:
+					IOLog(@"[Creating Directory]: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageCreateDirectorySuccess:
+					IOLog(@"[Directory successfully created]: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageCreateDirectoryFailure:
+					IOLog(@"[Can't create Directory]: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageSplitWindowsImageProcess:
+					IOLog(@"[Splitting Windows Image]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageSplitWindowsImageSuccess:
+					IOLog(@"[Windows Image successfully splitted]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageSplitWindowsImageFailure:
+					IOLog(@"[Can't split Windows Image]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageWriteFileProcess:
+					IOLog(@"[Writing File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageWriteFileSuccess:
+					IOLog(@"[File was successfully written]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageWriteFileFailure:
+					IOLog(@"[Can't write File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageFileIsTooLarge:
+					IOLog(@"[File is too large]: [%@]", fileWriteInfo.sourceFilePath);
+					break;
+				case DWMessageUnsupportedOperation:
+					IOLog(@"[Unsupported operation with this type of File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					break;
+				case DWMessageEntityAlreadyExists:
+					IOLog(@"[File already exists]: [%@]", fileWriteInfo.destinationFilePath);
+					break;
+			}
+			
+			return YES;
+		}];
+		
+		IOLog(@"Writing was %@", (writeResult ? @"Successful" : @"Failed"));
+		
+		if (writeError != NULL) {
+			IOLog(@"[ERROR: (Writing Image)]: %@", [[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+			exit(EXIT_FAILURE);
+		}
 		
 	}
 	return EXIT_SUCCESS;
