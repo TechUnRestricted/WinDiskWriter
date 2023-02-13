@@ -10,18 +10,17 @@
 #import "NSFileManager+Common.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
+#import "WimlibWrapper.h"
 #import "DiskManager.h"
 #import "Filesystems.h"
 #import "DiskWriter.h"
 #import "BootModes.h"
 #import "constants.h"
 #import "HDIUtil.h"
-#import "wimlib.h"
 
 const uint32_t FAT32_MAX_FILE_SIZE = 4294967295;
 
 @implementation DiskWriter
-
 
 static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                                                    union wimlib_progress_info *info,
@@ -30,21 +29,15 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
     return WIMLIB_PROGRESS_STATUS_CONTINUE;
 }
 
-+ (enum wimlib_error_code)splitWIMWithOriginFilePath: (NSString * _Nonnull)originWIMFilePath
-                              destinationWIMFilePath: (NSString * _Nonnull)destinationWIMFilePath
-                                 maxSliceSizeInBytes: (uint64_t * _Nonnull)maxSliceSizeInBytes{
-    WIMStruct *currentWIM;
++ (BOOL)writeWindowsVistaTo10WithSourcePath: (NSString * _Nonnull)sourcePath
+                            destinationPath: (NSString * _Nonnull)destinationPath
+         bypassTPMAndSecureBootRequirements: (BOOL)bypassTPMAndSecureBootRequirements
+                                   bootMode: (BootMode _Nonnull)bootMode
+                                    isFAT32: (BOOL)isFAT32 // TODO: Come up with a more elegant solution
+                                      error: (NSError *_Nullable *_Nullable)error
+                         progressController: (FileWriteResult _Nullable)progressController {
     
-    enum wimlib_error_code wimOpenReturn = wimlib_open_wim([originWIMFilePath UTF8String], 0, &currentWIM);
-    wimlib_register_progress_function(currentWIM, extractProgress, NULL);
     
-    NSString *destinationFileName = [[[originWIMFilePath lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"swm"];
-    
-    enum wimlib_error_code splitResultReturn = wimlib_split(currentWIM, [[destinationWIMFilePath stringByAppendingPathComponent:destinationFileName] UTF8String], maxSliceSizeInBytes, NULL);
-    
-    wimlib_free(currentWIM);
-    
-    return splitResultReturn;
 }
 
 + (BOOL)writeWindows11ISOWithSourcePath: (NSString * _Nonnull)sourcePath
@@ -53,8 +46,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                                bootMode: (BootMode _Nonnull)bootMode
                                 isFAT32: (BOOL)isFAT32 // TODO: Come up with a more elegant solution
                                   error: (NSError *_Nullable *_Nullable)error
-                     progressController: (FileWriteResult _Nullable)progressController
-{
+                     progressController: (FileWriteResult _Nullable)progressController {
     
     if (bootMode == BootModeLegacy) {
         if (error != NULL) {
@@ -115,12 +107,10 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         fileWriteInfo.entitiesRemain = sourceFilesCount - ++filesCopied;
         
         /*
-         *************************************************************
-         * We determine whether the current entity is a folder.      *
-         * If it is a folder, then create it on the destination disk *
-         * (Necessary in order to copy each file individually, not   *
-         * the entire directory at once)                             *
-         *************************************************************
+         * We determine whether the current entity is a folder.
+         * If it is a folder, then create it on the destination disk
+         * (Necessary in order to copy each file individually, not
+         * the entire directory at once)
          */
         
         BOOL isDirectory;
@@ -149,10 +139,8 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         }
         
         /*
-         *****************************************************
-         * We get a list of attributes for the current file. *
-         * It is necessary to determine its size.            *
-         *****************************************************
+         * We get a list of attributes for the current file.
+         * It is necessary to determine its size.
          */
         
         NSError *getFileAttributesError;
@@ -171,11 +159,9 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         }
         
         /*
-         ******************************************************************
-         * If the file system of the destination device is FAT32,         *
-         * we need to check the possibilities of circumventing the limits *
-         * of the maximum file size [>4GB] (if possible).                 *
-         ******************************************************************
+         * If the file system of the destination device is FAT32,
+         * we need to check the possibilities of circumventing the limits
+         * of the maximum file size [>4GB] (if possible).
          */
         
         if (isFAT32 && [currentFileAttributes fileSize] > FAT32_MAX_FILE_SIZE) {
@@ -188,10 +174,11 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
                     return NO;
                 }
                 
-                enum wimlib_error_code wimSplitResult = [DiskWriter splitWIMWithOriginFilePath: fileWriteInfo.sourceFilePath
-                                                                        destinationWIMFilePath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
-                                                                           maxSliceSizeInBytes: 1500000000
-                ];
+                WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: fileWriteInfo.sourceFilePath];
+                enum wimlib_error_code wimSplitResult = [wimlibWrapper splitWithDestinationDirectoryPath: [fileWriteInfo.destinationFilePath stringByDeletingLastPathComponent]
+                                                                                     maxSliceSizeInBytes: FAT32_MAX_FILE_SIZE / 2
+                                                                                         progressHandler: NULL
+                                                                                                 context: NULL];
                 
                 if (!progressController(fileWriteInfo, (wimSplitResult == WIMLIB_ERR_SUCCESS ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure))) {
                     return NO;
@@ -211,9 +198,7 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
         }
         
         /*
-         *****************************************
-         * Writing Files to the destination path *
-         *****************************************
+         * Writing Files to the destination path
          */
         
         if (!progressController(fileWriteInfo, DWMessageWriteFileProcess)) {
@@ -236,6 +221,26 @@ static enum wimlib_progress_status extractProgress(enum wimlib_progress_msg msg,
             }
         }
     }
+    
+    /*
+     * Checking if '$image/efi/boot' does not exist.
+     * This usually means that the image is Windows 7
+     * In such a situation, we need to do the following:
+     * 1) Copy '$image/efi/microsoft/boot/' → '$image/efi/boot/'
+     * 2) Extract '$image/sources/install.wim/1/Windows/Boot/EFI/bootmgfw.efi' → '$image/efi/boot/bootx64.efi'
+     */
+   
+    /*
+    BOOL bootIsFolder = NO;
+    BOOL bootEntityExists = [localFileManager fileExistsAtPath: [sourcePath stringByAppendingPathComponent:@"/image/efi/boot"]
+                                                   isDirectory: &bootIsFolder];
+    
+    if (bootEntityExists && bootIsFolder) {
+        IOLog(@"Is Windows 7 Image");
+    } else {
+        IOLog(@"Not Windows 7 Image")
+    }*/
+    
     return YES;
 }
 
