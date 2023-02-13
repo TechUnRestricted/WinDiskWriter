@@ -168,7 +168,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E5D80EA9-37CF-44FD-91B0-B09F6D1F6175"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "windiskwriter/DiskManager/DiskManager.m"
@@ -183,70 +183,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B9FED188-BC00-4E8C-85B4-4BB7A62D1634"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "windiskwriter/DiskWriter/DiskWriter.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "+writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "windiskwriter/DiskWriter/DiskWriter.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
-            landmarkName = "+writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7 - f1dcfa2cc23cd16a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "+[DiskWriter writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:]"
-                  moduleName = "windiskwriter"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/DiskWriter/DiskWriter.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "2484">
-               </Location>
-               <Location
-                  uuid = "0B8CC7C4-4543-40F2-AABC-A9C30F1F90F7 - f1dcfa2cc23cd16a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "+[DiskWriter writeWindows11ISOWithSourcePath:destinationPath:bypassTPMAndSecureBootRequirements:bootMode:isFAT32:error:progressController:]"
-                  moduleName = "windiskwriter"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macintosh/windiskwriter/windiskwriter/DiskWriter/DiskWriter.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "2508">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "20A96AD6-1B44-4533-87A2-23AC5E8A086E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -254,8 +190,8 @@
             filePath = "windiskwriter/main.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -286,8 +222,8 @@
             filePath = "windiskwriter/main.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -302,8 +238,8 @@
             filePath = "windiskwriter/main.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -350,8 +286,104 @@
             filePath = "windiskwriter/main.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "56D1D3BA-4D3D-4EF2-B7AC-34DA4FAF4A4E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "windiskwriter/main.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "807BF27F-BA6D-4B6F-A40B-F89A6E4E0A04"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "libs/wimlib/src/extract.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1784"
+            endingLineNumber = "1784"
+            landmarkName = "do_wimlib_extract_paths(wim, image, target, paths, num_paths, extract_flags)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0086A7A1-7A24-414B-8722-136E6C5DB872"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "libs/wimlib/src/extract.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1780"
+            endingLineNumber = "1780"
+            landmarkName = "do_wimlib_extract_paths(wim, image, target, paths, num_paths, extract_flags)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EBA38820-8D8B-42B9-8CE4-590389C76E82"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "libs/wimlib/src/extract.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1954"
+            endingLineNumber = "1954"
+            landmarkName = "wimlib_extract_paths(wim, image, target, paths, num_paths, extract_flags)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31DC7AD2-613E-4A25-8A77-10EA3472197C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "windiskwriter/main.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "extractProgress(msg, info, progctx)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "14FBB785-4A2B-4B52-98CE-0117F3DD60F7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "windiskwriter/main.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>

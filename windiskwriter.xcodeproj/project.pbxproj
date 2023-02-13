@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
+		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -116,6 +118,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E20ABA6A299986BA007A651F /* WimlibWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WimlibWrapper.h; sourceTree = "<group>"; };
+		E20ABA6B299986BA007A651F /* WimlibWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WimlibWrapper.m; sourceTree = "<group>"; };
+		E20ABA6E29999278007A651F /* CChar2DArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CChar2DArray.h; sourceTree = "<group>"; };
+		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A602986FA1D000B24A1 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -302,6 +308,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E20ABA6929998685007A651F /* WimlibWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				E20ABA6A299986BA007A651F /* WimlibWrapper.h */,
+				E20ABA6B299986BA007A651F /* WimlibWrapper.m */,
+			);
+			path = WimlibWrapper;
+			sourceTree = "<group>";
+		};
+		E20ABA6D299991E0007A651F /* CChar2DArray */ = {
+			isa = PBXGroup;
+			children = (
+				E20ABA6E29999278007A651F /* CChar2DArray.h */,
+				E20ABA6F29999278007A651F /* CChar2DArray.m */,
+			);
+			path = CChar2DArray;
+			sourceTree = "<group>";
+		};
 		E22478072985E0A7000B24A1 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +841,8 @@
 		E25946052982A77F000C60A4 /* windiskwriter */ = {
 			isa = PBXGroup;
 			children = (
+				E20ABA6D299991E0007A651F /* CChar2DArray */,
+				E20ABA6929998685007A651F /* WimlibWrapper */,
 				E2CCB2882983E5D9004EE171 /* Extensions */,
 				E2CCB29229854D91004EE171 /* DiskWriter */,
 				E2CCB29329854D9B004EE171 /* DiskManager */,
@@ -1030,6 +1056,7 @@
 				E2247B4B2986FA1E000B24A1 /* sha1.c in Sources */,
 				E2247B3B2986FA1E000B24A1 /* lcpit_matchfinder.c in Sources */,
 				E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */,
+				E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */,
 				E2247B592986FA1E000B24A1 /* header.c in Sources */,
 				E2247B222986FA1D000B24A1 /* compress.c in Sources */,
 				E2247B432986FA1E000B24A1 /* textfile.c in Sources */,
@@ -1063,6 +1090,7 @@
 				E2247B582986FA1E000B24A1 /* delete_image.c in Sources */,
 				E2247B2D2986FA1D000B24A1 /* integrity.c in Sources */,
 				E2247B382986FA1E000B24A1 /* scan.c in Sources */,
+				E20ABA7029999278007A651F /* CChar2DArray.m in Sources */,
 				E2247B292986FA1D000B24A1 /* reference.c in Sources */,
 				E2247B522986FA1E000B24A1 /* resource.c in Sources */,
 				E2247B2A2986FA1D000B24A1 /* x86_cpu_features.c in Sources */,
@@ -1226,6 +1254,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1240,6 +1269,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
