@@ -12,9 +12,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WimlibWrapper : NSObject
+@property (strong, readonly, nonatomic) NSString *_Nonnull wimPath;
+
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithWimPath: (NSString *)wimPath;
-- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationPath
+- (instancetype _Nullable)initWithWimPath: (NSString *)wimPath;
+- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
                                         maxSliceSizeInBytes: (uint64_t * _Nonnull)maxSliceSizeInBytes
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler
                                                     context: (void *_Nullable)context;

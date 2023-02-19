@@ -14,7 +14,7 @@
     WIMStruct *currentWIM;
 }
 
-- (instancetype)initWithWimPath: (NSString *)wimPath {
+- (instancetype _Nullable)initWithWimPath: (NSString *)wimPath {
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     BOOL isDirectory = NO;
     BOOL exists = [defaultManager fileExistsAtPath:wimPath isDirectory:&isDirectory];
@@ -27,6 +27,9 @@
     if (wimOpenStatus != WIMLIB_ERR_SUCCESS) {
         return NULL;
     }
+    
+    _wimPath = wimPath;
+    return self;
 }
 
 - (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
@@ -38,7 +41,7 @@
         wimlib_register_progress_function(currentWIM, progressHandler, context);
     }
     
-    NSString *destinationFileName = [[[destinationDirectoryPath lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"swm"];
+    NSString *destinationFileName = [[[_wimPath lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"swm"];
     
     return wimlib_split(currentWIM,
                         [[destinationDirectoryPath stringByAppendingPathComponent:destinationFileName] UTF8String],

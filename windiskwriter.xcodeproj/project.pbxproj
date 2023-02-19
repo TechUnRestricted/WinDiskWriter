@@ -79,6 +79,7 @@
 		E2247B5C2986FA1E000B24A1 /* iterate_dir.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B142986FA1D000B24A1 /* iterate_dir.c */; };
 		E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B152986FA1D000B24A1 /* unix_apply.c */; };
 		E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B162986FA1D000B24A1 /* xpress_compress.c */; };
+		E22B444229A1670B00846C1D /* DWFileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFileInfo.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
 		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
 		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
@@ -266,6 +267,8 @@
 		E2247B152986FA1D000B24A1 /* unix_apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unix_apply.c; sourceTree = "<group>"; };
 		E2247B162986FA1D000B24A1 /* xpress_compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xpress_compress.c; sourceTree = "<group>"; };
 		E2247B172986FA1D000B24A1 /* decompressor_ops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decompressor_ops.h; sourceTree = "<group>"; };
+		E22B444029A1670B00846C1D /* DWFileInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFileInfo.h; sourceTree = "<group>"; };
+		E22B444129A1670B00846C1D /* DWFileInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFileInfo.m; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
 		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
 		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
@@ -821,6 +824,15 @@
 			path = blob_table;
 			sourceTree = "<group>";
 		};
+		E22B444329A1698800846C1D /* DWFileInfo */ = {
+			isa = PBXGroup;
+			children = (
+				E22B444129A1670B00846C1D /* DWFileInfo.m */,
+				E22B444029A1670B00846C1D /* DWFileInfo.h */,
+			);
+			path = DWFileInfo;
+			sourceTree = "<group>";
+		};
 		E25945FA2982A77F000C60A4 = {
 			isa = PBXGroup;
 			children = (
@@ -942,6 +954,7 @@
 		E2CCB29229854D91004EE171 /* DiskWriter */ = {
 			isa = PBXGroup;
 			children = (
+				E22B444329A1698800846C1D /* DWFileInfo */,
 				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
 				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
 			);
@@ -1089,6 +1102,7 @@
 				E2247B3D2986FA1E000B24A1 /* divsufsort.c in Sources */,
 				E2247B582986FA1E000B24A1 /* delete_image.c in Sources */,
 				E2247B2D2986FA1D000B24A1 /* integrity.c in Sources */,
+				E22B444229A1670B00846C1D /* DWFileInfo.m in Sources */,
 				E2247B382986FA1E000B24A1 /* scan.c in Sources */,
 				E20ABA7029999278007A651F /* CChar2DArray.m in Sources */,
 				E2247B292986FA1D000B24A1 /* reference.c in Sources */,

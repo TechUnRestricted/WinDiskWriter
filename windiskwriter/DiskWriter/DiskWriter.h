@@ -7,6 +7,7 @@
 //
 
 #import "BootModes.h"
+#import "DWFileInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,6 +38,8 @@ enum DWErrorCode {
     DWErrorCodeSourcePathDoesNotExist,
     DWErrorCodeDestinationPathDoesNotExist,
     DWErrorCodeEnumerateSourceFilesFailure,
+    DWErrorCodeDiskAttributesObtainingFailure,
+    DWErrorCodeSourceIsTooLarge
 };
 
 struct FileWriteInfo {
@@ -45,7 +48,7 @@ struct FileWriteInfo {
     uint64_t entitiesRemain;
 };
 
-typedef BOOL (^FileWriteResult)(struct FileWriteInfo fileWriteInfo, enum DWMessage message);
+typedef BOOL (^FileWriteResult)(DWFileInfo *fileInfo, enum DWMessage message);
 
 @interface DiskWriter: NSObject
 
