@@ -198,52 +198,52 @@ int main(int argc, const char *argv[]) {
 														 bootMode: BootModeUEFI
 														  isFAT32: [filesystem isEqualToString:@"FAT32"]
 															error: &writeError
-											   progressController: ^BOOL(struct FileWriteInfo fileWriteInfo, enum DWMessage message) {
+											   progressController: ^BOOL(DWFileInfo *currentFileInfo, enum DWMessage message) {
 			switch (message) {
 				case DWMessageGetFileAttributesProcess:
-					IOLog(@"[Getting file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Getting file Attributes]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageGetFileAttributesSuccess:
-					IOLog(@"[Got file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Got file Attributes]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageGetFileAttributesFailure:
-					IOLog(@"[Can't get file Attributes]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Can't get file Attributes]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageCreateDirectoryProcess:
-					IOLog(@"[Creating Directory]: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"[Creating Directory]: [%@]", [currentFileInfo destinationPath]);
 					break;
 				case DWMessageCreateDirectorySuccess:
-					IOLog(@"[Directory successfully created]: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"[Directory successfully created]: [%@]", [currentFileInfo destinationPath]);
 					break;
 				case DWMessageCreateDirectoryFailure:
-					IOLog(@"[Can't create Directory]: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"[Can't create Directory]: [%@]", [currentFileInfo destinationPath]);
 					break;
 				case DWMessageSplitWindowsImageProcess:
-					IOLog(@"[Splitting Windows Image]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Splitting Windows Image]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageSplitWindowsImageSuccess:
-					IOLog(@"[Windows Image successfully splitted]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Windows Image successfully splitted]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageSplitWindowsImageFailure:
-					IOLog(@"[Can't split Windows Image]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[Can't split Windows Image]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageWriteFileProcess:
-					IOLog(@"[Writing File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"[Writing File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
 					break;
 				case DWMessageWriteFileSuccess:
-					IOLog(@"[File was successfully written]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"[File was successfully written]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
 					break;
 				case DWMessageWriteFileFailure:
-					IOLog(@"[Can't write File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"[Can't write File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
 					break;
 				case DWMessageFileIsTooLarge:
-					IOLog(@"[File is too large]: [%@]", fileWriteInfo.sourceFilePath);
+					IOLog(@"[File is too large]: [%@]", [currentFileInfo sourcePath]);
 					break;
 				case DWMessageUnsupportedOperation:
-					IOLog(@"[Unsupported operation with this type of File]: [%@ → %@]", fileWriteInfo.sourceFilePath, fileWriteInfo.destinationFilePath);
+					IOLog(@"[Unsupported operation with this type of File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
 					break;
 				case DWMessageEntityAlreadyExists:
-					IOLog(@"[File already exists]: [%@]", fileWriteInfo.destinationFilePath);
+					IOLog(@"[File already exists]: [%@]", [currentFileInfo destinationPath]);
 					break;
 			}
 			
