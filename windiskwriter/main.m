@@ -190,73 +190,38 @@ int main(int argc, const char *argv[]) {
 			}
 		}
 		
-		
-		NSError *writeError = NULL;
-		BOOL writeResult = [DiskWriter writeWindows11ISOWithSourcePath: imageSource
-												  destinationPath: targetPartitionPath
-							   bypassTPMAndSecureBootRequirements: NO
-														 bootMode: BootModeUEFI
-														  isFAT32: [filesystem isEqualToString:@"FAT32"]
-															error: &writeError
-											   progressController: ^BOOL(DWFileInfo *currentFileInfo, enum DWMessage message) {
-			switch (message) {
-				case DWMessageGetFileAttributesProcess:
-					IOLog(@"[Getting file Attributes]: [%@]", [currentFileInfo sourcePath]);
+		DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: imageSource
+																			   callback:^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
+			
+			switch(message) {
+				case DWFilesContainerMessageGetAttributesProcess:
+					IOLog(@"[Getting file Attributes]: [%@]", [fileInfo sourcePath]);
 					break;
-				case DWMessageGetFileAttributesSuccess:
-					IOLog(@"[Got file Attributes]: [%@]", [currentFileInfo sourcePath]);
+				case DWFilesContainerMessageGetAttributesSuccess:
+					IOLog(@"[Got file Attributes]: [%@]", [fileInfo sourcePath]);
 					break;
-				case DWMessageGetFileAttributesFailure:
-					IOLog(@"[Can't get file Attributes]: [%@]", [currentFileInfo sourcePath]);
-					break;
-				case DWMessageCreateDirectoryProcess:
-					IOLog(@"[Creating Directory]: [%@]", [currentFileInfo destinationPath]);
-					break;
-				case DWMessageCreateDirectorySuccess:
-					IOLog(@"[Directory successfully created]: [%@]", [currentFileInfo destinationPath]);
-					break;
-				case DWMessageCreateDirectoryFailure:
-					IOLog(@"[Can't create Directory]: [%@]", [currentFileInfo destinationPath]);
-					break;
-				case DWMessageSplitWindowsImageProcess:
-					IOLog(@"[Splitting Windows Image]: [%@]", [currentFileInfo sourcePath]);
-					break;
-				case DWMessageSplitWindowsImageSuccess:
-					IOLog(@"[Windows Image successfully splitted]: [%@]", [currentFileInfo sourcePath]);
-					break;
-				case DWMessageSplitWindowsImageFailure:
-					IOLog(@"[Can't split Windows Image]: [%@]", [currentFileInfo sourcePath]);
-					break;
-				case DWMessageWriteFileProcess:
-					IOLog(@"[Writing File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
-					break;
-				case DWMessageWriteFileSuccess:
-					IOLog(@"[File was successfully written]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
-					break;
-				case DWMessageWriteFileFailure:
-					IOLog(@"[Can't write File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
-					break;
-				case DWMessageFileIsTooLarge:
-					IOLog(@"[File is too large]: [%@]", [currentFileInfo sourcePath]);
-					break;
-				case DWMessageUnsupportedOperation:
-					IOLog(@"[Unsupported operation with this type of File]: [%@ → %@]", [currentFileInfo sourcePath], [currentFileInfo destinationPath]);
-					break;
-				case DWMessageEntityAlreadyExists:
-					IOLog(@"[File already exists]: [%@]", [currentFileInfo destinationPath]);
+				case DWFilesContainerMessageGetAttributesFailure:
+					IOLog(@"[Can't get file Attributes]: [%@]", [fileInfo sourcePath]);
 					break;
 			}
 			
-			return YES;
+			return DWActionContinue;
 		}];
 		
-		IOLog(@"Writing was %@", (writeResult ? @"Successful" : @"Failed"));
+		DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
+															  destinationPath: destinationPath
+																	 bootMode: BootModeUEFI
+														destinationFilesystem: FilesystemFAT32];
 		
-		if (writeError != NULL) {
-			IOLog(@"[ERROR: (Writing Image)]: %@", [[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
-			exit(EXIT_FAILURE);
-		}
-		
+		NSError *writeError = NULL;
+		[diskWriter writeWindows_8_10_ISOWithError: &writeError
+										  callback:^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
+			switch (message) {
+				
+			}
+			
+			return DWActionContinue;
+		}];
 	}
 	return EXIT_SUCCESS;
 }
