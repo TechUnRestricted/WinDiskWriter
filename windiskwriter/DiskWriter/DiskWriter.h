@@ -6,16 +6,11 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
+#import "DWAction.h"
 #import "BootModes.h"
-#import "DWFileInfo.h"
-
-NS_ASSUME_NONNULL_BEGIN
+#import "DWFilesContainer.h"
 
 enum DWMessage {
-    DWMessageGetFileAttributesProcess,
-    DWMessageGetFileAttributesSuccess,
-    DWMessageGetFileAttributesFailure,
-    
     DWMessageCreateDirectoryProcess,
     DWMessageCreateDirectorySuccess,
     DWMessageCreateDirectoryFailure,
@@ -39,7 +34,8 @@ enum DWErrorCode {
     DWErrorCodeDestinationPathDoesNotExist,
     DWErrorCodeEnumerateSourceFilesFailure,
     DWErrorCodeDiskAttributesObtainingFailure,
-    DWErrorCodeSourceIsTooLarge
+    DWErrorCodeSourceIsTooLarge,
+    DWErrorCodeGetDiskAvailableSpaceFailure
 };
 
 struct FileWriteInfo {
@@ -48,21 +44,22 @@ struct FileWriteInfo {
     uint64_t entitiesRemain;
 };
 
-typedef BOOL (^FileWriteResult)(DWFileInfo *fileInfo, enum DWMessage message);
+typedef enum DWAction (^DWCallback)(DWFile * _Nonnull fileInfo, enum DWMessage message);
 
 @interface DiskWriter: NSObject
 
-- (BOOL)writeWindowsISO;
+@property (strong, nonatomic, readonly) DWFilesContainer *_Nonnull filesContainer;
+@property (strong, nonatomic, readonly) NSString *_Nonnull destinationPath;
+@property (strong, nonatomic, readonly) BootMode _Nonnull bootMode;
+@property (strong, nonatomic, readonly) Filesystem _Nonnull destinationFilesystem;
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (BOOL)writeWindows11ISOWithSourcePath: (NSString * _Nonnull)sourcePath
-                        destinationPath: (NSString * _Nonnull)destinationPath
-     bypassTPMAndSecureBootRequirements: (BOOL)bypassTPMAndSecureBootRequirements
-                               bootMode: (BootMode _Nonnull)bootMode
-                                isFAT32: (BOOL)isFAT32
-                                  error: (NSError **)error
-                     progressController: (FileWriteResult _Nullable)progressTracker;
+- (instancetype _Nonnull )init NS_UNAVAILABLE;
+- (instancetype _Nonnull)initWithDWFilesContainer: (DWFilesContainer * _Nonnull)filesContainer
+                                  destinationPath: (NSString * _Nonnull)destinationPath
+                                         bootMode: (BootMode _Nonnull)bootMode
+                            destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem;
+
+- (BOOL)writeWindows_8_10_ISOWithError: (NSError *_Nonnull *_Nonnull)error
+                              callback: (DWCallback _Nonnull)callback;
 
 @end
-
-NS_ASSUME_NONNULL_END
