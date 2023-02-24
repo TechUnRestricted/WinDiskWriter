@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype _Nullable)initWithWimPath: (NSString *)wimPath;
 - (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
-                                        maxSliceSizeInBytes: (uint64_t * _Nonnull)maxSliceSizeInBytes
+                                        maxSliceSizeInBytes: (UInt64 * _Nonnull)maxSliceSizeInBytes
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler
                                                     context: (void *_Nullable)context;
 - (enum wimlib_error_code)extractFiles: (NSArray *)files

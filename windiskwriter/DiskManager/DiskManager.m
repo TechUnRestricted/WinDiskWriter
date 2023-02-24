@@ -103,7 +103,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     struct DiskInfo diskInfo = [self getDiskInfo];
     if (diskInfo.BSDName == NULL) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeSpecifiedBSDNameDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -123,7 +123,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
         return YES;
     } else {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeEraseDiskFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
@@ -151,7 +151,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     struct DiskInfo diskInfo = [self getDiskInfo];
     if (diskInfo.BSDName == NULL) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeSpecifiedBSDNameDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -173,7 +173,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
         return YES;
     } else {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeEraseDiskFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"An Error has occured while erasing the Disk. [Filesystem: %@; Partition Scheme: %@; New Label: %@; BSD Name: %@]",

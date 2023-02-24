@@ -27,7 +27,7 @@ enum DestinationDeviceError {
 @interface HelperFunctions : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 + (BOOL) hasElevatedRights;
-+ (NSString *)randomStringWithLength: (uint64_t)requiredLength;
++ (NSString *)randomStringWithLength: (UInt64)requiredLength;
 + (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
                                            error: (NSError *_Nullable *_Nullable)error;
 + (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath

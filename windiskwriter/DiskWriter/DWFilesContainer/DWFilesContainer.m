@@ -31,7 +31,6 @@
 
 + (DWFilesContainer *_Nullable)containerFromContainerPath: (NSString *_Nonnull)containerPath
                                                  callback: (DWFilesContainerCallback)callback {
-    
     NSMutableArray<DWFile *> *filesList = [[NSMutableArray alloc] init];
     
     NSFileManager *localFileManager = [NSFileManager defaultManager];
@@ -39,17 +38,11 @@
     
     NSString *currentRelativePath = NULL;
     while ((currentRelativePath = [dirEnum nextObject])) {
-        enum DWAction callbackAction;
         
         DWFile *currentFile = [[DWFile alloc] initWithSourcePath: currentRelativePath];
         
-        callbackAction = callback(currentFile, DWFilesContainerMessageGetAttributesProcess);
-        if (callbackAction == DWActionSkip) {
-            continue;
-        } else if (callbackAction == DWActionStop) {
-            break;
-        }
-        
+        DWCallbackHandler(callback, currentFile, DWFilesContainerMessageGetAttributesProcess);
+
         NSError *fileAttributesError = NULL;
         NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[containerPath
                                                                                                stringByAppendingPathComponent:currentRelativePath]
@@ -57,19 +50,14 @@
         currentFile.size = [fileAttributes fileSize];
         currentFile.fileType = [fileAttributes fileType];
         
-        callbackAction = callback(currentFile,
-                                  (fileAttributesError == NULL ?
-                                   DWFilesContainerMessageGetAttributesSuccess : DWFilesContainerMessageGetAttributesFailure));
-        if (callbackAction == DWActionSkip) {
-            continue;
-        } else if (callbackAction == DWActionStop) {
-            break;
-        }
+        DWCallbackHandler(callback, currentFile, (fileAttributesError == NULL ?
+                                                  DWFilesContainerMessageGetAttributesSuccess : DWFilesContainerMessageGetAttributesFailure));
         
         [filesList addObject:currentFile];
     }
     
-    
+/* Called from DWCallbackHandler macro ; TODO: Find a better solution. */
+quitLoop:
     return [[DWFilesContainer alloc] initWithSWFileInfoArray: filesList
                                                containerPath: containerPath];
 }

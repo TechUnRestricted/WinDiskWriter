@@ -41,7 +41,7 @@
     }
     
     if ([self hasIncompatibleNames]) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: AHErrorCodeObjectNamesCheckingFailure
                                      userInfo: @{DEFAULT_ERROR_KEY: @"Incompatible names detected in ArgumentObjects."}
@@ -57,7 +57,7 @@
         NSString *currentArgString = [_processArguments objectAtIndex:stringIndex];
         
         if ([processedArgs containsObject:currentArgString]) {
-            if (error != NULL) {
+            if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: AHErrorCodeDuplicateArgumentKeys
                                          userInfo: @{DEFAULT_ERROR_KEY: @"Duplicate keys were found in the passed process arguments."}
@@ -78,7 +78,7 @@
                 if (stringIndex + 1 < stringArgsCount) {
                     callback(currentArgObject, [_processArguments objectAtIndex: ++stringIndex]);
                 } else {
-                    if (error != NULL) {
+                    if (error) {
                         *error = [NSError errorWithDomain: PACKAGE_NAME
                                                      code: AHErrorCodeCantFindPairValue
                                                  userInfo: @{DEFAULT_ERROR_KEY:
@@ -95,7 +95,7 @@
         if (!currentObject.isRequired) { continue; }
         
         if (![processedArgs containsObject:currentObject.name]) {
-            if (error != NULL) {
+            if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: AHErrorCodeMissingRequiredArgument
                                          userInfo: @{DEFAULT_ERROR_KEY:
@@ -107,19 +107,6 @@
     }
     
     return YES;
-    
-    /* Checking for the possibility of safe type casting [] */
-    /* for (id currentCollection in argumentObjects) {
-     if (![currentCollection isKindOfClass:[ArgumentObject class]]) {
-     if (error != NULL) {
-     *error = [NSError errorWithDomain: PACKAGE_NAME
-     code: AHErrorCodeCollectionCastingFailure
-     userInfo: @{DEFAULT_ERROR_KEY: @"(NSArray *) contains values that cannot be casted to the type (ArgumentObjects *)."}
-     ];
-     }
-     return NO;
-     }
-     } */
 }
 
 - (instancetype)initWithProcessArguments: (NSArray *_Nonnull)processArguments
