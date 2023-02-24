@@ -22,7 +22,9 @@
         case DWActionSkip:                                 \
             continue;                                      \
         case DWActionStop:                                 \
-            return NO;                                     \
+            return NULL;                                   \
+        case DWActionContinue:                             \
+            break;                                         \
         default:                                           \
             goto quitLoop;                                 \
     }                                                      \

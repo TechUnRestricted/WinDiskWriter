@@ -57,6 +57,24 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         return NO;
     }
     
+    UInt64 sizeOfSourceFiles = [_filesContainer sizeOfFiles];
+    
+    NSError *destinationGetDiskAvailableSpaceError = NULL;
+    UInt64 destinationDiskAvailableSpace = [self destinationDiskFreeSpace];
+    
+    if (destinationDiskAvailableSpace == 0) {
+        *error = [NSError errorWithDomain: PACKAGE_NAME
+                                     code: DWErrorCodeGetDiskAvailableSpaceFailure
+                                 userInfo: @{DEFAULT_ERROR_KEY: @"Can't get Destination Disk available space."}];
+        return NO;
+    }
+    
+    if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
+        *error = [NSError errorWithDomain: PACKAGE_NAME
+                                     code: DWErrorCodeSourceIsTooLarge
+                                 userInfo: @{DEFAULT_ERROR_KEY: @"Source is too large for the Destination Disk."}];
+        return NO;
+    }
 }
 
 - (UInt64)destinationDiskFreeSpace {
@@ -76,19 +94,17 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         NSString *absoluteSourcePath = [_filesContainer.containerPath stringByAppendingPathComponent:currentFile.sourcePath];
         NSString *absoluteDestinationPath = [_destinationPath stringByAppendingPathComponent:currentFile.sourcePath];
         
+        if ([localFileManager fileExistsAtPath:absoluteDestinationPath]) {
+            DWCallbackHandler(callback, currentFile, DWMessageEntityAlreadyExists);
+            continue;
+        }
+        
         /* Current entity type is Directory */
         if (currentFile.fileType == NSFileTypeDirectory) {
-            
-            BOOL isDirectory = NO;
-            if ([localFileManager fileExistsAtPath:absoluteDestinationPath isDirectory:isDirectory] && isDirectory) {
-                DWCallbackHandler(callback, currentFile, DWMessageEntityAlreadyExists);
-                continue;
-            }
-            
             DWCallbackHandler(callback, currentFile, DWMessageCreateDirectoryProcess);
             
             NSError *createDirectoryError = NULL;
-            BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteSourcePath
+            BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteDestinationPath
                                                       withIntermediateDirectories: YES
                                                                        attributes: NULL
                                                                             error: &createDirectoryError];
@@ -101,25 +117,6 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         
         /* Current entity type is File (or something) */
         DWCallbackHandler(callback, currentFile, DWMessageWriteFileProcess);
-        
-        UInt64 sizeOfSourceFiles = [_filesContainer sizeOfFiles];
-        
-        NSError *destinationGetDiskAvailableSpaceError = NULL;
-        UInt64 destinationDiskAvailableSpace = [self destinationDiskFreeSpace];
-        
-        if (destinationDiskAvailableSpace == 0) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DWErrorCodeGetDiskAvailableSpaceFailure
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"Can't get Destination Disk available space."}];
-            return NO;
-        }
-        
-        if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DWErrorCodeSourceIsTooLarge
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"Source is too large for the Destination Disk."}];
-            return NO;
-        }
         
         if (_destinationFilesystem == FilesystemFAT32) {
             NSString *filePathExtension = [[currentFile.sourcePath lowercaseString] pathExtension];
@@ -142,11 +139,13 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
             } else {
                 DWCallbackHandler(callback, currentFile, DWMessageFileIsTooLarge);
             }
+            
+            continue;
         }
         
         DWCallbackHandler(callback, currentFile, DWMessageWriteFileProcess);
         if (![localFileManager fileExistsAtPath: absoluteDestinationPath]) {
-            NSError *copyFileError;
+            NSError *copyFileError = NULL;
             BOOL copyWasSuccessful = [localFileManager copyItemAtPath: absoluteSourcePath
                                                                toPath: absoluteDestinationPath
                                                                 error: &copyFileError
@@ -156,7 +155,8 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
             DWCallbackHandler(callback, currentFile, DWMessageEntityAlreadyExists);
         }
     }
-    
+ 
+/* Called from DWCallbackHandler macro; TODO: Find a better solution. */
 quitLoop:
     return YES;
     

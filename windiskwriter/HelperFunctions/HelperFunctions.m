@@ -20,7 +20,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return getuid() == 0;
 }
 
-+ (NSString *)randomStringWithLength: (uint64_t)requiredLength {
++ (NSString *)randomStringWithLength: (UInt64)requiredLength {
     NSMutableString *generatedString = [NSMutableString stringWithCapacity:requiredLength];
     for (NSUInteger i = 0U; i < requiredLength; i++) {
         u_int32_t r = arc4random() % [MSDOSCompliantSymbols length];
@@ -39,7 +39,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     BOOL exists = [fileManager fileExistsAtPath:sourcePath isDirectory:&isDirectory];
     
     if (!exists) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: ImageMountErrorFileDoesNotExist
                                      userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"File [directory] \"%@\" doesn't exist.", sourcePath]}
@@ -53,7 +53,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     }
     
     if (![[[sourcePath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: ImageMountErrorFileIsNotISO
                                      userInfo: @{DEFAULT_ERROR_KEY: @"This file does not have an .iso extension."}
@@ -93,7 +93,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
         BOOL exists = [fileManager fileExistsAtPath:devicePath isDirectory:&isDirectory];
         
         if (!exists) {
-            if (error != NULL) {
+            if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: DestinationDeviceErrorBadPath
                                          userInfo: @{DEFAULT_ERROR_KEY: @"The given Destination path does not exist."}
@@ -107,7 +107,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
             return [[DiskManager alloc] initWithVolumePath:devicePath];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
-            if (error != NULL) {
+            if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: DestinationDeviceErrorUnsupportedAPICall
                                          userInfo: @{DEFAULT_ERROR_KEY: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."}

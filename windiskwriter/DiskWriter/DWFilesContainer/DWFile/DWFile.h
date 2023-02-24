@@ -14,10 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSString *_Nonnull sourcePath;
 @property (nonatomic, strong, readwrite) NSFileAttributeType fileType;
-@property (nonatomic, readwrite) uint64_t size;
+@property (nonatomic, readwrite) UInt64 size;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithSourcePath: (NSString *_Nonnull)sourcePath;
+- (NSString *)unitFormattedSize;
 
 @end
 

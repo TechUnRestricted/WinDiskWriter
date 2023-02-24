@@ -41,7 +41,7 @@ enum DWErrorCode {
 struct FileWriteInfo {
     NSString * _Nonnull sourceFilePath;
     NSString * _Nonnull destinationFilePath;
-    uint64_t entitiesRemain;
+    UInt64 entitiesRemain;
 };
 
 typedef enum DWAction (^DWCallback)(DWFile * _Nonnull fileInfo, enum DWMessage message);

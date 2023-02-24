@@ -25,7 +25,7 @@
     struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath arguments:localArgumentsArray];
     
     if (commandLineReturn.terminationStatus != EXIT_SUCCESS) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -42,7 +42,7 @@
                            errorDescription: &plistLoadErrorDescription];
     
     if (plist == NULL) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -55,7 +55,7 @@
     
     NSArray *systemEntities = [plist objectForKey:@"system-entities"];
     if (systemEntities == NULL) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -65,7 +65,7 @@
     }
     
     if ([systemEntities count] == 0) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
@@ -75,7 +75,7 @@
     }
     
     if ([systemEntities count] > 1) {
-        if (error != NULL) {
+        if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
