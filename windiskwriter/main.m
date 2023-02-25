@@ -46,7 +46,7 @@ int main(int argc, const char *argv[]) {
 																						   isRequired: YES
 																							 isPaired: YES
 																							 isUnique: YES
-															     ],
+											  ],
 																 [[ArgumentObject alloc] initWithName: @"-d"
 																						   identifier: ArgumentDestinationDevice
 																						   isRequired: YES
@@ -83,9 +83,10 @@ int main(int argc, const char *argv[]) {
 		__block BOOL isBSDDevice = NO;
 		
 		NSError *argumentsHandlerError = NULL;
-		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithErrorHandler: &argumentsHandlerError
-																		 prohibitUnknownKeys: YES
-																					callback: ^void(ArgumentObject * _Nonnull argumentObject, NSString * _Nullable pair) {
+		/* BOOL argumentsHandlerResult = */
+		[argumentsHandler loopThroughArgumentsWithErrorHandler: &argumentsHandlerError
+										   prohibitUnknownKeys: YES
+													  callback: ^void(ArgumentObject * _Nonnull argumentObject, NSString * _Nullable pair) {
 			switch (argumentObject.identifier) {
 				case ArgumentSourceDirectory: {
 					NSError *error = NULL;
@@ -147,18 +148,21 @@ int main(int argc, const char *argv[]) {
 					break;
 			}
 			
-			IOLog(@"[Tag: %@] [Pair: %@]",
+			IOLog(@"[Key: %@] [Pair: %@]",
 				  argumentObject.name,
 				  (pair != NULL ? pair : @"")
 				  );
 			
 		}];
 		
-		IOLog(@"Handler result: %@",
-			  (argumentsHandlerResult ? @"Success" : @"Failure"));
+		/*
+		 IOLog(@"Handler result: %@",
+		 (argumentsHandlerResult ? @"Success" : @"Failure"));
+		 */
 		
-		if (argumentsHandlerError != NULL) {
+		if (argumentsHandlerError) {
 			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+			exit(EXIT_FAILURE);
 		}
 		
 		/* Prepairing to write an Image to the Destination Device */
@@ -222,8 +226,8 @@ int main(int argc, const char *argv[]) {
 														destinationFilesystem: FilesystemFAT32];
 		
 		NSError *writeError = NULL;
-		[diskWriter writeWindows_8_10_ISOWithError: &writeError
-										  callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
+		BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
+																 callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
 			NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent:fileInfo.sourcePath];
 			switch (message) {
 				case DWMessageCreateDirectoryProcess:
@@ -266,6 +270,13 @@ int main(int argc, const char *argv[]) {
 			
 			return DWActionContinue;
 		}];
+		
+		IOLog(@"");
+		IOLog(@"[Result]: %@", (writeSuccessful ? @"Success" : @"Failure"));
+		
+		if (writeError) {
+			IOLog(@"[ERROR]: %@", [[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+		}
 	}
 	return EXIT_SUCCESS;
 }
