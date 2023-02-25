@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, readonly, nonatomic) NSString *_Nonnull wimPath;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype _Nullable)initWithWimPath: (NSString *)wimPath;
+- (instancetype)initWithWimPath: (NSString *)wimPath;
 - (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
                                         maxSliceSizeInBytes: (UInt64 * _Nonnull)maxSliceSizeInBytes
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler

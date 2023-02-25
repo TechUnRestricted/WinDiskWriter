@@ -14,21 +14,11 @@
     WIMStruct *currentWIM;
 }
 
-- (instancetype _Nullable)initWithWimPath: (NSString *)wimPath {
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    BOOL isDirectory = NO;
-    BOOL exists = [defaultManager fileExistsAtPath:wimPath isDirectory:&isDirectory];
-    
-    if (!exists || isDirectory) {
-        return NULL;
-    }
-    
+- (instancetype)initWithWimPath: (NSString *)wimPath {
+
     enum wimlib_error_code wimOpenStatus = wimlib_open_wim([wimPath UTF8String], NULL, &currentWIM);
-    if (wimOpenStatus != WIMLIB_ERR_SUCCESS) {
-        return NULL;
-    }
-    
     _wimPath = wimPath;
+    
     return self;
 }
 

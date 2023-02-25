@@ -34,7 +34,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
     _filesContainer = filesContainer;
     _destinationPath = destinationPath;
     _bootMode = bootMode;
-    _destinationFilesystem = _destinationFilesystem;
+    _destinationFilesystem = destinationFilesystem;
     
     return self;
 }
@@ -75,6 +75,8 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
                                  userInfo: @{DEFAULT_ERROR_KEY: @"Source is too large for the Destination Disk."}];
         return NO;
     }
+    
+    return YES;
 }
 
 - (UInt64)destinationDiskFreeSpace {
@@ -118,15 +120,15 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         /* Current entity type is File (or something) */
         DWCallbackHandler(callback, currentFile, DWMessageWriteFileProcess);
         
-        if (_destinationFilesystem == FilesystemFAT32) {
+        if (_destinationFilesystem == FilesystemFAT32 && currentFile.size > FAT32_MAX_FILE_SIZE) {
             NSString *filePathExtension = [[currentFile.sourcePath lowercaseString] pathExtension];
             
             DWCallbackHandler(callback, currentFile, DWMessageSplitWindowsImageProcess);
             
             if ([filePathExtension isEqualToString:@"wim"]) {
-                WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: [currentFile sourcePath]];
+                WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: absoluteSourcePath];
                 enum wimlib_error_code wimSplitResult =
-                [wimlibWrapper splitWithDestinationDirectoryPath: [absoluteSourcePath stringByDeletingLastPathComponent]
+                [wimlibWrapper splitWithDestinationDirectoryPath: [absoluteDestinationPath stringByDeletingLastPathComponent]
                                              maxSliceSizeInBytes: FAT32_MAX_FILE_SIZE / 2
                                                  progressHandler: NULL
                                                          context: NULL];
@@ -143,7 +145,6 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
             continue;
         }
         
-        DWCallbackHandler(callback, currentFile, DWMessageWriteFileProcess);
         if (![localFileManager fileExistsAtPath: absoluteDestinationPath]) {
             NSError *copyFileError = NULL;
             BOOL copyWasSuccessful = [localFileManager copyItemAtPath: absoluteSourcePath
@@ -167,21 +168,6 @@ quitLoop:
     
     return [self commonWriteWithError: &error
                              callback: callback];
-}
-
-+ (BOOL)writeWindows11ISOWithSourceDWFilesContainer: (DWFilesContainer * _Nonnull)filesContainer
-                                    destinationPath: (NSString * _Nonnull)destinationPath
-                 bypassTPMAndSecureBootRequirements: (BOOL)bypassTPMAndSecureBootRequirements
-                                           bootMode: (BootMode _Nonnull)bootMode
-                              destinationFilesystem: (Filesystem _Nonnull)filesystem
-                                              error: (NSError *_Nonnull *_Nonnull)error
-                                 progressController: (DWCallback _Nonnull)progressController {
-    
-    
-    
-    
-    
-    return YES;
 }
 
 @end

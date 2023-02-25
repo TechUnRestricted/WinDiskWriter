@@ -127,9 +127,7 @@
 		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
-		E2247A602986FA1D000B24A1 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		E2247A612986FA1D000B24A1 /* COPYING.GPLv3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING.GPLv3; sourceTree = "<group>"; };
-		E2247A622986FA1D000B24A1 /* COPYING.LGPLv3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING.LGPLv3; sourceTree = "<group>"; };
+		E2247A622986FA1D000B24A1 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		E2247A652986FA1D000B24A1 /* write.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
 		E2247A662986FA1D000B24A1 /* write.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = write.c; sourceTree = "<group>"; };
 		E2247A672986FA1D000B24A1 /* bt_matchfinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bt_matchfinder.h; sourceTree = "<group>"; };
@@ -346,9 +344,7 @@
 			children = (
 				E2247A632986FA1D000B24A1 /* src */,
 				E2247A5D2986FA1D000B24A1 /* include */,
-				E2247A602986FA1D000B24A1 /* COPYING */,
-				E2247A612986FA1D000B24A1 /* COPYING.GPLv3 */,
-				E2247A622986FA1D000B24A1 /* COPYING.LGPLv3 */,
+				E2247A622986FA1D000B24A1 /* License.txt */,
 			);
 			path = wimlib;
 			sourceTree = "<group>";

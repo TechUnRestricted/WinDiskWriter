@@ -39,6 +39,10 @@
         
         for (NSUInteger objectIndex = 0; objectIndex <= objectArgumentsCount; objectIndex++) {
             if (objectIndex == objectArgumentsCount) {
+                if (!prohibitUnknownKeys) {
+                    continue;
+                }
+                
                 if (error) {
                     *error = [NSError errorWithDomain: PACKAGE_NAME
                                                  code: AHErrorCodeUnknownArgument
@@ -46,6 +50,7 @@
                                                                              currentArgumentString
                                              ]}];
                 }
+                
                 return NO;
             }
             
