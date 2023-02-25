@@ -86,7 +86,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
 
 - (BOOL)commonWriteWithError: (NSError *_Nonnull *_Nonnull)error
                     callback: (DWCallback _Nonnull)callback {
-    if ([self commonErrorCheckerWithError:&error]) {
+    if (![self commonErrorCheckerWithError:&error]) {
         return NO;
     }
     

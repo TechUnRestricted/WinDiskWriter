@@ -11,90 +11,95 @@
 
 @implementation ArgumentsHandler
 
-- (BOOL)hasIncompatibleNames {
-    NSUInteger objectsCount = [_argumentObjects count];
-    
-    for (int i = 0; i < objectsCount; i++) {
-        ArgumentObject *objectA = [_argumentObjects objectAtIndex:i];
-        
-        if (objectA.name == NULL || [objectA.name length] == 0) {
-            return YES;
-        }
-        
-        for(int j = i + 1; j < objectsCount; j++) {
-            ArgumentObject *objectB = [_argumentObjects objectAtIndex:j];
-            
-            if(objectA.name == objectB.name) {
-                return YES;
-            }
-        }
+- (NSUInteger)firstArgumentContainsProgramPath {
+    NSUInteger processArgumentsCount = [_processArguments count];
+    if (processArgumentsCount == 0) {
+        return 0;
     }
     
-    return NO;
+    if (processArgumentsCount >= 1) {
+        BOOL firstArgumentIsProgramPath = [[NSFileManager defaultManager] fileExistsAtPath:[_processArguments firstObject]];
+        return firstArgumentIsProgramPath ? 1 : 0;
+    }
+    
+    return 0;
 }
 
 - (BOOL) loopThroughArgumentsWithErrorHandler: (NSError *_Nullable *_Nullable)error
+                          prohibitUnknownKeys: (BOOL)prohibitUnknownKeys
                                      callback: (ArgumentsHandlerCallback)callback {
+    NSUInteger stringArgumentsCount = [_processArguments count];
+    NSUInteger objectArgumentsCount = [_argumentObjects count];
     
-    if (_argumentObjects == NULL || _processArguments == NULL) {
-        return NO;
-    }
+    NSMutableArray *processedUniqueArguments = [[NSMutableArray alloc] init];
+    NSMutableArray *processedRequiredArguments = [[NSMutableArray alloc] init];
     
-    if ([self hasIncompatibleNames]) {
-        if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: AHErrorCodeObjectNamesCheckingFailure
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"Incompatible names detected in ArgumentObjects."}
-            ];
-        }
-        return NO;
-    }
-    
-    NSUInteger stringArgsCount = [_processArguments count];
-    NSMutableArray *processedArgs = [[NSMutableArray alloc] init];
-    
-    for (NSUInteger stringIndex = 0; stringIndex < stringArgsCount; stringIndex++) {
-        NSString *currentArgString = [_processArguments objectAtIndex:stringIndex];
+    for (NSUInteger stringIndex = [self firstArgumentContainsProgramPath]; stringIndex < stringArgumentsCount; stringIndex++) {
+        NSString *currentArgumentString = [_processArguments objectAtIndex:stringIndex];
         
-        if ([processedArgs containsObject:currentArgString]) {
-            if (error) {
-                *error = [NSError errorWithDomain: PACKAGE_NAME
-                                             code: AHErrorCodeDuplicateArgumentKeys
-                                         userInfo: @{DEFAULT_ERROR_KEY: @"Duplicate keys were found in the passed process arguments."}
-                ];
-            }
-            return NO;
-        }
-        
-        for (ArgumentObject *currentArgObject in _argumentObjects) {
-            if ([currentArgString isEqualToString:currentArgObject.name]) {
-                [processedArgs addObject:currentArgString];
-                
-                if (!currentArgObject.isPaired) {
-                    callback(currentArgObject, NULL);
-                    break;
+        for (NSUInteger objectIndex = 0; objectIndex <= objectArgumentsCount; objectIndex++) {
+            if (objectIndex == objectArgumentsCount) {
+                if (error) {
+                    *error = [NSError errorWithDomain: PACKAGE_NAME
+                                                 code: AHErrorCodeUnknownArgument
+                                             userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat: @"An unknown key [%@] was found in arguments.",
+                                                                             currentArgumentString
+                                             ]}];
                 }
-                
-                if (stringIndex + 1 < stringArgsCount) {
-                    callback(currentArgObject, [_processArguments objectAtIndex: ++stringIndex]);
+                return NO;
+            }
+            
+            ArgumentObject *currentArgumentObject = [_argumentObjects objectAtIndex:objectIndex];
+            
+            if (![currentArgumentObject.name isEqualToString:currentArgumentString]) {
+                continue;
+            }
+            
+            if ([processedUniqueArguments containsObject:currentArgumentObject]) {
+                if (error) {
+                    *error = [NSError errorWithDomain: PACKAGE_NAME
+                                                 code: AHErrorCodeDuplicateUniqueArgumentKeys
+                                             userInfo: @{DEFAULT_ERROR_KEY: @"Duplicate unique keys were found in arguments."}];
+                }
+                return NO;
+            }
+            
+            if (currentArgumentObject.isUnique) {
+                [processedUniqueArguments addObject:currentArgumentObject];
+            }
+            
+            if (currentArgumentObject.isRequired) {
+                [processedRequiredArguments addObject:currentArgumentObject];
+            }
+            
+            if (currentArgumentObject.isPaired) {
+                if (stringIndex + 1 < stringArgumentsCount) {
+                    callback(currentArgumentObject, [_processArguments objectAtIndex: ++stringIndex]);
+                    break;
                 } else {
                     if (error) {
                         *error = [NSError errorWithDomain: PACKAGE_NAME
                                                      code: AHErrorCodeCantFindPairValue
                                                  userInfo: @{DEFAULT_ERROR_KEY:
-                                                                 [NSString stringWithFormat: @"\"%@\" argument requires the presence of a pair that was not found.", currentArgString]}
+                                                                 [NSString stringWithFormat: @"\"%@\" argument requires the presence of a pair that was not found.", currentArgumentString]}
                         ];
                     }
                     return NO;
                 }
             }
+            
+            /* Not paired Argument */
+            callback(currentArgumentObject, NULL);
+            break;
         }
     }
     
     for (ArgumentObject *currentObject in _argumentObjects) {
-        if (!currentObject.isRequired) { continue; }
+        if (!currentObject.isRequired) {
+            continue;
+        }
         
-        if (![processedArgs containsObject:currentObject.name]) {
+        if (![processedRequiredArguments containsObject:currentObject]) {
             if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: AHErrorCodeMissingRequiredArgument
@@ -110,10 +115,7 @@
 }
 
 - (instancetype)initWithProcessArguments: (NSArray *_Nonnull)processArguments
-                         argumentObjects: (NSArray *_Nonnull)argumentObjects {
-    if (argumentObjects == NULL || processArguments == NULL) {
-        return NULL;
-    }
+                         argumentObjects: (NSArray<ArgumentObject *> *_Nonnull)argumentObjects {
     
     _processArguments = processArguments;
     _argumentObjects = argumentObjects;

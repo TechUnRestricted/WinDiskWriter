@@ -11,13 +11,15 @@
 @implementation ArgumentObject
 
 - (instancetype)initWithName: (NSString *_Nonnull)name
-                    uniqueID: (int)uniqueID
+                  identifier: (int)identifier
                   isRequired: (BOOL)isRequired
-                    isPaired: (BOOL)isPaired {
+                    isPaired: (BOOL)isPaired
+                    isUnique: (BOOL)isUnique {
     _name = name;
-    _uniqueID = uniqueID;
+    _identifier = identifier;
     _isRequired = isRequired;
     _isPaired = isPaired;
+    _isUnique = isUnique;
     
     return self;
 }

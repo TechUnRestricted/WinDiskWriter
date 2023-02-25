@@ -13,11 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^ArgumentsHandlerCallback)(ArgumentObject * _Nonnull argumentObject, NSString *_Nullable pair);
 
 enum AHErrorCode {
-    AHErrorCodeObjectCastingFailure,
-    AHErrorCodeObjectNamesCheckingFailure,
-    AHErrorCodeDuplicateArgumentKeys,
+    AHErrorCodeDuplicateUniqueArgumentKeys,
     AHErrorCodeCantFindPairValue,
-    AHErrorCodeMissingRequiredArgument
+    AHErrorCodeMissingRequiredArgument,
+    AHErrorCodeUnknownArgument
 };
 
 @interface ArgumentsHandler : NSObject
@@ -30,6 +29,7 @@ enum AHErrorCode {
                          argumentObjects: (NSArray *_Nonnull)argumentObjects;
 
 - (BOOL) loopThroughArgumentsWithErrorHandler: (NSError *_Nullable *_Nullable)error
+                          prohibitUnknownKeys: (BOOL)prohibitUnknownKeys
                                      callback: (ArgumentsHandlerCallback)callback;
 
 @end
