@@ -42,28 +42,34 @@ int main(int argc, const char *argv[]) {
 		ArgumentsHandler *argumentsHandler = [[ArgumentsHandler alloc]
 											  initWithProcessArguments: applicationArguments
 											  argumentObjects: @[[[ArgumentObject alloc] initWithName: @"-s"
-																							 uniqueID: ArgumentSourceDirectory
-																						   isRequired: YES
-																							 isPaired: YES],
-																 [[ArgumentObject alloc] initWithName: @"-d"
-																							 uniqueID: ArgumentDestinationDevice
+																						   identifier: ArgumentSourceDirectory
 																						   isRequired: YES
 																							 isPaired: YES
+																							 isUnique: YES
+															     ],
+																 [[ArgumentObject alloc] initWithName: @"-d"
+																						   identifier: ArgumentDestinationDevice
+																						   isRequired: YES
+																							 isPaired: YES
+																							 isUnique: YES
 																 ],
 																 [[ArgumentObject alloc] initWithName: @"-f"
-																							 uniqueID: ArgumentFilesystem
+																						   identifier: ArgumentFilesystem
 																						   isRequired: NO
 																							 isPaired: YES
+																							 isUnique: YES
 																 ],
 																 [[ArgumentObject alloc] initWithName: @"-p"
-																							 uniqueID: ArgumentPartitionScheme
+																						   identifier: ArgumentPartitionScheme
 																						   isRequired: NO
 																							 isPaired: YES
+																							 isUnique: YES
 																 ],
 																 [[ArgumentObject alloc] initWithName: @"--noerase"
-																							 uniqueID: ArgumentDoNotErase
+																						   identifier: ArgumentDoNotErase
 																						   isRequired: NO
 																							 isPaired: NO
+																							 isUnique: YES
 																 ]
 															   ]
 		];
@@ -78,8 +84,9 @@ int main(int argc, const char *argv[]) {
 		
 		NSError *argumentsHandlerError = NULL;
 		BOOL argumentsHandlerResult = [argumentsHandler loopThroughArgumentsWithErrorHandler: &argumentsHandlerError
+																		 prohibitUnknownKeys: YES
 																					callback: ^void(ArgumentObject * _Nonnull argumentObject, NSString * _Nullable pair) {
-			switch (argumentObject.uniqueID) {
+			switch (argumentObject.identifier) {
 				case ArgumentSourceDirectory: {
 					NSError *error = NULL;
 					mountedImageDirectory = [HelperFunctions getWindowsSourceMountPath:pair error:&error];
