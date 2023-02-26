@@ -19,6 +19,11 @@ enum DWMessage {
     DWMessageSplitWindowsImageSuccess,
     DWMessageSplitWindowsImageFailure,
     
+    /* Required only for Windows Vista / 7 */
+    DWMessageExtractWindowsBootloaderProcess,
+    DWMessageExtractWindowsBootloaderSuccess,
+    DWMessageExtractWindowsBootloaderFailure,
+    
     DWMessageWriteFileProcess,
     DWMessageWriteFileSuccess,
     DWMessageWriteFileFailure,
@@ -29,7 +34,7 @@ enum DWMessage {
 };
 
 enum DWErrorCode {
-    DWErrorCodeUnsupportedBootMode = 100,
+    DWErrorCodeUnsupportedBootMode,
     DWErrorCodeSourcePathDoesNotExist,
     DWErrorCodeDestinationPathDoesNotExist,
     DWErrorCodeEnumerateSourceFilesFailure,
@@ -39,8 +44,8 @@ enum DWErrorCode {
 };
 
 struct FileWriteInfo {
-    NSString * _Nonnull sourceFilePath;
-    NSString * _Nonnull destinationFilePath;
+    NSString *_Nonnull sourceFilePath;
+    NSString *_Nonnull destinationFilePath;
     UInt64 entitiesRemain;
 };
 
