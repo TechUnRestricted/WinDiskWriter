@@ -24,6 +24,7 @@ enum AvailableArguments {
 	ArgumentFilesystem,
 	ArgumentPartitionScheme,
 	ArgumentDoNotErase,
+	ArgumentSkipErrors
 };
 
 int main(int argc, const char *argv[]) {
@@ -46,7 +47,7 @@ int main(int argc, const char *argv[]) {
 																						   isRequired: YES
 																							 isPaired: YES
 																							 isUnique: YES
-											  ],
+																 ],
 																 [[ArgumentObject alloc] initWithName: @"-d"
 																						   identifier: ArgumentDestinationDevice
 																						   isRequired: YES
@@ -65,8 +66,14 @@ int main(int argc, const char *argv[]) {
 																							 isPaired: YES
 																							 isUnique: YES
 																 ],
-																 [[ArgumentObject alloc] initWithName: @"--noerase"
+																 [[ArgumentObject alloc] initWithName: @"--no-erase"
 																						   identifier: ArgumentDoNotErase
+																						   isRequired: NO
+																							 isPaired: NO
+																							 isUnique: YES
+																 ],
+																 [[ArgumentObject alloc] initWithName: @"--skip-errors"
+																						   identifier: ArgumentSkipErrors
 																						   isRequired: NO
 																							 isPaired: NO
 																							 isUnique: YES
@@ -80,6 +87,7 @@ int main(int argc, const char *argv[]) {
 		__block Filesystem filesystem = FilesystemFAT32;
 		__block PartitionScheme partitionScheme = PartitionSchemeMBR;
 		__block BOOL doNotErase = NO;
+		__block BOOL skipErrors = NO;
 		__block BOOL isBSDDevice = NO;
 		
 		NSError *argumentsHandlerError = NULL;
@@ -144,6 +152,9 @@ int main(int argc, const char *argv[]) {
 				case ArgumentDoNotErase:
 					doNotErase = YES;
 					break;
+				case ArgumentSkipErrors:
+					skipErrors = YES;
+					break;
 				default:
 					break;
 			}
@@ -197,7 +208,7 @@ int main(int argc, const char *argv[]) {
 			}
 		} else {
 			if (isBSDDevice) {
-				IOLog(@"You cannot use '--noerase' argument with BSD Disk Path specified.");
+				IOLog(@"You cannot use '--no-erase' argument with BSD Disk Path specified.");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -238,6 +249,7 @@ int main(int argc, const char *argv[]) {
 					break;
 				case DWMessageCreateDirectoryFailure:
 					IOLog(@"[Can't create Directory]: [%@]", destinationCurrentFilePath);
+					if (!skipErrors) { return DWActionStop; }
 					break;
 				case DWMessageSplitWindowsImageProcess:
 					IOLog(@"[Splitting Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize);
@@ -247,6 +259,17 @@ int main(int argc, const char *argv[]) {
 					break;
 				case DWMessageSplitWindowsImageFailure:
 					IOLog(@"[Can't split Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize);
+					if (!skipErrors) { return DWActionStop; }
+					break;
+				case DWMessageExtractWindowsBootloaderProcess:
+					IOLog(@"[Extracting Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath);
+					break;
+				case DWMessageExtractWindowsBootloaderSuccess:
+					IOLog(@"[Windows Bootloader successfully extracted from the Install file]: [%@]", destinationCurrentFilePath);
+					break;
+				case DWMessageExtractWindowsBootloaderFailure:
+					IOLog(@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath);
+					if (!skipErrors) { return DWActionStop; }
 					break;
 				case DWMessageWriteFileProcess:
 					IOLog(@"[Writing File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize);
@@ -256,12 +279,15 @@ int main(int argc, const char *argv[]) {
 					break;
 				case DWMessageWriteFileFailure:
 					IOLog(@"[Can't write File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize);
+					if (!skipErrors) { return DWActionStop; }
 					break;
 				case DWMessageFileIsTooLarge:
 					IOLog(@"[File is too large]: [%@] {File Size: %@}", fileInfo.sourcePath, fileInfo.unitFormattedSize);
+					if (!skipErrors) { return DWActionStop; }
 					break;
 				case DWMessageUnsupportedOperation:
 					IOLog(@"[Unsupported operation with this type of File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize);
+					if (!skipErrors) { return DWActionStop; }
 					break;
 				case DWMessageEntityAlreadyExists:
 					IOLog(@"[File already exists]: [%@] {File Size: %@}", destinationCurrentFilePath, fileInfo.unitFormattedSize);
@@ -311,5 +337,6 @@ void printUsage(void) {
 		   "      FAT32                  { Default }\n"
 		   "      ExFAT                  { May require an external ExFatDxe.efi EFI driver }\n"
 		   "--no-erase                   { Do not erase the target Device }\n"
+		   "--skip-errors                { Do not stop the writing process on errors }\n"
 		   );
 }

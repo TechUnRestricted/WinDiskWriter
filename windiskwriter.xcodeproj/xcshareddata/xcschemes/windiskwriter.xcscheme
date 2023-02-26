@@ -56,7 +56,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;/Users/macintosh/Documents/Windows 11.iso&quot;"
+            argument = "&quot;/Users/macintosh/Documents/Microsoft Windows Vista with Service Pack 2 English/Windows Vista.iso&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -64,7 +64,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "disk5"
+            argument = "disk4"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

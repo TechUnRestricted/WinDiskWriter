@@ -41,7 +41,7 @@
         
         DWFile *currentFile = [[DWFile alloc] initWithSourcePath: currentRelativePath];
         
-        DWCallbackHandler(callback, currentFile, DWFilesContainerMessageGetAttributesProcess);
+        DWCallbackLoopHandler(callback, currentFile, DWFilesContainerMessageGetAttributesProcess);
 
         NSError *fileAttributesError = NULL;
         NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[containerPath
@@ -50,14 +50,12 @@
         currentFile.size = [fileAttributes fileSize];
         currentFile.fileType = [fileAttributes fileType];
         
-        DWCallbackHandler(callback, currentFile, (fileAttributesError == NULL ?
+        DWCallbackLoopHandler(callback, currentFile, (fileAttributesError == NULL ?
                                                   DWFilesContainerMessageGetAttributesSuccess : DWFilesContainerMessageGetAttributesFailure));
         
         [filesList addObject:currentFile];
     }
     
-/* Called from DWCallbackHandler macro ; TODO: Find a better solution. */
-quitLoop:
     return [[DWFilesContainer alloc] initWithSWFileInfoArray: filesList
                                                containerPath: containerPath];
 }

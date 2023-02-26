@@ -6,28 +6,25 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-/*
- switch (callback(currentFile, DWMessageCreateDirectoryProcess)) {
-     case DWActionSkip:
-         continue;
-     case DWActionStop:
-         return NO;
-     default:
-         goto quitLoop;
- }
- */
+#define DWCallbackLoopHandler(callback, currentFile, message)  \
+    switch (callback(currentFile, message)) {                  \
+        case DWActionSkip:                                     \
+            continue;                                          \
+        case DWActionContinue:                                 \
+            break;                                             \
+        default:                                               \
+            return NULL;                                       \
+    }                                                          \
 
-#define DWCallbackHandler(callback, currentFile, message)  \
-    switch (callback(currentFile, message)) {              \
-        case DWActionSkip:                                 \
-            continue;                                      \
-        case DWActionStop:                                 \
-            return NULL;                                   \
-        case DWActionContinue:                             \
-            break;                                         \
-        default:                                           \
-            goto quitLoop;                                 \
-    }                                                      \
+#define DWCallbackHandler(callback, currentFile, message)      \
+    switch (callback(currentFile, message)) {                  \
+        case DWActionContinue:                                 \
+            break;                                             \
+        case DWActionSkip:                                     \
+        case DWActionStop:                                     \
+        default:                                               \
+            return NULL;                                       \
+    }
 
 enum DWAction {
     DWActionContinue,
