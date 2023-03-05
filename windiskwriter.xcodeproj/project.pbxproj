@@ -92,6 +92,8 @@
 		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
 		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
+		E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */; };
+		E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EF29B402D700308873 /* BaseStackLayout.m */; };
 		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
@@ -301,6 +303,10 @@
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
+		E2BBD1EA29B3DF2B00308873 /* HorizontalStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalStackLayout.h; sourceTree = "<group>"; };
+		E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalStackLayout.m; sourceTree = "<group>"; };
+		E2BBD1EE29B402D700308873 /* BaseStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseStackLayout.h; sourceTree = "<group>"; };
+		E2BBD1EF29B402D700308873 /* BaseStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseStackLayout.m; sourceTree = "<group>"; };
 		E2C5FFCE2994599600B394F4 /* ArgumentsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentsHandler.h; sourceTree = "<group>"; };
 		E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentsHandler.m; sourceTree = "<group>"; };
 		E2C5FFD229945B8C00B394F4 /* ArgumentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentObject.h; sourceTree = "<group>"; };
@@ -394,8 +400,8 @@
 		E218A31E29ABEE170046B7CA /* VerticalStackLayout */ = {
 			isa = PBXGroup;
 			children = (
-				E218A31B29ABEE130046B7CA /* VerticalStackLayout.h */,
 				E218A31C29ABEE130046B7CA /* VerticalStackLayout.m */,
+				E218A31B29ABEE130046B7CA /* VerticalStackLayout.h */,
 			);
 			path = VerticalStackLayout;
 			sourceTree = "<group>";
@@ -403,7 +409,10 @@
 		E218A31F29ABF03B0046B7CA /* StackLayout */ = {
 			isa = PBXGroup;
 			children = (
+				E2BBD1EE29B402D700308873 /* BaseStackLayout.h */,
+				E2BBD1EF29B402D700308873 /* BaseStackLayout.m */,
 				E218A31E29ABEE170046B7CA /* VerticalStackLayout */,
+				E2BBD1ED29B3DF3200308873 /* HorizontalStackLayout */,
 			);
 			path = StackLayout;
 			sourceTree = "<group>";
@@ -420,7 +429,7 @@
 		E218A32B29ABF4D20046B7CA /* NSView */ = {
 			isa = PBXGroup;
 			children = (
-				E2DDF11D29AC04340073E901 /* QuickPin */,
+				E2DDF11D29AC04340073E901 /* QuickConstraints */,
 			);
 			path = NSView;
 			sourceTree = "<group>";
@@ -1019,6 +1028,15 @@
 			path = PartitionSchemes;
 			sourceTree = "<group>";
 		};
+		E2BBD1ED29B3DF3200308873 /* HorizontalStackLayout */ = {
+			isa = PBXGroup;
+			children = (
+				E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */,
+				E2BBD1EA29B3DF2B00308873 /* HorizontalStackLayout.h */,
+			);
+			path = HorizontalStackLayout;
+			sourceTree = "<group>";
+		};
 		E2C5FFD12994599E00B394F4 /* ArgumentsHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1116,13 +1134,13 @@
 			path = NSColor;
 			sourceTree = "<group>";
 		};
-		E2DDF11D29AC04340073E901 /* QuickPin */ = {
+		E2DDF11D29AC04340073E901 /* QuickConstraints */ = {
 			isa = PBXGroup;
 			children = (
 				E218A32829ABF4CD0046B7CA /* NSView+QuickConstraints.h */,
 				E218A32929ABF4CD0046B7CA /* NSView+QuickConstraints.m */,
 			);
-			path = QuickPin;
+			path = QuickConstraints;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1218,8 +1236,10 @@
 				E218A31129ABE31F0046B7CA /* main.m in Sources */,
 				E218A30A29ABE31E0046B7CA /* AppDelegate.m in Sources */,
 				E218A31D29ABEE130046B7CA /* VerticalStackLayout.m in Sources */,
+				E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */,
 				E2DDF11C29AC00BD0073E901 /* NSColor+Common.m in Sources */,
 				E218A31929ABE3BB0046B7CA /* ContentViewController.m in Sources */,
+				E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */,
 				E218A32A29ABF4CD0046B7CA /* NSView+QuickConstraints.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

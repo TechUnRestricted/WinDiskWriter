@@ -8,7 +8,9 @@
 
 #import "ContentViewController.h"
 #import "VerticalStackLayout.h"
+#import "HorizontalStackLayout.h"
 #import "NSView+QuickConstraints.h"
+#import "NSColor+Common.h"
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
@@ -31,108 +33,51 @@ NSView *mainView;
         mainView = [[NSView alloc] init];
     }
     
-    NSButton *button1 = [[NSButton alloc] init];
-    [button1 setTitle: @"Objective-C Rocks"];
-    [button1 setTranslatesAutoresizingMaskIntoConstraints: NO];
-    [mainView addSubview: button1];
+    VerticalStackLayout *verticalStackView = [[VerticalStackLayout alloc] init];
+    [verticalStackView setTranslatesAutoresizingMaskIntoConstraints: NO];
+    [mainView addSubview: verticalStackView];
     
-    [mainView addConstraints: @[
-        [NSLayoutConstraint constraintWithItem: button1
-                                     attribute: NSLayoutAttributeTop
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: mainView
-                                     attribute: NSLayoutAttributeTop
-                                    multiplier: 1.0
-                                      constant: 0.0],
-        [NSLayoutConstraint constraintWithItem: button1
-                                     attribute: NSLayoutAttributeLeading
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: mainView
-                                     attribute: NSLayoutAttributeLeading
-                                    multiplier: 1.0
-                                      constant: 0.0],
-        [NSLayoutConstraint constraintWithItem: button1
-                                     attribute: NSLayoutAttributeWidth
-                                     relatedBy: NSLayoutRelationGreaterThanOrEqual
-                                        toItem: nil
-                                     attribute: NSLayoutAttributeNotAnAttribute
-                                    multiplier: 1.0
-                                      constant: 100],
-        [NSLayoutConstraint constraintWithItem: button1
-                                     attribute: NSLayoutAttributeWidth
-                                     relatedBy: NSLayoutRelationLessThanOrEqual
-                                        toItem: nil
-                                     attribute: NSLayoutAttributeNotAnAttribute
-                                    multiplier: 1.0
-                                      constant: 300]
-    ]];
+    [verticalStackView setQuickPinFillParentWithPadding: 0];
+    
+    [verticalStackView setWantsLayer: YES];
+    [verticalStackView.layer setBackgroundColor: NSColor.redColor.toCGColor];
+    
+    for (int i = 0; i < 5; i++) {
+        NSButton *button1 = [[NSButton alloc] init];
+        [button1 setTitle: @"Magic Keyboard"];
+        [verticalStackView addView: button1 spacing: 0];
+        
+        [button1 setMaxWidth: 500 - i * 50];
+        [button1 setMinWidth: 200];
+    }
     
     {
-        NSButton *button2 = [[NSButton alloc] init];
-        button2.title = @"Goodbye Objective-C";
-        [button2 setTranslatesAutoresizingMaskIntoConstraints: NO];
+        NSTextField *textField = [[NSTextField alloc] init];
+        [textField setStringValue: @"Behind the bar"];
+        [textField setMaxWidth: 300];
+        [textField setMinWidth: 200];
         
-        [mainView addSubview: button2];
-        
-        NSLayoutConstraint *weakLeadingConstraint = [NSLayoutConstraint constraintWithItem: button2
-                                                                                 attribute: NSLayoutAttributeLeading
-                                                                                 relatedBy: NSLayoutRelationLessThanOrEqual
-                                                                                    toItem: button1
-                                                                                 attribute: NSLayoutAttributeTrailing
-                                                                                multiplier: 1.0
-                                                                                  constant: 0.0];
-        
-        NSLayoutConstraint *weakTrailingConstraint = [NSLayoutConstraint constraintWithItem: button2
-                                                                                  attribute: NSLayoutAttributeTrailing
-                                                                                  relatedBy: NSLayoutRelationGreaterThanOrEqual
-                                                                                     toItem: mainView
-                                                                                  attribute: NSLayoutAttributeTrailing
-                                                                                 multiplier: 1.0
-                                                                                   constant: 0.0];
-        
-        weakLeadingConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
-        weakTrailingConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem: button2
-                                         attribute: NSLayoutAttributeTop
-                                         relatedBy: NSLayoutRelationEqual
-                                            toItem: mainView
-                                         attribute: NSLayoutAttributeTop
-                                        multiplier: 1.0
-                                          constant: 0.0],
-            [NSLayoutConstraint constraintWithItem: button2
-                                         attribute: NSLayoutAttributeLeading
-                                         relatedBy: NSLayoutRelationGreaterThanOrEqual
-                                            toItem: button1
-                                         attribute: NSLayoutAttributeTrailing
-                                        multiplier: 1.0
-                                          constant: 0.0],
-            [NSLayoutConstraint constraintWithItem: button2
-                                         attribute: NSLayoutAttributeTrailing
-                                         relatedBy: NSLayoutRelationLessThanOrEqual
-                                            toItem: mainView
-                                         attribute: NSLayoutAttributeTrailing
-                                        multiplier: 1.0
-                                          constant: 0.0],
-            weakLeadingConstraint,
-            weakTrailingConstraint,
-            [NSLayoutConstraint constraintWithItem: button2
-                                         attribute: NSLayoutAttributeWidth
-                                         relatedBy: NSLayoutRelationGreaterThanOrEqual
-                                            toItem: nil
-                                         attribute: NSLayoutAttributeNotAnAttribute
-                                        multiplier: 1.0
-                                          constant: 200],
-            [NSLayoutConstraint constraintWithItem: button2
-                                         attribute: NSLayoutAttributeWidth
-                                         relatedBy: NSLayoutRelationLessThanOrEqual
-                                            toItem: nil
-                                         attribute: NSLayoutAttributeNotAnAttribute
-                                        multiplier: 1.0
-                                          constant: 400]
-        ]];
+        [verticalStackView addView:textField spacing:0];
     }
+    
+    HorizontalStackLayout *horizontalView = [[HorizontalStackLayout alloc] init];
+    [horizontalView setWantsLayer: YES];
+    [horizontalView.layer setBackgroundColor:NSColor.greenColor.toCGColor];
+    [verticalStackView addView:horizontalView spacing:0];
+    
+    for (NSUInteger i = 0; i < 15; i++) {
+        NSButton *button1 = [[NSButton alloc] init];
+        [button1 setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [button1 setTitle: @"ATM"];
+        [horizontalView addView:button1 spacing:0];
+      
+        [button1 setMinWidth:100];
+        [button1 setMaxWidth:300 - 5 * i];
+    }
+    
+    
+    
+    
     
     [self setView: mainView];
 }
