@@ -1,8 +1,8 @@
 //
-//  VerticalStackLayout.h
+//  HorizontalStackLayout.h
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 26.02.2023.
+//  Created by Macintosh on 04.03.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VerticalStackLayout : BaseStackLayout
+@interface HorizontalStackLayout : BaseStackLayout
 
 - (void)addView: (NSView *_Nonnull)newView
         spacing: (CGFloat)spacing;

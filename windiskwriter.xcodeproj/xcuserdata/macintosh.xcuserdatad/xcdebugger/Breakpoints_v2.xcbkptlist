@@ -55,16 +55,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4634B9A1-4E5A-4602-B705-74742B00CAB0"
+            uuid = "30B4A058-6A10-4EA2-A82C-3F3ACC7140ED"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WinDiskWriter GUI/ContentViewController/ContentViewController.m"
+            filePath = "WinDiskWriter GUI/StackLayout/HorizontalStackLayout/HorizontalStackLayout.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "-loadView"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "-addView:spacing:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
