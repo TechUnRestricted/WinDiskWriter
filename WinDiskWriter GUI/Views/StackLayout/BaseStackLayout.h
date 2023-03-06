@@ -11,8 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString *StackLayoutConstraintIdentifier NS_TYPED_ENUM;
-extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailing;
-extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailingWeak;
 
 @interface BaseStackLayout : NSView
 

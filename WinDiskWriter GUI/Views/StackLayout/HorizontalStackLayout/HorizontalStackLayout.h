@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailing;
+extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailingWeak;
+
 @interface HorizontalStackLayout : BaseStackLayout
 
 - (void)addView: (NSView *_Nonnull)newView

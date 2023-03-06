@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ContentViewController : NSViewController
 
+- (instancetype)initWithTitleBarPaddingValue: (CGFloat)titleBarPaddingValue;
+
 @end
 
 NS_ASSUME_NONNULL_END
