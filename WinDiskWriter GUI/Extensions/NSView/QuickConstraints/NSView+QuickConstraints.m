@@ -29,11 +29,14 @@
                                                                  constant: padding]];
 }
 
-- (void)setQuickPinFillParentWithPadding: (CGFloat)padding {
-    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeTop padding: padding];
-    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeBottom padding: padding];
-    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeLeading padding: padding];
-    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeTrailing padding: padding];
+- (void)setQuickPinFillParentWithPaddingTop: (CGFloat)topPadding
+                                     bottom: (CGFloat)bottomPadding
+                                    leading: (CGFloat)leadingPadding
+                                   trailing: (CGFloat)trailingPadding {
+    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeTop padding: topPadding];
+    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeBottom padding: bottomPadding];
+    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeLeading padding: leadingPadding];
+    [self setQuickPinWithLayoutAttribute: NSLayoutAttributeTrailing padding: trailingPadding];
 }
 
 - (void)setConstraintAttribute: (NSLayoutAttribute)firstAttribute
@@ -41,6 +44,7 @@
                  itemAttribute: (NSLayoutAttribute)secondAttribute
                       relation: (NSLayoutRelation)relation
                         isWeak: (BOOL)isWeak
+                      constant: (CGFloat)constant
                     identifier: (NSString *_Nullable)identifier {
     NSLayoutConstraint *layoutConstraint = [NSLayoutConstraint constraintWithItem: self
                                                                         attribute: firstAttribute
@@ -48,7 +52,7 @@
                                                                            toItem: item
                                                                         attribute: secondAttribute
                                                                        multiplier: 1.0
-                                                                         constant: 0];
+                                                                         constant: constant];
     
     if (isWeak) {
         [layoutConstraint setPriority: NSLayoutPriorityDragThatCannotResizeWindow];
@@ -91,7 +95,7 @@
 
 - (void)setMaxHeight: (CGFloat)maxHeight {
     [self addConstraint: [NSLayoutConstraint constraintWithItem: self
-                                                      attribute: NSLayoutAttributeWidth
+                                                      attribute: NSLayoutAttributeHeight
                                                       relatedBy: NSLayoutRelationLessThanOrEqual
                                                          toItem: nil
                                                       attribute: NSLayoutAttributeNotAnAttribute

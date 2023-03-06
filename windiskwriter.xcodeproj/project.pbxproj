@@ -94,6 +94,8 @@
 		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
 		E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */; };
 		E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EF29B402D700308873 /* BaseStackLayout.m */; };
+		E2BBD1F329B5151600308873 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1F229B5151600308873 /* NSWindow+Common.m */; };
+		E2BBD1F829B5214500308873 /* LabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1F729B5214500308873 /* LabelView.m */; };
 		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
@@ -307,6 +309,10 @@
 		E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalStackLayout.m; sourceTree = "<group>"; };
 		E2BBD1EE29B402D700308873 /* BaseStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseStackLayout.h; sourceTree = "<group>"; };
 		E2BBD1EF29B402D700308873 /* BaseStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseStackLayout.m; sourceTree = "<group>"; };
+		E2BBD1F129B5151600308873 /* NSWindow+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Common.h"; sourceTree = "<group>"; };
+		E2BBD1F229B5151600308873 /* NSWindow+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
+		E2BBD1F629B5214500308873 /* LabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LabelView.h; sourceTree = "<group>"; };
+		E2BBD1F729B5214500308873 /* LabelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LabelView.m; sourceTree = "<group>"; };
 		E2C5FFCE2994599600B394F4 /* ArgumentsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentsHandler.h; sourceTree = "<group>"; };
 		E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentsHandler.m; sourceTree = "<group>"; };
 		E2C5FFD229945B8C00B394F4 /* ArgumentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentObject.h; sourceTree = "<group>"; };
@@ -374,7 +380,7 @@
 				E218A31029ABE31F0046B7CA /* main.m */,
 				E218A31229ABE31F0046B7CA /* WinDiskWriter_GUI.entitlements */,
 				E218A32729ABF4890046B7CA /* Extensions */,
-				E218A31F29ABF03B0046B7CA /* StackLayout */,
+				E2BBD1F529B51DC300308873 /* Views */,
 			);
 			path = "WinDiskWriter GUI";
 			sourceTree = "<group>";
@@ -422,6 +428,7 @@
 			children = (
 				E2DDF11929AC00BD0073E901 /* NSColor */,
 				E218A32B29ABF4D20046B7CA /* NSView */,
+				E2BBD1F429B5151A00308873 /* NSWindow */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1037,6 +1044,33 @@
 			path = HorizontalStackLayout;
 			sourceTree = "<group>";
 		};
+		E2BBD1F429B5151A00308873 /* NSWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E2BBD1F129B5151600308873 /* NSWindow+Common.h */,
+				E2BBD1F229B5151600308873 /* NSWindow+Common.m */,
+			);
+			path = NSWindow;
+			sourceTree = "<group>";
+		};
+		E2BBD1F529B51DC300308873 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E218A31F29ABF03B0046B7CA /* StackLayout */,
+				E2BBD1F929B5214800308873 /* LabelView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E2BBD1F929B5214800308873 /* LabelView */ = {
+			isa = PBXGroup;
+			children = (
+				E2BBD1F629B5214500308873 /* LabelView.h */,
+				E2BBD1F729B5214500308873 /* LabelView.m */,
+			);
+			path = LabelView;
+			sourceTree = "<group>";
+		};
 		E2C5FFD12994599E00B394F4 /* ArgumentsHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1236,7 +1270,9 @@
 				E218A31129ABE31F0046B7CA /* main.m in Sources */,
 				E218A30A29ABE31E0046B7CA /* AppDelegate.m in Sources */,
 				E218A31D29ABEE130046B7CA /* VerticalStackLayout.m in Sources */,
+				E2BBD1F329B5151600308873 /* NSWindow+Common.m in Sources */,
 				E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */,
+				E2BBD1F829B5214500308873 /* LabelView.m in Sources */,
 				E2DDF11C29AC00BD0073E901 /* NSColor+Common.m in Sources */,
 				E218A31929ABE3BB0046B7CA /* ContentViewController.m in Sources */,
 				E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */,
@@ -1353,6 +1389,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1379,6 +1416,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

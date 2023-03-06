@@ -6,14 +6,16 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSView (QuickConstraints)
 
-- (void)setQuickPinFillParentWithPadding: (CGFloat)padding;
+- (void)setQuickPinFillParentWithPaddingTop: (CGFloat)topPadding
+                                     bottom: (CGFloat)bottomPadding
+                                    leading: (CGFloat)leadingPadding
+                                   trailing: (CGFloat)trailingPadding;
 
 - (void)setMinWidth: (CGFloat)minWidth;
 
@@ -28,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
                  itemAttribute: (NSLayoutAttribute)secondAttribute
                       relation: (NSLayoutRelation)relation
                         isWeak: (BOOL)isWeak
+                      constant: (CGFloat)constant
                     identifier: (NSString *_Nullable)identifier;
 
 @end

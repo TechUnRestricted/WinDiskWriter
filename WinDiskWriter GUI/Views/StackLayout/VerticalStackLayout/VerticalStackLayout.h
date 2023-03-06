@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierBottom;
+extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierBottomWeak;
+
 @interface VerticalStackLayout : BaseStackLayout
 
 - (void)addView: (NSView *_Nonnull)newView
