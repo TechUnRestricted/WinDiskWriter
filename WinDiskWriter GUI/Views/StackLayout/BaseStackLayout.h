@@ -16,6 +16,11 @@ typedef NSString *StackLayoutConstraintIdentifier NS_TYPED_ENUM;
 
 @property (nonatomic, strong, readonly) NSView *containerView;
 
+- (void)removeConstraintsForFirstOccurenceWithID: (StackLayoutConstraintIdentifier)constraintID
+                                         forView: (NSView *)nsView;
+
+- (void)removeAllConstraintsWithID: (StackLayoutConstraintIdentifier)constraintID;
+
 @end
 
 NS_ASSUME_NONNULL_END

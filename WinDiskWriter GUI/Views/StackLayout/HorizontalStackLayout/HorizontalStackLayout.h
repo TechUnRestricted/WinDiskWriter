@@ -14,7 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailing;
 extern StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierTrailingWeak;
 
+enum HorizontalStackLayoutDistribution {
+    HorizontalStackLayoutDistributionDefault,
+    HorizontalStackLayoutDistributionFillEqually
+};
+
 @interface HorizontalStackLayout : BaseStackLayout
+
+- (instancetype)initWithLayoutDistribution: (enum HorizontalStackLayoutDistribution)layoutDistribution;
 
 - (void)addView: (NSView *_Nonnull)newView
         spacing: (CGFloat)spacing;
