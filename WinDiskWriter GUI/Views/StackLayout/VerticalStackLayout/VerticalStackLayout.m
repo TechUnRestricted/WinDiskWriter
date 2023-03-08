@@ -20,12 +20,12 @@ StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierBottomWeak 
     
     [self.containerView addSubview:newView];
     
-    [newView setConstraintAttribute:NSLayoutAttributeLeading toItem:self.containerView itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 identifier:NULL];
-    [newView setConstraintAttribute:NSLayoutAttributeTrailing toItem:self.containerView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationEqual isWeak:YES constant:0 identifier:NULL];
-    [newView setConstraintAttribute:NSLayoutAttributeTrailing toItem:self.containerView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationLessThanOrEqual isWeak:NO constant:0 identifier:NULL];
+    [newView setConstraintAttribute:NSLayoutAttributeLeading toItem:self.containerView itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    [newView setConstraintAttribute:NSLayoutAttributeTrailing toItem:self.containerView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationEqual isWeak:YES constant:0 multiplier:1.0 identifier:NULL];
+    [newView setConstraintAttribute:NSLayoutAttributeTrailing toItem:self.containerView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationLessThanOrEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
     
     if (self.containerView.subviews.count <= 1) {
-        [newView setConstraintAttribute:NSLayoutAttributeTop toItem:self.containerView itemAttribute:NSLayoutAttributeTop relation:NSLayoutRelationEqual isWeak:NO constant:spacing identifier:NULL];
+        [newView setConstraintAttribute:NSLayoutAttributeTop toItem:self.containerView itemAttribute:NSLayoutAttributeTop relation:NSLayoutRelationEqual isWeak:NO constant:spacing multiplier:1.0 identifier:NULL];
  
     } else {
         NSView *previousView = [self.containerView.subviews objectAtIndex: (self.containerView.subviews.count - 2)];
@@ -58,12 +58,12 @@ StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierBottomWeak 
             }
         }
         
-        [newView setConstraintAttribute:NSLayoutAttributeTop toItem:previousView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationEqual isWeak:NO constant:spacing identifier:NULL];
+        [newView setConstraintAttribute:NSLayoutAttributeTop toItem:previousView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationEqual isWeak:NO constant:spacing multiplier:1.0 identifier:NULL];
         
     }
     
-    [self.containerView setConstraintAttribute:NSLayoutAttributeBottom toItem:newView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationEqual isWeak:YES constant:spacing identifier:StackLayoutConstraintIdentifierBottomWeak];
-    [self.containerView setConstraintAttribute:NSLayoutAttributeBottom toItem:newView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationGreaterThanOrEqual isWeak:NO constant:spacing identifier:StackLayoutConstraintIdentifierBottom];
+    [self.containerView setConstraintAttribute:NSLayoutAttributeBottom toItem:newView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationEqual isWeak:YES constant:spacing multiplier:1.0 identifier:StackLayoutConstraintIdentifierBottomWeak];
+    [self.containerView setConstraintAttribute:NSLayoutAttributeBottom toItem:newView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationGreaterThanOrEqual isWeak:NO constant:spacing multiplier:1.0 identifier:StackLayoutConstraintIdentifierBottom];
 
 }
 

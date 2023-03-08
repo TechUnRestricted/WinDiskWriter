@@ -45,13 +45,14 @@
                       relation: (NSLayoutRelation)relation
                         isWeak: (BOOL)isWeak
                       constant: (CGFloat)constant
+                    multiplier: (CGFloat)multiplier
                     identifier: (NSString *_Nullable)identifier {
     NSLayoutConstraint *layoutConstraint = [NSLayoutConstraint constraintWithItem: self
                                                                         attribute: firstAttribute
                                                                         relatedBy: relation
                                                                            toItem: item
                                                                         attribute: secondAttribute
-                                                                       multiplier: 1.0
+                                                                       multiplier: multiplier
                                                                          constant: constant];
     
     if (isWeak) {
@@ -63,44 +64,44 @@
     [self.superview addConstraint: layoutConstraint];
 }
 
-- (void)setMinWidth: (CGFloat)minWidth {
+- (void)setMinWidth: (CGFloat)value {
     [self addConstraint: [NSLayoutConstraint constraintWithItem: self
                                                       attribute: NSLayoutAttributeWidth
                                                       relatedBy: NSLayoutRelationGreaterThanOrEqual
                                                          toItem: nil
                                                       attribute: NSLayoutAttributeNotAnAttribute
                                                      multiplier: 1.0
-                                                       constant: minWidth]];
+                                                       constant: value]];
 }
 
-- (void)setMaxWidth: (CGFloat)minWidth {
+- (void)setMaxWidth: (CGFloat)value {
     [self addConstraint: [NSLayoutConstraint constraintWithItem: self
                                                       attribute: NSLayoutAttributeWidth
                                                       relatedBy: NSLayoutRelationLessThanOrEqual
                                                          toItem: nil
                                                       attribute: NSLayoutAttributeNotAnAttribute
                                                      multiplier: 1.0
-                                                       constant: minWidth]];
+                                                       constant: value]];
 }
 
-- (void)setMinHeight: (CGFloat)minHeight {
+- (void)setMinHeight: (CGFloat)value {
     [self addConstraint: [NSLayoutConstraint constraintWithItem: self
                                                       attribute: NSLayoutAttributeHeight
                                                       relatedBy: NSLayoutRelationGreaterThanOrEqual
                                                          toItem: nil
                                                       attribute: NSLayoutAttributeNotAnAttribute
                                                      multiplier: 1.0
-                                                       constant: minHeight]];
+                                                       constant: value]];
 }
 
-- (void)setMaxHeight: (CGFloat)maxHeight {
+- (void)setMaxHeight: (CGFloat)value {
     [self addConstraint: [NSLayoutConstraint constraintWithItem: self
                                                       attribute: NSLayoutAttributeHeight
                                                       relatedBy: NSLayoutRelationLessThanOrEqual
                                                          toItem: nil
                                                       attribute: NSLayoutAttributeNotAnAttribute
                                                      multiplier: 1.0
-                                                       constant: maxHeight]];
+                                                       constant: value]];
 }
 
 @end

@@ -93,24 +93,23 @@ CGFloat defaultElementVerticalPadding = 4;
     NSPopUpButton *popUpButtonOSType = [[NSPopUpButton alloc] init];
     [verticalStackView addView:popUpButtonOSType spacing:defaultElementVerticalPadding];
     
-    HorizontalStackLayout *horizontalStackLayoutBootModePartitionScheme = [[HorizontalStackLayout alloc] init]; {
+    HorizontalStackLayout *horizontalStackLayoutBootModePartitionScheme = [[HorizontalStackLayout alloc] initWithLayoutDistribution:HorizontalStackLayoutDistributionFillEqually]; {
         [verticalStackView addView:horizontalStackLayoutBootModePartitionScheme spacing:defaultMainContentPadding * 2];
         
         {
-        VerticalStackLayout *verticalStackViewBootMode = [[VerticalStackLayout alloc] init];
-        [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewBootMode spacing:0];
-        
-        LabelView *labelViewBootMode = [[LabelView alloc] init];
-        [labelViewBootMode setStringValue:@"Boot Mode"];
-        [verticalStackViewBootMode addView:labelViewBootMode spacing:0];
-        
-        NSPopUpButton *popUpButtonBootMode = [[NSPopUpButton alloc] init];
-        [verticalStackViewBootMode addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
+            VerticalStackLayout *verticalStackViewBootMode = [[VerticalStackLayout alloc] init];
+            [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewBootMode spacing:0];
+            
+            LabelView *labelViewBootMode = [[LabelView alloc] init];
+            [labelViewBootMode setStringValue:@"Boot Mode"];
+            [verticalStackViewBootMode addView:labelViewBootMode spacing:0];
+            
+            NSPopUpButton *popUpButtonBootMode = [[NSPopUpButton alloc] init];
+            [verticalStackViewBootMode addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
         }
         
-        
     }
-
+    
     
     [self setView: mainView];
 }
