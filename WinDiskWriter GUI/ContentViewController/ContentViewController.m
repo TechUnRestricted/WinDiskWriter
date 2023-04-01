@@ -39,65 +39,80 @@ CGFloat defaultElementVerticalPadding = 4;
         mainView = [[NSView alloc] init];
     }
     
-    VerticalStackLayout *verticalStackView = [[VerticalStackLayout alloc] init];
-    [verticalStackView setTranslatesAutoresizingMaskIntoConstraints: NO];
-    [mainView addSubview: verticalStackView];
+    VerticalStackLayout *verticalStackView = [[VerticalStackLayout alloc] init]; {
+        [verticalStackView setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [mainView addSubview: verticalStackView];
+        
+        [verticalStackView setQuickPinFillParentWithPaddingTop: _titleBarPaddingValue + defaultElementVerticalPadding
+                                                        bottom: defaultMainContentPadding
+                                                       leading: defaultMainContentPadding
+                                                      trailing: defaultMainContentPadding];
+    }
     
-    [verticalStackView setQuickPinFillParentWithPaddingTop: _titleBarPaddingValue + defaultElementVerticalPadding
-                                                    bottom: defaultMainContentPadding
-                                                   leading: defaultMainContentPadding
-                                                  trailing: defaultMainContentPadding];
-    
-    LabelView *labelWindowsSourcePath = [[LabelView alloc] init];
-    [labelWindowsSourcePath setStringValue:@"Windows.iso / Source Path"];
-    [verticalStackView addView:labelWindowsSourcePath spacing:0];
+    LabelView *labelWindowsSourcePath = [[LabelView alloc] init]; {
+        [labelWindowsSourcePath setStringValue:@"Windows.iso / Source Path"];
+        [verticalStackView addView:labelWindowsSourcePath spacing:0];
+    }
     
     HorizontalStackLayout *horizontalStackLayoutWindowsSourcePath = [[HorizontalStackLayout alloc] init]; {
         [verticalStackView addView:horizontalStackLayoutWindowsSourcePath spacing:defaultElementVerticalPadding];
         
-        NSTextField *textFieldWindowsSourcePath = [[NSTextField alloc] init];
-        [horizontalStackLayoutWindowsSourcePath addView:textFieldWindowsSourcePath spacing:0];
-        
-        [textFieldWindowsSourcePath setBezelStyle: NSTextFieldRoundedBezel];
-        
+        NSTextField *textFieldWindowsSourcePath = [[NSTextField alloc] init]; {
+            [horizontalStackLayoutWindowsSourcePath addView:textFieldWindowsSourcePath spacing:0];
+            [textFieldWindowsSourcePath setBezelStyle: NSTextFieldRoundedBezel];
+        }
         if (@available(macOS 10.10, *)) {
             [textFieldWindowsSourcePath setPlaceholderString:@"~/Desktop/Windows.iso"];
             [textFieldWindowsSourcePath setLineBreakMode: NSLineBreakByTruncatingHead];
         }
         
-        NSButton *button = [[NSButton alloc] init];
-        [button setBezelStyle:NSBezelStyleRounded];
-        [button setTitle:@"Choose"];
-        [horizontalStackLayoutWindowsSourcePath addView:button spacing:defaultMainContentPadding];
+        NSButton *buttonChooseImage = [[NSButton alloc] init]; {
+            [buttonChooseImage setBezelStyle:NSBezelStyleRounded];
+            [buttonChooseImage setTitle:@"Choose"];
+            [horizontalStackLayoutWindowsSourcePath addView:buttonChooseImage spacing:defaultMainContentPadding];
+            
+            [buttonChooseImage setMinWidth:80];
+            [buttonChooseImage setMaxWidth:80];
+        }
     }
     
-    LabelView *labelDeviceSelector = [[LabelView alloc] init];
-    [verticalStackView addView:labelDeviceSelector spacing:defaultMainContentPadding];
-    [labelDeviceSelector setStringValue:@"Device"];
+    LabelView *labelDeviceSelector = [[LabelView alloc] init]; {
+        [verticalStackView addView:labelDeviceSelector spacing:defaultMainContentPadding];
+        [labelDeviceSelector setStringValue:@"Device"];
+    }
     
     HorizontalStackLayout *horizontalStackLayoutDeviceSelector = [[HorizontalStackLayout alloc] init]; {
         [verticalStackView addView:horizontalStackLayoutDeviceSelector spacing:defaultElementVerticalPadding];
-        NSPopUpButton *popUpButtonDeviceSelector = [[NSPopUpButton alloc] init];
-        [horizontalStackLayoutDeviceSelector addView:popUpButtonDeviceSelector spacing:0];
         
-        NSButton *button = [[NSButton alloc] init];
-        [button setBezelStyle:NSBezelStyleRounded];
-        [button setTitle:@"Update"];
-        [horizontalStackLayoutDeviceSelector addView:button spacing:defaultMainContentPadding];
+        NSPopUpButton *popUpButtonDeviceSelector = [[NSPopUpButton alloc] init]; {
+            [horizontalStackLayoutDeviceSelector addView:popUpButtonDeviceSelector spacing:0];
+        }
+        
+        NSButton *buttonUpdateDevices = [[NSButton alloc] init]; {
+            [buttonUpdateDevices setBezelStyle:NSBezelStyleRounded];
+            [buttonUpdateDevices setTitle:@"Update"];
+            [horizontalStackLayoutDeviceSelector addView:buttonUpdateDevices spacing:defaultMainContentPadding];
+            
+            [buttonUpdateDevices setMinWidth:80];
+            [buttonUpdateDevices setMaxWidth:80];
+        }
     }
     
-    LabelView *labelOSType = [[LabelView alloc] init];
-    [labelOSType setStringValue:@"OS Type"];
-    [verticalStackView addView:labelOSType spacing:defaultMainContentPadding * 2];
     
-    NSPopUpButton *popUpButtonOSType = [[NSPopUpButton alloc] init];
-    [verticalStackView addView:popUpButtonOSType spacing:defaultElementVerticalPadding];
+    LabelView *labelOSType = [[LabelView alloc] init]; {
+        [verticalStackView addView:labelOSType spacing:defaultMainContentPadding * 2];
+        
+        [labelOSType setStringValue:@"OS Type"];
+    }
     
-    HorizontalStackLayout *horizontalStackLayoutBootModePartitionScheme = [[HorizontalStackLayout alloc] initWithLayoutDistribution:HorizontalStackLayoutDistributionFillEqually]; {
+    NSPopUpButton *popUpButtonOSType = [[NSPopUpButton alloc] init]; {
+        [verticalStackView addView:popUpButtonOSType spacing:defaultElementVerticalPadding];
+    }
+    
+    HorizontalStackLayout *horizontalStackLayoutBootModePartitionScheme = [[HorizontalStackLayout alloc] initWithLayoutDistribution: HorizontalStackLayoutDistributionFillEqually]; {
         [verticalStackView addView:horizontalStackLayoutBootModePartitionScheme spacing:defaultMainContentPadding * 2];
         
-        {
-            VerticalStackLayout *verticalStackViewBootMode = [[VerticalStackLayout alloc] init];
+        VerticalStackLayout *verticalStackViewBootMode = [[VerticalStackLayout alloc] init]; {
             [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewBootMode spacing:0];
             
             LabelView *labelViewBootMode = [[LabelView alloc] init];
@@ -108,6 +123,50 @@ CGFloat defaultElementVerticalPadding = 4;
             [verticalStackViewBootMode addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
         }
         
+        VerticalStackLayout *verticalStackViewPartitionScheme = [[VerticalStackLayout alloc] init]; {
+            [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewPartitionScheme spacing:defaultMainContentPadding];
+            
+            LabelView *labelViewBootMode = [[LabelView alloc] init];
+            [labelViewBootMode setStringValue:@"Partition Scheme"];
+            [verticalStackViewPartitionScheme addView:labelViewBootMode spacing:0];
+            
+            NSPopUpButton *popUpButtonBootMode = [[NSPopUpButton alloc] init];
+            [verticalStackViewPartitionScheme addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
+        }
+    }
+    
+    HorizontalStackLayout *horizontalStackLayoutFilesystemBlockSize = [[HorizontalStackLayout alloc] initWithLayoutDistribution: HorizontalStackLayoutDistributionFillEqually]; {
+        [verticalStackView addView:horizontalStackLayoutFilesystemBlockSize spacing:defaultMainContentPadding * 2];
+        
+        VerticalStackLayout *verticalStackViewFileSystem = [[VerticalStackLayout alloc] init]; {
+            [horizontalStackLayoutFilesystemBlockSize addView:verticalStackViewFileSystem spacing:0];
+            
+            LabelView *labelViewFilesystem = [[LabelView alloc] init];
+            [labelViewFilesystem setStringValue:@"File System"];
+            [verticalStackViewFileSystem addView:labelViewFilesystem spacing:0];
+            
+            NSPopUpButton *popUpButtonFileSystem = [[NSPopUpButton alloc] init];
+            [verticalStackViewFileSystem addView:popUpButtonFileSystem spacing:defaultElementVerticalPadding];
+        }
+        
+        VerticalStackLayout *verticalStackViewBlockSize = [[VerticalStackLayout alloc] init]; {
+            [horizontalStackLayoutFilesystemBlockSize addView:verticalStackViewBlockSize spacing:defaultMainContentPadding];
+            
+            LabelView *labelViewBlockSize = [[LabelView alloc] init];
+            [labelViewBlockSize setStringValue:@"Block Size"];
+            [verticalStackViewBlockSize addView:labelViewBlockSize spacing:0];
+            
+            NSPopUpButton *popUpButtonBlockSize = [[NSPopUpButton alloc] init];
+            [verticalStackViewBlockSize addView:popUpButtonBlockSize spacing:defaultElementVerticalPadding];
+        }
+    }
+    
+    VerticalStackLayout *buttonContainer = [[VerticalStackLayout alloc] init]; {
+        [verticalStackView addView:buttonContainer spacing:0];
+        
+        NSButton *checkBox = [[NSButton alloc] init];
+        [checkBox setButtonType:NSButtonTypeSwitch];
+        [buttonContainer addView:checkBox spacing:0];
     }
     
     

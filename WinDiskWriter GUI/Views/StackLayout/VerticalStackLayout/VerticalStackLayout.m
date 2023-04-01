@@ -29,35 +29,9 @@ StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierBottomWeak 
  
     } else {
         NSView *previousView = [self.containerView.subviews objectAtIndex: (self.containerView.subviews.count - 2)];
-        NSArray *parentLayoutConstraints = self.containerView.constraints;
-        
-        BOOL bottomRemoved = NO;
-        BOOL weakBottomRemoved = NO;
-        
-        for (NSInteger i = parentLayoutConstraints.count - 1; i >= 0; --i) {
-            NSLayoutConstraint *currentConstraint = [parentLayoutConstraints objectAtIndex:i];
-            
-            if (bottomRemoved && weakBottomRemoved) {
-                break;
-            }
-            
-            if (![currentConstraint.firstItem isEqual:previousView]) {
-                continue;
-            }
-            
-            if (currentConstraint.identifier == StackLayoutConstraintIdentifierBottom) {
-                [self.containerView removeConstraint:currentConstraint];
-                bottomRemoved = YES;
-                continue;
-            }
-            
-            if (currentConstraint.identifier == StackLayoutConstraintIdentifierBottomWeak) {
-                [self.containerView removeConstraint:currentConstraint];
-                weakBottomRemoved = YES;
-                continue;
-            }
-        }
-        
+        [self removeConstraintsForFirstOccurenceWithID:StackLayoutConstraintIdentifierBottom forView:previousView];
+        [self removeConstraintsForFirstOccurenceWithID:StackLayoutConstraintIdentifierBottomWeak forView:previousView];
+
         [newView setConstraintAttribute:NSLayoutAttributeTop toItem:previousView itemAttribute:NSLayoutAttributeBottom relation:NSLayoutRelationEqual isWeak:NO constant:spacing multiplier:1.0 identifier:NULL];
         
     }
