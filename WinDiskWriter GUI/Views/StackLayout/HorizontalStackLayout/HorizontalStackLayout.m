@@ -32,11 +32,6 @@ StackLayoutConstraintIdentifier const StackLayoutConstraintIdentifierWidthWeak =
     return self;
 }
 
-- (void)addViewXXX: (NSView *)newView
-           spacing: (CGFloat)spacing {
-    
-}
-
 - (void)addView: (NSView *_Nonnull)newView
         spacing: (CGFloat)spacing {
     [newView setTranslatesAutoresizingMaskIntoConstraints: NO];
