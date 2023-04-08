@@ -1,8 +1,8 @@
 //
-//  BaseStackLayout.h
+//  BaseStackView.h
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 05.03.2023.
+//  Created by Macintosh on 05.04.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
@@ -12,9 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString *StackLayoutConstraintIdentifier NS_TYPED_ENUM;
 
-@interface BaseStackLayout : NSView
+@interface BaseStackView : NSView
 
-@property (nonatomic, strong, readonly) NSView *containerView;
+@property (nonatomic, readonly, strong) NSView *containerView;
+
+- (void)addView: (NSView *)newView;
+
+- (CGFloat)spacing;
+- (void)setSpacing: (CGFloat)newSpacing;
 
 - (void)removeConstraintsForFirstOccurenceWithID: (StackLayoutConstraintIdentifier)constraintID
                                          forView: (NSView *)nsView;

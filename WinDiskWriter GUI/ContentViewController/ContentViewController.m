@@ -7,13 +7,15 @@
 //
 
 #import "ContentViewController.h"
-#import "VerticalStackLayout.h"
-#import "HorizontalStackLayout.h"
 #import "NSView+QuickConstraints.h"
 #import "NSColor+Common.h"
 #import "LabelView.h"
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import "NSView+QuickConstraints.h"
+
+#import "VerticalStackView.h"
+#import "HorizontalStackView.h"
 
 @interface ContentViewController ()
 
@@ -39,137 +41,76 @@ CGFloat defaultElementVerticalPadding = 4;
         mainView = [[NSView alloc] init];
     }
     
-    VerticalStackLayout *verticalStackView = [[VerticalStackLayout alloc] init]; {
-        [verticalStackView setTranslatesAutoresizingMaskIntoConstraints: NO];
-        [mainView addSubview: verticalStackView];
+    VerticalStackView *mainStackView = [[VerticalStackView alloc] init];
+    [mainStackView setTranslatesAutoresizingMaskIntoConstraints: NO];
+    
+    [mainStackView setSpacing: defaultElementVerticalPadding];
+    
+    [mainView addSubview: mainStackView];
+    
+    [mainStackView setQuickPinFillParentWithPaddingTop: defaultMainContentPadding + _titleBarPaddingValue
+                                                bottom: defaultMainContentPadding
+                                               leading: defaultMainContentPadding
+                                              trailing: defaultMainContentPadding];
+    
+    NSView *containerForHorizontal = [[NSView alloc] init];
+    [containerForHorizontal setTranslatesAutoresizingMaskIntoConstraints: NO];
+    [mainStackView addSubview:containerForHorizontal];
+    
+    [containerForHorizontal setConstraintAttribute:NSLayoutAttributeHeight toItem:mainStackView itemAttribute:NSLayoutAttributeHeight relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    [containerForHorizontal setConstraintAttribute:NSLayoutAttributeLeading toItem:mainStackView itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    
+    [containerForHorizontal setConstraintAttribute:NSLayoutAttributeTrailing toItem:mainStackView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationGreaterThanOrEqual priority:499 constant:0 multiplier:1.0 identifier:NULL];
+    [containerForHorizontal setConstraintAttribute:NSLayoutAttributeTrailing toItem:mainStackView itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationLessThanOrEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
         
-        [verticalStackView setQuickPinFillParentWithPaddingTop: _titleBarPaddingValue + defaultElementVerticalPadding
-                                                        bottom: defaultMainContentPadding
-                                                       leading: defaultMainContentPadding
-                                                      trailing: defaultMainContentPadding];
+    
+    [containerForHorizontal setWantsLayer: YES];
+    [containerForHorizontal.layer setBackgroundColor: NSColor.redColor.toCGColor];
+    
+    
+    NSButton *button1 = [[NSButton alloc] init]; {
+        [button1 setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [button1 setTitle: @"Button1"];
+        
+        [containerForHorizontal addSubview: button1];
+        [button1 setConstraintAttribute:NSLayoutAttributeTop toItem:containerForHorizontal itemAttribute:NSLayoutAttributeTop relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+        [button1 setConstraintAttribute:NSLayoutAttributeLeading toItem:containerForHorizontal itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+        
+        [button1 setMinWidth:100];
+        [button1 setMaxWidth:200];
     }
     
-    LabelView *labelWindowsSourcePath = [[LabelView alloc] init]; {
-        [labelWindowsSourcePath setStringValue:@"Windows.iso / Source Path"];
-        [verticalStackView addView:labelWindowsSourcePath spacing:0];
+    NSButton *button2 = [[NSButton alloc] init]; {
+        [button2 setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [button2 setTitle: @"Button2"];
+        
+        [containerForHorizontal addSubview: button2];
+        [button2 setMaxWidth:300];
+
+        [button2 setConstraintAttribute:NSLayoutAttributeTop toItem:containerForHorizontal itemAttribute:NSLayoutAttributeTop relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+        [button2 setConstraintAttribute:NSLayoutAttributeLeading toItem:button1 itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    }
+
+    
+    NSTextField *button3 = [[NSTextField alloc] init]; {
+        [button3 setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [button3 setStringValue: @"Button3"];
+        
+        [containerForHorizontal addSubview: button3];
+        [button3 setMinWidth:300];
+        [button3 setMaxWidth:500];
+
+        [button3 setConstraintAttribute:NSLayoutAttributeTop toItem:containerForHorizontal itemAttribute:NSLayoutAttributeTop relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+        [button3 setConstraintAttribute:NSLayoutAttributeLeading toItem:button2 itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
     }
     
-    HorizontalStackLayout *horizontalStackLayoutWindowsSourcePath = [[HorizontalStackLayout alloc] init]; {
-        [verticalStackView addView:horizontalStackLayoutWindowsSourcePath spacing:defaultElementVerticalPadding];
-        
-        NSTextField *textFieldWindowsSourcePath = [[NSTextField alloc] init]; {
-            [horizontalStackLayoutWindowsSourcePath addView:textFieldWindowsSourcePath spacing:0];
-            [textFieldWindowsSourcePath setBezelStyle: NSTextFieldRoundedBezel];
-        }
-        if (@available(macOS 10.10, *)) {
-            [textFieldWindowsSourcePath setPlaceholderString:@"~/Desktop/Windows.iso"];
-            [textFieldWindowsSourcePath setLineBreakMode: NSLineBreakByTruncatingHead];
-        }
-        
-        NSButton *buttonChooseImage = [[NSButton alloc] init]; {
-            [buttonChooseImage setBezelStyle:NSBezelStyleRounded];
-            [buttonChooseImage setTitle:@"Choose"];
-            [horizontalStackLayoutWindowsSourcePath addView:buttonChooseImage spacing:defaultMainContentPadding];
-            
-            [buttonChooseImage setMinWidth:80];
-            [buttonChooseImage setMaxWidth:80];
-        }
-    }
-    
-    LabelView *labelDeviceSelector = [[LabelView alloc] init]; {
-        [verticalStackView addView:labelDeviceSelector spacing:defaultMainContentPadding];
-        [labelDeviceSelector setStringValue:@"Device"];
-    }
-    
-    HorizontalStackLayout *horizontalStackLayoutDeviceSelector = [[HorizontalStackLayout alloc] init]; {
-        [verticalStackView addView:horizontalStackLayoutDeviceSelector spacing:defaultElementVerticalPadding];
-        
-        NSPopUpButton *popUpButtonDeviceSelector = [[NSPopUpButton alloc] init]; {
-            [horizontalStackLayoutDeviceSelector addView:popUpButtonDeviceSelector spacing:0];
-        }
-        
-        NSButton *buttonUpdateDevices = [[NSButton alloc] init]; {
-            [buttonUpdateDevices setBezelStyle:NSBezelStyleRounded];
-            [buttonUpdateDevices setTitle:@"Update"];
-            [horizontalStackLayoutDeviceSelector addView:buttonUpdateDevices spacing:defaultMainContentPadding];
-            
-            [buttonUpdateDevices setMinWidth:80];
-            [buttonUpdateDevices setMaxWidth:80];
-        }
-    }
-    
-    
-    LabelView *labelOSType = [[LabelView alloc] init]; {
-        [verticalStackView addView:labelOSType spacing:defaultMainContentPadding * 2];
-        
-        [labelOSType setStringValue:@"OS Type"];
-    }
-    
-    NSPopUpButton *popUpButtonOSType = [[NSPopUpButton alloc] init]; {
-        [verticalStackView addView:popUpButtonOSType spacing:defaultElementVerticalPadding];
-    }
-    
-    HorizontalStackLayout *horizontalStackLayoutBootModePartitionScheme = [[HorizontalStackLayout alloc] initWithLayoutDistribution: HorizontalStackLayoutDistributionFillEqually]; {
-        [verticalStackView addView:horizontalStackLayoutBootModePartitionScheme spacing:defaultMainContentPadding * 2];
-        
-        VerticalStackLayout *verticalStackViewBootMode = [[VerticalStackLayout alloc] init]; {
-            [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewBootMode spacing:0];
-            
-            LabelView *labelViewBootMode = [[LabelView alloc] init];
-            [labelViewBootMode setStringValue:@"Boot Mode"];
-            [verticalStackViewBootMode addView:labelViewBootMode spacing:0];
-            
-            NSPopUpButton *popUpButtonBootMode = [[NSPopUpButton alloc] init];
-            [verticalStackViewBootMode addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
-        }
-        
-        VerticalStackLayout *verticalStackViewPartitionScheme = [[VerticalStackLayout alloc] init]; {
-            [horizontalStackLayoutBootModePartitionScheme addView:verticalStackViewPartitionScheme spacing:defaultMainContentPadding];
-            
-            LabelView *labelViewBootMode = [[LabelView alloc] init];
-            [labelViewBootMode setStringValue:@"Partition Scheme"];
-            [verticalStackViewPartitionScheme addView:labelViewBootMode spacing:0];
-            
-            NSPopUpButton *popUpButtonBootMode = [[NSPopUpButton alloc] init];
-            [verticalStackViewPartitionScheme addView:popUpButtonBootMode spacing:defaultElementVerticalPadding];
-        }
-    }
-    
-    HorizontalStackLayout *horizontalStackLayoutFilesystemBlockSize = [[HorizontalStackLayout alloc] initWithLayoutDistribution: HorizontalStackLayoutDistributionFillEqually]; {
-        [verticalStackView addView:horizontalStackLayoutFilesystemBlockSize spacing:defaultMainContentPadding * 2];
-        
-        VerticalStackLayout *verticalStackViewFileSystem = [[VerticalStackLayout alloc] init]; {
-            [horizontalStackLayoutFilesystemBlockSize addView:verticalStackViewFileSystem spacing:0];
-            
-            LabelView *labelViewFilesystem = [[LabelView alloc] init];
-            [labelViewFilesystem setStringValue:@"File System"];
-            [verticalStackViewFileSystem addView:labelViewFilesystem spacing:0];
-            
-            NSPopUpButton *popUpButtonFileSystem = [[NSPopUpButton alloc] init];
-            [verticalStackViewFileSystem addView:popUpButtonFileSystem spacing:defaultElementVerticalPadding];
-        }
-        
-        VerticalStackLayout *verticalStackViewBlockSize = [[VerticalStackLayout alloc] init]; {
-            [horizontalStackLayoutFilesystemBlockSize addView:verticalStackViewBlockSize spacing:defaultMainContentPadding];
-            
-            LabelView *labelViewBlockSize = [[LabelView alloc] init];
-            [labelViewBlockSize setStringValue:@"Block Size"];
-            [verticalStackViewBlockSize addView:labelViewBlockSize spacing:0];
-            
-            NSPopUpButton *popUpButtonBlockSize = [[NSPopUpButton alloc] init];
-            [verticalStackViewBlockSize addView:popUpButtonBlockSize spacing:defaultElementVerticalPadding];
-        }
-    }
-    
-    VerticalStackLayout *buttonContainer = [[VerticalStackLayout alloc] init]; {
-        [verticalStackView addView:buttonContainer spacing:0];
-        
-        NSButton *checkBox = [[NSButton alloc] init];
-        [checkBox setButtonType:NSButtonTypeSwitch];
-        [buttonContainer addView:checkBox spacing:0];
-    }
-    
-    
+    [button1 setConstraintAttribute:NSLayoutAttributeTrailing toItem:button2 itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    [button2 setConstraintAttribute:NSLayoutAttributeTrailing toItem:button3 itemAttribute:NSLayoutAttributeLeading relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+    [button3 setConstraintAttribute:NSLayoutAttributeTrailing toItem:containerForHorizontal itemAttribute:NSLayoutAttributeTrailing relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
+
+    [button2 setConstraintAttribute:NSLayoutAttributeWidth toItem:button1 itemAttribute:NSLayoutAttributeWidth relation:NSLayoutRelationEqual isWeak:YES constant:0 multiplier:1.0 identifier:NULL];
+    [button3 setConstraintAttribute:NSLayoutAttributeWidth toItem:button1 itemAttribute:NSLayoutAttributeWidth relation:NSLayoutRelationEqual isWeak:YES constant:0 multiplier:1.0 identifier:NULL];
+
     [self setView: mainView];
 }
 

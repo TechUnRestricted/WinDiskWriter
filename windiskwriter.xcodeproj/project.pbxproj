@@ -13,7 +13,6 @@
 		E218A30C29ABE31F0046B7CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E218A30B29ABE31F0046B7CA /* Assets.xcassets */; };
 		E218A31129ABE31F0046B7CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E218A31029ABE31F0046B7CA /* main.m */; };
 		E218A31929ABE3BB0046B7CA /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E218A31829ABE3BB0046B7CA /* ContentViewController.m */; };
-		E218A31D29ABEE130046B7CA /* VerticalStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E218A31C29ABEE130046B7CA /* VerticalStackLayout.m */; };
 		E218A32A29ABF4CD0046B7CA /* NSView+QuickConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = E218A32929ABF4CD0046B7CA /* NSView+QuickConstraints.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
@@ -88,12 +87,13 @@
 		E22B444229A1670B00846C1D /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
+		E26CF42029DDCAF50072E412 /* BaseStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26CF41F29DDCAF50072E412 /* BaseStackView.m */; };
+		E26CF42829DDCE5A0072E412 /* VerticalStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26CF42729DDCE5A0072E412 /* VerticalStackView.m */; };
+		E26CF42C29DF20A20072E412 /* HorizontalStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26CF42B29DF20A20072E412 /* HorizontalStackView.m */; };
 		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
 		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
 		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
-		E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */; };
-		E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1EF29B402D700308873 /* BaseStackLayout.m */; };
 		E2BBD1F329B5151600308873 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1F229B5151600308873 /* NSWindow+Common.m */; };
 		E2BBD1F829B5214500308873 /* LabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BBD1F729B5214500308873 /* LabelView.m */; };
 		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
@@ -144,8 +144,6 @@
 		E218A31229ABE31F0046B7CA /* WinDiskWriter_GUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WinDiskWriter_GUI.entitlements; sourceTree = "<group>"; };
 		E218A31729ABE3BB0046B7CA /* ContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
 		E218A31829ABE3BB0046B7CA /* ContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
-		E218A31B29ABEE130046B7CA /* VerticalStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalStackLayout.h; sourceTree = "<group>"; };
-		E218A31C29ABEE130046B7CA /* VerticalStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalStackLayout.m; sourceTree = "<group>"; };
 		E218A32829ABF4CD0046B7CA /* NSView+QuickConstraints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSView+QuickConstraints.h"; sourceTree = "<group>"; };
 		E218A32929ABF4CD0046B7CA /* NSView+QuickConstraints.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+QuickConstraints.m"; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
@@ -296,6 +294,12 @@
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
 		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
+		E26CF41E29DDCAF50072E412 /* BaseStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseStackView.h; sourceTree = "<group>"; };
+		E26CF41F29DDCAF50072E412 /* BaseStackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseStackView.m; sourceTree = "<group>"; };
+		E26CF42629DDCE5A0072E412 /* VerticalStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalStackView.h; sourceTree = "<group>"; };
+		E26CF42729DDCE5A0072E412 /* VerticalStackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalStackView.m; sourceTree = "<group>"; };
+		E26CF42A29DF20A20072E412 /* HorizontalStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalStackView.h; sourceTree = "<group>"; };
+		E26CF42B29DF20A20072E412 /* HorizontalStackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalStackView.m; sourceTree = "<group>"; };
 		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
 		E289E2BB298EE0BD0011B620 /* BootModes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootModes.m; sourceTree = "<group>"; };
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
@@ -305,10 +309,6 @@
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
-		E2BBD1EA29B3DF2B00308873 /* HorizontalStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalStackLayout.h; sourceTree = "<group>"; };
-		E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalStackLayout.m; sourceTree = "<group>"; };
-		E2BBD1EE29B402D700308873 /* BaseStackLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseStackLayout.h; sourceTree = "<group>"; };
-		E2BBD1EF29B402D700308873 /* BaseStackLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseStackLayout.m; sourceTree = "<group>"; };
 		E2BBD1F129B5151600308873 /* NSWindow+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Common.h"; sourceTree = "<group>"; };
 		E2BBD1F229B5151600308873 /* NSWindow+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
 		E2BBD1F629B5214500308873 /* LabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LabelView.h; sourceTree = "<group>"; };
@@ -401,26 +401,6 @@
 				E218A31829ABE3BB0046B7CA /* ContentViewController.m */,
 			);
 			path = ContentViewController;
-			sourceTree = "<group>";
-		};
-		E218A31E29ABEE170046B7CA /* VerticalStackLayout */ = {
-			isa = PBXGroup;
-			children = (
-				E218A31C29ABEE130046B7CA /* VerticalStackLayout.m */,
-				E218A31B29ABEE130046B7CA /* VerticalStackLayout.h */,
-			);
-			path = VerticalStackLayout;
-			sourceTree = "<group>";
-		};
-		E218A31F29ABF03B0046B7CA /* StackLayout */ = {
-			isa = PBXGroup;
-			children = (
-				E2BBD1EE29B402D700308873 /* BaseStackLayout.h */,
-				E2BBD1EF29B402D700308873 /* BaseStackLayout.m */,
-				E218A31E29ABEE170046B7CA /* VerticalStackLayout */,
-				E2BBD1ED29B3DF3200308873 /* HorizontalStackLayout */,
-			);
-			path = StackLayout;
 			sourceTree = "<group>";
 		};
 		E218A32729ABF4890046B7CA /* Extensions */ = {
@@ -990,6 +970,35 @@
 			path = windiskwriter;
 			sourceTree = "<group>";
 		};
+		E26CF42129DDCDC70072E412 /* StackView */ = {
+			isa = PBXGroup;
+			children = (
+				E26CF41E29DDCAF50072E412 /* BaseStackView.h */,
+				E26CF41F29DDCAF50072E412 /* BaseStackView.m */,
+				E26CF42929DDCE5D0072E412 /* Vertical */,
+				E26CF42D29DF20A70072E412 /* Horizontal */,
+			);
+			path = StackView;
+			sourceTree = "<group>";
+		};
+		E26CF42929DDCE5D0072E412 /* Vertical */ = {
+			isa = PBXGroup;
+			children = (
+				E26CF42629DDCE5A0072E412 /* VerticalStackView.h */,
+				E26CF42729DDCE5A0072E412 /* VerticalStackView.m */,
+			);
+			path = Vertical;
+			sourceTree = "<group>";
+		};
+		E26CF42D29DF20A70072E412 /* Horizontal */ = {
+			isa = PBXGroup;
+			children = (
+				E26CF42A29DF20A20072E412 /* HorizontalStackView.h */,
+				E26CF42B29DF20A20072E412 /* HorizontalStackView.m */,
+			);
+			path = Horizontal;
+			sourceTree = "<group>";
+		};
 		E289E2B9298EE08D0011B620 /* BootModes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1035,15 +1044,6 @@
 			path = PartitionSchemes;
 			sourceTree = "<group>";
 		};
-		E2BBD1ED29B3DF3200308873 /* HorizontalStackLayout */ = {
-			isa = PBXGroup;
-			children = (
-				E2BBD1EB29B3DF2B00308873 /* HorizontalStackLayout.m */,
-				E2BBD1EA29B3DF2B00308873 /* HorizontalStackLayout.h */,
-			);
-			path = HorizontalStackLayout;
-			sourceTree = "<group>";
-		};
 		E2BBD1F429B5151A00308873 /* NSWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -1056,7 +1056,7 @@
 		E2BBD1F529B51DC300308873 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E218A31F29ABF03B0046B7CA /* StackLayout */,
+				E26CF42129DDCDC70072E412 /* StackView */,
 				E2BBD1F929B5214800308873 /* LabelView */,
 			);
 			path = Views;
@@ -1268,14 +1268,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E218A31129ABE31F0046B7CA /* main.m in Sources */,
+				E26CF42829DDCE5A0072E412 /* VerticalStackView.m in Sources */,
+				E26CF42029DDCAF50072E412 /* BaseStackView.m in Sources */,
+				E26CF42C29DF20A20072E412 /* HorizontalStackView.m in Sources */,
 				E218A30A29ABE31E0046B7CA /* AppDelegate.m in Sources */,
-				E218A31D29ABEE130046B7CA /* VerticalStackLayout.m in Sources */,
 				E2BBD1F329B5151600308873 /* NSWindow+Common.m in Sources */,
-				E2BBD1F029B402D700308873 /* BaseStackLayout.m in Sources */,
 				E2BBD1F829B5214500308873 /* LabelView.m in Sources */,
 				E2DDF11C29AC00BD0073E901 /* NSColor+Common.m in Sources */,
 				E218A31929ABE3BB0046B7CA /* ContentViewController.m in Sources */,
-				E2BBD1EC29B3DF2B00308873 /* HorizontalStackLayout.m in Sources */,
 				E218A32A29ABF4CD0046B7CA /* NSView+QuickConstraints.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

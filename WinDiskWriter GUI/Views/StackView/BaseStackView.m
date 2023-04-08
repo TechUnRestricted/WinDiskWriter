@@ -1,15 +1,17 @@
 //
-//  BaseStackLayout.m
+//  BaseStackView.m
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 05.03.2023.
+//  Created by Macintosh on 05.04.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "BaseStackLayout.h"
+#import "BaseStackView.h"
 #import "NSView+QuickConstraints.h"
 
-@implementation BaseStackLayout
+@implementation BaseStackView {
+    CGFloat spacing;
+}
 
 - (instancetype)init {
     self = [super init];
@@ -24,6 +26,20 @@
     [_containerView setConstraintAttribute:NSLayoutAttributeHeight toItem:self itemAttribute:NSLayoutAttributeHeight relation:NSLayoutRelationEqual isWeak:NO constant:0 multiplier:1.0 identifier:NULL];
     
     return self;
+}
+
+- (void)addView: (NSView *)newView {
+    [newView setTranslatesAutoresizingMaskIntoConstraints: NO];
+    
+    [self.containerView addSubview:newView];
+}
+
+- (CGFloat)spacing {
+    return spacing;
+}
+
+- (void)setSpacing: (CGFloat)newSpacing {
+    spacing = newSpacing;
 }
 
 - (void)removeConstraintsForFirstOccurenceWithID: (StackLayoutConstraintIdentifier)constraintID

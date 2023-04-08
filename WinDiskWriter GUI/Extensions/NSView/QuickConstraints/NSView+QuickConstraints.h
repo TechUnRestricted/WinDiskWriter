@@ -29,11 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
                         toItem: (id)item
                  itemAttribute: (NSLayoutAttribute)secondAttribute
                       relation: (NSLayoutRelation)relation
-                        isWeak: (BOOL)isWeak
+                      priority: (NSLayoutPriority)priority
                       constant: (CGFloat)constant
                     multiplier: (CGFloat)multiplier
                     identifier: (NSString *_Nullable)identifier;
 
+- (void)setConstraintAttribute: (NSLayoutAttribute)firstAttribute
+                        toItem: (id)item
+                 itemAttribute: (NSLayoutAttribute)secondAttribute
+                      relation: (NSLayoutRelation)relation
+                        isWeak: (BOOL)isWeak
+                      constant: (CGFloat)constant
+                    multiplier: (CGFloat)multiplier
+                    identifier: (NSString *_Nullable)identifier;
 
 @end
 
