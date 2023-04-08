@@ -43,10 +43,11 @@
                         toItem: (id)item
                  itemAttribute: (NSLayoutAttribute)secondAttribute
                       relation: (NSLayoutRelation)relation
-                        isWeak: (BOOL)isWeak
+                      priority: (NSLayoutPriority)priority
                       constant: (CGFloat)constant
                     multiplier: (CGFloat)multiplier
                     identifier: (NSString *_Nullable)identifier {
+    
     NSLayoutConstraint *layoutConstraint = [NSLayoutConstraint constraintWithItem: self
                                                                         attribute: firstAttribute
                                                                         relatedBy: relation
@@ -55,13 +56,32 @@
                                                                        multiplier: multiplier
                                                                          constant: constant];
     
-    if (isWeak) {
-        [layoutConstraint setPriority: NSLayoutPriorityDragThatCannotResizeWindow];
-    }
-    
+    [layoutConstraint setPriority: priority];
+        
     [layoutConstraint setIdentifier:identifier];
     
     [self.superview addConstraint: layoutConstraint];
+    
+}
+
+- (void)setConstraintAttribute: (NSLayoutAttribute)firstAttribute
+                        toItem: (id)item
+                 itemAttribute: (NSLayoutAttribute)secondAttribute
+                      relation: (NSLayoutRelation)relation
+                        isWeak: (BOOL)isWeak
+                      constant: (CGFloat)constant
+                    multiplier: (CGFloat)multiplier
+                    identifier: (NSString *_Nullable)identifier {
+    
+    [self setConstraintAttribute: firstAttribute
+                          toItem: item
+                   itemAttribute: secondAttribute
+                        relation: relation
+                        priority: isWeak ? NSLayoutPriorityDragThatCannotResizeWindow : NSLayoutPriorityDefaultHigh
+                        constant: constant
+                      multiplier: multiplier
+                      identifier: identifier];
+    
 }
 
 - (void)setMinWidth: (CGFloat)value {

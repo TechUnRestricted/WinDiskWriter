@@ -87,16 +87,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5CD2F78E-0037-467B-940A-7ADBC3012830"
+            uuid = "BB8E7D0F-A50D-4B9A-B48B-EC164ABFCC04"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WinDiskWriter GUI/Extensions/NSView/QuickConstraints/NSView+QuickConstraints.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "-setConstraintAttribute:toItem:itemAttribute:relation:isWeak:constant:multiplier:identifier:"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-setConstraintAttribute:toItem:itemAttribute:relation:priority:constant:multiplier:identifier:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
