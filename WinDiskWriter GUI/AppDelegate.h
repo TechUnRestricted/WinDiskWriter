@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 26.02.2023.
+//  Created by Macintosh on 13.06.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 

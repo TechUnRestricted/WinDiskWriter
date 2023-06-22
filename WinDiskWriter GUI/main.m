@@ -2,22 +2,15 @@
 //  main.m
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 26.02.2023.
+//  Created by Macintosh on 13.06.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AppDelegate/AppDelegate.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSApplication *application = [NSApplication sharedApplication];
-        AppDelegate *delegate = [[AppDelegate alloc] init];
-        
-        [application setDelegate:delegate];
-        
-        NSApplicationMain(argc, argv);
-        [NSApp run];
+        // Setup code that might create autoreleased objects goes here.
     }
     return NSApplicationMain(argc, argv);
 }
