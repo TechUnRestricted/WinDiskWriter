@@ -20,21 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) CGFloat minWidth;
 @property (nonatomic, readwrite) CGFloat maxWidth;
 
-@property (nonatomic, readwrite) CGFloat computedSize;
+@property (nonatomic, readwrite) CGFloat computedWidth;
+@property (nonatomic, readwrite) CGFloat computedHeight;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNSView: (NSView * _Nonnull)nsView;
-
-/*
-- (instancetype)initWithMinWidth: (CGFloat)minWidth
-                        maxWidth: (CGFloat)maxWidth
-                       minHeight: (CGFloat)minHeight
-                       maxHeight: (CGFloat)maxHeight;
-
-- (instancetype)initWithWidth: (CGFloat)width
-                       height: (CGFloat)height;
-*/
-
 
 @end
 

@@ -206,8 +206,8 @@
             filePath = "WinDiskWriter GUI/AppDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "-applicationDidFinishLaunching:"
             landmarkType = "7">
          </BreakpointContent>
@@ -225,6 +225,22 @@
             startingLineNumber = "149"
             endingLineNumber = "149"
             landmarkName = "-updateComputedElementsWidth"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED09C030-83B8-4598-BD89-6A0811D7BAC6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WinDiskWriter GUI/FrameLayout/HorizontalLayout/HorizontalLayout.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "-drawRect:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

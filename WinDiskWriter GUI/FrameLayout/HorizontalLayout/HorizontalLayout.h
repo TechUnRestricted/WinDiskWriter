@@ -1,5 +1,5 @@
 //
-//  VerticalLayout.h
+//  HorizontalLayout.h
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 14.06.2023.
@@ -8,9 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef NS_ENUM(NSUInteger, FrameLayoutVerticalAlignment) {
+    FrameLayoutVerticalTop,
+    FrameLayoutVerticalBottom,
+    FrameLayoutVerticalCenter
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VerticalLayout : NSView
+@interface HorizontalLayout : NSView
+
+@property (nonatomic, readwrite) CGFloat spacing;
+@property (nonatomic, readwrite) FrameLayoutVerticalAlignment verticalAlignment;
 
 - (void)addView: (NSView * _Nonnull)nsView;
 

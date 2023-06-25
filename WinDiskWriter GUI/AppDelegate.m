@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "VerticalLayout.h"
+#import "HorizontalLayout.h"
 #import "Extensions/NSColor/NSColor+Common.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
@@ -44,28 +44,31 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
    
-    VerticalLayout *verticalLayout = [[VerticalLayout alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, 30)]; {
-        [verticalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth];
-        [_containerView addSubview:verticalLayout];
+    HorizontalLayout *horizontalLayout = [[HorizontalLayout alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, 30)]; {
+        [horizontalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth];
+        [_containerView addSubview:horizontalLayout];
         
-        [verticalLayout setWantsLayer: YES];
-        [[verticalLayout layer] setBackgroundColor: NSColor.redColor.toCGColor];
+        [horizontalLayout setWantsLayer: YES];
+        [[horizontalLayout layer] setBackgroundColor: NSColor.redColor.toCGColor];
     }
   
-    NSTextField *textField = [[NSTextField alloc] init];
-    [textField setBordered: YES];
-    [textField setBezeled: YES];
-    [textField setBezelStyle: NSTextFieldRoundedBezel];
     
-    [verticalLayout addView:textField minWidth:100 maxWidth:INFINITY minHeight:0 maxHeight:INFINITY];
+    NSTextField *textField1 = [[NSTextField alloc] init];
+    [horizontalLayout addView:textField1 minWidth:5 maxWidth:200 minHeight:10 maxHeight:10];
+    
+    NSTextField *textField2 = [[NSTextField alloc] init];
+    [horizontalLayout addView:textField2 minWidth:5 maxWidth:300 minHeight:2 maxHeight:INFINITY];
+    
+    [horizontalLayout setSpacing:10];
     
     NSButton *button = [[NSButton alloc] init];
     [button setTitle:@"Choose"];
     [button setBordered: YES];
     [button setBezelStyle: NSBezelStyleRounded];
     
-    [verticalLayout addView:button];
-
+    [horizontalLayout setVerticalAlignment:FrameLayoutVerticalTop];
+    //[verticalLayout addView:button];
+    
     
     [_window setMovableByWindowBackground: YES];
 }
