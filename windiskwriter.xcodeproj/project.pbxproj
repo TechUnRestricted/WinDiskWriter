@@ -102,7 +102,7 @@
 		E2CCB28629833695004EE171 /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
 		E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
 		E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
-		E2CCCD872A3A11EE00D101DE /* VerticalLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* VerticalLayout.m */; };
+		E2CCCD872A3A11EE00D101DE /* HorizontalLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */; };
 		E2CCCD8E2A3A476700D101DE /* LayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* LayoutElement.m */; };
 /* End PBXBuildFile section */
 
@@ -322,8 +322,8 @@
 		E2CCB28A2983E5F2004EE171 /* NSString+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Common.m"; sourceTree = "<group>"; };
 		E2CCB28C2983EE60004EE171 /* DiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskManager.h; sourceTree = "<group>"; };
 		E2CCB28D2983EE60004EE171 /* DiskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskManager.m; sourceTree = "<group>"; };
-		E2CCCD852A3A11EE00D101DE /* VerticalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticalLayout.h; sourceTree = "<group>"; };
-		E2CCCD862A3A11EE00D101DE /* VerticalLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticalLayout.m; sourceTree = "<group>"; };
+		E2CCCD852A3A11EE00D101DE /* HorizontalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLayout.h; sourceTree = "<group>"; };
+		E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLayout.m; sourceTree = "<group>"; };
 		E2CCCD8C2A3A476700D101DE /* LayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayoutElement.h; sourceTree = "<group>"; };
 		E2CCCD8D2A3A476700D101DE /* LayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutElement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -874,8 +874,7 @@
 				E23298B82A37C23600869736 /* AppDelegate.h */,
 				E23298C82A37C78F00869736 /* MainMenu.xib */,
 				E23298B72A37C23600869736 /* AppDelegate.m */,
-				E2CCCD8F2A3A476B00D101DE /* LayoutElement */,
-				E2CCCD882A3A467900D101DE /* VerticalLayout */,
+				E245C8892A44BBDA009CBB43 /* FrameLayout */,
 				E23298AC2A37C1FC00869736 /* Assets.xcassets */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
@@ -925,6 +924,15 @@
 				E23298C42A37C31500869736 /* NSWindow+Common.m */,
 			);
 			path = NSWindow;
+			sourceTree = "<group>";
+		};
+		E245C8892A44BBDA009CBB43 /* FrameLayout */ = {
+			isa = PBXGroup;
+			children = (
+				E2CCCD8F2A3A476B00D101DE /* LayoutElement */,
+				E2CCCD882A3A467900D101DE /* HorizontalLayout */,
+			);
+			path = FrameLayout;
 			sourceTree = "<group>";
 		};
 		E250F6D429A4F4D4003BBF7D /* DWFilesContainer */ = {
@@ -1107,13 +1115,13 @@
 			path = HelperFunctions;
 			sourceTree = "<group>";
 		};
-		E2CCCD882A3A467900D101DE /* VerticalLayout */ = {
+		E2CCCD882A3A467900D101DE /* HorizontalLayout */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCCD852A3A11EE00D101DE /* VerticalLayout.h */,
-				E2CCCD862A3A11EE00D101DE /* VerticalLayout.m */,
+				E2CCCD852A3A11EE00D101DE /* HorizontalLayout.h */,
+				E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */,
 			);
-			path = VerticalLayout;
+			path = HorizontalLayout;
 			sourceTree = "<group>";
 		};
 		E2CCCD8F2A3A476B00D101DE /* LayoutElement */ = {
@@ -1217,7 +1225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
-				E2CCCD872A3A11EE00D101DE /* VerticalLayout.m in Sources */,
+				E2CCCD872A3A11EE00D101DE /* HorizontalLayout.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* LayoutElement.m in Sources */,
 				E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */,
