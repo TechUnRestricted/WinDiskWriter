@@ -80,13 +80,13 @@
 		E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B152986FA1D000B24A1 /* unix_apply.c */; };
 		E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B162986FA1D000B24A1 /* xpress_compress.c */; };
 		E22B444229A1670B00846C1D /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
-		E23298AD2A37C1FC00869736 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E23298AC2A37C1FC00869736 /* Assets.xcassets */; };
 		E23298B22A37C1FC00869736 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298B12A37C1FC00869736 /* main.m */; };
 		E23298B92A37C23700869736 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298B72A37C23600869736 /* AppDelegate.m */; };
 		E23298C52A37C31500869736 /* LabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298BD2A37C31500869736 /* LabelView.m */; };
 		E23298C62A37C31500869736 /* NSColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C02A37C31500869736 /* NSColor+Common.m */; };
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
 		E23298C92A37C78F00869736 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23298C82A37C78F00869736 /* MainMenu.xib */; };
+		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
 		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
@@ -102,8 +102,8 @@
 		E2CCB28629833695004EE171 /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
 		E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
 		E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
-		E2CCCD872A3A11EE00D101DE /* HorizontalLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */; };
-		E2CCCD8E2A3A476700D101DE /* LayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* LayoutElement.m */; };
+		E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */; };
+		E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -279,7 +279,6 @@
 		E22B444029A1670B00846C1D /* DWFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFile.h; sourceTree = "<group>"; };
 		E22B444129A1670B00846C1D /* DWFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFile.m; sourceTree = "<group>"; };
 		E23298A72A37C1FB00869736 /* WinDiskWriter GUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WinDiskWriter GUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E23298AC2A37C1FC00869736 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E23298B12A37C1FC00869736 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WinDiskWriter_GUI.entitlements; sourceTree = "<group>"; };
 		E23298B72A37C23600869736 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -291,6 +290,8 @@
 		E23298C32A37C31500869736 /* NSWindow+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Common.h"; sourceTree = "<group>"; };
 		E23298C42A37C31500869736 /* NSWindow+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
 		E23298C82A37C78F00869736 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutHorizontal.m; sourceTree = "<group>"; };
+		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,10 +323,10 @@
 		E2CCB28A2983E5F2004EE171 /* NSString+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Common.m"; sourceTree = "<group>"; };
 		E2CCB28C2983EE60004EE171 /* DiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskManager.h; sourceTree = "<group>"; };
 		E2CCB28D2983EE60004EE171 /* DiskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskManager.m; sourceTree = "<group>"; };
-		E2CCCD852A3A11EE00D101DE /* HorizontalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLayout.h; sourceTree = "<group>"; };
-		E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLayout.m; sourceTree = "<group>"; };
-		E2CCCD8C2A3A476700D101DE /* LayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayoutElement.h; sourceTree = "<group>"; };
-		E2CCCD8D2A3A476700D101DE /* LayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutElement.m; sourceTree = "<group>"; };
+		E2CCCD852A3A11EE00D101DE /* FrameLayoutBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutBase.h; sourceTree = "<group>"; };
+		E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutBase.m; sourceTree = "<group>"; };
+		E2CCCD8C2A3A476700D101DE /* FrameLayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutElement.h; sourceTree = "<group>"; };
+		E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutElement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,7 +876,6 @@
 				E23298C82A37C78F00869736 /* MainMenu.xib */,
 				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
-				E23298AC2A37C1FC00869736 /* Assets.xcassets */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
 			);
@@ -926,11 +926,21 @@
 			path = NSWindow;
 			sourceTree = "<group>";
 		};
+		E23A953C2A52EF5700C4E869 /* FrameLayoutVertical */ = {
+			isa = PBXGroup;
+			children = (
+				E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */,
+				E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */,
+			);
+			path = FrameLayoutVertical;
+			sourceTree = "<group>";
+		};
 		E245C8892A44BBDA009CBB43 /* FrameLayout */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCCD8F2A3A476B00D101DE /* LayoutElement */,
-				E2CCCD882A3A467900D101DE /* HorizontalLayout */,
+				E2CCCD8F2A3A476B00D101DE /* FrameLayoutElement */,
+				E2CCCD882A3A467900D101DE /* FrameLayoutBase */,
+				E23A953C2A52EF5700C4E869 /* FrameLayoutVertical */,
 			);
 			path = FrameLayout;
 			sourceTree = "<group>";
@@ -1115,22 +1125,22 @@
 			path = HelperFunctions;
 			sourceTree = "<group>";
 		};
-		E2CCCD882A3A467900D101DE /* HorizontalLayout */ = {
+		E2CCCD882A3A467900D101DE /* FrameLayoutBase */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCCD852A3A11EE00D101DE /* HorizontalLayout.h */,
-				E2CCCD862A3A11EE00D101DE /* HorizontalLayout.m */,
+				E2CCCD852A3A11EE00D101DE /* FrameLayoutBase.h */,
+				E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */,
 			);
-			path = HorizontalLayout;
+			path = FrameLayoutBase;
 			sourceTree = "<group>";
 		};
-		E2CCCD8F2A3A476B00D101DE /* LayoutElement */ = {
+		E2CCCD8F2A3A476B00D101DE /* FrameLayoutElement */ = {
 			isa = PBXGroup;
 			children = (
-				E2CCCD8C2A3A476700D101DE /* LayoutElement.h */,
-				E2CCCD8D2A3A476700D101DE /* LayoutElement.m */,
+				E2CCCD8C2A3A476700D101DE /* FrameLayoutElement.h */,
+				E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */,
 			);
-			path = LayoutElement;
+			path = FrameLayoutElement;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1212,7 +1222,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E23298AD2A37C1FC00869736 /* Assets.xcassets in Resources */,
 				E23298C92A37C78F00869736 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1225,9 +1234,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
-				E2CCCD872A3A11EE00D101DE /* HorizontalLayout.m in Sources */,
+				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
-				E2CCCD8E2A3A476700D101DE /* LayoutElement.m in Sources */,
+				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
+				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,
 				E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */,
 				E23298C52A37C31500869736 /* LabelView.m in Sources */,
 				E23298C62A37C31500869736 /* NSColor+Common.m in Sources */,

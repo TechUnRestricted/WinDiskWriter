@@ -1,14 +1,14 @@
 //
-//  LayoutElement.m
+//  FrameLayoutElement.m
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 14.06.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "LayoutElement.h"
+#import "FrameLayoutElement.h"
 
-@implementation LayoutElement
+@implementation FrameLayoutElement
 
 - (instancetype)initWithNSView: (NSView * _Nonnull)nsView {
     self = [super init];

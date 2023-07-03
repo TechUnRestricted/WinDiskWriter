@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "HorizontalLayout.h"
+#import "FrameLayoutHorizontal.h"
 #import "Extensions/NSColor/NSColor+Common.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
@@ -44,7 +44,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
    
-    HorizontalLayout *horizontalLayout = [[HorizontalLayout alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, 30)]; {
+    FrameLayoutHorizontal *horizontalLayout = [[FrameLayoutHorizontal alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, 30)]; {
         [horizontalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth];
         [_containerView addSubview:horizontalLayout];
         

@@ -1,5 +1,5 @@
 //
-//  LayoutElement.h
+//  FrameLayoutElement.h
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 14.06.2023.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LayoutElement : NSObject
+@interface FrameLayoutElement : NSObject
 
 @property (nonatomic, readonly, strong) NSView *nsView;
 
