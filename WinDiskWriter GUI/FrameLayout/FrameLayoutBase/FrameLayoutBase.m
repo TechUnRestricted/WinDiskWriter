@@ -1,22 +1,19 @@
 //
-//  HorizontalLayout.m
+//  FrameLayoutBase.m
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 14.06.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "HorizontalLayout.h"
-#import "LayoutElement.h"
+#import "FrameLayoutBase.h"
+#import "FrameLayoutElement.h"
 
-@interface HorizontalLayout ()
-
-@property (nonatomic, strong) NSMutableArray<LayoutElement *> *layoutElementsArray;
-@property (nonatomic, strong) NSMutableArray<LayoutElement *> *sortedElementsArray;
+@interface FrameLayoutBase ()
 
 @end
 
-@implementation HorizontalLayout
+@implementation FrameLayoutBase
 
 - (void)commonInit {
     self.layoutElementsArray = [[NSMutableArray alloc] init];
@@ -78,7 +75,7 @@
     assert(maxWidth >= minWidth);
     assert(maxHeight >= minHeight);
     
-    LayoutElement *layoutElement = [[LayoutElement alloc] initWithNSView:nsView];
+    FrameLayoutElement *layoutElement = [[FrameLayoutElement alloc] initWithNSView:nsView];
     
     [layoutElement setMinWidth:minWidth];
     [layoutElement setMaxWidth:maxWidth];
@@ -105,23 +102,16 @@
 }
 
 - (NSUInteger)sortedIndexForValue:(CGFloat)value {
-    NSUInteger low = 0;
-    NSUInteger high = self.sortedElementsArray.count;
-
-    while (low < high) {
-        NSInteger mid = (low + high) / 2;
-        if ([self.sortedElementsArray objectAtIndex:mid].maxWidth < value) {
-            low = mid + 1;
-        } else {
-            high = mid;
-        }
-    }
-
-    return low;
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+    return 0;
 }
 
 
-- (void)appendLayoutElement:(LayoutElement *)element {
+- (void)appendLayoutElement:(FrameLayoutElement *)element {
     [self.layoutElementsArray addObject:element];
     
     if (self.sortedElementsArray.count == 0) {
@@ -144,7 +134,7 @@
     }
     
     for (NSInteger i = 0; i < elementsCount; i++) {
-        LayoutElement *currentLayoutElement = [self.sortedElementsArray objectAtIndex:i];
+        FrameLayoutElement *currentLayoutElement = [self.sortedElementsArray objectAtIndex:i];
         
         /* [Computing view Width] */
         
@@ -177,9 +167,7 @@
         
         printf("Final Height: %f\n", finalViewHeight);
 
-        [currentLayoutElement setComputedHeight:finalViewHeight];
-        
-        printf("");
+        [currentLayoutElement setComputedHeight:finalViewHeight];        
     }
     
 }
@@ -201,7 +189,7 @@
     CGFloat layoutHeight = self.frame.size.height;
     
     for (NSInteger i = 0; i < elementsCount; i++) {
-        LayoutElement *currentLayoutElement = [self.layoutElementsArray objectAtIndex:i];
+        FrameLayoutElement *currentLayoutElement = [self.layoutElementsArray objectAtIndex:i];
         
         CGFloat currentYPosition;
         
