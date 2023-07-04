@@ -26,4 +26,88 @@
     return low;
 }
 
+- (void)changeFramePropertiesWithLastXPosition: (CGFloat *)lastXPosition
+                                 lastYPosition: (CGFloat *)lastYPosition
+                                     viewFrame: (CGRect *)viewFrame
+                                   currentView: (FrameLayoutElement *)currentView
+                                        isLast: (BOOL)isLast {
+    
+    /*
+     Vertical Alignment
+     */
+    
+    CGFloat layoutHeight = self.frame.size.height;
+    
+    switch(self.verticalAlignment) {
+        case FrameLayoutVerticalTop:
+            *lastYPosition = 0;
+            break;
+        case FrameLayoutVerticalBottom:
+            *lastYPosition = layoutHeight - currentView.computedHeight;
+            break;
+        case FrameLayoutVerticalCenter:
+            *lastYPosition = (layoutHeight - currentView.computedHeight) / 2;
+            break;
+    }
+    
+    viewFrame->origin.y = *lastYPosition;
+    
+    /*
+     Horizontal Alignment
+     */
+    
+    CGFloat layoutWidth = self.frame.size.width;
+    NSInteger elementsCount = self.layoutElementsArray.count;
+    
+    if (isnan(*lastXPosition)) {
+        switch(self.horizontalAlignment) {
+            case FrameLayoutHorizontalLeft:
+                *lastXPosition = 0;
+                break;
+            case FrameLayoutHorizontalRight:
+                *lastXPosition = layoutWidth;
+                break;
+            case FrameLayoutHorizontalCenter:
+                *lastXPosition = -1;
+                break;
+        }
+    }
+    
+    switch(self.horizontalAlignment) {
+        case FrameLayoutHorizontalLeft:
+            viewFrame->origin.x = *lastXPosition;
+            *lastXPosition += currentView.computedWidth;
+            break;
+        case FrameLayoutHorizontalRight:
+            viewFrame->origin.x = *lastXPosition - currentView.computedWidth;
+            *lastXPosition -= currentView.computedWidth;
+            break;
+        case FrameLayoutHorizontalCenter:
+            printf("Not Yet implemented\n");
+            
+            exit(69);
+            break;
+    }
+    
+    if (!isLast && elementsCount > 1) {
+        switch(self.horizontalAlignment) {
+            case FrameLayoutHorizontalLeft:
+                *lastXPosition += self.spacing;
+                break;
+            case FrameLayoutHorizontalRight:
+                *lastXPosition -= self.spacing;
+                break;
+            case FrameLayoutHorizontalCenter:
+                printf("Not Yet implemented\n");
+                
+                exit(69);
+                break;
+        }
+    }
+    
+    viewFrame->size.width = currentView.computedWidth;
+    viewFrame->size.height = currentView.computedHeight;
+    
+}
+
 @end

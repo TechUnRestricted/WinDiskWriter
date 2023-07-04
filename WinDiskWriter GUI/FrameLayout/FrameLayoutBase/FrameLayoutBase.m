@@ -18,8 +18,10 @@
 - (void)commonInit {
     self.layoutElementsArray = [[NSMutableArray alloc] init];
     self.sortedElementsArray = [[NSMutableArray alloc] init];
+    
     _spacing = 0;
     _verticalAlignment = FrameLayoutVerticalCenter;
+    _horizontalAlignment = FrameLayoutHorizontalLeft;
 }
 
 - (instancetype)init {
@@ -48,12 +50,18 @@
 
 - (void)setSpacing:(CGFloat)padding {
     _spacing = padding;
-
+    
     [self setNeedsDisplay: YES];
 }
 
 - (void)setVerticalAlignment:(FrameLayoutVerticalAlignment)verticalAlignment {
     _verticalAlignment = verticalAlignment;
+    
+    [self setNeedsDisplay: YES];
+}
+
+- (void)setHorizontalAlignment:(FrameLayoutHorizontalAlignment)horizontalAlignment {
+    _horizontalAlignment = horizontalAlignment;
     
     [self setNeedsDisplay: YES];
 }
@@ -84,7 +92,7 @@
     [layoutElement setMaxHeight:maxHeight];
     
     [self appendLayoutElement:layoutElement];
-
+    
     assert(self.layoutElementsArray.count == self.sortedElementsArray.count);
     
     [self addSubview: layoutElement.nsView];
@@ -118,7 +126,7 @@
         [self.sortedElementsArray addObject:element];
         return;
     }
-
+    
     NSUInteger requiredIndex = [self sortedIndexForValue:element.maxWidth];
     [self.sortedElementsArray insertObject:element atIndex:requiredIndex];
     
@@ -128,7 +136,7 @@
 - (void)updateComputedElementsWidth {
     NSUInteger elementsCount = self.sortedElementsArray.count;
     CGFloat remainingParentWidth = self.frame.size.width;
-
+    
     if (elementsCount > 1) {
         remainingParentWidth -= _spacing * (elementsCount - 1);
     }
@@ -139,7 +147,7 @@
         /* [Computing view Width] */
         
         CGFloat suggestedEqualWidthForElement = remainingParentWidth / (elementsCount - i);
-                
+        
         CGFloat finalViewWidth = suggestedEqualWidthForElement;
         
         if (currentLayoutElement.minWidth > suggestedEqualWidthForElement) {
@@ -166,8 +174,8 @@
         }
         
         printf("Final Height: %f\n", finalViewHeight);
-
-        [currentLayoutElement setComputedHeight:finalViewHeight];        
+        
+        [currentLayoutElement setComputedHeight:finalViewHeight];
     }
     
 }
@@ -176,61 +184,45 @@
     return YES;
 }
 
+- (void)changeFramePropertiesWithLastXPosition: (CGFloat *)lastXPosition
+                                 lastYPosition: (CGFloat *)lastYPosition
+                                     viewFrame: (CGRect *)viewFrame
+                                   currentView: (FrameLayoutElement *)currentView
+                                        isLast: (BOOL)isLast {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     //[super drawRect:dirtyRect];
     [self updateComputedElementsWidth];
     
     printf("Drawing!\n");
     
-    CGFloat currentXPosition = 0;
-    
     NSInteger elementsCount = self.layoutElementsArray.count;
-
-    CGFloat layoutHeight = self.frame.size.height;
+    
+    CGFloat lastYPosition = NAN;
+    CGFloat lastXPosition = NAN;
     
     for (NSInteger i = 0; i < elementsCount; i++) {
         FrameLayoutElement *currentLayoutElement = [self.layoutElementsArray objectAtIndex:i];
         
-        CGFloat currentYPosition;
+        CGRect viewFrame = CGRectZero;
         
-        switch(self.verticalAlignment) {
-            case FrameLayoutVerticalTop:
-                currentYPosition = 0;
-                break;
-            case FrameLayoutVerticalBottom:
-                currentYPosition = layoutHeight - currentLayoutElement.computedHeight;
-                break;
-            case FrameLayoutVerticalCenter:
-                currentYPosition = (layoutHeight - currentLayoutElement.computedHeight) / 2;
-                break;
-        }
+        BOOL isLastElement = !(i < elementsCount - 1);
         
-        if (currentYPosition < 0 || currentYPosition > layoutHeight) {
-            printf("[BIBOOOP!!!]\n");
-            currentYPosition = 0;
-            
-            // Temp fatal crash
-            
-            exit(69);
-        }
+        [self changeFramePropertiesWithLastXPosition: &lastXPosition
+                                       lastYPosition: &lastYPosition
+                                           viewFrame: &viewFrame
+                                         currentView: currentLayoutElement
+                                              isLast: isLastElement];
         
-        [currentLayoutElement.nsView setFrame: CGRectMake(
-                                                          // x
-                                                          currentXPosition,
-                                                          // y
-                                                          currentYPosition,
-                                                          // width
-                                                          currentLayoutElement.computedWidth,
-                                                          // height
-                                                          currentLayoutElement.computedHeight
-                                                          )
-        ];
         
-        currentXPosition += currentLayoutElement.computedWidth;
         
-        if (i < elementsCount - 1 && elementsCount > 1) {
-            currentXPosition += self.spacing;
-        }
+        [currentLayoutElement.nsView setFrame:viewFrame];
     }
     
     printf("");
