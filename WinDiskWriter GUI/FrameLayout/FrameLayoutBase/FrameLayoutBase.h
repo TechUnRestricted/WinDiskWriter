@@ -15,12 +15,20 @@ typedef NS_ENUM(NSUInteger, FrameLayoutVerticalAlignment) {
     FrameLayoutVerticalCenter
 };
 
+typedef NS_ENUM(NSUInteger, FrameLayoutHorizontalAlignment) {
+    FrameLayoutHorizontalLeft,
+    FrameLayoutHorizontalRight,
+    FrameLayoutHorizontalCenter
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FrameLayoutBase : NSView
 
 @property (nonatomic, readwrite) CGFloat spacing;
+
 @property (nonatomic, readwrite) FrameLayoutVerticalAlignment verticalAlignment;
+@property (nonatomic, readwrite) FrameLayoutHorizontalAlignment horizontalAlignment;
 
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *layoutElementsArray;
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *sortedElementsArray;
