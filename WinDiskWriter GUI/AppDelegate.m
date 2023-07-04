@@ -51,7 +51,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         [horizontalLayout setWantsLayer: YES];
         [[horizontalLayout layer] setBackgroundColor: NSColor.redColor.toCGColor];
     }
-    [horizontalLayout setHorizontalAlignment:FrameLayoutHorizontalRight];
+    [horizontalLayout setHorizontalAlignment:FrameLayoutHorizontalCenter];
     
     NSTextField *textField1 = [[NSTextField alloc] init];
     [horizontalLayout addView:textField1 minWidth:5 maxWidth:200 minHeight:10 maxHeight:10];
