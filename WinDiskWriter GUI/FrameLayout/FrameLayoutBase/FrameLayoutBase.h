@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *layoutElementsArray;
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *sortedElementsArray;
 
+@property (nonatomic, readwrite) CGFloat viewsWidthTotal;
+@property (nonatomic, readwrite) CGFloat viewsHeightTotal;
+
+
 - (void)addView: (NSView * _Nonnull)nsView;
 
 - (void)addView: (NSView * _Nonnull)nsView

@@ -20,6 +20,9 @@
     self.sortedElementsArray = [[NSMutableArray alloc] init];
     
     _spacing = 0;
+    _viewsWidthTotal = 0;
+    _viewsHeightTotal = 0;
+    
     _verticalAlignment = FrameLayoutVerticalCenter;
     _horizontalAlignment = FrameLayoutHorizontalLeft;
 }
@@ -137,9 +140,14 @@
     NSUInteger elementsCount = self.sortedElementsArray.count;
     CGFloat remainingParentWidth = self.frame.size.width;
     
+    CGFloat spaceTakenBySpacing = _spacing * (elementsCount - 1);
+    
     if (elementsCount > 1) {
-        remainingParentWidth -= _spacing * (elementsCount - 1);
+        remainingParentWidth -= spaceTakenBySpacing;
     }
+    
+    _viewsWidthTotal = spaceTakenBySpacing;
+    _viewsHeightTotal = spaceTakenBySpacing;
     
     for (NSInteger i = 0; i < elementsCount; i++) {
         FrameLayoutElement *currentLayoutElement = [self.sortedElementsArray objectAtIndex:i];
@@ -163,6 +171,8 @@
         
         [currentLayoutElement setComputedWidth:finalViewWidth];
         
+        _viewsWidthTotal += finalViewWidth;
+        
         /* [Computing view Height]*/
         
         CGFloat finalViewHeight = self.frame.size.height;
@@ -176,6 +186,8 @@
         printf("Final Height: %f\n", finalViewHeight);
         
         [currentLayoutElement setComputedHeight:finalViewHeight];
+        
+        _viewsHeightTotal += finalViewHeight;
     }
     
 }
@@ -199,9 +211,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
     //[super drawRect:dirtyRect];
     [self updateComputedElementsWidth];
-    
-    printf("Drawing!\n");
-    
+        
     NSInteger elementsCount = self.layoutElementsArray.count;
     
     CGFloat lastYPosition = NAN;
@@ -225,6 +235,7 @@
         [currentLayoutElement.nsView setFrame:viewFrame];
     }
     
+    printf("Total Width: = %f\n", _viewsWidthTotal);
     printf("");
 }
 
