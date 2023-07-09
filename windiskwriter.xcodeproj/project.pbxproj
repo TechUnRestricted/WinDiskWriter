@@ -87,6 +87,7 @@
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
 		E23298C92A37C78F00869736 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23298C82A37C78F00869736 /* MainMenu.xib */; };
 		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
+		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
 		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
@@ -292,6 +293,9 @@
 		E23298C82A37C78F00869736 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutHorizontal.m; sourceTree = "<group>"; };
 		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
+		E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutVertical.h; sourceTree = "<group>"; };
+		E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutVertical.m; sourceTree = "<group>"; };
+		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -941,8 +945,19 @@
 				E2CCCD8F2A3A476B00D101DE /* FrameLayoutElement */,
 				E2CCCD882A3A467900D101DE /* FrameLayoutBase */,
 				E23A953C2A52EF5700C4E869 /* FrameLayoutHorizontal */,
+				E249FBA82A5B1AAC003B8D24 /* FrameLayoutVertical */,
+				E249FBA92A5B263E003B8D24 /* FrameLayout.h */,
 			);
 			path = FrameLayout;
+			sourceTree = "<group>";
+		};
+		E249FBA82A5B1AAC003B8D24 /* FrameLayoutVertical */ = {
+			isa = PBXGroup;
+			children = (
+				E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */,
+				E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */,
+			);
+			path = FrameLayoutVertical;
 			sourceTree = "<group>";
 		};
 		E250F6D429A4F4D4003BBF7D /* DWFilesContainer */ = {
@@ -1234,6 +1249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
+				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
 				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
