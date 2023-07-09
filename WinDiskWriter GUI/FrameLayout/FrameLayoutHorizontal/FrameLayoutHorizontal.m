@@ -26,6 +26,72 @@
     return low;
 }
 
+- (void)appendLayoutElement:(FrameLayoutElement *)element {
+    
+    [self.layoutElementsArray addObject:element];
+    
+    if (self.sortedElementsArray.count == 0) {
+        [self.sortedElementsArray addObject:element];
+        return;
+    }
+    
+    NSUInteger requiredIndex = [self sortedIndexForValue:element.maxWidth];
+    [self.sortedElementsArray insertObject:element atIndex:requiredIndex];
+    
+}
+
+- (void)updateComputedElementsWidth {
+
+    NSUInteger elementsCount = self.sortedElementsArray.count;
+    CGFloat remainingParentWidth = self.frame.size.width;
+    
+    CGFloat spaceTakenBySpacing = self.spacing * (elementsCount - 1);
+    
+    if (elementsCount > 1) {
+        remainingParentWidth -= spaceTakenBySpacing;
+    }
+    
+    self.viewsWidthTotal = spaceTakenBySpacing;
+    self.viewsHeightTotal = spaceTakenBySpacing;
+    
+    for (NSInteger i = 0; i < elementsCount; i++) {
+        FrameLayoutElement *currentLayoutElement = [self.sortedElementsArray objectAtIndex:i];
+        
+        /* [Computing view Width] */
+        
+        CGFloat suggestedEqualWidthForElement = remainingParentWidth / (elementsCount - i);
+        
+        CGFloat finalViewWidth = suggestedEqualWidthForElement;
+        
+        if (currentLayoutElement.minWidth > suggestedEqualWidthForElement) {
+            finalViewWidth = currentLayoutElement.minWidth;
+        } else if (suggestedEqualWidthForElement > currentLayoutElement.maxWidth) {
+            finalViewWidth = currentLayoutElement.maxWidth;
+        }
+        
+        remainingParentWidth -= finalViewWidth;
+    
+        [currentLayoutElement setComputedWidth:finalViewWidth];
+        
+        self.viewsWidthTotal += finalViewWidth;
+        
+        /* [Computing view Height]*/
+        
+        CGFloat finalViewHeight = self.frame.size.height;
+        
+        if (finalViewHeight > currentLayoutElement.maxHeight) {
+            finalViewHeight = currentLayoutElement.maxHeight;
+        } else if (currentLayoutElement.minHeight > finalViewHeight) {
+            finalViewHeight = currentLayoutElement.minHeight;
+        }
+                
+        [currentLayoutElement setComputedHeight:finalViewHeight];
+        
+        self.viewsHeightTotal += finalViewHeight;
+    }
+    
+}
+
 - (void)changeFramePropertiesWithLastXPosition: (CGFloat *)lastXPosition
                                  lastYPosition: (CGFloat *)lastYPosition
                                      viewFrame: (CGRect *)viewFrame
@@ -103,7 +169,6 @@
     
     viewFrame->size.width = currentView.computedWidth;
     viewFrame->size.height = currentView.computedHeight;
-    
 }
 
 @end

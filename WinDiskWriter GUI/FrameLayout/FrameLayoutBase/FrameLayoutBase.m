@@ -15,6 +15,8 @@
 
 @implementation FrameLayoutBase
 
+NSString * const overrideMethodString = @"You must override %@ in a subclass";
+
 - (void)commonInit {
     self.layoutElementsArray = [[NSMutableArray alloc] init];
     self.sortedElementsArray = [[NSMutableArray alloc] init];
@@ -115,7 +117,7 @@
 - (NSUInteger)sortedIndexForValue:(CGFloat)value {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
                                  userInfo:nil];
     
     return 0;
@@ -123,72 +125,18 @@
 
 
 - (void)appendLayoutElement:(FrameLayoutElement *)element {
-    [self.layoutElementsArray addObject:element];
     
-    if (self.sortedElementsArray.count == 0) {
-        [self.sortedElementsArray addObject:element];
-        return;
-    }
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
     
-    NSUInteger requiredIndex = [self sortedIndexForValue:element.maxWidth];
-    [self.sortedElementsArray insertObject:element atIndex:requiredIndex];
-    
-    printf("Inserted at index: %lud, ElementMaxWidth: %f\n", (unsigned long)requiredIndex, element.maxWidth);
 }
 
 - (void)updateComputedElementsWidth {
-    NSUInteger elementsCount = self.sortedElementsArray.count;
-    CGFloat remainingParentWidth = self.frame.size.width;
     
-    CGFloat spaceTakenBySpacing = _spacing * (elementsCount - 1);
-    
-    if (elementsCount > 1) {
-        remainingParentWidth -= spaceTakenBySpacing;
-    }
-    
-    _viewsWidthTotal = spaceTakenBySpacing;
-    _viewsHeightTotal = spaceTakenBySpacing;
-    
-    for (NSInteger i = 0; i < elementsCount; i++) {
-        FrameLayoutElement *currentLayoutElement = [self.sortedElementsArray objectAtIndex:i];
-        
-        /* [Computing view Width] */
-        
-        CGFloat suggestedEqualWidthForElement = remainingParentWidth / (elementsCount - i);
-        
-        CGFloat finalViewWidth = suggestedEqualWidthForElement;
-        
-        if (currentLayoutElement.minWidth > suggestedEqualWidthForElement) {
-            finalViewWidth = currentLayoutElement.minWidth;
-        } else if (suggestedEqualWidthForElement > currentLayoutElement.maxWidth) {
-            finalViewWidth = currentLayoutElement.maxWidth;
-        }
-        
-        remainingParentWidth -= finalViewWidth;
-        
-        printf("Final Width: %f\n", finalViewWidth);
-        printf("Remaing horizontal space: %f\n", remainingParentWidth);
-        
-        [currentLayoutElement setComputedWidth:finalViewWidth];
-        
-        _viewsWidthTotal += finalViewWidth;
-        
-        /* [Computing view Height]*/
-        
-        CGFloat finalViewHeight = self.frame.size.height;
-        
-        if (finalViewHeight > currentLayoutElement.maxHeight) {
-            finalViewHeight = currentLayoutElement.maxHeight;
-        } else if (currentLayoutElement.minHeight > finalViewWidth) {
-            finalViewHeight = currentLayoutElement.minHeight;
-        }
-        
-        printf("Final Height: %f\n", finalViewHeight);
-        
-        [currentLayoutElement setComputedHeight:finalViewHeight];
-        
-        _viewsHeightTotal += finalViewHeight;
-    }
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
     
 }
 
@@ -203,7 +151,7 @@
                                         isLast: (BOOL)isLast {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
                                  userInfo:nil];
     
 }
@@ -230,13 +178,8 @@
                                          currentView: currentLayoutElement
                                               isLast: isLastElement];
         
-        
-        
         [currentLayoutElement.nsView setFrame:viewFrame];
     }
-    
-    printf("Total Width: = %f\n", _viewsWidthTotal);
-    printf("");
 }
 
 

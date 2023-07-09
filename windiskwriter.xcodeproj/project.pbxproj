@@ -926,13 +926,13 @@
 			path = NSWindow;
 			sourceTree = "<group>";
 		};
-		E23A953C2A52EF5700C4E869 /* FrameLayoutVertical */ = {
+		E23A953C2A52EF5700C4E869 /* FrameLayoutHorizontal */ = {
 			isa = PBXGroup;
 			children = (
 				E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */,
 				E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */,
 			);
-			path = FrameLayoutVertical;
+			path = FrameLayoutHorizontal;
 			sourceTree = "<group>";
 		};
 		E245C8892A44BBDA009CBB43 /* FrameLayout */ = {
@@ -940,7 +940,7 @@
 			children = (
 				E2CCCD8F2A3A476B00D101DE /* FrameLayoutElement */,
 				E2CCCD882A3A467900D101DE /* FrameLayoutBase */,
-				E23A953C2A52EF5700C4E869 /* FrameLayoutVertical */,
+				E23A953C2A52EF5700C4E869 /* FrameLayoutHorizontal */,
 			);
 			path = FrameLayout;
 			sourceTree = "<group>";
