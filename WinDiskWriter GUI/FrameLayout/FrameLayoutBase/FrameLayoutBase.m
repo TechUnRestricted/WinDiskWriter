@@ -132,7 +132,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     
 }
 
-- (void)updateComputedElementsWidth {
+- (void)updateComputedElementsDimensions {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
@@ -158,8 +158,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
 
 - (void)drawRect:(NSRect)dirtyRect {
     //[super drawRect:dirtyRect];
-    [self updateComputedElementsWidth];
-        
+    [self updateComputedElementsDimensions];
+    
     NSInteger elementsCount = self.layoutElementsArray.count;
     
     CGFloat lastYPosition = NAN;

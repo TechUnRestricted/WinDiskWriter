@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "FrameLayoutHorizontal.h"
+#import "FrameLayout.h"
 #import "Extensions/NSColor/NSColor+Common.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
@@ -44,30 +44,33 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
    
-    FrameLayoutHorizontal *horizontalLayout = [[FrameLayoutHorizontal alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, _containerView.frame.size.height)]; {
-        [horizontalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth | (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleHeight];
-        [_containerView addSubview:horizontalLayout];
+    FrameLayoutVertical *layout = [[FrameLayoutVertical alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, _containerView.frame.size.height)]; {
+        [layout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth | (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleHeight];
+        [_containerView addSubview:layout];
         
-        [horizontalLayout setWantsLayer: YES];
-        [[horizontalLayout layer] setBackgroundColor: NSColor.redColor.toCGColor];
+        [layout setWantsLayer: YES];
+        [[layout layer] setBackgroundColor: NSColor.redColor.toCGColor];
+        
+        [layout setHorizontalAlignment:FrameLayoutHorizontalRight];
+        [layout setVerticalAlignment:FrameLayoutVerticalTop];
     }
-    [horizontalLayout setHorizontalAlignment:FrameLayoutHorizontalCenter];
-    
-    NSTextField *textField1 = [[NSTextField alloc] init];
-    [horizontalLayout addView:textField1 minWidth:5 maxWidth:200 minHeight:10 maxHeight:10];
-    
-    NSTextField *textField2 = [[NSTextField alloc] init];
-    [horizontalLayout addView:textField2 minWidth:5 maxWidth:300 minHeight:100 maxHeight:200];
-    
-    [horizontalLayout setSpacing:10];
-    
-    NSButton *button = [[NSButton alloc] init];
-    [button setTitle:@"Choose"];
-    [button setBordered: YES];
-    [button setBezelStyle: NSBezelStyleRegularSquare];
-    
-    [horizontalLayout setVerticalAlignment:FrameLayoutVerticalTop];
-    [horizontalLayout addView:button minWidth:300 maxWidth:500 minHeight:300 maxHeight:400];
+
+
+    NSButton *button1 = [[NSButton alloc] init]; {
+        [layout addView:button1 minWidth:100 maxWidth:300 minHeight:140 maxHeight:200];
+
+        [button1 setTitle:@"Button 1"];
+        [button1 setBordered: YES];
+        [button1 setBezelStyle: NSBezelStyleRegularSquare];
+    }
+
+    NSButton *button2 = [[NSButton alloc] init]; {
+        [layout addView:button2 minWidth:80 maxWidth:340 minHeight:100 maxHeight:140];
+
+        [button2 setTitle:@"Button 2"];
+        [button2 setBordered: YES];
+        [button2 setBezelStyle: NSBezelStyleRegularSquare];
+    }
     
     
     [_window setMovableByWindowBackground: YES];

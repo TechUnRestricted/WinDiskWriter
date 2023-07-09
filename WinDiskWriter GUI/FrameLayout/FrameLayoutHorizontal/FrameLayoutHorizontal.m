@@ -40,7 +40,7 @@
     
 }
 
-- (void)updateComputedElementsWidth {
+- (void)updateComputedElementsDimensions {
 
     NSUInteger elementsCount = self.sortedElementsArray.count;
     CGFloat remainingParentWidth = self.frame.size.width;
