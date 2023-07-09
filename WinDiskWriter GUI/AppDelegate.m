@@ -44,8 +44,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
    
-    FrameLayoutHorizontal *horizontalLayout = [[FrameLayoutHorizontal alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, 30)]; {
-        [horizontalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth];
+    FrameLayoutHorizontal *horizontalLayout = [[FrameLayoutHorizontal alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, _containerView.frame.size.height)]; {
+        [horizontalLayout setAutoresizingMask: (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleWidth | (NSAutoresizingMaskOptions)NSViewAutoresizingFlexibleHeight];
         [_containerView addSubview:horizontalLayout];
         
         [horizontalLayout setWantsLayer: YES];
@@ -57,17 +57,17 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [horizontalLayout addView:textField1 minWidth:5 maxWidth:200 minHeight:10 maxHeight:10];
     
     NSTextField *textField2 = [[NSTextField alloc] init];
-    [horizontalLayout addView:textField2 minWidth:5 maxWidth:300 minHeight:2 maxHeight:INFINITY];
+    [horizontalLayout addView:textField2 minWidth:5 maxWidth:300 minHeight:100 maxHeight:200];
     
     [horizontalLayout setSpacing:10];
     
     NSButton *button = [[NSButton alloc] init];
     [button setTitle:@"Choose"];
     [button setBordered: YES];
-    [button setBezelStyle: NSBezelStyleRounded];
+    [button setBezelStyle: NSBezelStyleRegularSquare];
     
-    [horizontalLayout setVerticalAlignment:FrameLayoutVerticalBottom];
-    //[verticalLayout addView:button];
+    [horizontalLayout setVerticalAlignment:FrameLayoutVerticalTop];
+    [horizontalLayout addView:button minWidth:300 maxWidth:500 minHeight:300 maxHeight:400];
     
     
     [_window setMovableByWindowBackground: YES];
