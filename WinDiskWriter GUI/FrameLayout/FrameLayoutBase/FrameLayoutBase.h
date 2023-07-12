@@ -30,12 +30,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) FrameLayoutVerticalAlignment verticalAlignment;
 @property (nonatomic, readwrite) FrameLayoutHorizontalAlignment horizontalAlignment;
 
+@property (nullable, nonatomic, readwrite /* Can't use weak on 10.6 Target */) FrameLayoutElement *selfViewLimits;
+
+@property (nonatomic, readwrite) BOOL hugWidthFrame /* NS_UNAVAILABLE */;
+@property (nonatomic, readwrite) BOOL hugHeightFrame /* NS_UNAVAILABLE */;
+
+@property (nonatomic, readwrite) CGFloat stackableAxisMaxLimitsSum;
+@property (nonatomic, readwrite) CGFloat largestUnstackableAxisValue;
+
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *layoutElementsArray;
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *sortedElementsArray;
 
 @property (nonatomic, readwrite) CGFloat viewsWidthTotal;
 @property (nonatomic, readwrite) CGFloat viewsHeightTotal;
 
+- (CGFloat)spaceTakenBySpacing;
+
+- (void)applyHugFrame;
 
 - (void)addView: (NSView * _Nonnull)nsView;
 

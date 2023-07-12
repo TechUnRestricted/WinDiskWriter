@@ -40,16 +40,53 @@
     
 }
 
+- (void)addView: (NSView *)nsView
+       minWidth: (CGFloat)minWidth
+       maxWidth: (CGFloat)maxWidth
+      minHeight: (CGFloat)minHeight
+      maxHeight: (CGFloat)maxHeight {
+    
+    [super addView: nsView
+          minWidth: minWidth
+          maxWidth: maxWidth
+         minHeight: minHeight
+         maxHeight: maxHeight];
+        
+    self.stackableAxisMaxLimitsSum += maxWidth;
+    
+    if (maxHeight > self.largestUnstackableAxisValue) {
+        self.largestUnstackableAxisValue = maxHeight;
+    }
+    
+    [self applyHugFrame];
+}
+
+- (void)applyHugFrame {
+    NSRect selfFrame = self.frame;
+    
+    if (self.hugWidthFrame) {
+        CGFloat requiredWidthValue = [self spaceTakenBySpacing] + self.stackableAxisMaxLimitsSum;
+
+        selfFrame.size.width = requiredWidthValue;
+        [self.selfViewLimits setMaxWidth: requiredWidthValue];
+    }
+    
+    if (self.hugHeightFrame) {
+        selfFrame.size.height = self.largestUnstackableAxisValue;
+        [self.selfViewLimits setMaxHeight: self.largestUnstackableAxisValue];
+    }
+    
+    [self setFrame: selfFrame];
+}
+
 - (void)updateComputedElementsDimensions {
 
     NSUInteger elementsCount = self.sortedElementsArray.count;
     CGFloat remainingParentWidth = self.frame.size.width;
     
-    CGFloat spaceTakenBySpacing = self.spacing * (elementsCount - 1);
+    CGFloat spaceTakenBySpacing = [self spaceTakenBySpacing];
     
-    if (elementsCount > 1) {
-        remainingParentWidth -= spaceTakenBySpacing;
-    }
+    remainingParentWidth -= spaceTakenBySpacing;
     
     self.viewsWidthTotal = spaceTakenBySpacing;
     self.viewsHeightTotal = spaceTakenBySpacing;

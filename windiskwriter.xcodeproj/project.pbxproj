@@ -85,7 +85,6 @@
 		E23298C52A37C31500869736 /* LabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298BD2A37C31500869736 /* LabelView.m */; };
 		E23298C62A37C31500869736 /* NSColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C02A37C31500869736 /* NSColor+Common.m */; };
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
-		E23298C92A37C78F00869736 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23298C82A37C78F00869736 /* MainMenu.xib */; };
 		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
@@ -290,7 +289,6 @@
 		E23298C12A37C31500869736 /* NSColor+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Common.h"; sourceTree = "<group>"; };
 		E23298C32A37C31500869736 /* NSWindow+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Common.h"; sourceTree = "<group>"; };
 		E23298C42A37C31500869736 /* NSWindow+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
-		E23298C82A37C78F00869736 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutHorizontal.m; sourceTree = "<group>"; };
 		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
 		E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutVertical.h; sourceTree = "<group>"; };
@@ -877,7 +875,6 @@
 				E23298BE2A37C31500869736 /* Extensions */,
 				E23298BA2A37C31500869736 /* Views */,
 				E23298B82A37C23600869736 /* AppDelegate.h */,
-				E23298C82A37C78F00869736 /* MainMenu.xib */,
 				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
 				E23298B12A37C1FC00869736 /* main.m */,
@@ -1237,7 +1234,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E23298C92A37C78F00869736 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1373,7 +1369,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
-				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1403,7 +1398,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
-				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
