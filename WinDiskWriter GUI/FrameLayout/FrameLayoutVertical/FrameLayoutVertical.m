@@ -40,15 +40,52 @@
     
 }
 
-- (void)updateComputedElementsDimensions {
+- (void)addView: (NSView *)nsView
+       minWidth: (CGFloat)minWidth
+       maxWidth: (CGFloat)maxWidth
+      minHeight: (CGFloat)minHeight
+      maxHeight: (CGFloat)maxHeight {
+    
+    [super addView: nsView
+          minWidth: minWidth
+          maxWidth: maxWidth
+         minHeight: minHeight
+         maxHeight: maxHeight];
+        
+    self.stackableAxisMaxLimitsSum += maxHeight;
+    
+    if (maxWidth > self.largestUnstackableAxisValue) {
+        self.largestUnstackableAxisValue = maxWidth;
+    }
+    
+    [self applyHugFrame];
+}
+
+- (void)applyHugFrame {
+    NSRect selfFrame = self.frame;
+    
+    if (self.hugHeightFrame) {
+        CGFloat requiredHeightValue = [self spaceTakenBySpacing] + self.stackableAxisMaxLimitsSum;
+
+        selfFrame.size.height = requiredHeightValue;
+        [self.selfViewLimits setMaxHeight: requiredHeightValue];
+    }
+    
+    if (self.hugWidthFrame) {
+        selfFrame.size.width = self.largestUnstackableAxisValue;
+        [self.selfViewLimits setMaxWidth: self.largestUnstackableAxisValue];
+    }
+    
+    [self setFrame: selfFrame];
+}
+
+- (void)updateComputedElementsDimensions {    
     NSUInteger elementsCount = self.sortedElementsArray.count;
     CGFloat remainingParentHeight = self.frame.size.height;
     
-    CGFloat spaceTakenBySpacing = self.spacing * (elementsCount - 1);
+    CGFloat spaceTakenBySpacing = [self spaceTakenBySpacing];
     
-    if (elementsCount > 1) {
-        remainingParentHeight -= spaceTakenBySpacing;
-    }
+    remainingParentHeight -= spaceTakenBySpacing;
     
     self.viewsHeightTotal = spaceTakenBySpacing;
     self.viewsWidthTotal = spaceTakenBySpacing;
@@ -87,6 +124,16 @@
         [currentLayoutElement setComputedWidth:finalViewWidth];
         
         self.viewsWidthTotal += finalViewWidth;
+        
+        printf("[Index: %ld]\n"
+               "\tcomputed_view_width: %f, self_width: %f\n"
+               "\tcomputed_view_height: %f, self_height: %f\n"
+               "\tsuggested_height: %f\n",
+               (long)i,
+               currentLayoutElement.computedWidth, self.frame.size.width,
+               currentLayoutElement.computedHeight, self.frame.size.height,
+               suggestedEqualHeightForElement
+        );
     }
     
 }

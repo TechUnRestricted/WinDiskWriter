@@ -7,10 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AppDelegate.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // Setup code that might create autoreleased objects goes here.
+        AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        
+        NSApplication *application = [NSApplication sharedApplication];
+        [application setDelegate:appDelegate];
+        
+        [application run];
     }
+    
     return NSApplicationMain(argc, argv);
 }

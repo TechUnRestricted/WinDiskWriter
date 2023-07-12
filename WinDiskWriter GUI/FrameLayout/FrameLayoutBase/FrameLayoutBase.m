@@ -25,6 +25,12 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     _viewsWidthTotal = 0;
     _viewsHeightTotal = 0;
     
+    _hugWidthFrame = NO;
+    _hugHeightFrame = NO;
+    
+    _stackableAxisMaxLimitsSum = 0;
+    _largestUnstackableAxisValue = 0;
+    
     _verticalAlignment = FrameLayoutVerticalCenter;
     _horizontalAlignment = FrameLayoutHorizontalLeft;
 }
@@ -71,6 +77,40 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     [self setNeedsDisplay: YES];
 }
 
+- (void)setHugWidthFrame:(BOOL)hugWidthFrame {
+    _hugWidthFrame = hugWidthFrame;
+    
+    [self applyHugFrame];
+    
+    [self setNeedsDisplay: YES];
+}
+
+- (void)setHugHeightFrame:(BOOL)hugHeightFrame {
+    _hugHeightFrame = hugHeightFrame;
+    
+    [self applyHugFrame];
+    
+    [self setNeedsDisplay: YES];
+}
+
+- (CGFloat)spaceTakenBySpacing {
+    NSUInteger elementsCount = self.sortedElementsArray.count;
+    
+    if (elementsCount <= 1) {
+        return 0;
+    }
+    
+    return self.spacing * (elementsCount - 1);
+}
+
+- (void)applyHugFrame {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
 - (void)addView: (NSView * _Nonnull)nsView {
     [self addView: nsView
          minWidth: 0
@@ -84,20 +124,42 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
        maxWidth: (CGFloat)maxWidth
       minHeight: (CGFloat)minHeight
       maxHeight: (CGFloat)maxHeight {
+
+    assert(isfinite(minWidth));
+    assert(isfinite(minHeight));
     
     assert(maxWidth >= minWidth);
     assert(maxHeight >= minHeight);
     
+    assert(minHeight >= 0);
+    assert(maxHeight >= 0);
+    
+    assert(minWidth >= 0);
+    assert(maxWidth >= 0);
+    
+    if (self.hugHeightFrame) {
+        assert(isfinite(maxHeight));
+    }
+    
+    if (self.hugWidthFrame) {
+        assert(isfinite(maxWidth));
+    }
+    
     FrameLayoutElement *layoutElement = [[FrameLayoutElement alloc] initWithNSView:nsView];
+    
+    if ([nsView isKindOfClass: FrameLayoutBase.class]) {
+        [(FrameLayoutBase *)nsView setSelfViewLimits:layoutElement];
+        printf("[View limits were inserted]\n");
+    }
     
     [layoutElement setMinWidth:minWidth];
     [layoutElement setMaxWidth:maxWidth];
     
-    [layoutElement setMinHeight:minWidth];
+    [layoutElement setMinHeight:minHeight];
     [layoutElement setMaxHeight:maxHeight];
     
     [self appendLayoutElement:layoutElement];
-    
+        
     assert(self.layoutElementsArray.count == self.sortedElementsArray.count);
     
     [self addSubview: layoutElement.nsView];
@@ -108,9 +170,9 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
          height: (CGFloat)height {
     
     [self addView: nsView
-         minWidth: width
+         minWidth: isinf(width) ? 0 : width
          maxWidth: width
-        minHeight: height
+        minHeight: isinf(height) ? 0 : height
         maxHeight: height];
 }
 
@@ -159,7 +221,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
 - (void)drawRect:(NSRect)dirtyRect {
     //[super drawRect:dirtyRect];
     [self updateComputedElementsDimensions];
-    
+        
     NSInteger elementsCount = self.layoutElementsArray.count;
     
     CGFloat lastYPosition = NAN;
@@ -167,7 +229,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     
     for (NSInteger i = 0; i < elementsCount; i++) {
         FrameLayoutElement *currentLayoutElement = [self.layoutElementsArray objectAtIndex:i];
-        
+                
         CGRect viewFrame = CGRectZero;
         
         BOOL isLastElement = !(i < elementsCount - 1);
