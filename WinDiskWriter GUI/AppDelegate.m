@@ -114,40 +114,47 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout setSpacing: verticalLayoutPadding / 2];
     
-    FrameLayoutVertical *tempLayout = [[FrameLayoutVertical alloc] init];
-    [mainVerticalLayout addView:tempLayout minWidth:0 maxWidth:INFINITY minHeight:10 maxHeight:100];
-    [tempLayout setWantsLayer: YES];
-    [tempLayout.layer setBackgroundColor: NSColor.blueColor.toCGColor];
-    
-    [tempLayout setSpacing: 5];
-    
-    [tempLayout setHugHeightFrame: YES];
-    [tempLayout setHugWidthFrame: YES];
-    
-    NSButton *button1 = [[NSButton alloc] init];
-    [button1 setTitle:@"❤️"];
-    [tempLayout addView:button1 minWidth:120 maxWidth:200 minHeight:20 maxHeight:80];
-    
-    NSButton *button2 = [[NSButton alloc] init];
-    [button2 setTitle:@"🗿"];
-    [tempLayout addView:button2 minWidth:120 maxWidth:400 minHeight:20 maxHeight:140];
+    FrameLayoutVertical *verticalLayout_1 = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:verticalLayout_1 minWidth:100 maxWidth:400 minHeight:40 maxHeight:40];
+        
+        [verticalLayout_1 setWantsLayer: YES];
+        [verticalLayout_1.layer setBackgroundColor: NSColor.brownColor.toCGColor];
+        [verticalLayout_1 setHugHeightFrame: YES];
+        [verticalLayout_1 setHugWidthFrame: YES];
 
-    NSButton *button3 = [[NSButton alloc] init];
-    [button3 setTitle:@"🥰"];
-    [tempLayout addView:button3 minWidth:5 maxWidth:1200 minHeight:60 maxHeight:140];
-    
-    FrameLayoutHorizontal *tempHorizontal = [[FrameLayoutHorizontal alloc] init];
-    [tempHorizontal setWantsLayer: YES];
-    [tempHorizontal.layer setBackgroundColor:NSColor.purpleColor.toCGColor];
-    [mainVerticalLayout addView:tempHorizontal minWidth:15 maxWidth:50 minHeight:10 maxHeight:50];
-    
-    NSButton *button4 = [[NSButton alloc] init];
-    [button4 setTitle:@"😰"];
-    [tempHorizontal addView:button4 minWidth:65 maxWidth:95 minHeight:50 maxHeight:150];
-    
-    [tempHorizontal setHugHeightFrame:YES];
-    [tempHorizontal setHugWidthFrame:YES];
+        FrameLayoutVertical *verticalLayout_2 = [[FrameLayoutVertical alloc] init]; {
+            [verticalLayout_1 addView:verticalLayout_2 minWidth:110 maxWidth:385 minHeight:30 maxHeight:30];
+            
+            [verticalLayout_2 setWantsLayer: YES];
+            [verticalLayout_2.layer setBackgroundColor: NSColor.cyanColor.toCGColor];
+            [verticalLayout_2 setHugHeightFrame: YES];
+            [verticalLayout_2 setHugWidthFrame: YES];
 
+            FrameLayoutVertical *verticalLayout_3 = [[FrameLayoutVertical alloc] init]; {
+                [verticalLayout_2 addView:verticalLayout_3 minWidth:120 maxWidth:380 minHeight:20 maxHeight:20];
+                
+                [verticalLayout_3 setWantsLayer: YES];
+                [verticalLayout_3.layer setBackgroundColor: NSColor.greenColor.toCGColor];
+                [verticalLayout_3 setHugHeightFrame: YES];
+                [verticalLayout_3 setHugWidthFrame: YES];
+
+                NSButton *button_1 = [[NSButton alloc] init]; {
+                    [verticalLayout_3 addView:button_1 minWidth:20 maxWidth:INFINITY minHeight:200 maxHeight:500];
+                    [button_1 setTitle:@"🥰"];
+                }
+            }
+
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

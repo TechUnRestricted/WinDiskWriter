@@ -28,8 +28,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     _hugWidthFrame = NO;
     _hugHeightFrame = NO;
     
-    _stackableAxisMaxLimitsSum = 0;
-    _largestUnstackableAxisValue = 0;
+    // _stackableAxisMaxLimitsSum = 0;
+    // _largestUnstackableAxisValue = 0;
     
     _verticalAlignment = FrameLayoutVerticalCenter;
     _horizontalAlignment = FrameLayoutHorizontalLeft;
@@ -80,7 +80,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
 - (void)setHugWidthFrame:(BOOL)hugWidthFrame {
     _hugWidthFrame = hugWidthFrame;
     
-    [self applyHugFrame];
+    [self applyHugFrames];
     
     [self setNeedsDisplay: YES];
 }
@@ -88,7 +88,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
 - (void)setHugHeightFrame:(BOOL)hugHeightFrame {
     _hugHeightFrame = hugHeightFrame;
     
-    [self applyHugFrame];
+    [self applyHugFrames];
     
     [self setNeedsDisplay: YES];
 }
@@ -103,7 +103,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     return self.spacing * (elementsCount - 1);
 }
 
-- (void)applyHugFrame {
+- (void)applyHugHeightFrameWithIndex: (NSUInteger)index
+                        newViewFrame: (NSRect *)newViewFrame {
     
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
@@ -111,12 +112,68 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     
 }
 
+- (void)applyHugWidthFrameWithIndex: (NSUInteger)index
+                       newViewFrame: (NSRect *)newViewFrame {
+    
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:overrideMethodString, NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
+- (NSUInteger)sortedIndexInParentView {
+    if (self.parentView == NULL) {
+        return NSNotFound;
+    }
+    
+    NSMutableArray<FrameLayoutElement *> *parentLayoutElements = self.parentView.sortedElementsArray;
+
+    for (NSUInteger i = 0; i < parentLayoutElements.count; i++) {
+        FrameLayoutElement *currentLayoutElement = [parentLayoutElements objectAtIndex:i];
+        
+        if (self != currentLayoutElement.nsView) {
+            continue;
+        }
+        
+        return i;
+    }
+    
+    return NSNotFound;
+}
+
+- (void)applyHugFrames {
+    NSUInteger indexInSortedArray = [self sortedIndexInParentView];
+    NSRect newViewFrame = self.frame;
+    
+    if (indexInSortedArray == NSNotFound) {
+        printf("[INFO:] {Fail}; Find index in sorted array.\n");
+        return;
+    } else {
+        printf("[INFO:] {OK}; Find index in sorted array.\n");
+    }
+    
+    if (self.hugHeightFrame) {
+        [self applyHugHeightFrameWithIndex: indexInSortedArray
+                              newViewFrame: &newViewFrame];
+    }
+    
+    if (self.hugWidthFrame) {
+        [self applyHugWidthFrameWithIndex: indexInSortedArray
+                             newViewFrame: &newViewFrame];
+    }
+    
+    [self setFrame:newViewFrame];
+    
+    [self.parentView applyHugFrames];
+}
+
 - (void)addView: (NSView * _Nonnull)nsView {
     [self addView: nsView
          minWidth: 0
-         maxWidth: INFINITY
+         maxWidth: 0 // INFINITY
         minHeight: 0
-        maxHeight: INFINITY];
+        maxHeight: 0 // INFINITY
+    ];
 }
 
 - (void)addView: (NSView * _Nonnull)nsView
@@ -148,8 +205,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     FrameLayoutElement *layoutElement = [[FrameLayoutElement alloc] initWithNSView:nsView];
     
     if ([nsView isKindOfClass: FrameLayoutBase.class]) {
-        [(FrameLayoutBase *)nsView setSelfViewLimits:layoutElement];
-        printf("[View limits were inserted]\n");
+        [(FrameLayoutBase *)nsView setParentView:self];
+        printf("[Parent view was inserted]\n");
     }
     
     [layoutElement setMinWidth:minWidth];

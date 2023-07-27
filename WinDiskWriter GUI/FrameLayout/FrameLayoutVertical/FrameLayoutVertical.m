@@ -51,32 +51,50 @@
           maxWidth: maxWidth
          minHeight: minHeight
          maxHeight: maxHeight];
-        
-    self.stackableAxisMaxLimitsSum += maxHeight;
-    
-    if (maxWidth > self.largestUnstackableAxisValue) {
-        self.largestUnstackableAxisValue = maxWidth;
-    }
-    
-    [self applyHugFrame];
+
+    [self applyHugFrames];
 }
 
-- (void)applyHugFrame {
-    NSRect selfFrame = self.frame;
+- (void)applyHugHeightFrameWithIndex: (NSUInteger)index
+                        newViewFrame: (NSRect *)newViewFrame {
     
-    if (self.hugHeightFrame) {
-        CGFloat requiredHeightValue = [self spaceTakenBySpacing] + self.stackableAxisMaxLimitsSum;
+    NSMutableArray<FrameLayoutElement *> *parentLayoutElements = self.parentView.sortedElementsArray;
+    
+    CGFloat heightsSum = 0;
+    for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
+        assert(isfinite(currentLayoutElement.maxHeight));
+        
+        heightsSum += currentLayoutElement.maxHeight;
+    }
+    
+    FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
+    [selfElement setMaxHeight:heightsSum];
+    newViewFrame->size.height = heightsSum;
+    
+    [parentLayoutElements removeObjectAtIndex:index];
+    
+    NSUInteger requiredIndex = [self.parentView sortedIndexForValue:heightsSum];
+    [parentLayoutElements insertObject:selfElement atIndex:requiredIndex];
+}
 
-        selfFrame.size.height = requiredHeightValue;
-        [self.selfViewLimits setMaxHeight: requiredHeightValue];
+- (void)applyHugWidthFrameWithIndex: (NSUInteger)index
+                       newViewFrame: (NSRect *)newViewFrame {
+    
+    CGFloat largestWidth = CGFLOAT_MIN;
+    
+    for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
+        assert(isfinite(currentLayoutElement.maxWidth));
+        
+        if (currentLayoutElement.maxWidth > largestWidth) {
+            largestWidth = currentLayoutElement.maxWidth;
+        }
     }
     
-    if (self.hugWidthFrame) {
-        selfFrame.size.width = self.largestUnstackableAxisValue;
-        [self.selfViewLimits setMaxWidth: self.largestUnstackableAxisValue];
-    }
-    
-    [self setFrame: selfFrame];
+    NSMutableArray<FrameLayoutElement *> *parentLayoutElements = self.parentView.sortedElementsArray;
+    FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
+
+    [selfElement setMaxWidth:largestWidth];
+    newViewFrame->size.width = largestWidth;
 }
 
 - (void)updateComputedElementsDimensions {    
@@ -125,6 +143,7 @@
         
         self.viewsWidthTotal += finalViewWidth;
         
+        /*
         printf("[Index: %ld]\n"
                "\tcomputed_view_width: %f, self_width: %f\n"
                "\tcomputed_view_height: %f, self_height: %f\n"
@@ -134,6 +153,7 @@
                currentLayoutElement.computedHeight, self.frame.size.height,
                suggestedEqualHeightForElement
         );
+        */
     }
     
 }

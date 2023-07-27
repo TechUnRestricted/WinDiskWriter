@@ -30,13 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) FrameLayoutVerticalAlignment verticalAlignment;
 @property (nonatomic, readwrite) FrameLayoutHorizontalAlignment horizontalAlignment;
 
-@property (nullable, nonatomic, readwrite /* Can't use weak on 10.6 Target */) FrameLayoutElement *selfViewLimits;
+@property (nullable, nonatomic, readwrite) FrameLayoutBase *parentView;
 
 @property (nonatomic, readwrite) BOOL hugWidthFrame /* NS_UNAVAILABLE */;
 @property (nonatomic, readwrite) BOOL hugHeightFrame /* NS_UNAVAILABLE */;
 
-@property (nonatomic, readwrite) CGFloat stackableAxisMaxLimitsSum;
-@property (nonatomic, readwrite) CGFloat largestUnstackableAxisValue;
+// @property (nonatomic, readwrite) CGFloat stackableAxisMaxLimitsSum;
+// @property (nonatomic, readwrite) CGFloat largestUnstackableAxisValue;
 
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *layoutElementsArray;
 @property (nonatomic, strong) NSMutableArray<FrameLayoutElement *> *sortedElementsArray;
@@ -46,7 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGFloat)spaceTakenBySpacing;
 
-- (void)applyHugFrame;
+- (void)applyHugFrames;
+
+- (NSUInteger)sortedIndexForValue:(CGFloat)value;
+
+- (void)applyHugHeightFrameWithIndex: (NSUInteger)index
+                        newViewFrame: (NSRect *)newViewFrame;
+
+- (void)applyHugWidthFrameWithIndex: (NSUInteger)index
+                       newViewFrame: (NSRect *)newViewFrame;
 
 - (void)addView: (NSView * _Nonnull)nsView;
 
