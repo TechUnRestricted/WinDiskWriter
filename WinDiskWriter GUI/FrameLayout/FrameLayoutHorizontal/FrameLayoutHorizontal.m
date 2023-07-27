@@ -51,17 +51,12 @@
           maxWidth: maxWidth
          minHeight: minHeight
          maxHeight: maxHeight];
-        
-    self.stackableAxisMaxLimitsSum += maxWidth;
     
-    if (maxHeight > self.largestUnstackableAxisValue) {
-        self.largestUnstackableAxisValue = maxHeight;
-    }
-    
-    [self applyHugFrame];
+    [self applyHugFrames];
 }
 
-- (void)applyHugFrame {
+- (void)applyHugFrames {
+    /*
     NSRect selfFrame = self.frame;
     
     if (self.hugWidthFrame) {
@@ -77,6 +72,7 @@
     }
     
     [self setFrame: selfFrame];
+     */
 }
 
 - (void)updateComputedElementsDimensions {
