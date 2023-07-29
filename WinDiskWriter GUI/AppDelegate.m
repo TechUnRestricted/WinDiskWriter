@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "FrameLayout.h"
+#import "LabelView.h"
+#import "TextInputView.h"
 #import "Extensions/NSColor/NSColor+Common.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
@@ -104,7 +106,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     CGFloat verticalLayoutPadding = 14;
-    CGFloat horizontaLayoutSpacing = 6;
+    //CGFloat horizontaLayoutSpacing = 6;
     
     FrameLayoutVertical *mainVerticalLayout = [self setupMainVerticalViewWithPaddingTop: titlebarHeight + verticalLayoutPadding / 2
                                                                                  bottom: verticalLayoutPadding
@@ -114,41 +116,46 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout setSpacing: verticalLayoutPadding / 2];
     
-    FrameLayoutVertical *verticalLayout_1 = [[FrameLayoutVertical alloc] init]; {
-        [mainVerticalLayout addView:verticalLayout_1 minWidth:100 maxWidth:400 minHeight:40 maxHeight:40];
+    FrameLayoutVertical *isoPickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:isoPickerVerticalLayout width:INFINITY height:0];
         
-        [verticalLayout_1 setWantsLayer: YES];
-        [verticalLayout_1.layer setBackgroundColor: NSColor.brownColor.toCGColor];
-        [verticalLayout_1 setHugHeightFrame: YES];
-        [verticalLayout_1 setHugWidthFrame: YES];
-
-        FrameLayoutVertical *verticalLayout_2 = [[FrameLayoutVertical alloc] init]; {
-            [verticalLayout_1 addView:verticalLayout_2 minWidth:110 maxWidth:385 minHeight:30 maxHeight:30];
+        [isoPickerVerticalLayout setHugHeightFrame: YES];
+        
+        [isoPickerVerticalLayout setWantsLayer: YES];
+        [isoPickerVerticalLayout.layer setBackgroundColor: NSColor.magentaColor.toCGColor];
+        
+        LabelView *isoPickerLabelView = [[LabelView alloc] init]; {
+            [isoPickerVerticalLayout addView:isoPickerLabelView width:INFINITY height:20];
             
-            [verticalLayout_2 setWantsLayer: YES];
-            [verticalLayout_2.layer setBackgroundColor: NSColor.cyanColor.toCGColor];
-            [verticalLayout_2 setHugHeightFrame: YES];
-            [verticalLayout_2 setHugWidthFrame: YES];
-
-            FrameLayoutVertical *verticalLayout_3 = [[FrameLayoutVertical alloc] init]; {
-                [verticalLayout_2 addView:verticalLayout_3 minWidth:120 maxWidth:380 minHeight:20 maxHeight:20];
-                
-                [verticalLayout_3 setWantsLayer: YES];
-                [verticalLayout_3.layer setBackgroundColor: NSColor.greenColor.toCGColor];
-                [verticalLayout_3 setHugHeightFrame: YES];
-                [verticalLayout_3 setHugWidthFrame: YES];
-
-                NSButton *button_1 = [[NSButton alloc] init]; {
-                    [verticalLayout_3 addView:button_1 minWidth:20 maxWidth:INFINITY minHeight:200 maxHeight:500];
-                    [button_1 setTitle:@"🥰"];
-                }
-            }
-
+            [isoPickerLabelView setStringValue: @"Windows Image"];
             
-            
-            
+            [isoPickerLabelView setWantsLayer: YES];            
         }
         
+        FrameLayoutHorizontal *isoPickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
+
+            
+            [isoPickerVerticalLayout addView:isoPickerHorizontalLayout width:INFINITY height:0];
+            
+            [isoPickerHorizontalLayout setHugHeightFrame: YES];
+            
+            [isoPickerHorizontalLayout setWantsLayer: YES];
+            [isoPickerHorizontalLayout.layer setBackgroundColor: NSColor.brownColor.toCGColor];
+            
+            TextInputView *windowsImageInputView = [[TextInputView alloc] init]; {
+                [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:30];
+                
+                if (@available(macOS 10.10, *)) {
+                    [windowsImageInputView setPlaceholderString: @"/path/to/Windows.iso"];
+                }
+            }
+        
+            NSButton *chooseWindowsImageButton = [[NSButton alloc] init]; {
+                [isoPickerHorizontalLayout addView:chooseWindowsImageButton minWidth:90 maxWidth:100 minHeight:1 maxHeight:130];
+                
+                [chooseWindowsImageButton setTitle:@"Choose"];
+            }
+        }
         
         
     }
@@ -165,6 +172,5 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
 }
-
 
 @end

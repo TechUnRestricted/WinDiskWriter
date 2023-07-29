@@ -7,6 +7,7 @@
 //
 
 #import "FrameLayoutHorizontal.h"
+#import "FrameLayoutVertical.h"
 
 @implementation FrameLayoutHorizontal
 
@@ -55,24 +56,57 @@
     [self applyHugFrames];
 }
 
-- (void)applyHugFrames {
-    /*
-    NSRect selfFrame = self.frame;
-    
-    if (self.hugWidthFrame) {
-        CGFloat requiredWidthValue = [self spaceTakenBySpacing] + self.stackableAxisMaxLimitsSum;
+- (void)applyHugHeightFrameWithIndex: (NSUInteger)index
+                        newViewFrame: (NSRect *)newViewFrame {
 
-        selfFrame.size.width = requiredWidthValue;
-        [self.selfViewLimits setMaxWidth: requiredWidthValue];
+    CGFloat largestHeight = CGFLOAT_MIN;
+    
+    for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
+        assert(isfinite(currentLayoutElement.maxHeight));
+        
+        if (currentLayoutElement.maxHeight > largestHeight) {
+            largestHeight = currentLayoutElement.maxHeight;
+        }
     }
     
-    if (self.hugHeightFrame) {
-        selfFrame.size.height = self.largestUnstackableAxisValue;
-        [self.selfViewLimits setMaxHeight: self.largestUnstackableAxisValue];
+    NSMutableArray<FrameLayoutElement *> *parentLayoutElements = self.parentView.sortedElementsArray;
+    FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
+
+    [selfElement setMaxHeight:largestHeight];
+    newViewFrame->size.height = largestHeight;
+        
+    if ([self.parentView isKindOfClass:FrameLayoutVertical.class]) {
+        [parentLayoutElements removeObjectAtIndex:index];
+        
+        NSUInteger requiredIndex = [self.parentView sortedIndexForValue:largestHeight];
+        [parentLayoutElements insertObject:selfElement atIndex:requiredIndex];
+    }
+}
+
+- (void)applyHugWidthFrameWithIndex: (NSUInteger)index
+                       newViewFrame: (NSRect *)newViewFrame {
+    
+    NSMutableArray<FrameLayoutElement *> *parentLayoutElements = self.parentView.sortedElementsArray;
+    
+    CGFloat widthsSum = 0;
+    for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
+        assert(isfinite(currentLayoutElement.maxWidth));
+        
+        widthsSum += currentLayoutElement.maxWidth;
     }
     
-    [self setFrame: selfFrame];
-     */
+    widthsSum += [self spaceTakenBySpacing];
+    
+    FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
+    [selfElement setMaxWidth:widthsSum];
+    newViewFrame->size.width = widthsSum;
+    
+    if ([self.parentView isKindOfClass:FrameLayoutHorizontal.class]) {
+        [parentLayoutElements removeObjectAtIndex:index];
+        
+        NSUInteger requiredIndex = [self.parentView sortedIndexForValue:widthsSum];
+        [parentLayoutElements insertObject:selfElement atIndex:requiredIndex];
+    }
 }
 
 - (void)updateComputedElementsDimensions {

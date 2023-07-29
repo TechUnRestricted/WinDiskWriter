@@ -67,6 +67,8 @@
         heightsSum += currentLayoutElement.maxHeight;
     }
     
+    heightsSum += [self spaceTakenBySpacing];
+    
     FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
     [selfElement setMaxHeight:heightsSum];
     newViewFrame->size.height = heightsSum;

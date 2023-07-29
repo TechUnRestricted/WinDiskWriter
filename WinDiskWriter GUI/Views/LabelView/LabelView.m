@@ -7,6 +7,7 @@
 //
 
 #import "LabelView.h"
+#import "VerticalCenteredTextFieldCell.h"
 
 @implementation LabelView
 
@@ -17,6 +18,10 @@
     [self setSelectable: NO];
     [self setBezeled: NO];
     [self setDrawsBackground: NO];
+    
+    VerticalCenteredTextFieldCell *verticalCenteredTextFieldCell = [[VerticalCenteredTextFieldCell alloc] init];
+    
+    [self setCell:verticalCenteredTextFieldCell];
     
     return self;
 }
