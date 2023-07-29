@@ -59,12 +59,12 @@
 - (void)applyHugHeightFrameWithIndex: (NSUInteger)index
                         newViewFrame: (NSRect *)newViewFrame {
 
-    CGFloat largestHeight = CGFLOAT_MIN;
+    CGFloat largestHeight = 0;
     
     for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
-        assert(isfinite(currentLayoutElement.maxHeight));
+        //assert(isfinite(currentLayoutElement.maxHeight));
         
-        if (currentLayoutElement.maxHeight > largestHeight) {
+        if (isfinite(currentLayoutElement.maxHeight) && currentLayoutElement.maxHeight > largestHeight) {
             largestHeight = currentLayoutElement.maxHeight;
         }
     }

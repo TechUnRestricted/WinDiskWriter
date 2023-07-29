@@ -191,6 +191,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     assert(minWidth >= 0);
     assert(maxWidth >= 0);
     
+    /*
     if (self.hugHeightFrame) {
         assert(isfinite(maxHeight));
     }
@@ -198,6 +199,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     if (self.hugWidthFrame) {
         assert(isfinite(maxWidth));
     }
+    */
     
     FrameLayoutElement *layoutElement = [[FrameLayoutElement alloc] initWithNSView:nsView];
     
