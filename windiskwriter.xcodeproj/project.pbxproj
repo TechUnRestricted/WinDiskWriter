@@ -86,6 +86,8 @@
 		E23298C62A37C31500869736 /* NSColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C02A37C31500869736 /* NSColor+Common.m */; };
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
 		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
+		E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */; };
+		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
@@ -291,6 +293,10 @@
 		E23298C42A37C31500869736 /* NSWindow+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
 		E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutHorizontal.m; sourceTree = "<group>"; };
 		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
+		E24364D92A72C88000541719 /* VerticalCenteredTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalCenteredTextFieldCell.h; sourceTree = "<group>"; };
+		E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		E24364E02A72CCE600541719 /* TextInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputView.m; sourceTree = "<group>"; };
+		E24364E12A72CCE600541719 /* TextInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputView.h; sourceTree = "<group>"; };
 		E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutVertical.h; sourceTree = "<group>"; };
 		E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutVertical.m; sourceTree = "<group>"; };
 		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
@@ -886,6 +892,8 @@
 		E23298BA2A37C31500869736 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E24364E32A72CCEB00541719 /* TextInputView */,
+				E24364DC2A72C88600541719 /* VerticalCenteredTextFieldCell */,
 				E23298BB2A37C31500869736 /* LabelView */,
 			);
 			path = Views;
@@ -934,6 +942,24 @@
 				E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */,
 			);
 			path = FrameLayoutHorizontal;
+			sourceTree = "<group>";
+		};
+		E24364DC2A72C88600541719 /* VerticalCenteredTextFieldCell */ = {
+			isa = PBXGroup;
+			children = (
+				E24364D92A72C88000541719 /* VerticalCenteredTextFieldCell.h */,
+				E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */,
+			);
+			path = VerticalCenteredTextFieldCell;
+			sourceTree = "<group>";
+		};
+		E24364E32A72CCEB00541719 /* TextInputView */ = {
+			isa = PBXGroup;
+			children = (
+				E24364E12A72CCE600541719 /* TextInputView.h */,
+				E24364E02A72CCE600541719 /* TextInputView.m */,
+			);
+			path = TextInputView;
 			sourceTree = "<group>";
 		};
 		E245C8892A44BBDA009CBB43 /* FrameLayout */ = {
@@ -1245,10 +1271,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
+				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,
 				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
 				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
+				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,
 				E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */,
 				E23298C52A37C31500869736 /* LabelView.m in Sources */,

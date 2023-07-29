@@ -31,7 +31,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     // _stackableAxisMaxLimitsSum = 0;
     // _largestUnstackableAxisValue = 0;
     
-    _verticalAlignment = FrameLayoutVerticalCenter;
+    _verticalAlignment = FrameLayoutVerticalTop;
     _horizontalAlignment = FrameLayoutHorizontalLeft;
 }
 
@@ -146,10 +146,7 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     NSRect newViewFrame = self.frame;
     
     if (indexInSortedArray == NSNotFound) {
-        printf("[INFO:] {Fail}; Find index in sorted array.\n");
         return;
-    } else {
-        printf("[INFO:] {OK}; Find index in sorted array.\n");
     }
     
     if (self.hugHeightFrame) {
@@ -206,7 +203,6 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     
     if ([nsView isKindOfClass: FrameLayoutBase.class]) {
         [(FrameLayoutBase *)nsView setParentView:self];
-        printf("[Parent view was inserted]\n");
     }
     
     [layoutElement setMinWidth:minWidth];
