@@ -82,12 +82,10 @@
 - (void)applyHugWidthFrameWithIndex: (NSUInteger)index
                        newViewFrame: (NSRect *)newViewFrame {
     
-    CGFloat largestWidth = CGFLOAT_MIN;
+    CGFloat largestWidth = 0;
     
     for (FrameLayoutElement *currentLayoutElement in self.layoutElementsArray) {
-        assert(isfinite(currentLayoutElement.maxWidth));
-        
-        if (currentLayoutElement.maxWidth > largestWidth) {
+        if (isfinite(currentLayoutElement.maxWidth) && currentLayoutElement.maxWidth > largestWidth) {
             largestWidth = currentLayoutElement.maxWidth;
         }
     }
