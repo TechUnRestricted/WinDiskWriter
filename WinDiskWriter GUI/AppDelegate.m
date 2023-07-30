@@ -259,6 +259,16 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
     
+    NSButton *startStopButtonView = [[NSButton alloc] init]; {
+        
+        [mainVerticalLayout addView:startStopButtonView width:INFINITY height:100];
+    }
+    
+    [mainVerticalLayout applyTopPadding: 0
+                          bottomPadding: 0
+                            leftPadding: 50
+                           rightPadding: 20
+                              forNSView: startStopButtonView];
     
 }
 

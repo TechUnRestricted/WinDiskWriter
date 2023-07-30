@@ -93,6 +93,35 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     [self setNeedsDisplay: YES];
 }
 
+- (void)applyTopPadding: (CGFloat)topPadding
+          bottomPadding: (CGFloat)bottomPadding
+            leftPadding: (CGFloat)leftPadding
+           rightPadding: (CGFloat)rightPadding
+              forNSView: (NSView *)nsView {
+    
+    FrameLayoutElement *requiredFrameLayoutElement = NULL;
+    
+    for (FrameLayoutElement *currentFrameLayoutElement in self.layoutElementsArray) {
+        if (currentFrameLayoutElement.nsView == nsView) {
+            requiredFrameLayoutElement = currentFrameLayoutElement;
+            break;
+        }
+    }
+    
+    if (requiredFrameLayoutElement == NULL) {
+        return;
+    }
+    
+    printf("Found padding FrameLayoutElement!\n");
+    
+    [requiredFrameLayoutElement setPaddingTop:topPadding];
+    [requiredFrameLayoutElement setPaddingBottom:bottomPadding];
+    [requiredFrameLayoutElement setPaddingLeft:leftPadding];
+    [requiredFrameLayoutElement setPaddingRight:rightPadding];
+    
+    [self setNeedsDisplay: YES];
+}
+
 - (CGFloat)spaceTakenBySpacing {
     NSUInteger elementsCount = self.sortedElementsArray.count;
     
@@ -218,6 +247,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     assert(self.layoutElementsArray.count == self.sortedElementsArray.count);
     
     [self addSubview: layoutElement.nsView];
+    
+    [self applyHugFrames];
 }
 
 - (void)addView: (NSView * _Nonnull)nsView

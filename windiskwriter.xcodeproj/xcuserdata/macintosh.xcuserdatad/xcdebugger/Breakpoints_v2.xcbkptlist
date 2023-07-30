@@ -238,8 +238,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutBase/FrameLayoutBase.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
             landmarkName = "-drawRect:"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutBase/FrameLayoutBase.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "-changeFramePropertiesWithLastXPosition:lastYPosition:viewFrame:currentView:isLast:"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutVertical/FrameLayoutVertical.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-changeFramePropertiesWithLastXPosition:lastYPosition:viewFrame:currentView:isLast:"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutVertical/FrameLayoutVertical.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "-changeFramePropertiesWithLastXPosition:lastYPosition:viewFrame:currentView:isLast:"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutHorizontal/FrameLayoutHorizontal.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "-updateComputedElementsDimensions"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,8 +334,8 @@
             filePath = "WinDiskWriter GUI/FrameLayout/FrameLayoutHorizontal/FrameLayoutHorizontal.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "-updateComputedElementsDimensions"
             landmarkType = "7">
          </BreakpointContent>

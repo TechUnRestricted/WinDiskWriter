@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, FrameLayoutHorizontalAlignment) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class FrameLayoutElement;
+
 @interface FrameLayoutBase : NSView
 
 @property (nonatomic, readwrite) CGFloat spacing;
@@ -49,6 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyHugFrames;
 
 - (NSUInteger)sortedIndexForValue:(CGFloat)value;
+
+- (void)applyTopPadding: (CGFloat)topPadding
+          bottomPadding: (CGFloat)bottomPadding
+            leftPadding: (CGFloat)leftPadding
+           rightPadding: (CGFloat)rightPadding
+              forNSView: (NSView *)nsView;
 
 - (void)applyHugHeightFrameWithIndex: (NSUInteger)index
                         newViewFrame: (NSRect *)newViewFrame;
