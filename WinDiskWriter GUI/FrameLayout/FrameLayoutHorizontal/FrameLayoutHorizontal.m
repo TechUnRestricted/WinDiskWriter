@@ -41,21 +41,6 @@
     
 }
 
-- (void)addView: (NSView *)nsView
-       minWidth: (CGFloat)minWidth
-       maxWidth: (CGFloat)maxWidth
-      minHeight: (CGFloat)minHeight
-      maxHeight: (CGFloat)maxHeight {
-    
-    [super addView: nsView
-          minWidth: minWidth
-          maxWidth: maxWidth
-         minHeight: minHeight
-         maxHeight: maxHeight];
-    
-    [self applyHugFrames];
-}
-
 - (void)applyHugHeightFrameWithIndex: (NSUInteger)index
                         newViewFrame: (NSRect *)newViewFrame {
 

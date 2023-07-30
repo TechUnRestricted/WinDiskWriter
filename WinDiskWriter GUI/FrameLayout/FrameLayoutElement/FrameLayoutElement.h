@@ -23,8 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) CGFloat computedWidth;
 @property (nonatomic, readwrite) CGFloat computedHeight;
 
+@property (nonatomic, readwrite) CGFloat paddingTop;
+@property (nonatomic, readwrite) CGFloat paddingBottom;
+
+@property (nonatomic, readwrite) CGFloat paddingLeft;
+@property (nonatomic, readwrite) CGFloat paddingRight;
+
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithNSView: (NSView * _Nonnull)nsView;
+- (instancetype)initWithNSView: (NSView *)nsView;
 
 @end
 
