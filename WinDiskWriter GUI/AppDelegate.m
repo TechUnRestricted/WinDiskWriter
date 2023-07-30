@@ -12,6 +12,8 @@
 #import "ButtonView.h"
 #import "PickerView.h"
 #import "TextInputView.h"
+#import "CheckBoxView.h"
+
 #import "Extensions/NSColor/NSColor+Common.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
@@ -105,13 +107,12 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     const CGFloat mainContentGroupsSpacing = 6;
-    const CGFloat verticalLayoutPadding = 14;
-    const CGFloat horizontaLayoutSpacing = 6;
+    const CGFloat childElementsSpacing = 6;
     
-    FrameLayoutVertical *mainVerticalLayout = [self setupMainVerticalViewWithPaddingTop: titlebarHeight + verticalLayoutPadding / 2
-                                                                                 bottom: verticalLayoutPadding
-                                                                                   left: verticalLayoutPadding
-                                                                                  right: verticalLayoutPadding
+    FrameLayoutVertical *mainVerticalLayout = [self setupMainVerticalViewWithPaddingTop: titlebarHeight + childElementsSpacing / 2
+                                                                                 bottom: childElementsSpacing
+                                                                                   left: childElementsSpacing
+                                                                                  right: childElementsSpacing
                                                                                  nsView: currentWindow.contentView];
     
     [mainVerticalLayout setSpacing: mainContentGroupsSpacing];
@@ -121,11 +122,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [isoPickerVerticalLayout setHugHeightFrame: YES];
         
+        [isoPickerVerticalLayout setSpacing: childElementsSpacing];
+        
         LabelView *isoPickerLabelView = [[LabelView alloc] init]; {
             [isoPickerVerticalLayout addView:isoPickerLabelView width:INFINITY height:isoPickerLabelView.cell.cellSize.height];
             
             [isoPickerLabelView setStringValue: @"Windows Image"];
-            
+                        
             [isoPickerLabelView setWantsLayer: YES];            
         }
         
@@ -136,10 +139,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             
             [isoPickerHorizontalLayout setVerticalAlignment: FrameLayoutVerticalCenter];
             
-            [isoPickerHorizontalLayout setSpacing: horizontaLayoutSpacing];
+            [isoPickerHorizontalLayout setSpacing: childElementsSpacing];
             
             TextInputView *windowsImageInputView = [[TextInputView alloc] init]; {
-                [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:30];
+                [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:windowsImageInputView.cell.cellSize.height];
                 
                 if (@available(macOS 10.10, *)) {
                     [windowsImageInputView setPlaceholderString: @"/path/to/Windows.iso"];
@@ -159,7 +162,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
         [devicePickerVerticalLayout setHugHeightFrame:YES];
         
-        [devicePickerVerticalLayout setSpacing: horizontaLayoutSpacing];
+        [devicePickerVerticalLayout setSpacing: childElementsSpacing];
 
         
         LabelView *devicePickerLabelView = [[LabelView alloc] init]; {
@@ -187,10 +190,75 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [updateDeviceListButtonView setTitle:@"Update"];
             }
         }
+    }
+    
+    FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
         
-
+        [formattingSectionVerticalLayout setHugHeightFrame: YES];
+        [formattingSectionVerticalLayout setSpacing:childElementsSpacing];
+        
+        FrameLayoutVertical *fileSystemPickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+            [formattingSectionVerticalLayout addView:fileSystemPickerVerticalLayout width:INFINITY height:0];
+            [fileSystemPickerVerticalLayout setHugHeightFrame: YES];
+            
+            [fileSystemPickerVerticalLayout setSpacing:childElementsSpacing];
+            
+            CheckBoxView *checkboxView = [[CheckBoxView alloc] init]; {
+                [fileSystemPickerVerticalLayout addView:checkboxView width:INFINITY height:checkboxView.cell.cellSize.height];
+                
+                [checkboxView setTitle: @"Format Device"];
+            }
+            
+            LabelView *filesystemLabelView = [[LabelView alloc] init]; {
+                [fileSystemPickerVerticalLayout addView:filesystemLabelView width:INFINITY height:filesystemLabelView.cell.cellSize.height];
+                
+                [filesystemLabelView setStringValue: @"File System"];
+            }
+            
+            NSSegmentedControl *filesystemPickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
+                [filesystemPickerSegmentedControl setSegmentCount:2];
+            
+                [filesystemPickerSegmentedControl setLabel:@"FAT32" forSegment:0];
+                [filesystemPickerSegmentedControl setLabel:@"ExFAT" forSegment:1];
+                
+                [filesystemPickerSegmentedControl setSelectedSegment:0];
+                
+                [fileSystemPickerVerticalLayout addView:filesystemPickerSegmentedControl width:INFINITY height:filesystemPickerSegmentedControl.cell.cellSize.height];
+            }
+        }
+        
+        FrameLayoutVertical *partitionSchemePickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+            [formattingSectionVerticalLayout addView:partitionSchemePickerVerticalLayout width:INFINITY height:0];
+            
+            [partitionSchemePickerVerticalLayout setHugHeightFrame: YES];
+            [partitionSchemePickerVerticalLayout setSpacing: childElementsSpacing];
+            
+            LabelView *partitionSchemeLabelView = [[LabelView alloc] init]; {
+                [partitionSchemePickerVerticalLayout addView:partitionSchemeLabelView width:INFINITY height:partitionSchemeLabelView.cell.cellSize.height];
+            
+                [partitionSchemeLabelView setStringValue:@"Partition Scheme"];
+            }
+            
+            NSSegmentedControl *partitionSchemePickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
+                [partitionSchemePickerSegmentedControl setSegmentCount:2];
+            
+                [partitionSchemePickerSegmentedControl setLabel:@"MBR" forSegment:0];
+                [partitionSchemePickerSegmentedControl setLabel:@"GPT" forSegment:1];
+                
+                [partitionSchemePickerSegmentedControl setSelectedSegment:0];
+                
+                [partitionSchemePickerVerticalLayout addView:partitionSchemePickerSegmentedControl width:INFINITY height:partitionSchemePickerSegmentedControl.cell.cellSize.height];
+            }
+        }
         
     }
+    
+    NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] init]; {
+        [mainVerticalLayout addView:progressIndicator width:INFINITY height:40];
+
+    }
+    
     
 }
 

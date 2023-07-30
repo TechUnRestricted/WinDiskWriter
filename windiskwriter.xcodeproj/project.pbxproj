@@ -82,6 +82,7 @@
 		E22B444229A1670B00846C1D /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
 		E22E6BE42A75C87000FD4BFD /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6BE32A75C87000FD4BFD /* ButtonView.m */; };
 		E22E6C042A75D73700FD4BFD /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6C032A75D73700FD4BFD /* PickerView.m */; };
+		E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6C072A76B3C700FD4BFD /* CheckBoxView.m */; };
 		E23298B22A37C1FC00869736 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298B12A37C1FC00869736 /* main.m */; };
 		E23298B92A37C23700869736 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298B72A37C23600869736 /* AppDelegate.m */; };
 		E23298C52A37C31500869736 /* LabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298BD2A37C31500869736 /* LabelView.m */; };
@@ -286,6 +287,8 @@
 		E22E6BE32A75C87000FD4BFD /* ButtonView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonView.m; sourceTree = "<group>"; };
 		E22E6C022A75D73700FD4BFD /* PickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerView.h; sourceTree = "<group>"; };
 		E22E6C032A75D73700FD4BFD /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
+		E22E6C062A76B3C700FD4BFD /* CheckBoxView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckBoxView.h; sourceTree = "<group>"; };
+		E22E6C072A76B3C700FD4BFD /* CheckBoxView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckBoxView.m; sourceTree = "<group>"; };
 		E23298A72A37C1FB00869736 /* WinDiskWriter GUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WinDiskWriter GUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23298B12A37C1FC00869736 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WinDiskWriter_GUI.entitlements; sourceTree = "<group>"; };
@@ -899,6 +902,15 @@
 			path = PickerView;
 			sourceTree = "<group>";
 		};
+		E22E6C092A76B3CA00FD4BFD /* CheckBoxView */ = {
+			isa = PBXGroup;
+			children = (
+				E22E6C062A76B3C700FD4BFD /* CheckBoxView.h */,
+				E22E6C072A76B3C700FD4BFD /* CheckBoxView.m */,
+			);
+			path = CheckBoxView;
+			sourceTree = "<group>";
+		};
 		E23298A82A37C1FB00869736 /* WinDiskWriter GUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +933,7 @@
 				E23298BB2A37C31500869736 /* LabelView */,
 				E22E6BE52A75C87400FD4BFD /* ButtonView */,
 				E22E6C052A75D73C00FD4BFD /* PickerView */,
+				E22E6C092A76B3CA00FD4BFD /* CheckBoxView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1301,6 +1314,7 @@
 				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
 				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
+				E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
 				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,

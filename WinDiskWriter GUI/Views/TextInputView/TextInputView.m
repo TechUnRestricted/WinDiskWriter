@@ -15,20 +15,17 @@
     self = [super init];
     
     [self setBezeled: YES];
-    [self setBezelStyle: NSTextFieldRoundedBezel];
-    
+    [self setBordered: YES];
+        
     if (@available(macOS 10.10, *)) {
         [self setLineBreakMode: NSLineBreakByTruncatingMiddle];
     }
-    
-    [self setBordered: YES];
-    
-    VerticalCenteredTextFieldCell *verticalCenteredTextFieldCell = [[VerticalCenteredTextFieldCell alloc] init];
-    [verticalCenteredTextFieldCell setEditable: YES];
-    [verticalCenteredTextFieldCell setTitle:@""];
-    
-    [self setCell: verticalCenteredTextFieldCell];
         
+    [self setBezeled: YES];
+    [self setBezelStyle: NSTextFieldRoundedBezel];
+    
+    [self setFocusRingType:NSFocusRingTypeNone];
+    
     return self;
 }
 
