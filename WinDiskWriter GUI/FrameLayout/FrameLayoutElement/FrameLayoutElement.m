@@ -7,6 +7,7 @@
 //
 
 #import "FrameLayoutElement.h"
+#import "FrameLayoutBase.h"
 
 @implementation FrameLayoutElement
 
@@ -21,6 +22,57 @@
     _paddingRight = 0;
     
     return self;
+}
+
+- (void)setPaddingTop:(CGFloat)paddingTop {
+    _paddingTop = paddingTop;
+    
+    [self updateUI];
+}
+
+- (void)setPaddingBottom:(CGFloat)paddingBottom {
+    _paddingBottom = paddingBottom;
+    
+    [self updateUI];
+}
+
+- (void)setPaddingLeft:(CGFloat)paddingLeft {
+    _paddingLeft = paddingLeft;
+    
+    [self updateUI];
+}
+
+- (void)setPaddingRight:(CGFloat)paddingRight {
+    _paddingRight = paddingRight;
+    
+    [self updateUI];
+}
+
+- (void)setPaddingTop: (CGFloat)paddingTop
+        paddingBottom: (CGFloat)paddingBottom
+          paddingLeft:(CGFloat)paddingLeft
+         paddingRight:(CGFloat)paddingRight {
+    
+    _paddingTop = paddingTop;
+    _paddingBottom = paddingBottom;
+    _paddingLeft = paddingLeft;
+    _paddingRight = paddingRight;
+    
+    [self updateUI];
+}
+
+- (CGFloat)widthTakenByPadding {
+    return self.paddingLeft + self.paddingRight;
+}
+
+- (CGFloat)heightTakenByPadding {
+    return self.paddingTop + self.paddingBottom;
+}
+
+- (void)updateUI {
+    if ([self.nsView isKindOfClass:[FrameLayoutBase class]]) {
+        [(FrameLayoutBase *)self.nsView setNeedsDisplay: YES];
+    }
 }
 
 @end

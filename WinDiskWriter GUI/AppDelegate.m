@@ -170,7 +170,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             
             [devicePickerLabelView setStringValue: @"Target Device"];
         }
-        
+
         FrameLayoutHorizontal *devicePickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerHorizontalLayout width:INFINITY height:0];
 
@@ -259,16 +259,21 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
     }
     
-    NSButton *startStopButtonView = [[NSButton alloc] init]; {
+    FrameLayoutVertical *testLayoutVertical = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:testLayoutVertical width:INFINITY height:0];
         
-        [mainVerticalLayout addView:startStopButtonView width:INFINITY height:100];
+        [testLayoutVertical setHugHeightFrame: YES];
+        
+        [testLayoutVertical.selfElement setPaddingLeft:40];
+        [testLayoutVertical.selfElement setPaddingRight:-40];
+        
+        NSButton *startStopButtonView = [[NSButton alloc] init]; {
+            [testLayoutVertical addView:startStopButtonView width:INFINITY height:100];
+        }
+        
     }
     
-    [mainVerticalLayout applyTopPadding: 0
-                          bottomPadding: 0
-                            leftPadding: 50
-                           rightPadding: 20
-                              forNSView: startStopButtonView];
+    
     
 }
 

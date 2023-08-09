@@ -29,6 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) CGFloat paddingLeft;
 @property (nonatomic, readwrite) CGFloat paddingRight;
 
+- (void)setPaddingTop: (CGFloat)paddingTop
+        paddingBottom: (CGFloat)paddingBottom
+          paddingLeft: (CGFloat)paddingLeft
+         paddingRight: (CGFloat)paddingRight;
+
+- (CGFloat)widthTakenByPadding;
+- (CGFloat)heightTakenByPadding;
+
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNSView: (NSView *)nsView;
 
