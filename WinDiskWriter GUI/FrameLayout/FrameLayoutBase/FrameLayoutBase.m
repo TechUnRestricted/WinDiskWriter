@@ -59,8 +59,8 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     return self;
 }
 
-- (void)setSpacing:(CGFloat)padding {
-    _spacing = padding;
+- (void)setSpacing:(CGFloat)spacing {
+    _spacing = spacing;
     
     [self setNeedsDisplay: YES];
 }
@@ -89,35 +89,6 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     _hugHeightFrame = hugHeightFrame;
     
     [self applyHugFrames];
-    
-    [self setNeedsDisplay: YES];
-}
-
-- (void)applyTopPadding: (CGFloat)topPadding
-          bottomPadding: (CGFloat)bottomPadding
-            leftPadding: (CGFloat)leftPadding
-           rightPadding: (CGFloat)rightPadding
-              forNSView: (NSView *)nsView {
-    
-    FrameLayoutElement *requiredFrameLayoutElement = NULL;
-    
-    for (FrameLayoutElement *currentFrameLayoutElement in self.layoutElementsArray) {
-        if (currentFrameLayoutElement.nsView == nsView) {
-            requiredFrameLayoutElement = currentFrameLayoutElement;
-            break;
-        }
-    }
-    
-    if (requiredFrameLayoutElement == NULL) {
-        return;
-    }
-    
-    printf("Found padding FrameLayoutElement!\n");
-    
-    [requiredFrameLayoutElement setPaddingTop:topPadding];
-    [requiredFrameLayoutElement setPaddingBottom:bottomPadding];
-    [requiredFrameLayoutElement setPaddingLeft:leftPadding];
-    [requiredFrameLayoutElement setPaddingRight:rightPadding];
     
     [self setNeedsDisplay: YES];
 }
@@ -232,15 +203,16 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
     
     FrameLayoutElement *layoutElement = [[FrameLayoutElement alloc] initWithNSView:nsView];
     
-    if ([nsView isKindOfClass: FrameLayoutBase.class]) {
-        [(FrameLayoutBase *)nsView setParentView:self];
-    }
-    
     [layoutElement setMinWidth:minWidth];
     [layoutElement setMaxWidth:maxWidth];
     
     [layoutElement setMinHeight:minHeight];
     [layoutElement setMaxHeight:maxHeight];
+    
+    if ([nsView isKindOfClass: FrameLayoutBase.class]) {
+        [(FrameLayoutBase *)nsView setParentView:self];
+        [(FrameLayoutBase *)nsView setSelfElement:layoutElement];
+    }
     
     [self appendLayoutElement:layoutElement];
         
@@ -325,6 +297,14 @@ NSString * const overrideMethodString = @"You must override %@ in a subclass";
                                            viewFrame: &viewFrame
                                          currentView: currentLayoutElement
                                               isLast: isLastElement];
+
+        
+        // viewFrame.origin.x += currentLayoutElement.paddingLeft;
+
+        /*
+         viewFrame.size.width -= (currentLayoutElement.paddingLeft + currentLayoutElement.paddingRight);
+         viewFrame.size.height -= (currentLayoutElement.paddingTop + currentLayoutElement.paddingBottom);
+        */
         
         [currentLayoutElement.nsView setFrame:viewFrame];
     }

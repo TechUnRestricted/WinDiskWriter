@@ -56,7 +56,7 @@
     
     FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
     [selfElement setMaxHeight:heightsSum];
-    newViewFrame->size.height = heightsSum;
+    //newViewFrame->size.height = heightsSum;
     
     [parentLayoutElements removeObjectAtIndex:index];
     
@@ -79,7 +79,7 @@
     FrameLayoutElement *selfElement = [parentLayoutElements objectAtIndex:index];
 
     [selfElement setMaxWidth:largestWidth];
-    newViewFrame->size.width = largestWidth;
+    //newViewFrame->size.width = largestWidth;
 }
 
 - (void)updateComputedElementsDimensions {    
@@ -123,22 +123,10 @@
         } else if (currentLayoutElement.minWidth > finalViewWidth) {
             finalViewWidth = currentLayoutElement.minWidth;
         }
-        
+                
         [currentLayoutElement setComputedWidth:finalViewWidth];
         
         self.viewsWidthTotal += finalViewWidth;
-        
-        /*
-        printf("[Index: %ld]\n"
-               "\tcomputed_view_width: %f, self_width: %f\n"
-               "\tcomputed_view_height: %f, self_height: %f\n"
-               "\tsuggested_height: %f\n",
-               (long)i,
-               currentLayoutElement.computedWidth, self.frame.size.width,
-               currentLayoutElement.computedHeight, self.frame.size.height,
-               suggestedEqualHeightForElement
-        );
-        */
     }
     
 }

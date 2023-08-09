@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) FrameLayoutVerticalAlignment verticalAlignment;
 @property (nonatomic, readwrite) FrameLayoutHorizontalAlignment horizontalAlignment;
 
+@property (nullable, nonatomic, readwrite) FrameLayoutElement *selfElement;
 @property (nullable, nonatomic, readwrite) FrameLayoutBase *parentView;
 
 @property (nonatomic, readwrite) BOOL hugWidthFrame /* NS_UNAVAILABLE */;
@@ -51,12 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyHugFrames;
 
 - (NSUInteger)sortedIndexForValue:(CGFloat)value;
-
-- (void)applyTopPadding: (CGFloat)topPadding
-          bottomPadding: (CGFloat)bottomPadding
-            leftPadding: (CGFloat)leftPadding
-           rightPadding: (CGFloat)rightPadding
-              forNSView: (NSView *)nsView;
 
 - (void)applyHugHeightFrameWithIndex: (NSUInteger)index
                         newViewFrame: (NSRect *)newViewFrame;
