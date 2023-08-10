@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "VibrantTextView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AutoScrollTextView : NSScrollView
 
-@property (nonatomic, strong, readonly) NSTextView *textViewInstance;
+@property (nonatomic, strong, readonly) VibrantTextView *textViewInstance;
 
 - (void)appendLine:(NSString *)message;
 
