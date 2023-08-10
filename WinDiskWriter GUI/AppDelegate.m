@@ -194,6 +194,17 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         }
     }
     
+    [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
+    
+    CheckBoxView *checkboxView = [[CheckBoxView alloc] init]; {
+        [mainVerticalLayout addView:checkboxView width:INFINITY height:checkboxView.cell.cellSize.height];
+        
+        [checkboxView setTitle: @"Format Device"];
+    }
+    
+    [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
+
+    
     FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
         
@@ -205,12 +216,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [fileSystemPickerVerticalLayout setHugHeightFrame: YES];
             
             [fileSystemPickerVerticalLayout setSpacing:childElementsSpacing];
-            
-            CheckBoxView *checkboxView = [[CheckBoxView alloc] init]; {
-                [fileSystemPickerVerticalLayout addView:checkboxView width:INFINITY height:checkboxView.cell.cellSize.height];
-                
-                [checkboxView setTitle: @"Format Device"];
-            }
             
             LabelView *filesystemLabelView = [[LabelView alloc] init]; {
                 [fileSystemPickerVerticalLayout addView:filesystemLabelView width:INFINITY height:filesystemLabelView.cell.cellSize.height];
@@ -237,7 +242,11 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [partitionSchemePickerVerticalLayout setSpacing: childElementsSpacing];
             
             LabelView *partitionSchemeLabelView = [[LabelView alloc] init]; {
-                [partitionSchemePickerVerticalLayout addView:partitionSchemeLabelView width:INFINITY height:partitionSchemeLabelView.cell.cellSize.height];
+                [partitionSchemePickerVerticalLayout addView: partitionSchemeLabelView
+                                                    minWidth: 0
+                                                    maxWidth: INFINITY
+                                                   minHeight: partitionSchemeLabelView.cell.cellSize.height
+                                                   maxHeight: partitionSchemeLabelView.cell.cellSize.height];
             
                 [partitionSchemeLabelView setStringValue:@"Partition Scheme"];
             }
@@ -250,26 +259,53 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 
                 [partitionSchemePickerSegmentedControl setSelectedSegment:0];
                 
-                [partitionSchemePickerVerticalLayout addView:partitionSchemePickerSegmentedControl width:INFINITY height:partitionSchemePickerSegmentedControl.cell.cellSize.height];
+                [partitionSchemePickerVerticalLayout addView:partitionSchemePickerSegmentedControl minWidth:0 maxWidth:INFINITY minHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height maxHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height];
             }
         }
         
     }
     
+    [mainVerticalLayout addView:spacerView width:4 height:4];
+    
     AutoScrollTextView *logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
-        [mainVerticalLayout addView:logsAutoScrollTextView width:INFINITY height:240];
+        [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:240];
         
         
-        [logsAutoScrollTextView appendTimestampedLine:@"Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺"];
+    
+    }
+    [mainVerticalLayout addView:spacerView width:4 height:4];
+
+    FrameLayoutVertical *startStopVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:startStopVerticalLayout width:INFINITY height:INFINITY];
+        
+        [startStopVerticalLayout setHorizontalAlignment: FrameLayoutHorizontalCenter];
+        [startStopVerticalLayout setVerticalAlignment: FrameLayoutVerticalCenter];
+        
+        [startStopVerticalLayout setSpacing:10];
+        
+        [startStopVerticalLayout setHugHeightFrame: NO];
+        
+        ButtonView *startStopButtonView = [[ButtonView alloc] init]; {
+            [startStopVerticalLayout addView:startStopButtonView minWidth:40 maxWidth:180 minHeight:startStopButtonView.cell.cellSize.height maxHeight:startStopButtonView.cell.cellSize.height];
+            
+            [startStopButtonView setTitle: @"Start"];
+        }
+        
+        NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] init]; {
+            [startStopVerticalLayout addView:progressIndicator width:INFINITY height:8];
+
+        }
     }
     
+
     
-    NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] init]; {
-        [mainVerticalLayout addView:progressIndicator width:INFINITY height:40];
-
+    LabelView *developerNameLabelView = [[LabelView alloc] init]; {
+        [mainVerticalLayout addView:developerNameLabelView width:INFINITY height:developerNameLabelView.cell.cellSize.height];
+        
+        [developerNameLabelView setAlignment:NSTextAlignmentCenter];
+        
+        [developerNameLabelView setStringValue: @"TechUnRestricted 2023"];
     }
- 
-
     
     
 }

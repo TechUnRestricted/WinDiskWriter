@@ -7,6 +7,7 @@
 //
 
 #import "AutoScrollTextView.h"
+#import "NSColor+Common.h"
 
 @implementation AutoScrollTextView {
     NSDateFormatter *dateFormatter;
@@ -18,27 +19,26 @@
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
 
-    [self setHasVerticalScroller: NO];
+    [self setHasVerticalScroller: YES];
+    
+    [self setAutohidesScrollers: YES];
+    
     [self setHasHorizontalScroller:NO];
     
-    [self setBackgroundColor: NSColor.redColor];
-    [self.layer setCornerRadius:10.0f];
-    
     [self setDrawsBackground: NO];
-    
     [self.contentView setWantsLayer:YES];
     [self.contentView.layer setCornerRadius:10.0f];
+
+    [self.contentView.layer setBorderColor:[NSColor.textColor colorWithAlphaComponent:0.25].toCGColor];
+
+    [self.contentView.layer setBorderWidth: 1.5f];
     
-    _textViewInstance = [[NSTextView alloc] init];
+    _textViewInstance = [[VibrantTextView alloc] init];
     
-    [self.textViewInstance setVerticallyResizable: YES];
-    [self.textViewInstance setHorizontallyResizable: NO];
+    [self.textViewInstance setTextContainerInset: NSMakeSize(5, 10)];
     [self.textViewInstance setAutoresizingMask:NSViewWidthSizable];
     [self.textViewInstance setEditable: NO];
     [self.textViewInstance setSelectable: YES];
-    
-    [self.textViewInstance setWantsLayer:YES];
-    [self.textViewInstance.layer setCornerRadius:10.0f];
     
     [self.textViewInstance setFocusRingType:NSFocusRingTypeNone];
 
@@ -52,9 +52,9 @@
     NSString *appendedString = [NSString stringWithFormat:@"%@%@\n", self.textViewInstance.string, message];
     
     [self.textViewInstance setString:appendedString];
-    
-    //[self scrollToEndOfDocument: self.textViewInstance];
 }
+
+
 
 - (void)appendTimestampedLine: (NSString *)message {
     NSString *timeString = [dateFormatter stringFromDate: NSDate.date];
@@ -64,9 +64,7 @@
 }
 
 - (void)clear {
-    [self.textViewInstance setString:@""];
-    
-    [self scrollToEndOfDocument: NULL];
+    [self.textViewInstance setString:@""];    
 }
 
 
