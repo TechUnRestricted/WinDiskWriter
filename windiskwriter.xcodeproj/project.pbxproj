@@ -101,6 +101,7 @@
 		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
+		E2C73B3B2A855FD5008B9FAC /* AutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AutoScrollTextView.m */; };
 		E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
 		E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
 		E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
@@ -328,6 +329,8 @@
 		E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentObject.m; sourceTree = "<group>"; };
 		E2C5FFD62994619700B394F4 /* NSArray+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Common.h"; sourceTree = "<group>"; };
 		E2C5FFD72994619700B394F4 /* NSArray+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Common.m"; sourceTree = "<group>"; };
+		E2C73B392A855FD5008B9FAC /* AutoScrollTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoScrollTextView.h; sourceTree = "<group>"; };
+		E2C73B3A2A855FD5008B9FAC /* AutoScrollTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoScrollTextView.m; sourceTree = "<group>"; };
 		E2CCB2752982C7A4004EE171 /* DiskWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskWriter.m; sourceTree = "<group>"; };
 		E2CCB2772982C7B1004EE171 /* DiskWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskWriter.h; sourceTree = "<group>"; };
 		E2CCB27A2982F8C3004EE171 /* HDIUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDIUtil.m; sourceTree = "<group>"; };
@@ -934,6 +937,7 @@
 				E22E6BE52A75C87400FD4BFD /* ButtonView */,
 				E22E6C052A75D73C00FD4BFD /* PickerView */,
 				E22E6C092A76B3CA00FD4BFD /* CheckBoxView */,
+				E2C73B3C2A855FDA008B9FAC /* AutoScrollTextView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1142,6 +1146,15 @@
 			path = NSArray;
 			sourceTree = "<group>";
 		};
+		E2C73B3C2A855FDA008B9FAC /* AutoScrollTextView */ = {
+			isa = PBXGroup;
+			children = (
+				E2C73B392A855FD5008B9FAC /* AutoScrollTextView.h */,
+				E2C73B3A2A855FD5008B9FAC /* AutoScrollTextView.m */,
+			);
+			path = AutoScrollTextView;
+			sourceTree = "<group>";
+		};
 		E2CCB2882983E5D9004EE171 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1313,6 +1326,7 @@
 				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,
 				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
 				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
+				E2C73B3B2A855FD5008B9FAC /* AutoScrollTextView.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
 				E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,

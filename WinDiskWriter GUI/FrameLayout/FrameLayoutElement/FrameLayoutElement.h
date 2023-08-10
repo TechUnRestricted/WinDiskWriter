@@ -34,8 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
           paddingLeft: (CGFloat)paddingLeft
          paddingRight: (CGFloat)paddingRight;
 
-- (CGFloat)widthTakenByPadding;
-- (CGFloat)heightTakenByPadding;
+- (CGFloat)canvasWidth;
+
+- (CGFloat)nsViewWidth;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNSView: (NSView *)nsView;
