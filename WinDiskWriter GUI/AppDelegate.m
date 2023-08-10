@@ -27,21 +27,29 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSViewAutoresizingFlexibleBottomMargin = NSViewMinYMargin
 };
 
-@interface AppDelegate ()
+@implementation AppDelegate {
+    TextInputView *windowsImageInputView;
+    PickerView *devicePickerView;
+    CheckBoxView *formatDeviceCheckboxView;
+    NSSegmentedControl *filesystemPickerSegmentedControl;
+    NSSegmentedControl *partitionSchemePickerSegmentedControl;
+    AutoScrollTextView *logsAutoScrollTextView;
+    NSProgressIndicator *progressIndicator;
+    NSWindow *window;
+}
 
-@end
-
-@implementation AppDelegate
-
-- (NSWindow *)setupWindow {
+- (void)setupWindow {
+    NSSize minSize = CGSizeMake(330, 520);
+    NSSize maxSize = CGSizeMake(500, 650);
+    
     NSRect windowRect = NSMakeRect(
                                    0, // X
                                    0, // Y
-                                   380, // Width
-                                   500 // Height
+                                   minSize.width, // Width
+                                   minSize.height // Height
                                    );
     
-    NSWindow *window = [[NSWindow alloc] initWithContentRect: windowRect
+    window = [[NSWindow alloc] initWithContentRect: windowRect
                                                    styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
                                                      backing: NSBackingStoreBuffered
                                                        defer: NO
@@ -49,13 +57,19 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [window center];
     [window setMovableByWindowBackground: YES];
-    [window makeKeyAndOrderFront:nil];
+    [window makeKeyAndOrderFront: NULL];
+    
+    [window setMinSize: minSize];
+    [window setMaxSize: maxSize];
     
     [window setTitle: @"WinDiskWriter GUI"];
     
     if (@available(macOS 10.10, *)) {
         [window setTitlebarAppearsTransparent: YES];
     }
+    
+    NSButton *windowZoomButton = [window standardWindowButton:NSWindowZoomButton];
+    [windowZoomButton setEnabled: NO];
     
     NSView *backgroundView;
     
@@ -73,15 +87,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     [window setContentView: backgroundView];
-    
-    return window;
 }
 
 - (FrameLayoutVertical *)setupMainVerticalViewWithPaddingTop: (CGFloat)top
-                                         bottom: (CGFloat)bottom
-                                           left: (CGFloat)left
-                                          right: (CGFloat)right
-                                         nsView: (NSView *)nsView {
+                                                      bottom: (CGFloat)bottom
+                                                        left: (CGFloat)left
+                                                       right: (CGFloat)right
+                                                      nsView: (NSView *)nsView {
     CGFloat x = left;
     CGFloat y = bottom;
     CGFloat width = nsView.frame.size.width - left - right;
@@ -100,12 +112,12 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    NSWindow *currentWindow = [self setupWindow];
+    [self setupWindow];
     NSView *spacerView = [[NSView alloc] init];
-
+    
     CGFloat titlebarHeight = 0;
     if (@available(macOS 10.10, *)) {
-        titlebarHeight = currentWindow.contentView.frame.size.height - currentWindow.contentLayoutRect.size.height;
+        titlebarHeight = window.contentView.frame.size.height - window.contentLayoutRect.size.height;
     }
     
     const CGFloat mainContentGroupsSpacing = 6;
@@ -115,7 +127,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                                  bottom: childElementsSpacing
                                                                                    left: childElementsSpacing
                                                                                   right: childElementsSpacing
-                                                                                 nsView: currentWindow.contentView];
+                                                                                 nsView: window.contentView];
     
     [mainVerticalLayout setSpacing: mainContentGroupsSpacing];
     
@@ -130,8 +142,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [isoPickerVerticalLayout addView:isoPickerLabelView width:INFINITY height:isoPickerLabelView.cell.cellSize.height];
             
             [isoPickerLabelView setStringValue: @"Windows Image"];
-                        
-            [isoPickerLabelView setWantsLayer: YES];            
+            
+            [isoPickerLabelView setWantsLayer: YES];
         }
         
         FrameLayoutHorizontal *isoPickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
@@ -143,14 +155,14 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             
             [isoPickerHorizontalLayout setSpacing: childElementsSpacing];
             
-            TextInputView *windowsImageInputView = [[TextInputView alloc] init]; {
+            windowsImageInputView = [[TextInputView alloc] init]; {
                 [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:windowsImageInputView.cell.cellSize.height];
                 
                 if (@available(macOS 10.10, *)) {
                     [windowsImageInputView setPlaceholderString: @"/path/to/Windows.iso"];
                 }
             }
-        
+            
             ButtonView *chooseWindowsImageButtonView = [[ButtonView alloc] init]; {
                 [isoPickerHorizontalLayout addView:chooseWindowsImageButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
@@ -161,26 +173,26 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     FrameLayoutVertical *devicePickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:devicePickerVerticalLayout width:INFINITY height:0];
-    
+        
         [devicePickerVerticalLayout setHugHeightFrame:YES];
         
         [devicePickerVerticalLayout setSpacing: childElementsSpacing];
-
+        
         
         LabelView *devicePickerLabelView = [[LabelView alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerLabelView width:INFINITY height:devicePickerLabelView.cell.cellSize.height];
             
             [devicePickerLabelView setStringValue: @"Target Device"];
         }
-
+        
         FrameLayoutHorizontal *devicePickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerHorizontalLayout width:INFINITY height:0];
-
+            
             [devicePickerHorizontalLayout setHugHeightFrame:YES];
-
-            PickerView *devicePickerView = [[PickerView alloc] init]; {
+            
+            devicePickerView = [[PickerView alloc] init]; {
                 [devicePickerHorizontalLayout addView:devicePickerView minWidth:0 maxWidth:INFINITY minHeight:0 maxHeight:devicePickerView.cell.cellSize.height];
-                                
+                
                 [devicePickerView addItemWithTitle: @"Первый"];
                 [devicePickerView addItemWithTitle: @"Второй"];
                 [devicePickerView addItemWithTitle: @"Третий"];
@@ -196,14 +208,14 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
     
-    CheckBoxView *checkboxView = [[CheckBoxView alloc] init]; {
-        [mainVerticalLayout addView:checkboxView width:INFINITY height:checkboxView.cell.cellSize.height];
+    formatDeviceCheckboxView = [[CheckBoxView alloc] init]; {
+        [mainVerticalLayout addView:formatDeviceCheckboxView width:INFINITY height:formatDeviceCheckboxView.cell.cellSize.height];
         
-        [checkboxView setTitle: @"Format Device"];
+        [formatDeviceCheckboxView setTitle: @"Format Device"];
     }
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
-
+    
     
     FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
@@ -223,9 +235,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [filesystemLabelView setStringValue: @"File System"];
             }
             
-            NSSegmentedControl *filesystemPickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
+            filesystemPickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
                 [filesystemPickerSegmentedControl setSegmentCount:2];
-            
+                
                 [filesystemPickerSegmentedControl setLabel:@"FAT32" forSegment:0];
                 [filesystemPickerSegmentedControl setLabel:@"ExFAT" forSegment:1];
                 
@@ -247,13 +259,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                     maxWidth: INFINITY
                                                    minHeight: partitionSchemeLabelView.cell.cellSize.height
                                                    maxHeight: partitionSchemeLabelView.cell.cellSize.height];
-            
+                
                 [partitionSchemeLabelView setStringValue:@"Partition Scheme"];
             }
             
-            NSSegmentedControl *partitionSchemePickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
+            partitionSchemePickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
                 [partitionSchemePickerSegmentedControl setSegmentCount:2];
-            
+                
                 [partitionSchemePickerSegmentedControl setLabel:@"MBR" forSegment:0];
                 [partitionSchemePickerSegmentedControl setLabel:@"GPT" forSegment:1];
                 
@@ -267,14 +279,15 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout addView:spacerView width:4 height:4];
     
-    AutoScrollTextView *logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
-        [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:240];
+    logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
+        [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:INFINITY];
         
         
-    
+        
     }
-    [mainVerticalLayout addView:spacerView width:4 height:4];
-
+    
+    [mainVerticalLayout addView:spacerView width:0 height:4];
+    
     FrameLayoutVertical *startStopVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:startStopVerticalLayout width:INFINITY height:INFINITY];
         
@@ -283,7 +296,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [startStopVerticalLayout setSpacing:10];
         
-        [startStopVerticalLayout setHugHeightFrame: NO];
+        [startStopVerticalLayout setHugHeightFrame: YES];
         
         ButtonView *startStopButtonView = [[ButtonView alloc] init]; {
             [startStopVerticalLayout addView:startStopButtonView minWidth:40 maxWidth:180 minHeight:startStopButtonView.cell.cellSize.height maxHeight:startStopButtonView.cell.cellSize.height];
@@ -291,13 +304,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [startStopButtonView setTitle: @"Start"];
         }
         
-        NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] init]; {
+        progressIndicator = [[NSProgressIndicator alloc] init]; {
             [startStopVerticalLayout addView:progressIndicator width:INFINITY height:8];
-
+            
         }
     }
     
-
+    
     
     LabelView *developerNameLabelView = [[LabelView alloc] init]; {
         [mainVerticalLayout addView:developerNameLabelView width:INFINITY height:developerNameLabelView.cell.cellSize.height];
@@ -314,6 +327,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
+    return YES;
+}
 
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
