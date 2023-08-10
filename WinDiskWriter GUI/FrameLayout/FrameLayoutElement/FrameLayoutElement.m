@@ -61,12 +61,18 @@
     [self updateUI];
 }
 
-- (CGFloat)widthTakenByPadding {
-    return self.paddingLeft + self.paddingRight;
+- (CGFloat)canvasWidth {
+    CGFloat firstValue = (self.paddingLeft >= 0 ? self.paddingLeft : 0);
+    CGFloat secondValue = (self.paddingRight >= 0 ? self.paddingRight : 0);
+    
+    return self.computedWidth + (firstValue + secondValue);
 }
 
-- (CGFloat)heightTakenByPadding {
-    return self.paddingTop + self.paddingBottom;
+- (CGFloat)nsViewWidth {
+    CGFloat firstValue = (self.paddingLeft < 0 ? self.paddingLeft : 0);
+    CGFloat secondValue = (self.paddingRight < 0 ? self.paddingRight : 0);
+    
+    return self.computedWidth + (firstValue + secondValue);
 }
 
 - (void)updateUI {

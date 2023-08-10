@@ -13,6 +13,7 @@
 #import "PickerView.h"
 #import "TextInputView.h"
 #import "CheckBoxView.h"
+#import "AutoScrollTextView.h"
 
 #import "Extensions/NSColor/NSColor+Common.h"
 
@@ -100,7 +101,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSWindow *currentWindow = [self setupWindow];
-    
+    NSView *spacerView = [[NSView alloc] init];
+
     CGFloat titlebarHeight = 0;
     if (@available(macOS 10.10, *)) {
         titlebarHeight = currentWindow.contentView.frame.size.height - currentWindow.contentLayoutRect.size.height;
@@ -254,25 +256,20 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
     }
     
+    AutoScrollTextView *logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
+        [mainVerticalLayout addView:logsAutoScrollTextView width:INFINITY height:240];
+        
+        
+        [logsAutoScrollTextView appendTimestampedLine:@"Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺Hello 🥺🥺"];
+    }
+    
+    
     NSProgressIndicator *progressIndicator = [[NSProgressIndicator alloc] init]; {
         [mainVerticalLayout addView:progressIndicator width:INFINITY height:40];
 
     }
-    
-    FrameLayoutVertical *testLayoutVertical = [[FrameLayoutVertical alloc] init]; {
-        [mainVerticalLayout addView:testLayoutVertical width:INFINITY height:0];
-        
-        [testLayoutVertical setHugHeightFrame: YES];
-        
-        [testLayoutVertical.selfElement setPaddingLeft:40];
-        [testLayoutVertical.selfElement setPaddingRight:-40];
-        
-        NSButton *startStopButtonView = [[NSButton alloc] init]; {
-            [testLayoutVertical addView:startStopButtonView width:INFINITY height:100];
-        }
-        
-    }
-    
+ 
+
     
     
 }

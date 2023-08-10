@@ -7,7 +7,6 @@
 //
 
 #import "TextInputView.h"
-#import "VerticalCenteredTextFieldCell.h"
 
 @implementation TextInputView
 
