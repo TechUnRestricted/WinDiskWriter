@@ -11,14 +11,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString *ASLogType NS_TYPED_ENUM;
+extern ASLogType const ASLogTypeLog;
+extern ASLogType const ASLogTypeSuccess;
+extern ASLogType const ASLogTypeWarning;
+extern ASLogType const ASLogTypeError;
+extern ASLogType const ASLogTypeFatal;
+extern ASLogType const ASLogTypeAssertionError;
+
 @interface AutoScrollTextView : NSScrollView
 
 @property (nonatomic, strong, readonly) VibrantTextView *textViewInstance;
 
 - (void)appendLine:(NSString *)message;
 
-- (void)appendTimestampedLine: (NSString *)message;
-
+- (void)appendTimestampedLine: (NSString *)message
+                      logType: (ASLogType)logType;
 - (void)clear;
 
 @end

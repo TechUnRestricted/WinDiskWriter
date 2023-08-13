@@ -15,7 +15,9 @@
 #import "CheckBoxView.h"
 #import "AutoScrollTextView.h"
 
-#import "Extensions/NSColor/NSColor+Common.h"
+#import "NSColor+Common.h"
+#import "NSString+Common.h"
+
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSViewAutoresizingNone                 = NSViewNotSizable,
@@ -28,6 +30,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 };
 
 @implementation AppDelegate {
+    /* Initialized in -applicationDidFinishLaunching: */
     TextInputView *windowsImageInputView;
     PickerView *devicePickerView;
     CheckBoxView *formatDeviceCheckboxView;
@@ -50,9 +53,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                    );
     
     window = [[NSWindow alloc] initWithContentRect: windowRect
-                                                   styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
-                                                     backing: NSBackingStoreBuffered
-                                                       defer: NO
+                                         styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+                                           backing: NSBackingStoreBuffered
+                                             defer: NO
     ];
     
     [window center];
@@ -111,6 +114,94 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     return verticalLayout;
 }
 
+- (void)applyUIState {
+    
+}
+
+- (void)displayWarningAlertWithTitle: (NSString *)title
+                            subtitle: (NSString *)subtitle
+                                icon: (NSImageName)icon {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: title];
+    [alert setInformativeText: subtitle];
+    [alert setIcon: [NSImage imageNamed: icon]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert beginSheetModalForWindow: self->window
+                          modalDelegate: NULL
+                         didEndSelector: NULL
+                            contextInfo: NULL];
+    });
+}
+
+- (void)startStopAction {
+    NSString * const FORGOT_SOMETHING_TEXT = @"You forgot something...";
+    NSString * const PATH_FIELD_IS_EMPTY = @"The path to the Windows Image or Directory was not specified.";
+    NSString * const PATH_DOES_NOT_EXIST = @"The Path to the Image or Folder you entered does not exist.";
+    NSString * const CHECK_DATA_CORRECTNESS_TEXT = @"Check the correctness of the entered data.";
+    NSString * const NO_AVAILABLE_DEVICES = @"No writable devices found.";
+    NSString * const PRESS_UPDATE_BUTTON = @"Connect a compatible USB device and click on the Update button";
+    
+    NSString *imagePath = [windowsImageInputView.stringValue copy];
+    if (imagePath.length == 0) {
+        
+        [self displayWarningAlertWithTitle: FORGOT_SOMETHING_TEXT
+                                  subtitle: PATH_FIELD_IS_EMPTY
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: PATH_FIELD_IS_EMPTY
+                                              logType: ASLogTypeAssertionError];
+        return;
+    }
+    
+    BOOL imagePathIsDirectory = NO;
+    BOOL imageExists = [[NSFileManager defaultManager] fileExistsAtPath: imagePath
+                                                            isDirectory: &imagePathIsDirectory];
+    
+    if (!imageExists) {
+        [self displayWarningAlertWithTitle: CHECK_DATA_CORRECTNESS_TEXT
+                                  subtitle: PATH_DOES_NOT_EXIST
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: PATH_DOES_NOT_EXIST
+                                              logType: ASLogTypeAssertionError];
+        
+        return;
+    }
+    
+    if ([devicePickerView numberOfItems] <= 0) {
+        [self displayWarningAlertWithTitle: NO_AVAILABLE_DEVICES
+                                  subtitle: PRESS_UPDATE_BUTTON
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: NO_AVAILABLE_DEVICES
+                                              logType: ASLogTypeAssertionError];
+        return;
+    }
+    
+    
+    
+}
+
+- (void)chooseImageAction {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+
+    [openPanel setCanChooseFiles: YES];
+    [openPanel setCanChooseDirectories: YES];
+    [openPanel setAllowsMultipleSelection: NO];
+    [openPanel setAllowedFileTypes: @[@"iso"]];
+    
+    [openPanel runModal];
+    
+    NSString *path = openPanel.URL.path;
+    if (path == NULL) {
+        return;
+    }
+    
+    [windowsImageInputView setStringValue:path];
+    
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupWindow];
     NSView *spacerView = [[NSView alloc] init];
@@ -159,7 +250,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:windowsImageInputView.cell.cellSize.height];
                 
                 if (@available(macOS 10.10, *)) {
-                    [windowsImageInputView setPlaceholderString: @"/path/to/Windows.iso"];
+                    [windowsImageInputView setPlaceholderString: @"Image File or Directory"];
                 }
             }
             
@@ -167,6 +258,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [isoPickerHorizontalLayout addView:chooseWindowsImageButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
                 [chooseWindowsImageButtonView setTitle:@"Choose"];
+                [chooseWindowsImageButtonView setTarget:self];
+                [chooseWindowsImageButtonView setAction:@selector(chooseImageAction)];
+                
             }
         }
     }
@@ -212,6 +306,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         [mainVerticalLayout addView:formatDeviceCheckboxView width:INFINITY height:formatDeviceCheckboxView.cell.cellSize.height];
         
         [formatDeviceCheckboxView setTitle: @"Format Device"];
+        [formatDeviceCheckboxView setIntegerValue: YES];
+        [formatDeviceCheckboxView setEnabled: NO];
     }
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
@@ -302,6 +398,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [startStopVerticalLayout addView:startStopButtonView minWidth:40 maxWidth:180 minHeight:startStopButtonView.cell.cellSize.height maxHeight:startStopButtonView.cell.cellSize.height];
             
             [startStopButtonView setTitle: @"Start"];
+            [startStopButtonView setTarget: self];
+            [startStopButtonView setAction:@selector(startStopAction)];
         }
         
         progressIndicator = [[NSProgressIndicator alloc] init]; {
@@ -332,7 +430,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
-    return YES;
+    return NO;
 }
 
 @end
