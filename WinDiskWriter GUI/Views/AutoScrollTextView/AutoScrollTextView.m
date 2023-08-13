@@ -9,6 +9,13 @@
 #import "AutoScrollTextView.h"
 #import "NSColor+Common.h"
 
+ASLogType const ASLogTypeLog = @"Log";
+ASLogType const ASLogTypeSuccess = @"Success";
+ASLogType const ASLogTypeWarning = @"Warning";
+ASLogType const ASLogTypeError = @"Error";
+ASLogType const ASLogTypeFatal = @"Fatal";
+ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
+
 @implementation AutoScrollTextView {
     NSDateFormatter *dateFormatter;
 }
@@ -51,17 +58,21 @@
 - (void)appendLine: (NSString *)message {
     NSString *appendedString = [NSString stringWithFormat:@"%@%@\n", self.textViewInstance.string, message];
     
-    [self.textViewInstance setString:appendedString];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.textViewInstance setString:appendedString];
+    });
 }
 
 
 
-- (void)appendTimestampedLine: (NSString *)message {
+- (void)appendTimestampedLine: (NSString *)message
+                      logType: (ASLogType)logType {
     NSString *timeString = [dateFormatter stringFromDate: NSDate.date];
-    NSString *timestampedString = [NSString stringWithFormat:@"[%@] %@", timeString, message];
+    NSString *timestampedString = [NSString stringWithFormat:@"[(%@) %@] %@", logType, timeString, message];
     
     [self appendLine: timestampedString];
 }
+
 
 - (void)clear {
     [self.textViewInstance setString:@""];    
