@@ -46,6 +46,35 @@
     return self;
 }
 
++ (NSArray *)getBSDDrivesNames {
+    io_iterator_t iterator = 0;
+    
+    CFDictionaryRef matching = IOServiceMatching(kIOServicePlane);
+    
+    IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator);
+    io_object_t child = IOIteratorNext(iterator);
+    
+    NSMutableArray *BSDNames = [NSMutableArray array];
+    while (child > 0) {
+        CFTypeRef BSDNameAnyObject = IORegistryEntryCreateCFProperty(child, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
+        
+        if (BSDNameAnyObject != NULL) {
+            NSString *BSDNameString = (__bridge NSString *)BSDNameAnyObject;
+            
+            if ([BSDNameString hasPrefix:@"disk"]) {
+                [BSDNames addObject:BSDNameString];
+            }
+            
+            CFRelease(BSDNameAnyObject);
+        }
+        
+        child = IOIteratorNext(iterator);
+    }
+
+    return BSDNames;
+}
+
+
 struct CallbackWrapper {
     dispatch_semaphore_t semaphore;
     DAReturn daReturn;

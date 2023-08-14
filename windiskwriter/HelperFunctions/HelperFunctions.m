@@ -20,6 +20,15 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return getuid() == 0;
 }
 
++ (void)printTimeElapsedWhenRunningCode: (NSString *)title
+                              operation: (void (^)(void))operation {
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    operation();
+    CFAbsoluteTime timeElapsed = CFAbsoluteTimeGetCurrent() - startTime;
+ 
+    NSLog(@"Time elapsed for %@: %f s.", title, timeElapsed);
+}
+
 + (NSString *)randomStringWithLength: (UInt64)requiredLength {
     NSMutableString *generatedString = [NSMutableString stringWithCapacity:requiredLength];
     for (NSUInteger i = 0U; i < requiredLength; i++) {
