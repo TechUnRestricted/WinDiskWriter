@@ -18,6 +18,13 @@
 #import "NSColor+Common.h"
 #import "NSString+Common.h"
 
+#import "Constants.h"
+
+#import "DiskManager.h"
+#import "DiskWriter.h"
+#import "HDIUtil.h"
+
+#import "HelperFunctions.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSViewAutoresizingNone                 = NSViewNotSizable,
@@ -135,13 +142,16 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)startStopAction {
+    
     NSString * const FORGOT_SOMETHING_TEXT = @"You forgot something...";
     NSString * const PATH_FIELD_IS_EMPTY = @"The path to the Windows Image or Directory was not specified.";
     NSString * const PATH_DOES_NOT_EXIST = @"The Path to the Image or Folder you entered does not exist.";
     NSString * const CHECK_DATA_CORRECTNESS_TEXT = @"Check the correctness of the entered data.";
     NSString * const NO_AVAILABLE_DEVICES = @"No writable devices found.";
-    NSString * const PRESS_UPDATE_BUTTON = @"Connect a compatible USB device and click on the Update button";
-    
+    NSString * const PRESS_UPDATE_BUTTON = @"Connect a compatible USB device and click on the Update button.";
+    NSString * const BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE = @"Chosen Device is no longer available.";
+    NSString * const CANT_ATTACH_IMAGE_TITLE = @"Can't mount Windows Image";
+
     NSString *imagePath = [windowsImageInputView.stringValue copy];
     if (imagePath.length == 0) {
         
@@ -179,7 +189,35 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         return;
     }
     
+    NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
+    DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
+    if (destinationDiskDM == NULL || ![destinationDiskDM getDiskInfo].isDeviceUnit) {
+        [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
+                                  subtitle: PRESS_UPDATE_BUTTON
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
+                                              logType: ASLogTypeAssertionError];
+        return;
+    }
     
+    HDIUtil *hdiUtil = [[HDIUtil alloc] initWithImagePath:imagePath];
+    NSError *attachImageError = NULL;
+    BOOL attachWasSuccessful = [hdiUtil attachImageWithArguments:@[@"-readonly", @"-noverify", @"-noautofsck", @"-noautoopen"] error:&attachImageError];
+    
+    if (!attachWasSuccessful) {
+        NSString *errorSubtitle = [[attachImageError userInfo] objectForKey:DEFAULT_ERROR_KEY];
+        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", CANT_ATTACH_IMAGE_TITLE, errorSubtitle];
+        
+        [self displayWarningAlertWithTitle: CANT_ATTACH_IMAGE_TITLE
+                                  subtitle: errorSubtitle
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: logText
+                                              logType: ASLogTypeAssertionError];
+        
+        return;
+    }
     
 }
 
@@ -202,8 +240,38 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
 }
 
+- (void)updateDeviceList {
+    [devicePickerView removeAllItemsWithAssociatedObjects];
+    
+    [logsAutoScrollTextView appendTimestampedLine:@"Clearing the device picker list." logType:ASLogTypeLog];
+    
+    NSArray<NSString *> *bsdNames = [DiskManager getBSDDrivesNames];
+    
+    NSString *textLog = [NSString stringWithFormat:@"Found devices: %@", [bsdNames componentsJoinedByString:@", "]];
+    [logsAutoScrollTextView appendTimestampedLine:textLog logType:ASLogTypeLog];
+    
+    for (NSString *bsdName in bsdNames) {
+        DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
+        struct DiskInfo diskInfo = [diskManager getDiskInfo];
+        
+        NSString *title = [NSString stringWithFormat:@"%@ %@ [%@] (%@)", diskInfo.deviceVendor, diskInfo.deviceModel, diskInfo.mediaSize, bsdName];
+                
+        if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
+            !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive) {
+           // continue;
+        }
+        
+        [devicePickerView addItemWithTitle: title
+                          associatedObject: bsdName];
+        
+    }
+    
+    
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupWindow];
+    
     NSView *spacerView = [[NSView alloc] init];
     
     CGFloat titlebarHeight = 0;
@@ -287,15 +355,17 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             devicePickerView = [[PickerView alloc] init]; {
                 [devicePickerHorizontalLayout addView:devicePickerView minWidth:0 maxWidth:INFINITY minHeight:0 maxHeight:devicePickerView.cell.cellSize.height];
                 
-                [devicePickerView addItemWithTitle: @"Первый"];
-                [devicePickerView addItemWithTitle: @"Второй"];
-                [devicePickerView addItemWithTitle: @"Третий"];
+                //[devicePickerView addItemWithTitle: @"Первый"];
+                //[devicePickerView addItemWithTitle: @"Второй"];
+                //[devicePickerView addItemWithTitle: @"Третий"];
             }
             
             ButtonView *updateDeviceListButtonView = [[ButtonView alloc] init]; {
                 [devicePickerHorizontalLayout addView:updateDeviceListButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
-                [updateDeviceListButtonView setTitle:@"Update"];
+                [updateDeviceListButtonView setTitle: @"Update"];
+                [updateDeviceListButtonView setTarget: self];
+                [updateDeviceListButtonView setAction: @selector(updateDeviceList)];
             }
         }
     }
@@ -305,7 +375,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     formatDeviceCheckboxView = [[CheckBoxView alloc] init]; {
         [mainVerticalLayout addView:formatDeviceCheckboxView width:INFINITY height:formatDeviceCheckboxView.cell.cellSize.height];
         
-        [formatDeviceCheckboxView setTitle: @"Format Device"];
+        [formatDeviceCheckboxView setTitle: @"Format Device (Required)"];
         [formatDeviceCheckboxView setIntegerValue: YES];
         [formatDeviceCheckboxView setEnabled: NO];
     }

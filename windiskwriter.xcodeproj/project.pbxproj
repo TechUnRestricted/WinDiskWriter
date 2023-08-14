@@ -112,6 +112,92 @@
 		E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */; };
 		E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */; };
 		E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
+		E2DF0F5A2A894CAB00339DDB /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
+		E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
+		E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A782986FA1D000B24A1 /* wimboot.c */; };
+		E2DF0F5D2A894CAB00339DDB /* progress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A7B2986FA1D000B24A1 /* progress.c */; };
+		E2DF0F5E2A894CAB00339DDB /* tagged_items.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A7D2986FA1D000B24A1 /* tagged_items.c */; };
+		E2DF0F5F2A894CAB00339DDB /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A802986FA1D000B24A1 /* util.c */; };
+		E2DF0F602A894CAB00339DDB /* security.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A872986FA1D000B24A1 /* security.c */; };
+		E2DF0F612A894CAB00339DDB /* avl_tree.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A892986FA1D000B24A1 /* avl_tree.c */; };
+		E2DF0F622A894CAB00339DDB /* decompress_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A8D2986FA1D000B24A1 /* decompress_common.c */; };
+		E2DF0F632A894CAB00339DDB /* reparse.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A8F2986FA1D000B24A1 /* reparse.c */; };
+		E2DF0F642A894CAB00339DDB /* xml_windows.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A922986FA1D000B24A1 /* xml_windows.c */; };
+		E2DF0F652A894CAB00339DDB /* x86_cpu_features.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A972986FA1D000B24A1 /* x86_cpu_features.c */; };
+		E2DF0F662A894CAB00339DDB /* lzms_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9B2986FA1D000B24A1 /* lzms_common.c */; };
+		E2DF0F672A894CAB00339DDB /* file_io.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA02986FA1D000B24A1 /* file_io.c */; };
+		E2DF0F682A894CAB00339DDB /* paths.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA32986FA1D000B24A1 /* paths.c */; };
+		E2DF0F692A894CAB00339DDB /* inode_table.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA62986FA1D000B24A1 /* inode_table.c */; };
+		E2DF0F6A2A894CAB00339DDB /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAB2986FA1D000B24A1 /* encoding.c */; };
+		E2DF0F6B2A894CAB00339DDB /* solid.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAF2986FA1D000B24A1 /* solid.c */; };
+		E2DF0F6C2A894CAB00339DDB /* scan.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB42986FA1D000B24A1 /* scan.c */; };
+		E2DF0F6D2A894CAB00339DDB /* win32_vss.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB82986FA1D000B24A1 /* win32_vss.c */; };
+		E2DF0F6E2A894CAB00339DDB /* lcpit_matchfinder.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ABC2986FA1D000B24A1 /* lcpit_matchfinder.c */; };
+		E2DF0F6F2A894CAB00339DDB /* xml.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ABF2986FA1D000B24A1 /* xml.c */; };
+		E2DF0F702A894CAB00339DDB /* divsufsort.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AC22986FA1D000B24A1 /* divsufsort.c */; };
+		E2DF0F712A894CAB00339DDB /* win32_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AC52986FA1D000B24A1 /* win32_common.c */; };
+		E2DF0F722A894CAB00339DDB /* compress_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACA2986FA1D000B24A1 /* compress_common.c */; };
+		E2DF0F732A894CAB00339DDB /* lzx_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACF2986FA1D000B24A1 /* lzx_common.c */; };
+		E2DF0F742A894CAB00339DDB /* inode.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD42986FA1D000B24A1 /* inode.c */; };
+		E2DF0F752A894CAB00339DDB /* textfile.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD62986FA1D000B24A1 /* textfile.c */; };
+		E2DF0F762A894CAB00339DDB /* pathlist.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADB2986FA1D000B24A1 /* pathlist.c */; };
+		E2DF0F772A894CAB00339DDB /* lzms_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE02986FA1D000B24A1 /* lzms_compress.c */; };
+		E2DF0F782A894CAB00339DDB /* test_support.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE42986FA1D000B24A1 /* test_support.c */; };
+		E2DF0F792A894CAB00339DDB /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE72986FA1D000B24A1 /* sha1.c */; };
+		E2DF0F7A2A894CAB00339DDB /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AEE2986FA1D000B24A1 /* registry.c */; };
+		E2DF0F7B2A894CAB00339DDB /* wim.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AF32986FA1D000B24A1 /* wim.c */; };
+		E2DF0F7C2A894CAB00339DDB /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AFB2986FA1D000B24A1 /* pattern.c */; };
+		E2DF0F7D2A894CAB00339DDB /* resource.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AFE2986FA1D000B24A1 /* resource.c */; };
+		E2DF0F7E2A894CAB00339DDB /* timestamp.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B012986FA1D000B24A1 /* timestamp.c */; };
+		E2DF0F7F2A894CAB00339DDB /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B072986FA1D000B24A1 /* error.c */; };
+		E2DF0F802A894CAB00339DDB /* header.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0F2986FA1D000B24A1 /* header.c */; };
+		E2DF0F812A894CAB00339DDB /* blob_table.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B112986FA1D000B24A1 /* blob_table.c */; };
+		E2DF0F822A894CAB00339DDB /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
+		E2DF0F832A894CAB00339DDB /* extract.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6F2986FA1D000B24A1 /* extract.c */; };
+		E2DF0F842A894CAB00339DDB /* unix_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A722986FA1D000B24A1 /* unix_capture.c */; };
+		E2DF0F852A894CAB00339DDB /* add_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A752986FA1D000B24A1 /* add_image.c */; };
+		E2DF0F862A894CAB00339DDB /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A822986FA1D000B24A1 /* compress.c */; };
+		E2DF0F872A894CAB00339DDB /* decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A832986FA1D000B24A1 /* decompress.c */; };
+		E2DF0F882A894CAB00339DDB /* reference.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A942986FA1D000B24A1 /* reference.c */; };
+		E2DF0F892A894CAB00339DDB /* integrity.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9D2986FA1D000B24A1 /* integrity.c */; };
+		E2DF0F8A2A894CAB00339DDB /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA12986FA1D000B24A1 /* verify.c */; };
+		E2DF0F8B2A894CAB00339DDB /* split.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA82986FA1D000B24A1 /* split.c */; };
+		E2DF0F8C2A894CAB00339DDB /* template.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAC2986FA1D000B24A1 /* template.c */; };
+		E2DF0F8D2A894CAB00339DDB /* lzms_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB02986FA1D000B24A1 /* lzms_decompress.c */; };
+		E2DF0F8E2A894CAB00339DDB /* lzx_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB22986FA1D000B24A1 /* lzx_compress.c */; };
+		E2DF0F8F2A894CAB00339DDB /* mount_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB92986FA1D000B24A1 /* mount_image.c */; };
+		E2DF0F902A894CAB00339DDB /* ntfs-3g_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACB2986FA1D000B24A1 /* ntfs-3g_capture.c */; };
+		E2DF0F912A894CAB00339DDB /* win32_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD82986FA1D000B24A1 /* win32_apply.c */; };
+		E2DF0F922A894CAB00339DDB /* export_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADC2986FA1D000B24A1 /* export_image.c */; };
+		E2DF0F932A894CAB00339DDB /* compress_serial.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADD2986FA1D000B24A1 /* compress_serial.c */; };
+		E2DF0F942A894CAB00339DDB /* update_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADE2986FA1D000B24A1 /* update_image.c */; };
+		E2DF0F952A894CAB00339DDB /* lzx_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE92986FA1D000B24A1 /* lzx_decompress.c */; };
+		E2DF0F962A894CAB00339DDB /* xpress_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AEB2986FA1D000B24A1 /* xpress_decompress.c */; };
+		E2DF0F972A894CAB00339DDB /* win32_replacements.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AF72986FA1D000B24A1 /* win32_replacements.c */; };
+		E2DF0F982A894CAB00339DDB /* compress_parallel.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B032986FA1D000B24A1 /* compress_parallel.c */; };
+		E2DF0F992A894CAB00339DDB /* inode_fixup.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B082986FA1D000B24A1 /* inode_fixup.c */; };
+		E2DF0F9A2A894CAB00339DDB /* win32_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0A2986FA1D000B24A1 /* win32_capture.c */; };
+		E2DF0F9B2A894CAB00339DDB /* delete_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0B2986FA1D000B24A1 /* delete_image.c */; };
+		E2DF0F9C2A894CAB00339DDB /* metadata_resource.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B132986FA1D000B24A1 /* metadata_resource.c */; };
+		E2DF0F9D2A894CAB00339DDB /* iterate_dir.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B142986FA1D000B24A1 /* iterate_dir.c */; };
+		E2DF0F9E2A894CAB00339DDB /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B152986FA1D000B24A1 /* unix_apply.c */; };
+		E2DF0F9F2A894CAB00339DDB /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B162986FA1D000B24A1 /* xpress_compress.c */; };
+		E2DF0FA02A894CAB00339DDB /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
+		E2DF0FA12A894CAB00339DDB /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
+		E2DF0FA22A894CAB00339DDB /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
+		E2DF0FA32A894CAB00339DDB /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
+		E2DF0FA42A894CAB00339DDB /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
+		E2DF0FA52A894CAB00339DDB /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
+		E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
+		E2DF0FA72A894CAB00339DDB /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
+		E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
+		E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
+		E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
+		E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
+		E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
+		E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
+		E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
+		E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1336,6 +1422,92 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
+				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
+				E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */,
+				E2DF0F5D2A894CAB00339DDB /* progress.c in Sources */,
+				E2DF0F5E2A894CAB00339DDB /* tagged_items.c in Sources */,
+				E2DF0F5F2A894CAB00339DDB /* util.c in Sources */,
+				E2DF0F602A894CAB00339DDB /* security.c in Sources */,
+				E2DF0F612A894CAB00339DDB /* avl_tree.c in Sources */,
+				E2DF0F622A894CAB00339DDB /* decompress_common.c in Sources */,
+				E2DF0F632A894CAB00339DDB /* reparse.c in Sources */,
+				E2DF0F642A894CAB00339DDB /* xml_windows.c in Sources */,
+				E2DF0F652A894CAB00339DDB /* x86_cpu_features.c in Sources */,
+				E2DF0F662A894CAB00339DDB /* lzms_common.c in Sources */,
+				E2DF0F672A894CAB00339DDB /* file_io.c in Sources */,
+				E2DF0F682A894CAB00339DDB /* paths.c in Sources */,
+				E2DF0F692A894CAB00339DDB /* inode_table.c in Sources */,
+				E2DF0F6A2A894CAB00339DDB /* encoding.c in Sources */,
+				E2DF0F6B2A894CAB00339DDB /* solid.c in Sources */,
+				E2DF0F6C2A894CAB00339DDB /* scan.c in Sources */,
+				E2DF0F6D2A894CAB00339DDB /* win32_vss.c in Sources */,
+				E2DF0F6E2A894CAB00339DDB /* lcpit_matchfinder.c in Sources */,
+				E2DF0F6F2A894CAB00339DDB /* xml.c in Sources */,
+				E2DF0F702A894CAB00339DDB /* divsufsort.c in Sources */,
+				E2DF0F712A894CAB00339DDB /* win32_common.c in Sources */,
+				E2DF0F722A894CAB00339DDB /* compress_common.c in Sources */,
+				E2DF0F732A894CAB00339DDB /* lzx_common.c in Sources */,
+				E2DF0F742A894CAB00339DDB /* inode.c in Sources */,
+				E2DF0F752A894CAB00339DDB /* textfile.c in Sources */,
+				E2DF0F762A894CAB00339DDB /* pathlist.c in Sources */,
+				E2DF0F772A894CAB00339DDB /* lzms_compress.c in Sources */,
+				E2DF0F782A894CAB00339DDB /* test_support.c in Sources */,
+				E2DF0F792A894CAB00339DDB /* sha1.c in Sources */,
+				E2DF0F7A2A894CAB00339DDB /* registry.c in Sources */,
+				E2DF0F7B2A894CAB00339DDB /* wim.c in Sources */,
+				E2DF0F7C2A894CAB00339DDB /* pattern.c in Sources */,
+				E2DF0F7D2A894CAB00339DDB /* resource.c in Sources */,
+				E2DF0F7E2A894CAB00339DDB /* timestamp.c in Sources */,
+				E2DF0F7F2A894CAB00339DDB /* error.c in Sources */,
+				E2DF0F802A894CAB00339DDB /* header.c in Sources */,
+				E2DF0F812A894CAB00339DDB /* blob_table.c in Sources */,
+				E2DF0F822A894CAB00339DDB /* join.c in Sources */,
+				E2DF0F832A894CAB00339DDB /* extract.c in Sources */,
+				E2DF0F842A894CAB00339DDB /* unix_capture.c in Sources */,
+				E2DF0F852A894CAB00339DDB /* add_image.c in Sources */,
+				E2DF0F862A894CAB00339DDB /* compress.c in Sources */,
+				E2DF0F872A894CAB00339DDB /* decompress.c in Sources */,
+				E2DF0F882A894CAB00339DDB /* reference.c in Sources */,
+				E2DF0F892A894CAB00339DDB /* integrity.c in Sources */,
+				E2DF0F8A2A894CAB00339DDB /* verify.c in Sources */,
+				E2DF0F8B2A894CAB00339DDB /* split.c in Sources */,
+				E2DF0F8C2A894CAB00339DDB /* template.c in Sources */,
+				E2DF0F8D2A894CAB00339DDB /* lzms_decompress.c in Sources */,
+				E2DF0F8E2A894CAB00339DDB /* lzx_compress.c in Sources */,
+				E2DF0F8F2A894CAB00339DDB /* mount_image.c in Sources */,
+				E2DF0F902A894CAB00339DDB /* ntfs-3g_capture.c in Sources */,
+				E2DF0F912A894CAB00339DDB /* win32_apply.c in Sources */,
+				E2DF0F922A894CAB00339DDB /* export_image.c in Sources */,
+				E2DF0F932A894CAB00339DDB /* compress_serial.c in Sources */,
+				E2DF0F942A894CAB00339DDB /* update_image.c in Sources */,
+				E2DF0F952A894CAB00339DDB /* lzx_decompress.c in Sources */,
+				E2DF0F962A894CAB00339DDB /* xpress_decompress.c in Sources */,
+				E2DF0F972A894CAB00339DDB /* win32_replacements.c in Sources */,
+				E2DF0F982A894CAB00339DDB /* compress_parallel.c in Sources */,
+				E2DF0F992A894CAB00339DDB /* inode_fixup.c in Sources */,
+				E2DF0F9A2A894CAB00339DDB /* win32_capture.c in Sources */,
+				E2DF0F9B2A894CAB00339DDB /* delete_image.c in Sources */,
+				E2DF0F9C2A894CAB00339DDB /* metadata_resource.c in Sources */,
+				E2DF0F9D2A894CAB00339DDB /* iterate_dir.c in Sources */,
+				E2DF0F9E2A894CAB00339DDB /* unix_apply.c in Sources */,
+				E2DF0F9F2A894CAB00339DDB /* xpress_compress.c in Sources */,
+				E2DF0FA02A894CAB00339DDB /* CChar2DArray.m in Sources */,
+				E2DF0FA12A894CAB00339DDB /* WimlibWrapper.m in Sources */,
+				E2DF0FA22A894CAB00339DDB /* NSFileManager+Common.m in Sources */,
+				E2DF0FA32A894CAB00339DDB /* NSArray+Common.m in Sources */,
+				E2DF0FA42A894CAB00339DDB /* DWFile.m in Sources */,
+				E2DF0FA52A894CAB00339DDB /* DWFilesContainer.m in Sources */,
+				E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */,
+				E2DF0FA72A894CAB00339DDB /* BootModes.m in Sources */,
+				E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */,
+				E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */,
+				E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */,
+				E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */,
+				E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */,
+				E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */,
+				E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */,
+				E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */,
 				E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */,
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
 				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,

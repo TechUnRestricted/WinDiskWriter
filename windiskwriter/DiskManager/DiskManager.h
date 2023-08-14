@@ -75,6 +75,7 @@ struct DiskInfo {
 };
 
 @interface DiskManager : NSObject
+
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName API_AVAILABLE(macosx(10.4));
 - (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath API_AVAILABLE(macosx(10.7));
@@ -93,6 +94,8 @@ struct DiskInfo {
 
 + (BOOL) isBSDPath: (NSString *)path;
 - (struct DiskInfo) getDiskInfo;
++ (NSArray *)getBSDDrivesNames;
+
 @end
 
 NS_ASSUME_NONNULL_END

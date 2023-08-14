@@ -56,14 +56,16 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
 
 - (void)appendLine: (NSString *)message {
-    NSString *appendedString = [NSString stringWithFormat:@"%@%@\n", self.textViewInstance.string, message];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *appendedString = [NSString stringWithFormat:@"%@%@\n", self.textViewInstance.string, message];
+
         [self.textViewInstance setString:appendedString];
     });
 }
 
-
+- (BOOL)allowsVibrancy {
+    return YES;
+}
 
 - (void)appendTimestampedLine: (NSString *)message
                       logType: (ASLogType)logType {
@@ -72,7 +74,6 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     
     [self appendLine: timestampedString];
 }
-
 
 - (void)clear {
     [self.textViewInstance setString:@""];    

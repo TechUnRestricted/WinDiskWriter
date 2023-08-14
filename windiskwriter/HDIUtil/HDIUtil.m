@@ -29,7 +29,7 @@
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{DEFAULT_ERROR_KEY:
-                                                     @"hdiutil exited not with EXIT_SUCCESS status."}];
+                                                     @"hdiutil exited not with an EXIT_SUCCESS status."}];
         }
         return NO;
     }
