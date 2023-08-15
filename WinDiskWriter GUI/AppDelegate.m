@@ -14,6 +14,7 @@
 #import "TextInputView.h"
 #import "CheckBoxView.h"
 #import "AutoScrollTextView.h"
+#import "ProgressBarView.h"
 
 #import "NSColor+Common.h"
 #import "NSString+Common.h"
@@ -44,7 +45,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     AutoScrollTextView *logsAutoScrollTextView;
-    NSProgressIndicator *progressIndicator;
+    ProgressBarView *progressBarView;
     NSWindow *window;
 }
 
@@ -126,14 +127,16 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)displayWarningAlertWithTitle: (NSString *)title
-                            subtitle: (NSString *)subtitle
-                                icon: (NSImageName)icon {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: title];
-    [alert setInformativeText: subtitle];
-    [alert setIcon: [NSImage imageNamed: icon]];
+subtitle: (NSString *)subtitle
+icon: (NSImageName)icon {
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText: title];
+        [alert setInformativeText: subtitle];
+        [alert setIcon: [NSImage imageNamed: icon]];
+        
         [alert beginSheetModalForWindow: self->window
                           modalDelegate: NULL
                          didEndSelector: NULL
@@ -150,8 +153,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSString * const NO_AVAILABLE_DEVICES = @"No writable devices found.";
     NSString * const PRESS_UPDATE_BUTTON = @"Connect a compatible USB device and click on the Update button.";
     NSString * const BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE = @"Chosen Device is no longer available.";
-    NSString * const CANT_ATTACH_IMAGE_TITLE = @"Can't mount Windows Image";
-
+    NSString * const IMAGE_VERIFICATION_ERROR = @"Can't verify this Image.";
+    NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
+    NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";
+    
     NSString *imagePath = [windowsImageInputView.stringValue copy];
     if (imagePath.length == 0) {
         
@@ -191,39 +196,199 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
     DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
-    if (destinationDiskDM == NULL || ![destinationDiskDM getDiskInfo].isDeviceUnit) {
+    struct DiskInfo destinationDiskInfo = [destinationDiskDM getDiskInfo];
+    if (destinationDiskDM == NULL || !destinationDiskInfo.isDeviceUnit) {
         [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
                                   subtitle: PRESS_UPDATE_BUTTON
                                       icon: NSImageNameCaution];
         
         [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
-                                              logType: ASLogTypeAssertionError];
+                                              logType: ASLogTypeFatal];
         return;
     }
     
-    HDIUtil *hdiUtil = [[HDIUtil alloc] initWithImagePath:imagePath];
-    NSError *attachImageError = NULL;
-    BOOL attachWasSuccessful = [hdiUtil attachImageWithArguments:@[@"-readonly", @"-noverify", @"-noautofsck", @"-noautoopen"] error:&attachImageError];
-    
-    if (!attachWasSuccessful) {
-        NSString *errorSubtitle = [[attachImageError userInfo] objectForKey:DEFAULT_ERROR_KEY];
-        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", CANT_ATTACH_IMAGE_TITLE, errorSubtitle];
+    NSError *imageMountError = NULL;
+    NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: imagePath
+                                                                      error: &imageMountError];
+    if (imageMountError != NULL) {
+        NSString *errorSubtitle = [[imageMountError userInfo] objectForKey:DEFAULT_ERROR_KEY];
+        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", IMAGE_VERIFICATION_ERROR, errorSubtitle];
         
-        [self displayWarningAlertWithTitle: CANT_ATTACH_IMAGE_TITLE
+        [self displayWarningAlertWithTitle: IMAGE_VERIFICATION_ERROR
                                   subtitle: errorSubtitle
                                       icon: NSImageNameCaution];
         
         [logsAutoScrollTextView appendTimestampedLine: logText
-                                              logType: ASLogTypeAssertionError];
+                                              logType: ASLogTypeFatal];
         
         return;
     }
+    
+    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
+                                          logType: ASLogTypeSuccess];
+    
+    NSString *newPartitionName = [NSString stringWithFormat:@"WDW_%@", [HelperFunctions randomStringWithLength:7]];
+    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Generated partition name: \"%@\".", newPartitionName]
+                                          logType: ASLogTypeLog];
+    
+    NSString *targetPartitionPath = [NSString stringWithFormat:@"/Volumes/%@", newPartitionName];
+    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
+                                          logType: ASLogTypeLog];
+    
+    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, PartitionSchemeGPT, FilesystemFAT32];
+    
+    [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
+                                          logType: ASLogTypeLog];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *diskEraseError = NULL;
+        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: PartitionSchemeGPT
+                                                     filesystem: FilesystemFAT32
+                                                        newName: newPartitionName
+                                                          error: &diskEraseError];
+        
+        if (diskEraseError != NULL) {
+            [self displayWarningAlertWithTitle: DISK_ERASE_FAILURE_TITLE
+                                      subtitle: @""
+                                          icon: NSImageNameCaution];
+            
+            [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
+                                                        logType: ASLogTypeFatal];
+            
+            return;
+        }
+        
+        [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_SUCCESS_TITLE
+                                                    logType: ASLogTypeSuccess];
+        
+        DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: mountedImagePath
+                                                                               callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
+            /*
+            switch(message) {
+                case DWFilesContainerMessageGetAttributesProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Getting file Attributes]: [%@]", fileInfo.sourcePath]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWFilesContainerMessageGetAttributesSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Got file Attributes]: [%@] [File Size: %@]", fileInfo.sourcePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeSuccess];
+                    break;
+                case DWFilesContainerMessageGetAttributesFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't get file Attributes]: [%@]", fileInfo.sourcePath]
+                                                                logType: ASLogTypeError];
+                    break;
+            }
+            */
+            return DWActionContinue;
+        }];
+        
+        NSUInteger filesCount = [filesContainer.files count];
+        
+        [self->progressBarView setMaxValueSynchronously: filesCount];
+        
+        /*
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->progressIndicator setMaxValue:[filesContainer.files count]];
+        });
+        */
+         
+        DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
+                                                              destinationPath: targetPartitionPath
+                                                                     bootMode: BootModeUEFI
+                                                        destinationFilesystem: FilesystemFAT32];
+        
+        NSError *writeError = NULL;
+        BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
+                                                                 callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
+            NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent:fileInfo.sourcePath];
+                        
+            switch (message) {
+                case DWMessageCreateDirectoryProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Creating Directory]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWMessageCreateDirectorySuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Directory successfully created]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeSuccess];
+                    
+                    [self->progressBarView incrementBySynchronously:1];
+
+                    break;
+                case DWMessageCreateDirectoryFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't create Directory]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageSplitWindowsImageProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Splitting Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWMessageSplitWindowsImageSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Image successfully splitted]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeSuccess];
+                    
+                    [self->progressBarView incrementBySynchronously:1];
+
+                    break;
+                case DWMessageSplitWindowsImageFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't split Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageExtractWindowsBootloaderProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Extracting Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWMessageExtractWindowsBootloaderSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Bootloader successfully extracted from the Install file]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeSuccess];
+                    
+                    [self->progressBarView incrementBySynchronously:1];
+
+                    break;
+                case DWMessageExtractWindowsBootloaderFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageWriteFileProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Writing File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWMessageWriteFileSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File was successfully written]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeSuccess];
+                    
+                    [self->progressBarView incrementBySynchronously:1];
+
+                    break;
+                case DWMessageWriteFileFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't write File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageFileIsTooLarge:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File is too large]: [%@] {File Size: %@}", fileInfo.sourcePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageUnsupportedOperation:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Unsupported operation with this type of File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeError];
+                    break;
+                case DWMessageEntityAlreadyExists:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File already exists]: [%@] {File Size: %@}",  destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                                                                logType: ASLogTypeError];
+                    break;
+            }
+            
+            return DWActionContinue;
+        }];
+        
+        printf("Write result: %d. Error: %s\n", writeSuccessful, [[[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY] UTF8String]);
+    });
+    
     
 }
 
 - (void)chooseImageAction {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-
+    
     [openPanel setCanChooseFiles: YES];
     [openPanel setCanChooseDirectories: YES];
     [openPanel setAllowsMultipleSelection: NO];
@@ -255,10 +420,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         struct DiskInfo diskInfo = [diskManager getDiskInfo];
         
         NSString *title = [NSString stringWithFormat:@"%@ %@ [%@] (%@)", diskInfo.deviceVendor, diskInfo.deviceModel, diskInfo.mediaSize, bsdName];
-                
+        
         if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
             !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive) {
-           // continue;
+            continue;
         }
         
         [devicePickerView addItemWithTitle: title
@@ -427,10 +592,14 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                    maxHeight: partitionSchemeLabelView.cell.cellSize.height];
                 
                 [partitionSchemeLabelView setStringValue:@"Partition Scheme"];
+                [partitionSchemeLabelView setEnabled: NO];
+                
             }
             
             partitionSchemePickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
                 [partitionSchemePickerSegmentedControl setSegmentCount:2];
+                
+                [partitionSchemePickerSegmentedControl setEnabled: NO];
                 
                 [partitionSchemePickerSegmentedControl setLabel:@"MBR" forSegment:0];
                 [partitionSchemePickerSegmentedControl setLabel:@"GPT" forSegment:1];
@@ -472,9 +641,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [startStopButtonView setAction:@selector(startStopAction)];
         }
         
-        progressIndicator = [[NSProgressIndicator alloc] init]; {
-            [startStopVerticalLayout addView:progressIndicator width:INFINITY height:8];
-            
+        progressBarView = [[ProgressBarView alloc] init]; {
+            [startStopVerticalLayout addView:progressBarView width:INFINITY height:8];
+            [progressBarView setIndeterminate: NO];
         }
     }
     
