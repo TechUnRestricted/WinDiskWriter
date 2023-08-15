@@ -198,6 +198,7 @@
 		E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
 		E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
+		E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -437,6 +438,8 @@
 		E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutBase.m; sourceTree = "<group>"; };
 		E2CCCD8C2A3A476700D101DE /* FrameLayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutElement.h; sourceTree = "<group>"; };
 		E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutElement.m; sourceTree = "<group>"; };
+		E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
+		E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1021,6 +1024,7 @@
 		E23298BA2A37C31500869736 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E2DF0FB32A8C1F0A00339DDB /* ProgressBarView */,
 				E24364E32A72CCEB00541719 /* TextInputView */,
 				E24364DC2A72C88600541719 /* VerticalCenteredTextFieldCell */,
 				E23298BB2A37C31500869736 /* LabelView */,
@@ -1333,6 +1337,15 @@
 			path = FrameLayoutElement;
 			sourceTree = "<group>";
 		};
+		E2DF0FB32A8C1F0A00339DDB /* ProgressBarView */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */,
+				E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */,
+			);
+			path = ProgressBarView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1455,6 +1468,7 @@
 				E2DF0F782A894CAB00339DDB /* test_support.c in Sources */,
 				E2DF0F792A894CAB00339DDB /* sha1.c in Sources */,
 				E2DF0F7A2A894CAB00339DDB /* registry.c in Sources */,
+				E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */,
 				E2DF0F7B2A894CAB00339DDB /* wim.c in Sources */,
 				E2DF0F7C2A894CAB00339DDB /* pattern.c in Sources */,
 				E2DF0F7D2A894CAB00339DDB /* resource.c in Sources */,

@@ -234,7 +234,7 @@ int main(int argc, const char *argv[]) {
 		DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
 															  destinationPath: targetPartitionPath
 																	 bootMode: BootModeUEFI
-														destinationFilesystem: FilesystemFAT32];
+														destinationFilesystem: filesystem];
 		
 		NSError *writeError = NULL;
 		BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
