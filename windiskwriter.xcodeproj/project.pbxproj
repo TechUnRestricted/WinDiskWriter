@@ -199,6 +199,8 @@
 		E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */; };
+		E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
+		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -440,6 +442,7 @@
 		E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutElement.m; sourceTree = "<group>"; };
 		E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
 		E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
+		E2DF0FB72A8ECA0400339DDB /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1163,6 +1166,7 @@
 				E2C5FFD12994599E00B394F4 /* ArgumentsHandler */,
 				E25946062982A77F000C60A4 /* main.m */,
 				E289E2C5298FDFC00011B620 /* Constants.h */,
+				E2DF0FB72A8ECA0400339DDB /* Constants.m */,
 			);
 			path = windiskwriter;
 			sourceTree = "<group>";
@@ -1435,6 +1439,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */,
 				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
 				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
 				E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */,
@@ -1633,6 +1638,7 @@
 				E2247B3A2986FA1E000B24A1 /* mount_image.c in Sources */,
 				E2247B4C2986FA1E000B24A1 /* lzx_decompress.c in Sources */,
 				E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */,
+				E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */,
 				E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
