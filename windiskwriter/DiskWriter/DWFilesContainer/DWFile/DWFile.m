@@ -7,6 +7,7 @@
 //
 
 #import "DWFile.h"
+#import "HelperFunctions.h"
 
 @implementation DWFile
 
@@ -18,22 +19,7 @@
 }
 
 - (NSString *)unitFormattedSize {
-    NSArray *units = @[
-        @"B", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB"
-    ];
-    
-    UInt8 unitPosition = 0;
-    double doubleBytes = _size;
-
-    while (doubleBytes > 1000) {
-        doubleBytes /= 1000;
-        unitPosition += 1;
-    }
-    
-    return [NSString stringWithFormat:@"%.2f %@",
-            doubleBytes,
-            [units objectAtIndex:unitPosition]
-    ];
+    return [HelperFunctions unitFormattedSizeFor: _size];
 }
 
 @end

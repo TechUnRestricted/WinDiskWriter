@@ -37,4 +37,8 @@
     return NO;
 }
 
+- (NSString *)removeLeadingTrailingSpaces {
+    return [self stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+}
+
 @end

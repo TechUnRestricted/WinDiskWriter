@@ -8,8 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define WriteExitForce()          \
+[self setIsScheduledForStop: NO]; \
+[self setEnabledUIState: YES];    \
+return;
+
+#define WriteExitConditionally()      \
+if (self.isScheduledForStop) {        \
+    WriteExitForce();                 \
+}
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property (readwrite, nonatomic) BOOL enabledUIState;
+@property (readwrite, nonatomic) BOOL isScheduledForStop;
 
 @end
 

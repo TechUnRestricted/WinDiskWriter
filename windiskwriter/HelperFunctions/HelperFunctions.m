@@ -128,4 +128,22 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return NULL;
 }
 
++ (NSString *)unitFormattedSizeFor: (CGFloat)doubleBytes {
+    NSArray *units = @[
+        @"B", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB"
+    ];
+    
+    UInt8 unitPosition = 0;
+
+    while (doubleBytes > 1000) {
+        doubleBytes /= 1000;
+        unitPosition += 1;
+    }
+    
+    return [NSString stringWithFormat:@"%.2f %@",
+            doubleBytes,
+            [units objectAtIndex:unitPosition]
+    ];
+}
+
 @end

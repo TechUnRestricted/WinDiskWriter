@@ -40,13 +40,16 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 @implementation AppDelegate {
     /* Initialized in -applicationDidFinishLaunching: */
     TextInputView *windowsImageInputView;
+    ButtonView *chooseWindowsImageButtonView;
     PickerView *devicePickerView;
     CheckBoxView *formatDeviceCheckboxView;
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     AutoScrollTextView *logsAutoScrollTextView;
+    ButtonView *startStopButtonView;
     ProgressBarView *progressBarView;
     NSWindow *window;
+    
 }
 
 - (void)setupWindow {
@@ -122,13 +125,30 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     return verticalLayout;
 }
 
-- (void)applyUIState {
-    
+- (void)setEnabledUIState:(BOOL)enabledUIState {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_enabledUIState = enabledUIState;
+
+        if (enabledUIState) {
+            [self->startStopButtonView setTitle: @"Start"];
+            [self->startStopButtonView setAction:@selector(startAction)];
+        } else {
+            [self->startStopButtonView setTitle: @"Stop"];
+            [self->startStopButtonView setAction:@selector(stopAction)];
+        }
+        
+        [self->windowsImageInputView setEnabled: enabledUIState];
+        [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
+        [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
+    	
+        NSButton *windowZoomButton = [self->window standardWindowButton:NSWindowCloseButton];
+    	[windowZoomButton setEnabled: enabledUIState];
+    });
 }
 
 - (void)displayWarningAlertWithTitle: (NSString *)title
-subtitle: (NSString *)subtitle
-icon: (NSImageName)icon {
+                            subtitle: (NSString *)subtitle
+                                icon: (NSImageName)icon {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -144,7 +164,13 @@ icon: (NSImageName)icon {
     });
 }
 
-- (void)startStopAction {
+- (void)stopAction {
+    [self setIsScheduledForStop: YES];
+}
+
+- (void)startAction {
+    [self setIsScheduledForStop: NO];
+    [self setEnabledUIState: NO];
     
     NSString * const FORGOT_SOMETHING_TEXT = @"You forgot something...";
     NSString * const PATH_FIELD_IS_EMPTY = @"The path to the Windows Image or Directory was not specified.";
@@ -157,6 +183,12 @@ icon: (NSImageName)icon {
     NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
     NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";
     
+    NSString * const IMAGE_WRITING_SUCCESS_TITLE = @"The destination device was successfully erased.";
+    NSString * const IMAGE_WRITING_SUCCESS_SUBTITLE = @"The destination device was successfully erased.";
+
+    NSString * const IMAGE_WRITING_FAILURE_TITLE = @"Something went wrong while writing files to the destination device.";
+
+    
     NSString *imagePath = [windowsImageInputView.stringValue copy];
     if (imagePath.length == 0) {
         
@@ -166,7 +198,7 @@ icon: (NSImageName)icon {
         
         [logsAutoScrollTextView appendTimestampedLine: PATH_FIELD_IS_EMPTY
                                               logType: ASLogTypeAssertionError];
-        return;
+        WriteExitForce();
     }
     
     BOOL imagePathIsDirectory = NO;
@@ -181,7 +213,7 @@ icon: (NSImageName)icon {
         [logsAutoScrollTextView appendTimestampedLine: PATH_DOES_NOT_EXIST
                                               logType: ASLogTypeAssertionError];
         
-        return;
+        WriteExitForce();
     }
     
     if ([devicePickerView numberOfItems] <= 0) {
@@ -191,7 +223,7 @@ icon: (NSImageName)icon {
         
         [logsAutoScrollTextView appendTimestampedLine: NO_AVAILABLE_DEVICES
                                               logType: ASLogTypeAssertionError];
-        return;
+        WriteExitForce();
     }
     
     NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
@@ -204,7 +236,7 @@ icon: (NSImageName)icon {
         
         [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
                                               logType: ASLogTypeFatal];
-        return;
+        WriteExitForce();
     }
     
     NSError *imageMountError = NULL;
@@ -221,7 +253,7 @@ icon: (NSImageName)icon {
         [logsAutoScrollTextView appendTimestampedLine: logText
                                               logType: ASLogTypeFatal];
         
-        return;
+        WriteExitForce();
     }
     
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
@@ -235,14 +267,14 @@ icon: (NSImageName)icon {
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, PartitionSchemeGPT, FilesystemFAT32];
+    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, PartitionSchemeMBR, FilesystemFAT32];
     
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *diskEraseError = NULL;
-        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: PartitionSchemeGPT
+        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: PartitionSchemeMBR
                                                      filesystem: FilesystemFAT32
                                                         newName: newPartitionName
                                                           error: &diskEraseError];
@@ -255,11 +287,13 @@ icon: (NSImageName)icon {
             [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
                                                         logType: ASLogTypeFatal];
             
-            return;
+            WriteExitForce();
         }
         
         [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_SUCCESS_TITLE
                                                     logType: ASLogTypeSuccess];
+        
+        WriteExitConditionally();
         
         DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: mountedImagePath
                                                                                callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
@@ -285,12 +319,6 @@ icon: (NSImageName)icon {
         NSUInteger filesCount = [filesContainer.files count];
         
         [self->progressBarView setMaxValueSynchronously: filesCount];
-        
-        /*
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->progressIndicator setMaxValue:[filesContainer.files count]];
-        });
-        */
          
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
@@ -300,8 +328,16 @@ icon: (NSImageName)icon {
         NSError *writeError = NULL;
         BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
                                                                  callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
+            
+            if (self.isScheduledForStop) {
+                [self setIsScheduledForStop: NO];
+                [self setEnabledUIState: YES];
+                
+                return DWActionStop;
+            }
+            
             NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent:fileInfo.sourcePath];
-                        
+            
             switch (message) {
                 case DWMessageCreateDirectoryProcess:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Creating Directory]: [%@]", destinationCurrentFilePath]
@@ -376,14 +412,23 @@ icon: (NSImageName)icon {
                                                                 logType: ASLogTypeError];
                     break;
             }
-            
+
             return DWActionContinue;
         }];
         
-        printf("Write result: %d. Error: %s\n", writeSuccessful, [[[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY] UTF8String]);
+        WriteExitConditionally();
+        
+        if (writeSuccessful) {
+            [self displayWarningAlertWithTitle:IMAGE_WRITING_SUCCESS_TITLE subtitle:IMAGE_WRITING_SUCCESS_SUBTITLE icon: NSImageNameStatusAvailable];
+            [self->logsAutoScrollTextView appendTimestampedLine:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
+        } else {
+            [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:[[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY] icon:NSImageNameCaution];
+            // WriteExitForce();
+        }
+        
+        WriteExitForce();
     });
-    
-    
+
 }
 
 - (void)chooseImageAction {
@@ -419,7 +464,10 @@ icon: (NSImageName)icon {
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
         struct DiskInfo diskInfo = [diskManager getDiskInfo];
         
-        NSString *title = [NSString stringWithFormat:@"%@ %@ [%@] (%@)", diskInfo.deviceVendor, diskInfo.deviceModel, diskInfo.mediaSize, bsdName];
+        CGFloat unformattedBytesCount = [diskInfo.mediaSize floatValue];
+        NSString *formattedDiskSize = [HelperFunctions unitFormattedSizeFor:unformattedBytesCount];
+                
+        NSString *title = [NSString stringWithFormat:@"%@ %@ [%@] (%@)", [diskInfo.deviceVendor removeLeadingTrailingSpaces], [diskInfo.deviceModel removeLeadingTrailingSpaces], formattedDiskSize, bsdName];
         
         if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
             !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive) {
@@ -487,7 +535,7 @@ icon: (NSImageName)icon {
                 }
             }
             
-            ButtonView *chooseWindowsImageButtonView = [[ButtonView alloc] init]; {
+            chooseWindowsImageButtonView = [[ButtonView alloc] init]; {
                 [isoPickerHorizontalLayout addView:chooseWindowsImageButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
                 [chooseWindowsImageButtonView setTitle:@"Choose"];
@@ -519,6 +567,8 @@ icon: (NSImageName)icon {
             
             devicePickerView = [[PickerView alloc] init]; {
                 [devicePickerHorizontalLayout addView:devicePickerView minWidth:0 maxWidth:INFINITY minHeight:0 maxHeight:devicePickerView.cell.cellSize.height];
+                
+                [self updateDeviceList];
                 
                 //[devicePickerView addItemWithTitle: @"Первый"];
                 //[devicePickerView addItemWithTitle: @"Второй"];
@@ -633,12 +683,10 @@ icon: (NSImageName)icon {
         
         [startStopVerticalLayout setHugHeightFrame: YES];
         
-        ButtonView *startStopButtonView = [[ButtonView alloc] init]; {
+        startStopButtonView = [[ButtonView alloc] init]; {
             [startStopVerticalLayout addView:startStopButtonView minWidth:40 maxWidth:180 minHeight:startStopButtonView.cell.cellSize.height maxHeight:startStopButtonView.cell.cellSize.height];
             
-            [startStopButtonView setTitle: @"Start"];
             [startStopButtonView setTarget: self];
-            [startStopButtonView setAction:@selector(startStopAction)];
         }
         
         progressBarView = [[ProgressBarView alloc] init]; {
@@ -657,6 +705,7 @@ icon: (NSImageName)icon {
         [developerNameLabelView setStringValue: @"TechUnRestricted 2023"];
     }
     
+    [self setEnabledUIState: YES];
     
 }
 
