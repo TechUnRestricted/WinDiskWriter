@@ -81,7 +81,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [window setMinSize: minSize];
     [window setMaxSize: maxSize];
     
-    [window setTitle: @"WinDiskWriter GUI"];
+    [window setTitle: APPLICATION_NAME];
     
     if (@available(macOS 10.10, *)) {
         [window setTitlebarAppearsTransparent: YES];
@@ -137,11 +137,11 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         [self->startStopButtonView setEnabled: YES];
         
         if (enabledUIState) {
-            [self->startStopButtonView setTitle: @"Start"];
-            [self->startStopButtonView setAction:@selector(startAction)];
+            [self->startStopButtonView setTitle: BUTTON_START_TITLE];
+            [self->startStopButtonView setAction: @selector(startAction)];
         } else {
-            [self->startStopButtonView setTitle: @"Stop"];
-            [self->startStopButtonView setAction:@selector(stopAction)];
+            [self->startStopButtonView setTitle: BUTTON_STOP_TITLE];
+            [self->startStopButtonView setAction: @selector(stopAction)];
         }
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];
@@ -178,9 +178,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     });
 }
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+- (void)alertActionStopPromptDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
-        [startStopButtonView setTitle: @"Stopping..."];
+        [startStopButtonView setTitle: BUTTON_STOPPING_TITLE];
         
         [startStopButtonView setEnabled: NO];
         
@@ -190,46 +190,32 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
 - (void)stopAction {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: @"Do you want to stop the process?"];
-    [alert setInformativeText: @"You will need to wait until the last file finish the copying."];
-    [alert addButtonWithTitle: @"Dismiss"];
-    [alert addButtonWithTitle: @"Schedule the cancellation"];
+    [alert setMessageText: STOP_PROCESS_PROMPT_TITLE];
+    [alert setInformativeText: STOP_PROCESS_PROMPT_SUBTITLE];
+    [alert addButtonWithTitle: BUTTON_DISMISS_TITLE];
+    [alert addButtonWithTitle: BUTTON_SCHEDULE_CANCELLATION_TITLE];
 
     [alert beginSheetModalForWindow: window
                       modalDelegate: self
-                     didEndSelector: @selector(alertDidEnd:returnCode:contextInfo:)
+                     didEndSelector: @selector(alertActionStopPromptDidEnd:returnCode:contextInfo:)
                         contextInfo: NULL];
 }
 
+- (void)alertActionStartPromptDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertSecondButtonReturn) {
+        [self writeAction];
+    }
+}
+
 - (void)startAction {
-    [self setIsScheduledForStop: NO];
-    [self setEnabledUIState: NO];
-    
-    NSString * const FORGOT_SOMETHING_TEXT = @"You forgot something...";
-    NSString * const PATH_FIELD_IS_EMPTY = @"The path to the Windows Image or Directory was not specified.";
-    NSString * const PATH_DOES_NOT_EXIST = @"The Path to the Image or Folder you entered does not exist.";
-    NSString * const CHECK_DATA_CORRECTNESS_TEXT = @"Check the correctness of the entered data.";
-    NSString * const NO_AVAILABLE_DEVICES = @"No writable devices found.";
-    NSString * const PRESS_UPDATE_BUTTON = @"Connect a compatible USB device and click on the Update button.";
-    NSString * const BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE = @"Chosen Device is no longer available.";
-    NSString * const IMAGE_VERIFICATION_ERROR = @"Can't verify this Image.";
-    NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
-    NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";
-    
-    NSString * const IMAGE_WRITING_SUCCESS_TITLE = @"Image writing completed successfully";
-    NSString * const IMAGE_WRITING_SUCCESS_SUBTITLE = @"Do not forget to properly remove the device to avoid data corruption";
-
-    NSString * const IMAGE_WRITING_FAILURE_TITLE = @"Something went wrong while writing files to the destination device.";
-
-    
     NSString *imagePath = [windowsImageInputView.stringValue copy];
     if (imagePath.length == 0) {
         
-        [self displayWarningAlertWithTitle: FORGOT_SOMETHING_TEXT
-                                  subtitle: PATH_FIELD_IS_EMPTY
+        [self displayWarningAlertWithTitle: FORGOT_SOMETHING_TITLE
+                                  subtitle: PATH_FIELD_IS_EMPTY_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: PATH_FIELD_IS_EMPTY
+        [logsAutoScrollTextView appendTimestampedLine: PATH_FIELD_IS_EMPTY_SUBTITLE
                                               logType: ASLogTypeAssertionError];
         WriteExitForce();
     }
@@ -239,25 +225,41 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                             isDirectory: &imagePathIsDirectory];
     
     if (!imageExists) {
-        [self displayWarningAlertWithTitle: CHECK_DATA_CORRECTNESS_TEXT
-                                  subtitle: PATH_DOES_NOT_EXIST
+        [self displayWarningAlertWithTitle: CHECK_DATA_CORRECTNESS_TITLE
+                                  subtitle: PATH_DOES_NOT_EXIST_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: PATH_DOES_NOT_EXIST
+        [logsAutoScrollTextView appendTimestampedLine: PATH_DOES_NOT_EXIST_SUBTITLE
                                               logType: ASLogTypeAssertionError];
         
         WriteExitForce();
     }
     
     if ([devicePickerView numberOfItems] <= 0) {
-        [self displayWarningAlertWithTitle: NO_AVAILABLE_DEVICES
-                                  subtitle: PRESS_UPDATE_BUTTON
+        [self displayWarningAlertWithTitle: NO_AVAILABLE_DEVICES_TITLE
+                                  subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: NO_AVAILABLE_DEVICES
+        [logsAutoScrollTextView appendTimestampedLine: NO_AVAILABLE_DEVICES_TITLE
                                               logType: ASLogTypeAssertionError];
         WriteExitForce();
     }
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: START_PROCESS_PROMPT_TITLE];
+    [alert setInformativeText: START_PROCESS_PROMPT_SUBTITLE];
+    [alert addButtonWithTitle: BUTTON_CANCEL_TITLE];
+    [alert addButtonWithTitle: BUTTON_START_TITLE];
+
+    [alert beginSheetModalForWindow: window
+                      modalDelegate: self
+                     didEndSelector: @selector(alertActionStartPromptDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
+}
+
+- (void)writeAction {
+    [self setIsScheduledForStop: NO];
+    [self setEnabledUIState: NO];
     
     NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
     DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
@@ -265,7 +267,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     struct DiskInfo destinationDiskInfo = [destinationDiskDM getDiskInfo];
     if (destinationDiskDM == NULL || !destinationDiskInfo.isDeviceUnit) {
         [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
-                                  subtitle: PRESS_UPDATE_BUTTON
+                                  subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
         
         [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
@@ -274,13 +276,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     NSError *imageMountError = NULL;
-    NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: imagePath
+    NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: windowsImageInputView.stringValue
                                                                       error: &imageMountError];
     if (imageMountError != NULL) {
         NSString *errorSubtitle = [[imageMountError userInfo] objectForKey:DEFAULT_ERROR_KEY];
-        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", IMAGE_VERIFICATION_ERROR, errorSubtitle];
+        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", IMAGE_VERIFICATION_ERROR_TITLE, errorSubtitle];
         
-        [self displayWarningAlertWithTitle: IMAGE_VERIFICATION_ERROR
+        [self displayWarningAlertWithTitle: IMAGE_VERIFICATION_ERROR_TITLE
                                   subtitle: errorSubtitle
                                       icon: NSImageNameCaution];
         

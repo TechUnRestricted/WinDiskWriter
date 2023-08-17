@@ -54,12 +54,22 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     return self;
 }
 
+// TODO: Replace this with something better
+- (void)delayedUpdate {
+    [self.documentView scrollPoint: NSMakePoint(0, self.documentView.frame.size.height)];
+}
 
 - (void)appendLine: (NSString *)message {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *appendedString = [NSString stringWithFormat:@"%@%@\n", self.textViewInstance.string, message];
 
         [self.textViewInstance setString:appendedString];
+        
+        [NSTimer scheduledTimerWithTimeInterval: 1.0f
+                                         target: self
+                                       selector: @selector(delayedUpdate)
+                                       userInfo: NULL
+                                        repeats: NO];
     });
 }
 
