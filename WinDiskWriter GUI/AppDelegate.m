@@ -41,15 +41,20 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     /* Initialized in -applicationDidFinishLaunching: */
     TextInputView *windowsImageInputView;
     ButtonView *chooseWindowsImageButtonView;
+    
     PickerView *devicePickerView;
+    ButtonView *updateDeviceListButtonView;
+    
     CheckBoxView *formatDeviceCheckboxView;
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
+    
     AutoScrollTextView *logsAutoScrollTextView;
+    
     ButtonView *startStopButtonView;
     ProgressBarView *progressBarView;
-    NSWindow *window;
     
+    NSWindow *window;
 }
 
 - (void)setupWindow {
@@ -129,6 +134,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     dispatch_async(dispatch_get_main_queue(), ^{
         self->_enabledUIState = enabledUIState;
 
+        [self->startStopButtonView setEnabled: YES];
+        
         if (enabledUIState) {
             [self->startStopButtonView setTitle: @"Start"];
             [self->startStopButtonView setAction:@selector(startAction)];
@@ -137,7 +144,11 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [self->startStopButtonView setAction:@selector(stopAction)];
         }
         
+        [self->updateDeviceListButtonView setEnabled: enabledUIState];
+        
         [self->windowsImageInputView setEnabled: enabledUIState];
+        [self->devicePickerView setEnabled: enabledUIState];
+        
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
     	
@@ -147,14 +158,17 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)displayWarningAlertWithTitle: (NSString *)title
-                            subtitle: (NSString *)subtitle
+                            subtitle: (NSString *_Nullable)subtitle
                                 icon: (NSImageName)icon {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText: title];
-        [alert setInformativeText: subtitle];
+        
+        if (subtitle) {
+            [alert setInformativeText: subtitle];
+        }
+        
         [alert setIcon: [NSImage imageNamed: icon]];
         
         [alert beginSheetModalForWindow: self->window
@@ -164,8 +178,27 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     });
 }
 
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertSecondButtonReturn) {
+        [startStopButtonView setTitle: @"Stopping..."];
+        
+        [startStopButtonView setEnabled: NO];
+        
+        [self setIsScheduledForStop: YES];
+    }
+}
+
 - (void)stopAction {
-    [self setIsScheduledForStop: YES];
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Do you want to stop the process?"];
+    [alert setInformativeText: @"You will need to wait until the last file finish the copying."];
+    [alert addButtonWithTitle: @"Dismiss"];
+    [alert addButtonWithTitle: @"Schedule the cancellation"];
+
+    [alert beginSheetModalForWindow: window
+                      modalDelegate: self
+                     didEndSelector: @selector(alertDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
 }
 
 - (void)startAction {
@@ -183,8 +216,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
     NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";
     
-    NSString * const IMAGE_WRITING_SUCCESS_TITLE = @"The destination device was successfully erased.";
-    NSString * const IMAGE_WRITING_SUCCESS_SUBTITLE = @"The destination device was successfully erased.";
+    NSString * const IMAGE_WRITING_SUCCESS_TITLE = @"Image writing completed successfully";
+    NSString * const IMAGE_WRITING_SUCCESS_SUBTITLE = @"Do not forget to properly remove the device to avoid data corruption";
 
     NSString * const IMAGE_WRITING_FAILURE_TITLE = @"Something went wrong while writing files to the destination device.";
 
@@ -228,6 +261,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
     DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
+    
     struct DiskInfo destinationDiskInfo = [destinationDiskDM getDiskInfo];
     if (destinationDiskDM == NULL || !destinationDiskInfo.isDeviceUnit) {
         [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
@@ -281,7 +315,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         if (diskEraseError != NULL) {
             [self displayWarningAlertWithTitle: DISK_ERASE_FAILURE_TITLE
-                                      subtitle: @""
+                                      subtitle: NULL
                                           icon: NSImageNameCaution];
             
             [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
@@ -297,6 +331,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: mountedImagePath
                                                                                callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
+            if (self.isScheduledForStop) {
+               // [self setIsScheduledForStop: NO];
+               // [self setEnabledUIState: YES];
+                
+                return DWActionStop;
+            }
+            
             /*
             switch(message) {
                 case DWFilesContainerMessageGetAttributesProcess:
@@ -313,8 +354,11 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     break;
             }
             */
+            
             return DWActionContinue;
         }];
+        
+        WriteExitConditionally();
         
         NSUInteger filesCount = [filesContainer.files count];
         
@@ -326,12 +370,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                         destinationFilesystem: FilesystemFAT32];
         
         NSError *writeError = NULL;
-        BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
+
+        [diskWriter writeWindows_8_10_ISOWithError: &writeError
                                                                  callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
             
             if (self.isScheduledForStop) {
-                [self setIsScheduledForStop: NO];
-                [self setEnabledUIState: YES];
+               // [self setIsScheduledForStop: NO];
+               // [self setEnabledUIState: YES];
                 
                 return DWActionStop;
             }
@@ -418,13 +463,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         WriteExitConditionally();
         
-        if (writeSuccessful) {
-            [self displayWarningAlertWithTitle:IMAGE_WRITING_SUCCESS_TITLE subtitle:IMAGE_WRITING_SUCCESS_SUBTITLE icon: NSImageNameStatusAvailable];
-            [self->logsAutoScrollTextView appendTimestampedLine:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
-        } else {
+        if (writeError) {
             [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:[[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY] icon:NSImageNameCaution];
-            // WriteExitForce();
+            WriteExitForce();
         }
+        
+        [self displayWarningAlertWithTitle:IMAGE_WRITING_SUCCESS_TITLE subtitle:IMAGE_WRITING_SUCCESS_SUBTITLE icon: NSImageNameStatusAvailable];
+        [self->logsAutoScrollTextView appendTimestampedLine:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
         
         WriteExitForce();
     });
@@ -575,7 +620,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 //[devicePickerView addItemWithTitle: @"Третий"];
             }
             
-            ButtonView *updateDeviceListButtonView = [[ButtonView alloc] init]; {
+            updateDeviceListButtonView = [[ButtonView alloc] init]; {
                 [devicePickerHorizontalLayout addView:updateDeviceListButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
                 [updateDeviceListButtonView setTitle: @"Update"];
@@ -666,9 +711,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
         [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:INFINITY];
-        
-        
-        
     }
     
     [mainVerticalLayout addView:spacerView width:0 height:4];

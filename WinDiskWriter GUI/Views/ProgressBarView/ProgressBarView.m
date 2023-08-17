@@ -28,4 +28,13 @@
     });
 }
 
+- (void)resetProgress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setDoubleValue: 0.0];
+        
+        [self setMinValue: 0.0];
+        [self setMaxValue: 100.0];
+    });
+}
+
 @end

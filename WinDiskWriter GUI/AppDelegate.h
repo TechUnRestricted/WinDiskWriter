@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define WriteExitForce()          \
-[self setIsScheduledForStop: NO]; \
-[self setEnabledUIState: YES];    \
+#define WriteExitForce()                \
+[self setEnabledUIState: YES];          \
+[self->progressBarView resetProgress];  \
 return;
 
 #define WriteExitConditionally()      \
