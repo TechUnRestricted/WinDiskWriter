@@ -108,6 +108,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [window setContentView: backgroundView];
 }
 
+- (void)setupMenuItems {
+    
+}
+
 - (FrameLayoutVertical *)setupMainVerticalViewWithPaddingTop: (CGFloat)top
                                                       bottom: (CGFloat)bottom
                                                         left: (CGFloat)left
@@ -261,7 +265,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [self setIsScheduledForStop: NO];
     [self setEnabledUIState: NO];
     
-    NSString *bsdName = devicePickerView.associatedObjectForSelectedItem;
+    NSString *bsdName = [(IdentifiableMenuItem *)devicePickerView.selectedItem userIdentifiableData];
     DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
     
     struct DiskInfo destinationDiskInfo = [destinationDiskDM getDiskInfo];
@@ -498,7 +502,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)updateDeviceList {
-    [devicePickerView removeAllItemsWithAssociatedObjects];
+    [devicePickerView removeAllItems];
     
     [logsAutoScrollTextView appendTimestampedLine:@"Clearing the device picker list." logType:ASLogTypeLog];
     
@@ -511,19 +515,17 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
         struct DiskInfo diskInfo = [diskManager getDiskInfo];
         
-        CGFloat unformattedBytesCount = [diskInfo.mediaSize floatValue];
-        NSString *formattedDiskSize = [HelperFunctions unitFormattedSizeFor:unformattedBytesCount];
-                
-        NSString *title = [NSString stringWithFormat:@"%@ %@ [%@] (%@)", [diskInfo.deviceVendor removeLeadingTrailingSpaces], [diskInfo.deviceModel removeLeadingTrailingSpaces], formattedDiskSize, bsdName];
-        
         if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
             !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive) {
             continue;
         }
         
-        [devicePickerView addItemWithTitle: title
-                          associatedObject: bsdName];
+        IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDeviceVendor: [diskInfo.deviceVendor removeLeadingTrailingSpaces]
+                                                                                            deviceModel: [diskInfo.deviceModel removeLeadingTrailingSpaces]
+                                                                                 storageCapacityInBytes: [diskInfo.mediaSize floatValue]
+                                                                                                bsdName: bsdName];
         
+        [devicePickerView.menu addItem:identifiableMenuItem];
     }
     
     
@@ -531,6 +533,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupWindow];
+    [self setupMenuItems];
     
     NSView *spacerView = [[NSView alloc] init];
     
