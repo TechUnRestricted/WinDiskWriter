@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
 		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
+		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -231,6 +232,8 @@
 		E20ABA6B299986BA007A651F /* WimlibWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WimlibWrapper.m; sourceTree = "<group>"; };
 		E20ABA6E29999278007A651F /* CChar2DArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CChar2DArray.h; sourceTree = "<group>"; };
 		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
+		E217F4632A90EC8300215AF1 /* IdentifiableMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentifiableMenuItem.h; sourceTree = "<group>"; };
+		E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentifiableMenuItem.m; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A622986FA1D000B24A1 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
@@ -479,6 +482,15 @@
 				E20ABA6F29999278007A651F /* CChar2DArray.m */,
 			);
 			path = CChar2DArray;
+			sourceTree = "<group>";
+		};
+		E217F4662A90EC8800215AF1 /*  IdentifiableMenuItem */ = {
+			isa = PBXGroup;
+			children = (
+				E217F4632A90EC8300215AF1 /* IdentifiableMenuItem.h */,
+				E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */,
+			);
+			path = " IdentifiableMenuItem";
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -995,6 +1007,7 @@
 		E22E6C052A75D73C00FD4BFD /* PickerView */ = {
 			isa = PBXGroup;
 			children = (
+				E217F4662A90EC8800215AF1 /*  IdentifiableMenuItem */,
 				E22E6C022A75D73700FD4BFD /* PickerView.h */,
 				E22E6C032A75D73700FD4BFD /* PickerView.m */,
 			);
@@ -1476,6 +1489,7 @@
 				E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */,
 				E2DF0F7B2A894CAB00339DDB /* wim.c in Sources */,
 				E2DF0F7C2A894CAB00339DDB /* pattern.c in Sources */,
+				E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */,
 				E2DF0F7D2A894CAB00339DDB /* resource.c in Sources */,
 				E2DF0F7E2A894CAB00339DDB /* timestamp.c in Sources */,
 				E2DF0F7F2A894CAB00339DDB /* error.c in Sources */,
