@@ -70,7 +70,7 @@
         
         child = IOIteratorNext(iterator);
     }
-
+    
     return BSDNames;
 }
 
@@ -135,7 +135,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeSpecifiedBSDNameDoesNotExist
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"Specified BSD Name does not exist. Can't erase this volume."}];
         }
         return NO;
@@ -155,10 +155,10 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeEraseDiskFailure
-                                     userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
-                                                                     filesystem,
-                                                                     newName,
-                                                                     diskInfo.BSDName]}
+                                     userInfo: @{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
+                                                                             filesystem,
+                                                                             newName,
+                                                                             diskInfo.BSDName]}
             ];
         }
         return NO;
@@ -183,7 +183,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: DMErrorCodeSpecifiedBSDNameDoesNotExist
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"Specified BSD Name does not exist. Can't erase this volume."}
             ];
         }
@@ -201,19 +201,25 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
         return YES;
-    } else {
-        if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DMErrorCodeEraseDiskFailure
-                                     userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"An Error has occured while erasing the Disk. [Filesystem: %@; Partition Scheme: %@; New Label: %@; BSD Name: %@]",
-                                                                     filesystem,
-                                                                     partitionScheme,
-                                                                     newName,
-                                                                     diskInfo.BSDName]}
-            ];
-        }
-        return NO;
     }
+    
+    if (error) {
+        NSString *errorPipeOutput;
+        if (commandLineReturn.errorData) {
+            errorPipeOutput = [[NSString alloc] initWithData:commandLineReturn.errorData encoding:NSUTF8StringEncoding];
+        } else {
+            errorPipeOutput = @"Can't retrieve the information from the command line error output pipe.";
+        }
+        
+        *error = [NSError errorWithDomain: PACKAGE_NAME
+                                     code: DMErrorCodeEraseDiskFailure
+                                 userInfo: @{NSLocalizedDescriptionKey: [errorPipeOutput strip]}
+        ];
+
+    }
+    
+    return NO;
+    
 }
 
 + (BOOL) isBSDPath: (NSString *)path {

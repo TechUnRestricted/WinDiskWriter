@@ -18,7 +18,6 @@ extern NSString * const APPLICATION_NAME;
 extern NSString * const PACKAGE_NAME;
 extern NSString * const DEVELOPER_NAME;
 extern NSString * const PACKAGE_VERSION;
-extern NSString * const DEFAULT_ERROR_KEY;
 
 extern NSString * const FORGOT_SOMETHING_TITLE;
 extern NSString * const PATH_FIELD_IS_EMPTY_SUBTITLE;
@@ -48,6 +47,14 @@ extern NSString * const BUTTON_SCHEDULE_CANCELLATION_TITLE;
 extern NSString * const START_PROCESS_PROMPT_TITLE;
 extern NSString * const START_PROCESS_PROMPT_SUBTITLE;
 extern NSString * const BUTTON_CANCEL_TITLE;
+
+/* Partition Scheme Types */
+extern NSString * const PARTITION_SCHEME_TYPE_MBR_TITLE;
+extern NSString * const PARTITION_SCHEME_TYPE_GPT_TITLE;
+
+/* Filesystem Types */
+extern NSString * const FILESYSTEM_TYPE_FAT32_TITLE;
+extern NSString * const FILESYSTEM_TYPE_EXFAT_TITLE;
 
 /*
  Window Menu Bar Actions

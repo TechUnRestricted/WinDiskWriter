@@ -55,6 +55,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     ProgressBarView *progressBarView;
     
     NSWindow *window;
+    NSMenuItem* quitMenuItem;
 }
 
 - (void)setupWindow {
@@ -118,7 +119,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         NSMenu *mainItemsMenu = [[NSMenu alloc]init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
 
-            NSMenuItem* quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
+            quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
                                                                   action: @selector(terminate:)
                                                            keyEquivalent: @"q"]; {
                 [mainItemsMenu addItem:quitMenuItem];
@@ -233,6 +234,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         NSButton *windowZoomButton = [self->window standardWindowButton:NSWindowCloseButton];
         [windowZoomButton setEnabled: enabledUIState];
+        
+        [self->quitMenuItem setEnabled: enabledUIState];
     });
 }
 
@@ -358,7 +361,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: windowsImageInputView.stringValue
                                                                       error: &imageMountError];
     if (imageMountError != NULL) {
-        NSString *errorSubtitle = [[imageMountError userInfo] objectForKey:DEFAULT_ERROR_KEY];
+        NSString *errorSubtitle = [[imageMountError userInfo] objectForKey:NSLocalizedDescriptionKey];
         NSString *logText = [NSString stringWithFormat:@"%@ (%@)", IMAGE_VERIFICATION_ERROR_TITLE, errorSubtitle];
         
         [self displayWarningAlertWithTitle: IMAGE_VERIFICATION_ERROR_TITLE
@@ -371,6 +374,15 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         WriteExitForce();
     }
     
+    Filesystem selectedFileSystem;
+    if ([filesystemPickerSegmentedControl.selectedCell.title isEqualToString:FILESYSTEM_TYPE_FAT32_TITLE]) {
+        selectedFileSystem = FilesystemFAT32;
+    } else {
+        selectedFileSystem = FilesystemExFAT;
+    }
+    
+    PartitionScheme selectedPartitionScheme = PartitionSchemeMBR;
+    
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
                                           logType: ASLogTypeSuccess];
     
@@ -382,21 +394,21 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, PartitionSchemeMBR, FilesystemFAT32];
+    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, selectedPartitionScheme, selectedFileSystem];
     
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *diskEraseError = NULL;
-        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: PartitionSchemeMBR
-                                                     filesystem: FilesystemFAT32
+        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: selectedPartitionScheme
+                                                     filesystem: selectedFileSystem
                                                         newName: newPartitionName
                                                           error: &diskEraseError];
         
         if (diskEraseError != NULL) {
             [self displayWarningAlertWithTitle: DISK_ERASE_FAILURE_TITLE
-                                      subtitle: NULL
+                                      subtitle: [diskEraseError.userInfo objectForKey:NSLocalizedDescriptionKey]
                                           icon: NSImageNameCaution];
             
             [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
@@ -448,7 +460,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
                                                                      bootMode: BootModeUEFI
-                                                        destinationFilesystem: FilesystemFAT32];
+                                                        destinationFilesystem: selectedFileSystem];
         
         NSError *writeError = NULL;
         
@@ -545,7 +557,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         WriteExitConditionally();
         
         if (writeError) {
-            [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:[[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY] icon:NSImageNameCaution];
+            [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:writeError.localizedDescription icon:NSImageNameCaution];
+            [self->logsAutoScrollTextView appendTimestampedLine:writeError.localizedDescription logType:ASLogTypeFatal];
+
             WriteExitForce();
         }
         
@@ -595,8 +609,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             continue;
         }
         
-        IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDeviceVendor: [diskInfo.deviceVendor removeLeadingTrailingSpaces]
-                                                                                            deviceModel: [diskInfo.deviceModel removeLeadingTrailingSpaces]
+        IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDeviceVendor: [diskInfo.deviceVendor strip]
+                                                                                            deviceModel: [diskInfo.deviceModel strip]
                                                                                  storageCapacityInBytes: [diskInfo.mediaSize floatValue]
                                                                                                 bsdName: bsdName];
         
@@ -744,9 +758,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             filesystemPickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
                 [filesystemPickerSegmentedControl setSegmentCount:2];
                 
-                [filesystemPickerSegmentedControl setLabel:@"FAT32" forSegment:0];
-                [filesystemPickerSegmentedControl setLabel:@"ExFAT" forSegment:1];
-                
+                [filesystemPickerSegmentedControl setLabel:FILESYSTEM_TYPE_FAT32_TITLE forSegment:0];
+                [filesystemPickerSegmentedControl setLabel:FILESYSTEM_TYPE_EXFAT_TITLE forSegment:1];
+                                
                 [filesystemPickerSegmentedControl setSelectedSegment:0];
                 
                 [fileSystemPickerVerticalLayout addView:filesystemPickerSegmentedControl width:INFINITY height:filesystemPickerSegmentedControl.cell.cellSize.height];
@@ -776,8 +790,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 
                 [partitionSchemePickerSegmentedControl setEnabled: NO];
                 
-                [partitionSchemePickerSegmentedControl setLabel:@"MBR" forSegment:0];
-                [partitionSchemePickerSegmentedControl setLabel:@"GPT" forSegment:1];
+                [partitionSchemePickerSegmentedControl setLabel: PARTITION_SCHEME_TYPE_MBR_TITLE
+                                                     forSegment: 0];
+                [partitionSchemePickerSegmentedControl setLabel: PARTITION_SCHEME_TYPE_GPT_TITLE
+                                                     forSegment: 1];
                 
                 [partitionSchemePickerSegmentedControl setSelectedSegment:0];
                 

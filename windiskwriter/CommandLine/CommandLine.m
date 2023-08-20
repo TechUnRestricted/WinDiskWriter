@@ -15,22 +15,30 @@
                           arguments: (NSArray *)arguments {
     struct CommandLineReturn commandLineReturn;
     @try {
-        NSPipe *pipe = [NSPipe pipe];
-        
         NSTask *task = [[NSTask alloc] init];
+        
+        NSPipe *standartdPipe = [NSPipe pipe];
+        [task setStandardOutput: standartdPipe];
+
+        NSPipe *errorPipe = [NSPipe pipe];
+        [task setStandardError: errorPipe];
+
         [task setLaunchPath: executable];
         [task setArguments: arguments];
-        [task setStandardOutput: pipe];
         
-        NSFileHandle *file = [pipe fileHandleForReading];
+        NSFileHandle *fileHandleStandardPipe = [standartdPipe fileHandleForReading];
+        NSFileHandle *fileHandleErrorPipe = [errorPipe fileHandleForReading];
+
         [task launch];
         [task waitUntilExit];
         
-        commandLineReturn.data = [file readDataToEndOfFile];
+        commandLineReturn.standardData = [fileHandleStandardPipe readDataToEndOfFile];
+        commandLineReturn.errorData = [fileHandleErrorPipe readDataToEndOfFile];
+
         commandLineReturn.terminationStatus = [task terminationStatus];
         commandLineReturn.processIdentifier = [task processIdentifier];
         commandLineReturn.terminationReason = [task terminationReason];
-        
+                
         return commandLineReturn;
     } @catch (NSException *exception) {
         /* An error occurred while executing a terminal command */

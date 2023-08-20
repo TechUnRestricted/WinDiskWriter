@@ -10,7 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 struct CommandLineReturn {
-    NSData *data;
+    NSData *standardData;
+    NSData *errorData;
+
     int processIdentifier;
     int terminationStatus;
     NSTaskTerminationReason terminationReason;

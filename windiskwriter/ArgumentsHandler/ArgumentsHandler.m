@@ -46,7 +46,7 @@
                 if (error) {
                     *error = [NSError errorWithDomain: PACKAGE_NAME
                                                  code: AHErrorCodeUnknownArgument
-                                             userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat: @"An unknown key [%@] was found in arguments.",
+                                             userInfo: @{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"An unknown key [%@] was found in arguments.",
                                                                              currentArgumentString
                                              ]}];
                 }
@@ -64,7 +64,7 @@
                 if (error) {
                     *error = [NSError errorWithDomain: PACKAGE_NAME
                                                  code: AHErrorCodeDuplicateUniqueArgumentKeys
-                                             userInfo: @{DEFAULT_ERROR_KEY: @"Duplicate unique keys were found in arguments."}];
+                                             userInfo: @{NSLocalizedDescriptionKey: @"Duplicate unique keys were found in arguments."}];
                 }
                 return NO;
             }
@@ -85,7 +85,7 @@
                     if (error) {
                         *error = [NSError errorWithDomain: PACKAGE_NAME
                                                      code: AHErrorCodeCantFindPairValue
-                                                 userInfo: @{DEFAULT_ERROR_KEY:
+                                                 userInfo: @{NSLocalizedDescriptionKey:
                                                                  [NSString stringWithFormat: @"\"%@\" argument requires the presence of a pair that was not found.", currentArgumentString]}
                         ];
                     }
@@ -108,7 +108,7 @@
             if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: AHErrorCodeMissingRequiredArgument
-                                         userInfo: @{DEFAULT_ERROR_KEY:
+                                         userInfo: @{NSLocalizedDescriptionKey:
                                                          [NSString stringWithFormat: @"The required Argument '%@' is missing.", currentObject.name]}
                 ];
             }
