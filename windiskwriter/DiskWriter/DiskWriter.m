@@ -44,7 +44,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
     if (_bootMode != BootModeUEFI) {
         *error = [NSError errorWithDomain: PACKAGE_NAME
                                      code: DWErrorCodeUnsupportedBootMode
-                                 userInfo: @{DEFAULT_ERROR_KEY: @"Legacy Boot Mode is not supported yet."}];
+                                 userInfo: @{NSLocalizedDescriptionKey: @"Legacy Boot Mode is not supported yet."}];
         
         return NO;
     }
@@ -52,7 +52,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
     if (![localFileManager folderExistsAtPath: _destinationPath]) {
         *error = [NSError errorWithDomain: PACKAGE_NAME
                                      code: DWErrorCodeDestinationPathDoesNotExist
-                                 userInfo: @{DEFAULT_ERROR_KEY: @"Destination Path does not exist."}];
+                                 userInfo: @{NSLocalizedDescriptionKey: @"Destination Path does not exist."}];
         
         return NO;
     }
@@ -65,14 +65,14 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
     if (destinationDiskAvailableSpace == 0) {
         *error = [NSError errorWithDomain: PACKAGE_NAME
                                      code: DWErrorCodeGetDiskAvailableSpaceFailure
-                                 userInfo: @{DEFAULT_ERROR_KEY: @"Can't get Destination Disk available space."}];
+                                 userInfo: @{NSLocalizedDescriptionKey: @"Can't get Destination Disk available space."}];
         return NO;
     }
     
     if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
         *error = [NSError errorWithDomain: PACKAGE_NAME
                                      code: DWErrorCodeSourceIsTooLarge
-                                 userInfo: @{DEFAULT_ERROR_KEY: @"Source is too large for the Destination Disk."}];
+                                 userInfo: @{NSLocalizedDescriptionKey: @"Source is too large for the Destination Disk."}];
         return NO;
     }
     
@@ -88,7 +88,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
 
 - (BOOL)commonWriteWithError: (NSError *_Nonnull *_Nonnull)error
                     callback: (DWCallback _Nonnull)callback {
-    if (![self commonErrorCheckerWithError:&error]) {
+    if (![self commonErrorCheckerWithError:error]) {
         return NO;
     }
     
@@ -215,7 +215,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
 - (BOOL)writeWindows_8_10_ISOWithError: (NSError *_Nonnull *_Nonnull)error
                               callback: (DWCallback _Nonnull)callback {
     
-    return [self commonWriteWithError: &error
+    return [self commonWriteWithError: error
                              callback: callback];
 }
 

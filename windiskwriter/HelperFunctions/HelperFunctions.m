@@ -51,7 +51,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: ImageMountErrorFileDoesNotExist
-                                     userInfo: @{DEFAULT_ERROR_KEY: [NSString stringWithFormat:@"File [directory] \"%@\" doesn't exist.", sourcePath]}
+                                     userInfo: @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File [directory] \"%@\" doesn't exist.", sourcePath]}
             ];
         }
         return NULL;
@@ -65,7 +65,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: ImageMountErrorFileIsNotISO
-                                     userInfo: @{DEFAULT_ERROR_KEY: @"This file does not have an .iso extension."}
+                                     userInfo: @{NSLocalizedDescriptionKey: @"This file does not have an .iso extension."}
             ];
         }
         return NULL;
@@ -105,7 +105,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
             if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: DestinationDeviceErrorBadPath
-                                         userInfo: @{DEFAULT_ERROR_KEY: @"The given Destination path does not exist."}
+                                         userInfo: @{NSLocalizedDescriptionKey: @"The given Destination path does not exist."}
                 ];
             }
             return NULL;
@@ -119,7 +119,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
             if (error) {
                 *error = [NSError errorWithDomain: PACKAGE_NAME
                                              code: DestinationDeviceErrorUnsupportedAPICall
-                                         userInfo: @{DEFAULT_ERROR_KEY: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."}
+                                         userInfo: @{NSLocalizedDescriptionKey: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."}
                 ];
             }
             return NULL;

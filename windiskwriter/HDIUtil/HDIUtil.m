@@ -28,7 +28,7 @@
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"hdiutil exited not with an EXIT_SUCCESS status."}];
         }
         return NO;
@@ -36,7 +36,7 @@
     
     NSString *plistLoadErrorDescription;
     NSDictionary *plist = [NSPropertyListSerialization
-                           propertyListFromData: commandLineReturn.data
+                           propertyListFromData: commandLineReturn.standardData
                            mutabilityOption: NSPropertyListImmutable
                            format: NULL
                            errorDescription: &plistLoadErrorDescription];
@@ -45,7 +45,7 @@
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"An error occurred while reading output from hdiutil."}];
         }
         return NO;
@@ -58,7 +58,7 @@
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"Can't load \"system-entities\" from parsed plist."}];
         }
         return NO;
@@ -68,7 +68,7 @@
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"This image does not contain any System Entity."}];
         }
         return NO;
@@ -78,7 +78,7 @@
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
-                                     userInfo: @{DEFAULT_ERROR_KEY:
+                                     userInfo: @{NSLocalizedDescriptionKey:
                                                      @"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image."}];
         }
         return NO;

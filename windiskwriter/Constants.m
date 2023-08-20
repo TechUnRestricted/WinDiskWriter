@@ -16,7 +16,7 @@ NSString * const PACKAGE_NAME = @"com.techunrestricted.windiskwriter";
 NSString * const DEVELOPER_NAME = @"TechUnRestricted";
 
 NSString * const PACKAGE_VERSION = @"1.0";
-NSString * const DEFAULT_ERROR_KEY = @"Reason";
+NSString * const NSLocalizedDescriptionKey = @"Reason";
 
 NSString * const FORGOT_SOMETHING_TITLE = @"You forgot something...";
 NSString * const PATH_FIELD_IS_EMPTY_SUBTITLE = @"The path to the Windows Image or Directory was not specified.";
@@ -46,6 +46,12 @@ NSString * const BUTTON_SCHEDULE_CANCELLATION_TITLE = @"Schedule the cancellatio
 NSString * const START_PROCESS_PROMPT_TITLE = @"Are you sure you want to start?";
 NSString * const START_PROCESS_PROMPT_SUBTITLE = @"You will lose all data on the selected device.";
 NSString * const BUTTON_CANCEL_TITLE = @"Cancel";
+
+NSString * const PARTITION_SCHEME_TYPE_MBR_TITLE = @"MBR";
+NSString * const PARTITION_SCHEME_TYPE_GPT_TITLE = @"GPT";
+
+NSString * const FILESYSTEM_TYPE_FAT32_TITLE = @"FAT32";
+NSString * const FILESYSTEM_TYPE_EXFAT_TITLE = @"ExFAT";
 
 NSString * const MENU_ITEM_QUIT_TITLE = @"Quit";
 NSString * const MENU_ITEM_ABOUT_TITLE = @"About";

@@ -101,7 +101,7 @@ int main(int argc, const char *argv[]) {
 					mountedImageDirectory = [HelperFunctions getWindowsSourceMountPath:pair error:&error];
 					
 					if (error) {
-						IOLog(@"[ERROR (Can't get Image Source)]: '%@'", [[error userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+						IOLog(@"[ERROR (Can't get Image Source)]: '%@'", [[error userInfo] objectForKey:NSLocalizedDescriptionKey]);
 						exit(EXIT_FAILURE);
 					}
 					break;
@@ -113,7 +113,7 @@ int main(int argc, const char *argv[]) {
 																					   error: &error];
 					
 					if (error) {
-						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", [[error userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", [[error userInfo] objectForKey:NSLocalizedDescriptionKey]);
 						exit(EXIT_FAILURE);
 					}
 					
@@ -172,7 +172,7 @@ int main(int argc, const char *argv[]) {
 		 */
 		
 		if (argumentsHandlerError) {
-			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:NSLocalizedDescriptionKey]);
 			exit(EXIT_FAILURE);
 		}
 		
@@ -203,7 +203,7 @@ int main(int argc, const char *argv[]) {
 			
 			IOLog(@"Erase Status: %@", (eraseWasSuccessful ? @"Success" : @"Failure"));
 			if (eraseError != NULL) {
-				IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+				IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:NSLocalizedDescriptionKey]);
 				exit(EXIT_FAILURE);
 			}
 		} else {
@@ -301,7 +301,7 @@ int main(int argc, const char *argv[]) {
 		IOLog(@"[Result]: %@", (writeSuccessful ? @"Success" : @"Failure"));
 		
 		if (writeError) {
-			IOLog(@"[ERROR]: %@", [[writeError userInfo] objectForKey:DEFAULT_ERROR_KEY]);
+			IOLog(@"[ERROR]: %@", [[writeError userInfo] objectForKey:NSLocalizedDescriptionKey]);
 		}
 	}
 	return EXIT_SUCCESS;

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasOneOfThePrefixes:(NSArray *)prefixes;
 - (BOOL)hasOneOfTheSuffixes:(NSArray *)suffixes;
 - (BOOL)isOneOfTheValues:(NSArray *)values;
-- (NSString *)removeLeadingTrailingSpaces;
+- (NSString *)strip;
 @end
 
 NS_ASSUME_NONNULL_END
