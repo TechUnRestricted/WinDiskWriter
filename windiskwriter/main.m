@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
+#import "NSError+Common.h"
 #import "ArgumentsHandler.h"
 #import "CommandLine.h"
 #import "DiskManager.h"
@@ -101,7 +102,7 @@ int main(int argc, const char *argv[]) {
 					mountedImageDirectory = [HelperFunctions getWindowsSourceMountPath:pair error:&error];
 					
 					if (error) {
-						IOLog(@"[ERROR (Can't get Image Source)]: '%@'", [[error userInfo] objectForKey:NSLocalizedDescriptionKey]);
+						IOLog(@"[ERROR (Can't get Image Source)]: '%@'", error.stringValue);
 						exit(EXIT_FAILURE);
 					}
 					break;
@@ -113,7 +114,7 @@ int main(int argc, const char *argv[]) {
 																					   error: &error];
 					
 					if (error) {
-						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", [[error userInfo] objectForKey:NSLocalizedDescriptionKey]);
+						IOLog(@"[ERROR (Can't get Destination Device)]: '%@'", error.stringValue);
 						exit(EXIT_FAILURE);
 					}
 					
@@ -172,7 +173,7 @@ int main(int argc, const char *argv[]) {
 		 */
 		
 		if (argumentsHandlerError) {
-			IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:NSLocalizedDescriptionKey]);
+			IOLog(@"[ERROR:] %@", argumentsHandlerError.stringValue);
 			exit(EXIT_FAILURE);
 		}
 		
@@ -203,7 +204,7 @@ int main(int argc, const char *argv[]) {
 			
 			IOLog(@"Erase Status: %@", (eraseWasSuccessful ? @"Success" : @"Failure"));
 			if (eraseError != NULL) {
-				IOLog(@"[ERROR:] %@", [[argumentsHandlerError userInfo] objectForKey:NSLocalizedDescriptionKey]);
+				IOLog(@"[ERROR:] %@", argumentsHandlerError.stringValue);
 				exit(EXIT_FAILURE);
 			}
 		} else {
@@ -301,7 +302,7 @@ int main(int argc, const char *argv[]) {
 		IOLog(@"[Result]: %@", (writeSuccessful ? @"Success" : @"Failure"));
 		
 		if (writeError) {
-			IOLog(@"[ERROR]: %@", [[writeError userInfo] objectForKey:NSLocalizedDescriptionKey]);
+			IOLog(@"[ERROR]: %@", writeError.stringValue);
 		}
 	}
 	return EXIT_SUCCESS;

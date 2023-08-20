@@ -92,16 +92,22 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         return NO;
     }
     
-    DWFile *bootloaderFile = NULL;
+    DWFile *installerWIMPackagePath = NULL;
+    BOOL hasEFIBootloader = NO;
     
-    for (DWFile *currentFile in [_filesContainer files]) {
-        NSString *absoluteSourcePath = [_filesContainer.containerPath stringByAppendingPathComponent:currentFile.sourcePath];
+    for (DWFile *currentFile in [self.filesContainer files]) {
+        NSString *absoluteSourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:currentFile.sourcePath];
         NSString *absoluteDestinationPath = [_destinationPath stringByAppendingPathComponent:currentFile.sourcePath];
         
         NSString *lastPathComponent = [[[currentFile sourcePath] lastPathComponent] lowercaseString];
         
-        if (([lastPathComponent isEqualToString:@"install.wim"] || [lastPathComponent isEqualToString:@"install.esd"]) && bootloaderFile == NULL) {
-            bootloaderFile = currentFile;
+        if (([lastPathComponent isEqualToString:@"install.wim"] || [lastPathComponent isEqualToString:@"install.esd"]) && installerWIMPackagePath == NULL) {
+            installerWIMPackagePath = currentFile;
+        } else {
+            NSString *absoluteSourcePathLowercase = currentFile.sourcePath.lowercaseString;
+            if ([absoluteSourcePathLowercase isEqualToString:@"efi/boot/boot"] && [absoluteSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
+                hasEFIBootloader = YES;
+            }
         }
         
         if ([localFileManager fileExistsAtPath:absoluteDestinationPath]) {
@@ -120,7 +126,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
                                                                             error: &createDirectoryError];
             
             DWCallbackLoopHandler(callback, currentFile, (createDirectoryError == NULL ?
-                                                      DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
+                                                          DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
             
             continue;
         }
@@ -128,7 +134,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         /* Current entity type is File (or something) */
         DWCallbackLoopHandler(callback, currentFile, DWMessageWriteFileProcess);
         
-        if (_destinationFilesystem == FilesystemFAT32 && currentFile.size > FAT32_MAX_FILE_SIZE) {
+        if (self.destinationFilesystem == FilesystemFAT32 && currentFile.size > FAT32_MAX_FILE_SIZE) {
             NSString *filePathExtension = [[currentFile.sourcePath lowercaseString] pathExtension];
             
             DWCallbackLoopHandler(callback, currentFile, DWMessageSplitWindowsImageProcess);
@@ -145,8 +151,8 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
                                                          context: NULL];
                 
                 DWCallbackLoopHandler(callback, currentFile,
-                                  (wimSplitResult == WIMLIB_ERR_SUCCESS ?
-                                   DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure));
+                                      (wimSplitResult == WIMLIB_ERR_SUCCESS ?
+                                       DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure));
             } else if ([filePathExtension isEqualToString:@"esd"]) {
                 DWCallbackLoopHandler(callback, currentFile, DWMessageUnsupportedOperation);
             } else {
@@ -168,13 +174,13 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         }
     }
     
-    if (bootloaderFile) {
-        DWCallbackHandler(callback, bootloaderFile, DWMessageExtractWindowsBootloaderProcess);
+    if (installerWIMPackagePath && !hasEFIBootloader) {
+        DWCallbackHandler(callback, installerWIMPackagePath, DWMessageExtractWindowsBootloaderProcess);
         
-        NSString *bootloaderAbsolutePath = [[_filesContainer containerPath] stringByAppendingPathComponent:[bootloaderFile sourcePath]];
+        NSString *bootloaderAbsolutePath = [[self.filesContainer containerPath] stringByAppendingPathComponent:[installerWIMPackagePath sourcePath]];
         BOOL extractionSuccessful = [self extractBootloaderFromInstallFile: bootloaderAbsolutePath];
         
-        DWCallbackHandler(callback, bootloaderFile, (extractionSuccessful ? DWMessageExtractWindowsBootloaderSuccess : DWMessageExtractWindowsBootloaderFailure));
+        DWCallbackHandler(callback, installerWIMPackagePath, (extractionSuccessful ? DWMessageExtractWindowsBootloaderSuccess : DWMessageExtractWindowsBootloaderFailure));
     }
     
     return YES;
@@ -183,7 +189,7 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
 - (BOOL)extractBootloaderFromInstallFile: (NSString *_Nonnull)installFile {
     WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: installFile];
     
-    NSString *bootloaderDestinationDirectory = [_destinationPath stringByAppendingPathComponent: @"efi/boot/"];
+    NSString *bootloaderDestinationDirectory = [self.destinationPath stringByAppendingPathComponent: @"efi/boot/"];
     
     BOOL directoryCreationSuccessful = [localFileManager createDirectoryAtPath: bootloaderDestinationDirectory
                                                    withIntermediateDirectories: YES
