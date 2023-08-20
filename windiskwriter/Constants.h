@@ -16,6 +16,7 @@
 extern NSString * const APPLICATION_NAME;
 
 extern NSString * const PACKAGE_NAME;
+extern NSString * const DEVELOPER_NAME;
 extern NSString * const PACKAGE_VERSION;
 extern NSString * const DEFAULT_ERROR_KEY;
 
@@ -47,6 +48,26 @@ extern NSString * const BUTTON_SCHEDULE_CANCELLATION_TITLE;
 extern NSString * const START_PROCESS_PROMPT_TITLE;
 extern NSString * const START_PROCESS_PROMPT_SUBTITLE;
 extern NSString * const BUTTON_CANCEL_TITLE;
+
+/*
+ Window Menu Bar Actions
+ */
+
+// Main Menu
+extern NSString * const MENU_ITEM_QUIT_TITLE;
+extern NSString * const MENU_ITEM_ABOUT_TITLE;
+
+// Edit Menu
+extern NSString * const MENU_EDIT_TITLE;
+extern NSString * const MENU_ITEM_CUT_TITLE;
+extern NSString * const MENU_ITEM_COPY_TITLE;
+extern NSString * const MENU_ITEM_PASTE_TITLE;
+extern NSString * const MENU_ITEM_SELECT_ALL_TITLE;
+
+// Window Menu
+extern NSString * const MENU_WINDOW_TITLE;
+extern NSString * const MENU_MINIMIZE_TITLE;
+extern NSString * const MENU_HIDE_TITLE;
 
 @end
 

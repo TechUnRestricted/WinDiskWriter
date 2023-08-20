@@ -109,6 +109,81 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 }
 
 - (void)setupMenuItems {
+    NSMenu *menuBar = [[NSMenu alloc]init];
+    [NSApp setMainMenu:menuBar];
+
+    NSMenuItem *mainMenuBarItem = [[NSMenuItem alloc] init]; {
+        [menuBar addItem:mainMenuBarItem];
+
+        NSMenu *mainItemsMenu = [[NSMenu alloc]init]; {
+            [mainMenuBarItem setSubmenu:mainItemsMenu];
+
+            NSMenuItem* quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
+                                                                  action: @selector(terminate:)
+                                                           keyEquivalent: @"q"]; {
+                [mainItemsMenu addItem:quitMenuItem];
+            }
+            
+            NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
+                                                                   action: NULL
+                                                            keyEquivalent: @""]; {
+                [mainItemsMenu addItem:aboutMenuItem];
+            }
+        }
+    }
+    
+    NSMenuItem *editMenuBarItem = [[NSMenuItem alloc] init]; {
+        [menuBar addItem:editMenuBarItem];
+
+        NSMenu *editMenu = [[NSMenu alloc] initWithTitle: MENU_EDIT_TITLE]; {
+            [editMenuBarItem setSubmenu:editMenu];
+            
+            NSMenuItem* cutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_CUT_TITLE
+                                                                 action: @selector(cut:)
+                                                          keyEquivalent: @"x"]; {
+                [editMenu addItem:cutMenuItem];
+            }
+            
+            NSMenuItem* copyMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_COPY_TITLE
+                                                                  action: @selector(copy:)
+                                                           keyEquivalent: @"c"]; {
+                [editMenu addItem:copyMenuItem];
+            }
+
+            NSMenuItem* pasteMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_PASTE_TITLE
+                                                                   action: @selector(paste:)
+                                                            keyEquivalent: @"v"]; {
+                [editMenu addItem:pasteMenuItem];
+            }
+
+            NSMenuItem* selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_SELECT_ALL_TITLE
+                                                                       action: @selector(selectAll:)
+                                                                keyEquivalent: @"a"]; {
+                [editMenu addItem:selectAllMenuItem];
+            }
+        }
+        
+    }
+    
+    NSMenuItem *windowMenuBarItem = [[NSMenuItem alloc] init]; {
+        [menuBar addItem:windowMenuBarItem];
+
+        NSMenu *windowMenu = [[NSMenu alloc] initWithTitle: MENU_WINDOW_TITLE]; {
+            [windowMenuBarItem setSubmenu:windowMenu];
+
+            NSMenuItem* minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_MINIMIZE_TITLE
+                                                                      action: @selector(miniaturize:)
+                                                               keyEquivalent: @"m"]; {
+                [windowMenu addItem:minimizeMenuItem];
+            }
+            
+            NSMenuItem* hideMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_HIDE_TITLE
+                                                                  action: @selector(hide:)
+                                                           keyEquivalent: @"h"]; {
+                [windowMenu addItem:hideMenuItem];
+            }
+        }
+    }
     
 }
 
@@ -137,7 +212,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 - (void)setEnabledUIState:(BOOL)enabledUIState {
     dispatch_async(dispatch_get_main_queue(), ^{
         self->_enabledUIState = enabledUIState;
-
+        
         [self->startStopButtonView setEnabled: YES];
         
         if (enabledUIState) {
@@ -155,9 +230,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
-    	
+        
         NSButton *windowZoomButton = [self->window standardWindowButton:NSWindowCloseButton];
-    	[windowZoomButton setEnabled: enabledUIState];
+        [windowZoomButton setEnabled: enabledUIState];
     });
 }
 
@@ -198,7 +273,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [alert setInformativeText: STOP_PROCESS_PROMPT_SUBTITLE];
     [alert addButtonWithTitle: BUTTON_DISMISS_TITLE];
     [alert addButtonWithTitle: BUTTON_SCHEDULE_CANCELLATION_TITLE];
-
+    
     [alert beginSheetModalForWindow: window
                       modalDelegate: self
                      didEndSelector: @selector(alertActionStopPromptDidEnd:returnCode:contextInfo:)
@@ -254,7 +329,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [alert setInformativeText: START_PROCESS_PROMPT_SUBTITLE];
     [alert addButtonWithTitle: BUTTON_CANCEL_TITLE];
     [alert addButtonWithTitle: BUTTON_START_TITLE];
-
+    
     [alert beginSheetModalForWindow: window
                       modalDelegate: self
                      didEndSelector: @selector(alertActionStartPromptDidEnd:returnCode:contextInfo:)
@@ -338,28 +413,28 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: mountedImagePath
                                                                                callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
             if (self.isScheduledForStop) {
-               // [self setIsScheduledForStop: NO];
-               // [self setEnabledUIState: YES];
+                // [self setIsScheduledForStop: NO];
+                // [self setEnabledUIState: YES];
                 
                 return DWActionStop;
             }
             
             /*
-            switch(message) {
-                case DWFilesContainerMessageGetAttributesProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Getting file Attributes]: [%@]", fileInfo.sourcePath]
-                                                                logType: ASLogTypeLog];
-                    break;
-                case DWFilesContainerMessageGetAttributesSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Got file Attributes]: [%@] [File Size: %@]", fileInfo.sourcePath, fileInfo.unitFormattedSize]
-                                                                logType: ASLogTypeSuccess];
-                    break;
-                case DWFilesContainerMessageGetAttributesFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't get file Attributes]: [%@]", fileInfo.sourcePath]
-                                                                logType: ASLogTypeError];
-                    break;
-            }
-            */
+             switch(message) {
+             case DWFilesContainerMessageGetAttributesProcess:
+             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Getting file Attributes]: [%@]", fileInfo.sourcePath]
+             logType: ASLogTypeLog];
+             break;
+             case DWFilesContainerMessageGetAttributesSuccess:
+             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Got file Attributes]: [%@] [File Size: %@]", fileInfo.sourcePath, fileInfo.unitFormattedSize]
+             logType: ASLogTypeSuccess];
+             break;
+             case DWFilesContainerMessageGetAttributesFailure:
+             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't get file Attributes]: [%@]", fileInfo.sourcePath]
+             logType: ASLogTypeError];
+             break;
+             }
+             */
             
             return DWActionContinue;
         }];
@@ -369,20 +444,20 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         NSUInteger filesCount = [filesContainer.files count];
         
         [self->progressBarView setMaxValueSynchronously: filesCount];
-         
+        
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
                                                                      bootMode: BootModeUEFI
                                                         destinationFilesystem: FilesystemFAT32];
         
         NSError *writeError = NULL;
-
+        
         [diskWriter writeWindows_8_10_ISOWithError: &writeError
-                                                                 callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
+                                          callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
             
             if (self.isScheduledForStop) {
-               // [self setIsScheduledForStop: NO];
-               // [self setEnabledUIState: YES];
+                // [self setIsScheduledForStop: NO];
+                // [self setEnabledUIState: YES];
                 
                 return DWActionStop;
             }
@@ -399,7 +474,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
-
+                    
                     break;
                 case DWMessageCreateDirectoryFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't create Directory]: [%@]", destinationCurrentFilePath]
@@ -414,7 +489,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
-
+                    
                     break;
                 case DWMessageSplitWindowsImageFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't split Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
@@ -429,7 +504,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
-
+                    
                     break;
                 case DWMessageExtractWindowsBootloaderFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
@@ -444,7 +519,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
-
+                    
                     break;
                 case DWMessageWriteFileFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't write File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
@@ -463,7 +538,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeError];
                     break;
             }
-
+            
             return DWActionContinue;
         }];
         
@@ -479,7 +554,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         WriteExitForce();
     });
-
+    
 }
 
 - (void)chooseImageAction {
@@ -749,7 +824,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [developerNameLabelView setAlignment:NSTextAlignmentCenter];
         
-        [developerNameLabelView setStringValue: @"TechUnRestricted 2023"];
+        [developerNameLabelView setStringValue: [NSString stringWithFormat:@"%@ 2023", DEVELOPER_NAME]];
     }
     
     [self setEnabledUIState: YES];
