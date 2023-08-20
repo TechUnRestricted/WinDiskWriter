@@ -10,6 +10,8 @@
 		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
 		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
 		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
+		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
+		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -234,6 +236,8 @@
 		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
 		E217F4632A90EC8300215AF1 /* IdentifiableMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentifiableMenuItem.h; sourceTree = "<group>"; };
 		E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentifiableMenuItem.m; sourceTree = "<group>"; };
+		E217F46B2A927E3400215AF1 /* NSError+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Common.h"; sourceTree = "<group>"; };
+		E217F46C2A927E3400215AF1 /* NSError+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Common.m"; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A622986FA1D000B24A1 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
@@ -491,6 +495,15 @@
 				E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */,
 			);
 			path = " IdentifiableMenuItem";
+			sourceTree = "<group>";
+		};
+		E217F46E2A927E3900215AF1 /* NSError */ = {
+			isa = PBXGroup;
+			children = (
+				E217F46B2A927E3400215AF1 /* NSError+Common.h */,
+				E217F46C2A927E3400215AF1 /* NSError+Common.m */,
+			);
+			path = NSError;
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -1279,6 +1292,7 @@
 		E2CCB2882983E5D9004EE171 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E217F46E2A927E3900215AF1 /* NSError */,
 				E289E2BD298EE6260011B620 /* NSString */,
 				E289E2BE298EE6310011B620 /* NSFileManager */,
 				E2C5FFD92994619C00B394F4 /* NSArray */,
@@ -1452,6 +1466,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */,
 				E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */,
 				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
 				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
@@ -1615,6 +1630,7 @@
 				E2247B292986FA1D000B24A1 /* reference.c in Sources */,
 				E2247B522986FA1E000B24A1 /* resource.c in Sources */,
 				E2247B2A2986FA1D000B24A1 /* x86_cpu_features.c in Sources */,
+				E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */,
 				E2247B452986FA1E000B24A1 /* pathlist.c in Sources */,
 				E2247B272986FA1D000B24A1 /* reparse.c in Sources */,
 				E2247B3C2986FA1E000B24A1 /* xml.c in Sources */,

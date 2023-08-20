@@ -18,6 +18,7 @@
 
 #import "NSColor+Common.h"
 #import "NSString+Common.h"
+#import "NSError+Common.h"
 
 #import "Constants.h"
 
@@ -120,7 +121,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
 
             quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
-                                                                  action: @selector(terminate:)
+                                                                  action: NULL
                                                            keyEquivalent: @"q"]; {
                 [mainItemsMenu addItem:quitMenuItem];
             }
@@ -217,9 +218,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         [self->startStopButtonView setEnabled: YES];
         
         if (enabledUIState) {
+            [self->quitMenuItem setAction:@selector(terminate:)];
+
             [self->startStopButtonView setTitle: BUTTON_START_TITLE];
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {
+            [self->quitMenuItem setAction:NULL];
+            
             [self->startStopButtonView setTitle: BUTTON_STOP_TITLE];
             [self->startStopButtonView setAction: @selector(stopAction)];
         }
@@ -235,7 +240,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         NSButton *windowZoomButton = [self->window standardWindowButton:NSWindowCloseButton];
         [windowZoomButton setEnabled: enabledUIState];
         
-        [self->quitMenuItem setEnabled: enabledUIState];
     });
 }
 
@@ -361,7 +365,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: windowsImageInputView.stringValue
                                                                       error: &imageMountError];
     if (imageMountError != NULL) {
-        NSString *errorSubtitle = [[imageMountError userInfo] objectForKey:NSLocalizedDescriptionKey];
+        NSString *errorSubtitle = imageMountError.stringValue;
         NSString *logText = [NSString stringWithFormat:@"%@ (%@)", IMAGE_VERIFICATION_ERROR_TITLE, errorSubtitle];
         
         [self displayWarningAlertWithTitle: IMAGE_VERIFICATION_ERROR_TITLE
@@ -408,7 +412,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         if (diskEraseError != NULL) {
             [self displayWarningAlertWithTitle: DISK_ERASE_FAILURE_TITLE
-                                      subtitle: [diskEraseError.userInfo objectForKey:NSLocalizedDescriptionKey]
+                                      subtitle: diskEraseError.stringValue
                                           icon: NSImageNameCaution];
             
             [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
@@ -425,28 +429,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         DWFilesContainer *filesContainer = [DWFilesContainer containerFromContainerPath: mountedImagePath
                                                                                callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWFilesContainerMessage message) {
             if (self.isScheduledForStop) {
-                // [self setIsScheduledForStop: NO];
-                // [self setEnabledUIState: YES];
-                
                 return DWActionStop;
             }
-            
-            /*
-             switch(message) {
-             case DWFilesContainerMessageGetAttributesProcess:
-             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Getting file Attributes]: [%@]", fileInfo.sourcePath]
-             logType: ASLogTypeLog];
-             break;
-             case DWFilesContainerMessageGetAttributesSuccess:
-             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Got file Attributes]: [%@] [File Size: %@]", fileInfo.sourcePath, fileInfo.unitFormattedSize]
-             logType: ASLogTypeSuccess];
-             break;
-             case DWFilesContainerMessageGetAttributesFailure:
-             [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't get file Attributes]: [%@]", fileInfo.sourcePath]
-             logType: ASLogTypeError];
-             break;
-             }
-             */
             
             return DWActionContinue;
         }];
@@ -557,8 +541,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         WriteExitConditionally();
         
         if (writeError) {
-            [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:writeError.localizedDescription icon:NSImageNameCaution];
-            [self->logsAutoScrollTextView appendTimestampedLine:writeError.localizedDescription logType:ASLogTypeFatal];
+            [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:writeError.stringValue icon:NSImageNameCaution];
+            [self->logsAutoScrollTextView appendTimestampedLine:writeError.stringValue logType:ASLogTypeFatal];
 
             WriteExitForce();
         }
