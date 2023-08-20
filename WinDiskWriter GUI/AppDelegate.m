@@ -16,6 +16,8 @@
 #import "AutoScrollTextView.h"
 #import "ProgressBarView.h"
 
+#import "SynchronizedAlertData.h"
+
 #import "NSColor+Common.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
@@ -113,16 +115,16 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
 - (void)setupMenuItems {
     NSMenu *menuBar = [[NSMenu alloc]init];
     [NSApp setMainMenu:menuBar];
-
+    
     NSMenuItem *mainMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:mainMenuBarItem];
-
+        
         NSMenu *mainItemsMenu = [[NSMenu alloc]init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
-
+            
             quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
-                                                                  action: NULL
-                                                           keyEquivalent: @"q"]; {
+                                                      action: NULL
+                                               keyEquivalent: @"q"]; {
                 [mainItemsMenu addItem:quitMenuItem];
             }
             
@@ -136,7 +138,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     NSMenuItem *editMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:editMenuBarItem];
-
+        
         NSMenu *editMenu = [[NSMenu alloc] initWithTitle: MENU_EDIT_TITLE]; {
             [editMenuBarItem setSubmenu:editMenu];
             
@@ -151,13 +153,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                            keyEquivalent: @"c"]; {
                 [editMenu addItem:copyMenuItem];
             }
-
+            
             NSMenuItem* pasteMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_PASTE_TITLE
                                                                    action: @selector(paste:)
                                                             keyEquivalent: @"v"]; {
                 [editMenu addItem:pasteMenuItem];
             }
-
+            
             NSMenuItem* selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_SELECT_ALL_TITLE
                                                                        action: @selector(selectAll:)
                                                                 keyEquivalent: @"a"]; {
@@ -169,10 +171,10 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     NSMenuItem *windowMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:windowMenuBarItem];
-
+        
         NSMenu *windowMenu = [[NSMenu alloc] initWithTitle: MENU_WINDOW_TITLE]; {
             [windowMenuBarItem setSubmenu:windowMenu];
-
+            
             NSMenuItem* minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_MINIMIZE_TITLE
                                                                       action: @selector(miniaturize:)
                                                                keyEquivalent: @"m"]; {
@@ -219,7 +221,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         if (enabledUIState) {
             [self->quitMenuItem setAction:@selector(terminate:)];
-
+            
             [self->startStopButtonView setTitle: BUTTON_START_TITLE];
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {
@@ -272,6 +274,15 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [self setIsScheduledForStop: YES];
     }
+}
+
+- (void)alertWarnAboutErrorDuringWriting: (NSAlert *)alert
+                              returnCode: (NSInteger)returnCode
+                             contextInfo: (void *)contextInfo {
+    SynchronizedAlertData *synchronizedAlertData = (__bridge SynchronizedAlertData *)(contextInfo);
+    [synchronizedAlertData setResultCode:returnCode];
+    
+    dispatch_semaphore_signal(synchronizedAlertData.semaphore);
 }
 
 - (void)stopAction {
@@ -403,6 +414,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *diskEraseError = NULL;
         [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: selectedPartitionScheme
@@ -447,6 +459,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                         destinationFilesystem: selectedFileSystem];
         
         NSError *writeError = NULL;
+        
+        __block NSUInteger diskWriterErrorsCount = 0;
         
         [diskWriter writeWindows_8_10_ISOWithError: &writeError
                                           callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
@@ -535,7 +549,59 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     break;
             }
             
-            return DWActionContinue;
+            /*
+             Asking user if they want to interrupt the writing process
+             if something went wrong while copying the file
+             */
+            
+            switch (message) {
+                case DWMessageCreateDirectoryFailure:
+                case DWMessageSplitWindowsImageFailure:
+                case DWMessageExtractWindowsBootloaderFailure:
+                case DWMessageWriteFileFailure:
+                case DWMessageFileIsTooLarge:
+                case DWMessageUnsupportedOperation:
+                case DWMessageEntityAlreadyExists: {
+                    diskWriterErrorsCount += 1;
+                    
+                    /*
+                     Old Cocoa is crap.
+                     Can't do anything better ¯\_(ツ)_/¯.
+                     I need to support old OS X releases and maintain modern look.
+                     */
+                    
+                    SynchronizedAlertData *synchronizedAlertData = [[SynchronizedAlertData alloc] initWithSemaphore: dispatch_semaphore_create(0)];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        NSAlert *alert = [[NSAlert alloc] init];
+                        
+                        [alert setMessageText: @"A problem occurred when writing a file to disk"];
+                        [alert setInformativeText: [NSString stringWithFormat:@"You can skip the following file or abort the writing process.\n[%@]", destinationCurrentFilePath]];
+                        
+                        [alert addButtonWithTitle: @"Abort Writing"];
+                        [alert addButtonWithTitle: @"Skip file"];
+                        
+                        [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
+                        
+                        [alert beginSheetModalForWindow: self->window
+                                          modalDelegate: self
+                                         didEndSelector: @selector(alertWarnAboutErrorDuringWriting:returnCode:contextInfo:)
+                                            contextInfo: (__bridge void * _Nullable)(synchronizedAlertData)];
+                    });
+                    dispatch_semaphore_wait(synchronizedAlertData.semaphore, DISPATCH_TIME_FOREVER);
+                    
+                    if (synchronizedAlertData.resultCode == NSAlertFirstButtonReturn) {
+                        [self setIsScheduledForStop: YES];
+                        
+                        return DWActionStop;
+                    } else {
+                        return DWActionSkip;
+                    }
+                }
+                default:
+                    return DWActionContinue;
+            }
         }];
         
         WriteExitConditionally();
@@ -543,7 +609,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         if (writeError) {
             [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:writeError.stringValue icon:NSImageNameCaution];
             [self->logsAutoScrollTextView appendTimestampedLine:writeError.stringValue logType:ASLogTypeFatal];
-
+            
             WriteExitForce();
         }
         
@@ -589,7 +655,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         struct DiskInfo diskInfo = [diskManager getDiskInfo];
         
         if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
-            !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive) {
+            !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive || !diskInfo.isWritable) {
             continue;
         }
         
@@ -664,7 +730,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [chooseWindowsImageButtonView setTitle:@"Choose"];
                 [chooseWindowsImageButtonView setTarget:self];
                 [chooseWindowsImageButtonView setAction:@selector(chooseImageAction)];
-                
             }
         }
     }
@@ -744,7 +809,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 
                 [filesystemPickerSegmentedControl setLabel:FILESYSTEM_TYPE_FAT32_TITLE forSegment:0];
                 [filesystemPickerSegmentedControl setLabel:FILESYSTEM_TYPE_EXFAT_TITLE forSegment:1];
-                                
+                
                 [filesystemPickerSegmentedControl setSelectedSegment:0];
                 
                 [fileSystemPickerVerticalLayout addView:filesystemPickerSegmentedControl width:INFINITY height:filesystemPickerSegmentedControl.cell.cellSize.height];

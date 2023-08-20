@@ -36,7 +36,14 @@
                          traits: NSUnboldFontMask
                          weight: 6
                          size: NSFont.systemFontSize]
-
+    };
+    
+    NSDictionary *lightSmallAttributes = @{
+        NSFontAttributeName:  [NSFontManager.sharedFontManager
+                         fontWithFamily: _tempDummyFont.fontName
+                         traits: NSUnboldFontMask
+                         weight: 3
+                         size: NSFont.systemFontSize / 1.2],
     };
     
     NSMutableAttributedString *mutableAttributedStringResult = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"%@ %@", deviceVendor, deviceModel]
@@ -46,8 +53,11 @@
     
     NSString *formattedStorageCapacity = [HelperFunctions unitFormattedSizeFor:storageCapacityInBytes];
 
-    [mutableAttributedStringResult appendAttributedString: [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@" [%@] (%@)", formattedStorageCapacity, bsdName]
+    [mutableAttributedStringResult appendAttributedString: [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@" [%@]", formattedStorageCapacity]
                                                                                                   attributes: normalAttributes]];
+    
+    [mutableAttributedStringResult appendAttributedString: [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@" (%@)", bsdName]
+                                                                                                  attributes: lightSmallAttributes]];
     
     [self setAttributedTitle: mutableAttributedStringResult];
     

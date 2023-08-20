@@ -12,6 +12,7 @@
 		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
 		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
+		E217F47A2A92C03D00215AF1 /* SynchronizedAlertData.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -238,6 +239,8 @@
 		E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentifiableMenuItem.m; sourceTree = "<group>"; };
 		E217F46B2A927E3400215AF1 /* NSError+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Common.h"; sourceTree = "<group>"; };
 		E217F46C2A927E3400215AF1 /* NSError+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Common.m"; sourceTree = "<group>"; };
+		E217F4782A92C03D00215AF1 /* SynchronizedAlertData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedAlertData.h; sourceTree = "<group>"; };
+		E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedAlertData.m; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A622986FA1D000B24A1 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
@@ -504,6 +507,15 @@
 				E217F46C2A927E3400215AF1 /* NSError+Common.m */,
 			);
 			path = NSError;
+			sourceTree = "<group>";
+		};
+		E217F47B2A92C04400215AF1 /* SynchronizedAlertData */ = {
+			isa = PBXGroup;
+			children = (
+				E217F4782A92C03D00215AF1 /* SynchronizedAlertData.h */,
+				E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */,
+			);
+			path = SynchronizedAlertData;
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -1043,6 +1055,7 @@
 				E23298BA2A37C31500869736 /* Views */,
 				E23298B82A37C23600869736 /* AppDelegate.h */,
 				E23298B72A37C23600869736 /* AppDelegate.m */,
+				E217F47B2A92C04400215AF1 /* SynchronizedAlertData */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
@@ -1566,6 +1579,7 @@
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
 				E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
+				E217F47A2A92C03D00215AF1 /* SynchronizedAlertData.m in Sources */,
 				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,
 				E22E6C042A75D73700FD4BFD /* PickerView.m in Sources */,
