@@ -13,6 +13,8 @@
 NSString * const APPLICATION_NAME = @"WinDiskWriter";
 
 NSString * const PACKAGE_NAME = @"com.techunrestricted.windiskwriter";
+NSString * const DEVELOPER_NAME = @"TechUnRestricted";
+
 NSString * const PACKAGE_VERSION = @"1.0";
 NSString * const DEFAULT_ERROR_KEY = @"Reason";
 
@@ -44,5 +46,18 @@ NSString * const BUTTON_SCHEDULE_CANCELLATION_TITLE = @"Schedule the cancellatio
 NSString * const START_PROCESS_PROMPT_TITLE = @"Are you sure you want to start?";
 NSString * const START_PROCESS_PROMPT_SUBTITLE = @"You will lose all data on the selected device.";
 NSString * const BUTTON_CANCEL_TITLE = @"Cancel";
+
+NSString * const MENU_ITEM_QUIT_TITLE = @"Quit";
+NSString * const MENU_ITEM_ABOUT_TITLE = @"About";
+
+NSString * const MENU_EDIT_TITLE = @"Edit";
+NSString * const MENU_ITEM_CUT_TITLE = @"Cut";
+NSString * const MENU_ITEM_COPY_TITLE = @"Copy";
+NSString * const MENU_ITEM_PASTE_TITLE = @"Paste";
+NSString * const MENU_ITEM_SELECT_ALL_TITLE = @"Select All";
+
+NSString * const MENU_WINDOW_TITLE = @"Window";
+NSString * const MENU_MINIMIZE_TITLE = @"Minimize";
+NSString * const MENU_HIDE_TITLE = @"Hide";
 
 @end
