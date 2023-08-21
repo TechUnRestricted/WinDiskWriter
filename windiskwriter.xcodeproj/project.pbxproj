@@ -206,6 +206,7 @@
 		E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */; };
 		E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
+		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -456,6 +457,8 @@
 		E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
 		E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
 		E2DF0FB72A8ECA0400339DDB /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
+		E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutWindow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,13 +524,13 @@
 			path = SynchronizedAlertData;
 			sourceTree = "<group>";
 		};
-		E217F47F2A92D85700215AF1 /* ModernWindow */ = {
+		E217F47F2A92D85700215AF1 /* ModernWindow (Base) */ = {
 			isa = PBXGroup;
 			children = (
 				E217F47C2A92D85400215AF1 /* ModernWindow.h */,
 				E217F47D2A92D85400215AF1 /* ModernWindow.m */,
 			);
-			path = ModernWindow;
+			path = "ModernWindow (Base)";
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -1067,11 +1070,11 @@
 				E23298BA2A37C31500869736 /* Views */,
 				E217F47B2A92C04400215AF1 /* SynchronizedAlertData */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
+				E2F2D2BA2A93DC8C00E1B7FF /* Windows */,
 				E23298B82A37C23600869736 /* AppDelegate.h */,
 				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
-				E217F47F2A92D85700215AF1 /* ModernWindow */,
 			);
 			path = "WinDiskWriter GUI";
 			sourceTree = "<group>";
@@ -1403,6 +1406,24 @@
 			path = ProgressBarView;
 			sourceTree = "<group>";
 		};
+		E2F2D2B92A93D27800E1B7FF /* AboutWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */,
+				E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */,
+			);
+			path = AboutWindow;
+			sourceTree = "<group>";
+		};
+		E2F2D2BA2A93DC8C00E1B7FF /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				E217F47F2A92D85700215AF1 /* ModernWindow (Base) */,
+				E2F2D2B92A93D27800E1B7FF /* AboutWindow */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1537,6 +1558,7 @@
 				E2DF0F7F2A894CAB00339DDB /* error.c in Sources */,
 				E2DF0F802A894CAB00339DDB /* header.c in Sources */,
 				E2DF0F812A894CAB00339DDB /* blob_table.c in Sources */,
+				E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */,
 				E2DF0F822A894CAB00339DDB /* join.c in Sources */,
 				E2DF0F832A894CAB00339DDB /* extract.c in Sources */,
 				E2DF0F842A894CAB00339DDB /* unix_capture.c in Sources */,
