@@ -521,13 +521,13 @@
 			path = SynchronizedAlertData;
 			sourceTree = "<group>";
 		};
-		E217F47F2A92D85700215AF1 /* AboutWindow */ = {
+		E217F47F2A92D85700215AF1 /* ModernWindow */ = {
 			isa = PBXGroup;
 			children = (
 				E217F47C2A92D85400215AF1 /* ModernWindow.h */,
 				E217F47D2A92D85400215AF1 /* ModernWindow.m */,
 			);
-			path = AboutWindow;
+			path = ModernWindow;
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -1071,7 +1071,7 @@
 				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
-				E217F47F2A92D85700215AF1 /* AboutWindow */,
+				E217F47F2A92D85700215AF1 /* ModernWindow */,
 			);
 			path = "WinDiskWriter GUI";
 			sourceTree = "<group>";
