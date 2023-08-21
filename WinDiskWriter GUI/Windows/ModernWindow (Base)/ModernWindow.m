@@ -9,7 +9,12 @@
 #import "ModernWindow.h"
 #import "FrameLayout.h"
 
-@implementation ModernWindow
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+@implementation ModernWindow {
+    id selectorTarget;
+    SEL closeSelector;
+}
 
 - (CGFloat)titlebarHeight {
     if (@available(macOS 10.10, *)) {
@@ -85,6 +90,18 @@
     [(FrameLayoutBase *)_containerView setVerticalAlignment: FrameLayoutVerticalTop];
 }
 
+- (void)setOnCloseSelector: (SEL)selector
+                    target: (id)target {
+    closeSelector = selector;
+    selectorTarget = target;
+}
 
+- (void)close {
+    if (selectorTarget != NULL && closeSelector != NULL) {
+        [selectorTarget performSelector:closeSelector];
+    }
+    
+    [super close];
+}
 
 @end

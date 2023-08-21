@@ -13,6 +13,9 @@
 
 @interface Constants : NSObject
 
+extern const CGFloat MAIN_CONTENT_SPACING;
+extern const CGFloat CHILD_CONTENT_SPACING;
+
 extern NSString * const APPLICATION_NAME;
 
 extern NSString * const PACKAGE_NAME;

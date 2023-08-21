@@ -65,9 +65,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSMenuItem* quitMenuItem;
 }
 
-const CGFloat mainContentGroupsSpacing = 6;
-const CGFloat childElementsSpacing = 6;
-
 - (void)setupMenuItems {
     NSMenu *menuBar = [[NSMenu alloc]init];
     [NSApp setMainMenu:menuBar];
@@ -616,26 +613,39 @@ const CGFloat childElementsSpacing = 6;
         
         mainWindow = [[ModernWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                     title: APPLICATION_NAME
-                                                  padding: childElementsSpacing];
+                                                  padding: CHILD_CONTENT_SPACING];
         
         [mainWindow setMinSize: minWindowSize];
         [mainWindow setMaxSize: maxWindowSize];
         
         NSButton *windowZoomButton = [mainWindow standardWindowButton:NSWindowZoomButton];
         [windowZoomButton setEnabled: NO];
+        
+        [mainWindow setOnCloseSelector: @selector(exitApplication)
+                                target: self];
     }
     
     {
-        NSSize minWindowSize = CGSizeMake(300, 350);
-        NSSize maxWindowSize = CGSizeMake(360, 420);
+        NSSize minWindowSize = CGSizeMake(260, 350);
+        NSSize maxWindowSize = CGSizeMake(340, 455);
         
         aboutWindow = [[ModernWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                      title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
-                                                   padding: childElementsSpacing];
+                                                   padding: CHILD_CONTENT_SPACING];
         
         [aboutWindow setMinSize: minWindowSize];
         [aboutWindow setMaxSize: maxWindowSize];
+        
+        NSButton *windowZoomButton = [aboutWindow standardWindowButton:NSWindowZoomButton];
+        [windowZoomButton setEnabled: NO];
+        
+        NSButton *minimizeZoomButton = [aboutWindow standardWindowButton:NSWindowMiniaturizeButton];
+        [minimizeZoomButton setEnabled: NO];
     }
+}
+
+- (void)exitApplication {
+    [[NSApplication sharedApplication] terminate:nil];
 }
 
 - (void)showAboutWindow {
@@ -653,14 +663,14 @@ const CGFloat childElementsSpacing = 6;
     
     FrameLayoutVertical *mainVerticalLayout = (FrameLayoutVertical *)mainWindow.containerView;
     
-    [mainVerticalLayout setSpacing: mainContentGroupsSpacing];
+    [mainVerticalLayout setSpacing: MAIN_CONTENT_SPACING];
     
     FrameLayoutVertical *isoPickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:isoPickerVerticalLayout width:INFINITY height:0];
         
         [isoPickerVerticalLayout setHugHeightFrame: YES];
         
-        [isoPickerVerticalLayout setSpacing: childElementsSpacing];
+        [isoPickerVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
         
         LabelView *isoPickerLabelView = [[LabelView alloc] init]; {
             [isoPickerVerticalLayout addView:isoPickerLabelView width:INFINITY height:isoPickerLabelView.cell.cellSize.height];
@@ -677,7 +687,7 @@ const CGFloat childElementsSpacing = 6;
             
             [isoPickerHorizontalLayout setVerticalAlignment: FrameLayoutVerticalCenter];
             
-            [isoPickerHorizontalLayout setSpacing: childElementsSpacing];
+            [isoPickerHorizontalLayout setSpacing: CHILD_CONTENT_SPACING];
             
             windowsImageInputView = [[TextInputView alloc] init]; {
                 [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:windowsImageInputView.cell.cellSize.height];
@@ -702,7 +712,7 @@ const CGFloat childElementsSpacing = 6;
         
         [devicePickerVerticalLayout setHugHeightFrame:YES];
         
-        [devicePickerVerticalLayout setSpacing: childElementsSpacing];
+        [devicePickerVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
         
         
         LabelView *devicePickerLabelView = [[LabelView alloc] init]; {
@@ -753,13 +763,13 @@ const CGFloat childElementsSpacing = 6;
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
         
         [formattingSectionVerticalLayout setHugHeightFrame: YES];
-        [formattingSectionVerticalLayout setSpacing:childElementsSpacing];
+        [formattingSectionVerticalLayout setSpacing:CHILD_CONTENT_SPACING];
         
         FrameLayoutVertical *fileSystemPickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
             [formattingSectionVerticalLayout addView:fileSystemPickerVerticalLayout width:INFINITY height:0];
             [fileSystemPickerVerticalLayout setHugHeightFrame: YES];
             
-            [fileSystemPickerVerticalLayout setSpacing:childElementsSpacing];
+            [fileSystemPickerVerticalLayout setSpacing:CHILD_CONTENT_SPACING];
             
             LabelView *filesystemLabelView = [[LabelView alloc] init]; {
                 [fileSystemPickerVerticalLayout addView:filesystemLabelView width:INFINITY height:filesystemLabelView.cell.cellSize.height];
@@ -783,7 +793,7 @@ const CGFloat childElementsSpacing = 6;
             [formattingSectionVerticalLayout addView:partitionSchemePickerVerticalLayout width:INFINITY height:0];
             
             [partitionSchemePickerVerticalLayout setHugHeightFrame: YES];
-            [partitionSchemePickerVerticalLayout setSpacing: childElementsSpacing];
+            [partitionSchemePickerVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
             
             LabelView *partitionSchemeLabelView = [[LabelView alloc] init]; {
                 [partitionSchemePickerVerticalLayout addView: partitionSchemeLabelView

@@ -10,6 +10,9 @@
 
 @implementation Constants
 
+const CGFloat MAIN_CONTENT_SPACING = 6;
+const CGFloat CHILD_CONTENT_SPACING = 6;
+
 NSString * const APPLICATION_NAME = @"WinDiskWriter";
 
 NSString * const PACKAGE_NAME = @"com.techunrestricted.windiskwriter";
