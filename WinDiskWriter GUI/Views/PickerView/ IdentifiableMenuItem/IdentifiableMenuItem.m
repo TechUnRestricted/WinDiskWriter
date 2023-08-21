@@ -7,6 +7,7 @@
 //
 
 #import "IdentifiableMenuItem.h"
+#import "NSMutableAttributedString+Common.h"
 #import "HelperFunctions.h"
 
 @implementation IdentifiableMenuItem
@@ -27,39 +28,19 @@
                              bsdName: (NSString *)bsdName {
     self = [super init];
 
-    // TODO: Need a better solution to the dumb Apple Initializers
-    NSFont *_tempDummyFont = [NSFont systemFontOfSize: NSFont.systemFontSize];
-    
-    NSDictionary *boldAttributes = @{
-        NSFontAttributeName:  [NSFontManager.sharedFontManager
-                         fontWithFamily: _tempDummyFont.fontName
-                         traits: NSUnboldFontMask
-                         weight: 6
-                         size: NSFont.systemFontSize]
-    };
-    
-    NSDictionary *lightSmallAttributes = @{
-        NSFontAttributeName:  [NSFontManager.sharedFontManager
-                         fontWithFamily: _tempDummyFont.fontName
-                         traits: NSUnboldFontMask
-                         weight: 3
-                         size: NSFont.systemFontSize / 1.2],
-    };
-    
-    NSMutableAttributedString *mutableAttributedStringResult = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"%@ %@", deviceVendor, deviceModel]
-                                                                                                 attributes: boldAttributes];
-    
-    NSDictionary *normalAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize: NSFont.systemFontSize]};
+    NSMutableAttributedString *mutableAttributesStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@ %@", deviceVendor, deviceModel]
+                                                                                                              weight: 6
+                                                                                                                size: NSFont.systemFontSize];
     
     NSString *formattedStorageCapacity = [HelperFunctions unitFormattedSizeFor:storageCapacityInBytes];
+    [mutableAttributesStringResult appendAttributedString: [NSMutableAttributedString attributedStringWithNormalFormatting:[NSString stringWithFormat:@" [%@]", formattedStorageCapacity]]];
 
-    [mutableAttributedStringResult appendAttributedString: [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@" [%@]", formattedStorageCapacity]
-                                                                                                  attributes: normalAttributes]];
     
-    [mutableAttributedStringResult appendAttributedString: [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@" (%@)", bsdName]
-                                                                                                  attributes: lightSmallAttributes]];
+    [mutableAttributesStringResult appendAttributedString: [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@" (%@)", bsdName]
+                                                                                                          weight: 3
+                                                                                                            size: NSFont.systemFontSize / 1.2]];
     
-    [self setAttributedTitle: mutableAttributedStringResult];
+    [self setAttributedTitle: mutableAttributesStringResult];
     
     [self setUserIdentifiableData: bsdName];
     

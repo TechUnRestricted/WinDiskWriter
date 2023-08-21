@@ -31,6 +31,7 @@
 #import "HelperFunctions.h"
 
 #import "ModernWindow.h"
+#import "AboutWindow.h"
 
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSViewAutoresizingNone                 = NSViewNotSizable,
@@ -629,18 +630,12 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         NSSize minWindowSize = CGSizeMake(260, 350);
         NSSize maxWindowSize = CGSizeMake(340, 455);
         
-        aboutWindow = [[ModernWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
-                                                     title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
-                                                   padding: CHILD_CONTENT_SPACING];
+        aboutWindow = [[AboutWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
+                                                    title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
+                                                  padding: CHILD_CONTENT_SPACING];
         
         [aboutWindow setMinSize: minWindowSize];
         [aboutWindow setMaxSize: maxWindowSize];
-        
-        NSButton *windowZoomButton = [aboutWindow standardWindowButton:NSWindowZoomButton];
-        [windowZoomButton setEnabled: NO];
-        
-        NSButton *minimizeZoomButton = [aboutWindow standardWindowButton:NSWindowMiniaturizeButton];
-        [minimizeZoomButton setEnabled: NO];
     }
 }
 
