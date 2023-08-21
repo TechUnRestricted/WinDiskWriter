@@ -104,8 +104,8 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
         if (([lastPathComponent isEqualToString:@"install.wim"] || [lastPathComponent isEqualToString:@"install.esd"]) && installerWIMPackagePath == NULL) {
             installerWIMPackagePath = currentFile;
         } else {
-            NSString *absoluteSourcePathLowercase = currentFile.sourcePath.lowercaseString;
-            if ([absoluteSourcePathLowercase isEqualToString:@"efi/boot/boot"] && [absoluteSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
+            NSString *relativeSourcePathLowercase = currentFile.sourcePath.lowercaseString;
+            if ([relativeSourcePathLowercase hasPrefix:@"efi/boot/boot"] && [relativeSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
                 hasEFIBootloader = YES;
             }
         }

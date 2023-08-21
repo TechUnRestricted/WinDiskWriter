@@ -13,6 +13,7 @@
 		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F47A2A92C03D00215AF1 /* SynchronizedAlertData.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */; };
+		E217F47E2A92D85400215AF1 /* ModernWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F47D2A92D85400215AF1 /* ModernWindow.m */; };
 		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
 		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -241,6 +242,8 @@
 		E217F46C2A927E3400215AF1 /* NSError+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Common.m"; sourceTree = "<group>"; };
 		E217F4782A92C03D00215AF1 /* SynchronizedAlertData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedAlertData.h; sourceTree = "<group>"; };
 		E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedAlertData.m; sourceTree = "<group>"; };
+		E217F47C2A92D85400215AF1 /* ModernWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModernWindow.h; sourceTree = "<group>"; };
+		E217F47D2A92D85400215AF1 /* ModernWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModernWindow.m; sourceTree = "<group>"; };
 		E2247A5E2986FA1D000B24A1 /* wimlib_tchar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib_tchar.h; sourceTree = "<group>"; };
 		E2247A5F2986FA1D000B24A1 /* wimlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wimlib.h; sourceTree = "<group>"; };
 		E2247A622986FA1D000B24A1 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
@@ -391,7 +394,7 @@
 		E22E6C032A75D73700FD4BFD /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
 		E22E6C062A76B3C700FD4BFD /* CheckBoxView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckBoxView.h; sourceTree = "<group>"; };
 		E22E6C072A76B3C700FD4BFD /* CheckBoxView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckBoxView.m; sourceTree = "<group>"; };
-		E23298A72A37C1FB00869736 /* WinDiskWriter GUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WinDiskWriter GUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E23298A72A37C1FB00869736 /* WinDiskWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinDiskWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23298B12A37C1FC00869736 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WinDiskWriter_GUI.entitlements; sourceTree = "<group>"; };
 		E23298B72A37C23600869736 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -516,6 +519,15 @@
 				E217F4792A92C03D00215AF1 /* SynchronizedAlertData.m */,
 			);
 			path = SynchronizedAlertData;
+			sourceTree = "<group>";
+		};
+		E217F47F2A92D85700215AF1 /* AboutWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E217F47C2A92D85400215AF1 /* ModernWindow.h */,
+				E217F47D2A92D85400215AF1 /* ModernWindow.m */,
+			);
+			path = AboutWindow;
 			sourceTree = "<group>";
 		};
 		E22478072985E0A7000B24A1 /* libs */ = {
@@ -1053,12 +1065,13 @@
 			children = (
 				E23298BE2A37C31500869736 /* Extensions */,
 				E23298BA2A37C31500869736 /* Views */,
-				E23298B82A37C23600869736 /* AppDelegate.h */,
-				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E217F47B2A92C04400215AF1 /* SynchronizedAlertData */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
+				E23298B82A37C23600869736 /* AppDelegate.h */,
+				E23298B72A37C23600869736 /* AppDelegate.m */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
+				E217F47F2A92D85700215AF1 /* AboutWindow */,
 			);
 			path = "WinDiskWriter GUI";
 			sourceTree = "<group>";
@@ -1186,7 +1199,7 @@
 			isa = PBXGroup;
 			children = (
 				E25946032982A77F000C60A4 /* windiskwriter */,
-				E23298A72A37C1FB00869736 /* WinDiskWriter GUI.app */,
+				E23298A72A37C1FB00869736 /* WinDiskWriter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1407,7 +1420,7 @@
 			);
 			name = "WinDiskWriter GUI";
 			productName = "WinDiskWriter GUI";
-			productReference = E23298A72A37C1FB00869736 /* WinDiskWriter GUI.app */;
+			productReference = E23298A72A37C1FB00869736 /* WinDiskWriter.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E25946022982A77F000C60A4 /* windiskwriter */ = {
@@ -1482,6 +1495,7 @@
 				E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */,
 				E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */,
 				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
+				E217F47E2A92D85400215AF1 /* ModernWindow.m in Sources */,
 				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
 				E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */,
 				E2DF0F5D2A894CAB00339DDB /* progress.c in Sources */,
@@ -1713,7 +1727,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Debug;
@@ -1741,7 +1755,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;

@@ -30,6 +30,8 @@
 
 #import "HelperFunctions.h"
 
+#import "ModernWindow.h"
+
 typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSViewAutoresizingNone                 = NSViewNotSizable,
     NSViewAutoresizingFlexibleLeftMargin   = NSViewMinXMargin,
@@ -57,7 +59,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     ButtonView *startStopButtonView;
     ProgressBarView *progressBarView;
     
-    NSWindow *window;
+    NSWindow *mainWindow;
+    
     NSMenuItem* quitMenuItem;
 }
 
@@ -72,44 +75,44 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                    minSize.height // Height
                                    );
     
-    window = [[NSWindow alloc] initWithContentRect: windowRect
+    mainWindow = [[NSWindow alloc] initWithContentRect: windowRect
                                          styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
                                            backing: NSBackingStoreBuffered
                                              defer: NO
     ];
     
-    [window center];
-    [window setMovableByWindowBackground: YES];
-    [window makeKeyAndOrderFront: NULL];
+    [mainWindow center];
+    [mainWindow setMovableByWindowBackground: YES];
+    [mainWindow makeKeyAndOrderFront: NULL];
     
-    [window setMinSize: minSize];
-    [window setMaxSize: maxSize];
+    [mainWindow setMinSize: minSize];
+    [mainWindow setMaxSize: maxSize];
     
-    [window setTitle: APPLICATION_NAME];
+    [mainWindow setTitle: APPLICATION_NAME];
     
     if (@available(macOS 10.10, *)) {
-        [window setTitlebarAppearsTransparent: YES];
+        [mainWindow setTitlebarAppearsTransparent: YES];
     }
     
-    NSButton *windowZoomButton = [window standardWindowButton:NSWindowZoomButton];
+    NSButton *windowZoomButton = [mainWindow standardWindowButton:NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];
     
     NSView *backgroundView;
     
     if (@available(macOS 10.10, *)) {
-        NSVisualEffectView *visualEffectView = [[NSVisualEffectView alloc] initWithFrame:window.frame];
+        NSVisualEffectView *visualEffectView = [[NSVisualEffectView alloc] initWithFrame:mainWindow.frame];
         
         [visualEffectView setState:NSVisualEffectStateActive];
         [visualEffectView setBlendingMode:NSVisualEffectBlendingModeBehindWindow];
         
         backgroundView = visualEffectView;
         
-        window.styleMask |= NSWindowStyleMaskFullSizeContentView;
+        mainWindow.styleMask |= NSWindowStyleMaskFullSizeContentView;
     } else {
         backgroundView = [[NSView alloc] init];
     }
     
-    [window setContentView: backgroundView];
+    [mainWindow setContentView: backgroundView];
 }
 
 - (void)setupMenuItems {
@@ -239,7 +242,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
         
-        NSButton *windowZoomButton = [self->window standardWindowButton:NSWindowCloseButton];
+        NSButton *windowZoomButton = [self->mainWindow standardWindowButton:NSWindowCloseButton];
         [windowZoomButton setEnabled: enabledUIState];
         
     });
@@ -259,7 +262,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         
         [alert setIcon: [NSImage imageNamed: icon]];
         
-        [alert beginSheetModalForWindow: self->window
+        [alert beginSheetModalForWindow: self->mainWindow
                           modalDelegate: NULL
                          didEndSelector: NULL
                             contextInfo: NULL];
@@ -292,7 +295,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [alert addButtonWithTitle: BUTTON_DISMISS_TITLE];
     [alert addButtonWithTitle: BUTTON_SCHEDULE_CANCELLATION_TITLE];
     
-    [alert beginSheetModalForWindow: window
+    [alert beginSheetModalForWindow: mainWindow
                       modalDelegate: self
                      didEndSelector: @selector(alertActionStopPromptDidEnd:returnCode:contextInfo:)
                         contextInfo: NULL];
@@ -348,7 +351,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [alert addButtonWithTitle: BUTTON_CANCEL_TITLE];
     [alert addButtonWithTitle: BUTTON_START_TITLE];
     
-    [alert beginSheetModalForWindow: window
+    [alert beginSheetModalForWindow: mainWindow
                       modalDelegate: self
                      didEndSelector: @selector(alertActionStartPromptDidEnd:returnCode:contextInfo:)
                         contextInfo: NULL];
@@ -390,13 +393,18 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     Filesystem selectedFileSystem;
-    if ([filesystemPickerSegmentedControl.selectedCell.title isEqualToString:FILESYSTEM_TYPE_FAT32_TITLE]) {
+    if (filesystemPickerSegmentedControl.selectedSegment == 0) {
         selectedFileSystem = FilesystemFAT32;
     } else {
         selectedFileSystem = FilesystemExFAT;
     }
     
-    PartitionScheme selectedPartitionScheme = PartitionSchemeMBR;
+    PartitionScheme selectedPartitionScheme;
+    if (partitionSchemePickerSegmentedControl.selectedSegment == 0) {
+        selectedPartitionScheme = PartitionSchemeMBR;
+    } else {
+        selectedPartitionScheme = PartitionSchemeGPT;
+    }
     
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
                                           logType: ASLogTypeSuccess];
@@ -584,7 +592,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                         
                         [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
                         
-                        [alert beginSheetModalForWindow: self->window
+                        [alert beginSheetModalForWindow: self->mainWindow
                                           modalDelegate: self
                                          didEndSelector: @selector(alertWarnAboutErrorDuringWriting:returnCode:contextInfo:)
                                             contextInfo: (__bridge void * _Nullable)(synchronizedAlertData)];
@@ -678,7 +686,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     CGFloat titlebarHeight = 0;
     if (@available(macOS 10.10, *)) {
-        titlebarHeight = window.contentView.frame.size.height - window.contentLayoutRect.size.height;
+        titlebarHeight = mainWindow.contentView.frame.size.height - mainWindow.contentLayoutRect.size.height;
     }
     
     const CGFloat mainContentGroupsSpacing = 6;
@@ -688,7 +696,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                                  bottom: childElementsSpacing
                                                                                    left: childElementsSpacing
                                                                                   right: childElementsSpacing
-                                                                                 nsView: window.contentView];
+                                                                                 nsView: mainWindow.contentView];
     
     [mainVerticalLayout setSpacing: mainContentGroupsSpacing];
     
