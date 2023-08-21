@@ -207,6 +207,8 @@
 		E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
+		E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */; };
+		E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -459,6 +461,10 @@
 		E2DF0FB72A8ECA0400339DDB /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
 		E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutWindow.m; sourceTree = "<group>"; };
+		E2F2D2BB2A93E8AE00E1B7FF /* CustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageView.h; sourceTree = "<group>"; };
+		E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomImageView.m; sourceTree = "<group>"; };
+		E2F2D2C22A93EAB100E1B7FF /* NSMutableAttributedString+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSMutableAttributedString+Common.h"; path = "NSAttributedString+Common.h/NSMutableAttributedString+Common.h"; sourceTree = "<group>"; };
+		E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Common.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1090,6 +1096,7 @@
 				E22E6C052A75D73C00FD4BFD /* PickerView */,
 				E22E6C092A76B3CA00FD4BFD /* CheckBoxView */,
 				E2C73B3C2A855FDA008B9FAC /* AutoScrollTextView */,
+				E2F2D2BE2A93E8B200E1B7FF /* CustomImageView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1106,6 +1113,7 @@
 		E23298BE2A37C31500869736 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E2F2D2C52A93EAB500E1B7FF /* NSMutableAttributedString */,
 				E23298BF2A37C31500869736 /* NSColor */,
 				E23298C22A37C31500869736 /* NSWindow */,
 			);
@@ -1424,6 +1432,24 @@
 			path = Windows;
 			sourceTree = "<group>";
 		};
+		E2F2D2BE2A93E8B200E1B7FF /* CustomImageView */ = {
+			isa = PBXGroup;
+			children = (
+				E2F2D2BB2A93E8AE00E1B7FF /* CustomImageView.h */,
+				E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */,
+			);
+			path = CustomImageView;
+			sourceTree = "<group>";
+		};
+		E2F2D2C52A93EAB500E1B7FF /* NSMutableAttributedString */ = {
+			isa = PBXGroup;
+			children = (
+				E2F2D2C22A93EAB100E1B7FF /* NSMutableAttributedString+Common.h */,
+				E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */,
+			);
+			path = NSMutableAttributedString;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1557,6 +1583,7 @@
 				E2DF0F7E2A894CAB00339DDB /* timestamp.c in Sources */,
 				E2DF0F7F2A894CAB00339DDB /* error.c in Sources */,
 				E2DF0F802A894CAB00339DDB /* header.c in Sources */,
+				E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */,
 				E2DF0F812A894CAB00339DDB /* blob_table.c in Sources */,
 				E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */,
 				E2DF0F822A894CAB00339DDB /* join.c in Sources */,
@@ -1575,6 +1602,7 @@
 				E2DF0F8F2A894CAB00339DDB /* mount_image.c in Sources */,
 				E2DF0F902A894CAB00339DDB /* ntfs-3g_capture.c in Sources */,
 				E2DF0F912A894CAB00339DDB /* win32_apply.c in Sources */,
+				E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */,
 				E2DF0F922A894CAB00339DDB /* export_image.c in Sources */,
 				E2DF0F932A894CAB00339DDB /* compress_serial.c in Sources */,
 				E2DF0F942A894CAB00339DDB /* update_image.c in Sources */,
