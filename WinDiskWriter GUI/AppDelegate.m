@@ -59,61 +59,14 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     ButtonView *startStopButtonView;
     ProgressBarView *progressBarView;
     
-    NSWindow *mainWindow;
+    ModernWindow *mainWindow;
+    ModernWindow *aboutWindow;
     
     NSMenuItem* quitMenuItem;
 }
 
-- (void)setupWindow {
-    NSSize minSize = CGSizeMake(330, 520);
-    NSSize maxSize = CGSizeMake(500, 650);
-    
-    NSRect windowRect = NSMakeRect(
-                                   0, // X
-                                   0, // Y
-                                   minSize.width, // Width
-                                   minSize.height // Height
-                                   );
-    
-    mainWindow = [[NSWindow alloc] initWithContentRect: windowRect
-                                         styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
-                                           backing: NSBackingStoreBuffered
-                                             defer: NO
-    ];
-    
-    [mainWindow center];
-    [mainWindow setMovableByWindowBackground: YES];
-    [mainWindow makeKeyAndOrderFront: NULL];
-    
-    [mainWindow setMinSize: minSize];
-    [mainWindow setMaxSize: maxSize];
-    
-    [mainWindow setTitle: APPLICATION_NAME];
-    
-    if (@available(macOS 10.10, *)) {
-        [mainWindow setTitlebarAppearsTransparent: YES];
-    }
-    
-    NSButton *windowZoomButton = [mainWindow standardWindowButton:NSWindowZoomButton];
-    [windowZoomButton setEnabled: NO];
-    
-    NSView *backgroundView;
-    
-    if (@available(macOS 10.10, *)) {
-        NSVisualEffectView *visualEffectView = [[NSVisualEffectView alloc] initWithFrame:mainWindow.frame];
-        
-        [visualEffectView setState:NSVisualEffectStateActive];
-        [visualEffectView setBlendingMode:NSVisualEffectBlendingModeBehindWindow];
-        
-        backgroundView = visualEffectView;
-        
-        mainWindow.styleMask |= NSWindowStyleMaskFullSizeContentView;
-    } else {
-        backgroundView = [[NSView alloc] init];
-    }
-    
-    [mainWindow setContentView: backgroundView];
-}
+const CGFloat mainContentGroupsSpacing = 6;
+const CGFloat childElementsSpacing = 6;
 
 - (void)setupMenuItems {
     NSMenu *menuBar = [[NSMenu alloc]init];
@@ -132,7 +85,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
             }
             
             NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
-                                                                   action: NULL
+                                                                   action: @selector(showAboutWindow)
                                                             keyEquivalent: @""]; {
                 [mainItemsMenu addItem:aboutMenuItem];
             }
@@ -192,28 +145,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         }
     }
     
-}
-
-- (FrameLayoutVertical *)setupMainVerticalViewWithPaddingTop: (CGFloat)top
-                                                      bottom: (CGFloat)bottom
-                                                        left: (CGFloat)left
-                                                       right: (CGFloat)right
-                                                      nsView: (NSView *)nsView {
-    CGFloat x = left;
-    CGFloat y = bottom;
-    CGFloat width = nsView.frame.size.width - left - right;
-    CGFloat height = nsView.frame.size.height - top - bottom;
-    
-    CGRect windowRect = CGRectMake(x, y, width, height);
-    
-    FrameLayoutVertical *verticalLayout = [[FrameLayoutVertical alloc] initWithFrame: windowRect];
-    [nsView addSubview:verticalLayout];
-    
-    [verticalLayout setAutoresizingMask: NSViewAutoresizingFlexibleWidth | NSViewAutoresizingFlexibleHeight];
-    
-    [verticalLayout setVerticalAlignment: FrameLayoutVerticalTop];
-    
-    return verticalLayout;
 }
 
 - (void)setEnabledUIState:(BOOL)enabledUIState {
@@ -678,25 +609,49 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
 }
 
+- (void)setupWindows {
+    {
+        NSSize minWindowSize = CGSizeMake(330, 520);
+        NSSize maxWindowSize = CGSizeMake(500, 650);
+        
+        mainWindow = [[ModernWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
+                                                    title: APPLICATION_NAME
+                                                  padding: childElementsSpacing];
+        
+        [mainWindow setMinSize: minWindowSize];
+        [mainWindow setMaxSize: maxWindowSize];
+        
+        NSButton *windowZoomButton = [mainWindow standardWindowButton:NSWindowZoomButton];
+        [windowZoomButton setEnabled: NO];
+    }
+    
+    {
+        NSSize minWindowSize = CGSizeMake(300, 350);
+        NSSize maxWindowSize = CGSizeMake(360, 420);
+        
+        aboutWindow = [[ModernWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
+                                                     title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
+                                                   padding: childElementsSpacing];
+        
+        [aboutWindow setMinSize: minWindowSize];
+        [aboutWindow setMaxSize: maxWindowSize];
+    }
+}
+
+- (void)showAboutWindow {
+    [aboutWindow showWindow];
+}
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self setupWindow];
+    [self setupWindows];
     [self setupMenuItems];
     
     NSView *spacerView = [[NSView alloc] init];
     
-    CGFloat titlebarHeight = 0;
-    if (@available(macOS 10.10, *)) {
-        titlebarHeight = mainWindow.contentView.frame.size.height - mainWindow.contentLayoutRect.size.height;
-    }
+    [mainWindow showWindow];
     
-    const CGFloat mainContentGroupsSpacing = 6;
-    const CGFloat childElementsSpacing = 6;
-    
-    FrameLayoutVertical *mainVerticalLayout = [self setupMainVerticalViewWithPaddingTop: titlebarHeight + childElementsSpacing / 2
-                                                                                 bottom: childElementsSpacing
-                                                                                   left: childElementsSpacing
-                                                                                  right: childElementsSpacing
-                                                                                 nsView: mainWindow.contentView];
+    FrameLayoutVertical *mainVerticalLayout = (FrameLayoutVertical *)mainWindow.containerView;
     
     [mainVerticalLayout setSpacing: mainContentGroupsSpacing];
     

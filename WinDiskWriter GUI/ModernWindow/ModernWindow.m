@@ -27,6 +27,8 @@
                               backing: NSBackingStoreBuffered
                                 defer: NO];
     
+    [self setReleasedWhenClosed: NO];
+    
     [self setMovableByWindowBackground: YES];
     [self setTitle: title];
     
