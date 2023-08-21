@@ -16,10 +16,10 @@
     
     // TODO: Need a better solution to the dumb Apple Initializers
     NSFont *_tempDummyFont = [NSFont systemFontOfSize: NSFont.systemFontSize];
-    
+        
     NSDictionary *attributes = @{
         NSFontAttributeName:  [NSFontManager.sharedFontManager
-                               fontWithFamily: _tempDummyFont.fontName
+                               fontWithFamily: _tempDummyFont.familyName
                                traits: NSUnboldFontMask
                                weight: weight
                                size: size]
@@ -35,7 +35,7 @@
     NSDictionary *normalAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize: NSFont.systemFontSize]};
     
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithString: string
-                                                                        attributes: normalAttributes];
+                                                                               attributes: normalAttributes];
     
     return result;
 }

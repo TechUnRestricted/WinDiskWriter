@@ -1,12 +1,12 @@
 //
-//  AutoScrollTextView.m
+//  AdvancedTextView.m
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 10.08.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "AutoScrollTextView.h"
+#import "AdvancedTextView.h"
 #import "NSColor+Common.h"
 
 ASLogType const ASLogTypeLog = @"Log";
@@ -16,7 +16,7 @@ ASLogType const ASLogTypeError = @"Error";
 ASLogType const ASLogTypeFatal = @"Fatal";
 ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
-@implementation AutoScrollTextView {
+@implementation AdvancedTextView {
     NSDateFormatter *dateFormatter;
 }
 
@@ -65,11 +65,14 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
         [self.textViewInstance setString:appendedString];
         
-        [NSTimer scheduledTimerWithTimeInterval: 1.0f
-                                         target: self
-                                       selector: @selector(delayedUpdate)
-                                       userInfo: NULL
-                                        repeats: NO];
+        if (self.automaticallyScroll) {
+            [NSTimer scheduledTimerWithTimeInterval: 1.0f
+                                             target: self
+                                           selector: @selector(delayedUpdate)
+                                           userInfo: NULL
+                                            repeats: NO];
+        }
+        
     });
 }
 

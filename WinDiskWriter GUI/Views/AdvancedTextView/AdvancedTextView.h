@@ -1,5 +1,5 @@
 //
-//  AutoScrollTextView.h
+//  AdvancedTextView.h
 //  WinDiskWriter GUI
 //
 //  Created by Macintosh on 10.08.2023.
@@ -19,9 +19,11 @@ extern ASLogType const ASLogTypeError;
 extern ASLogType const ASLogTypeFatal;
 extern ASLogType const ASLogTypeAssertionError;
 
-@interface AutoScrollTextView : NSScrollView
+@interface AdvancedTextView : NSScrollView
 
 @property (nonatomic, strong, readonly) VibrantTextView *textViewInstance;
+
+@property (nonatomic, readwrite) BOOL automaticallyScroll;
 
 - (void)appendLine:(NSString *)message;
 

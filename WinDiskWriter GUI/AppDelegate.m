@@ -13,7 +13,7 @@
 #import "PickerView.h"
 #import "TextInputView.h"
 #import "CheckBoxView.h"
-#import "AutoScrollTextView.h"
+#import "AdvancedTextView.h"
 #import "ProgressBarView.h"
 
 #import "SynchronizedAlertData.h"
@@ -55,7 +55,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     
-    AutoScrollTextView *logsAutoScrollTextView;
+    AdvancedTextView *logsAutoScrollTextView;
     
     ButtonView *startStopButtonView;
     ProgressBarView *progressBarView;
@@ -627,12 +627,12 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     }
     
     {
-        NSSize minWindowSize = CGSizeMake(260, 350);
-        NSSize maxWindowSize = CGSizeMake(340, 455);
+        NSSize minWindowSize = CGSizeMake(300, 450);
+        NSSize maxWindowSize = CGSizeMake(360, 560);
         
         aboutWindow = [[AboutWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                     title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
-                                                  padding: CHILD_CONTENT_SPACING];
+                                                  padding: CHILD_CONTENT_SPACING * 2];
         
         [aboutWindow setMinSize: minWindowSize];
         [aboutWindow setMaxSize: maxWindowSize];
@@ -822,7 +822,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout addView:spacerView width:4 height:4];
     
-    logsAutoScrollTextView = [[AutoScrollTextView alloc] init]; {
+    logsAutoScrollTextView = [[AdvancedTextView alloc] init]; {
+        [logsAutoScrollTextView setAutomaticallyScroll: YES];
+        
         [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:INFINITY];
     }
     
