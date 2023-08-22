@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img width="420" alt="WinDiskWriter Main Screen" src="https://github.com/TechUnRestricted/windiskwriter/assets/83237609/ab8fd7bf-8be0-487b-a48e-c6809e558d99">
+  <img width="420" alt="WinDiskWriter Main Screen" src="https://images2.imgbox.com/8d/a7/Ap7To111_o.jpg">
 </p>
 
 <p>
@@ -126,7 +126,7 @@ Images with install.<b>esd</b> (compressed system image) over 4GB are not suppor
 
 <h2>Additional Information</h2>
 <p align="center">
-  <img width="340" alt="WinDiskWriter About Screen" src="https://github.com/TechUnRestricted/windiskwriter/assets/83237609/1ab35bfb-de9c-434d-b5f0-859847c299a7">
+  <img width="340" alt="WinDiskWriter About Screen" src="https://images2.imgbox.com/8b/34/NkkuMKxc_o.png">
 </p>
 <p>
 &emsp;&emsp;WinDiskWriter is developed in the <b>Objective-C</b> programming language to ensure <b>maximum backward compatibility</b> with older versions of macOS.<br>
