@@ -162,7 +162,20 @@ Images with install.<b>esd</b> (compressed system image) over 4GB are not suppor
 </ul>
 
 <h2>❤️ Support Me ❤️ (Donations)</h2>
-<sup><b>(add later)</b></sup>
+<ul>
+  <li>
+    Bitcoin (BTC): <b>bc1qe2z68uwgplxfzspdy5pnxhzza2spep0ryk5zeq</b>
+  </li>
+  <li>
+    Etherium (ETH): <b>0x1410acAc3e0De885f4fb8C305a2F7B586d47c5ff</b>
+  </li>
+  <li>
+    BNB Beacon Chain (BNB): <b>bnb1h2svmvj9842xk49qjflza4q8yqn2kd9dsxp9h9</b>
+  </li>
+  <li>
+    Tether USD [USDT] (ERC20): <b>0x1410acAc3e0De885f4fb8C305a2F7B586d47c5ff</b>
+  </li>
+</ul>
 
 <h2>Authors</h2>
 <ul>
