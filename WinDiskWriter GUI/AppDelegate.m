@@ -511,6 +511,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
+                        [self->mainWindow removeAttachedSheetWithReturnCode: NSAlertFirstButtonReturn];
+                        
                         NSAlert *alert = [[NSAlert alloc] init];
                         
                         [alert setMessageText: @"A problem occurred when writing a file to disk"];
@@ -725,10 +727,6 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 [devicePickerHorizontalLayout addView:devicePickerView minWidth:0 maxWidth:INFINITY minHeight:0 maxHeight:devicePickerView.cell.cellSize.height];
                 
                 [self updateDeviceList];
-                
-                //[devicePickerView addItemWithTitle: @"Первый"];
-                //[devicePickerView addItemWithTitle: @"Второй"];
-                //[devicePickerView addItemWithTitle: @"Третий"];
             }
             
             updateDeviceListButtonView = [[ButtonView alloc] init]; {

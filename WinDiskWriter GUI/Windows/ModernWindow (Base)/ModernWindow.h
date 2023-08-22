@@ -29,6 +29,8 @@
 
 - (void)showWindow;
 
+- (void)removeAttachedSheetWithReturnCode: (NSInteger)returnCode;
+
 - (CGFloat)titlebarHeight;
 
 - (void)setOnCloseSelector: (SEL)selector
