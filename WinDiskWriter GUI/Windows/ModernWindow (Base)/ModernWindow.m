@@ -68,6 +68,15 @@
     [self makeKeyAndOrderFront: NULL];
 }
 
+- (void)removeAttachedSheetWithReturnCode: (NSInteger)returnCode {
+    NSWindow *attachedSheet = [self attachedSheet];
+
+    if (attachedSheet != NULL) {
+        [NSApp endSheet: attachedSheet
+             returnCode: returnCode];
+    }
+}
+
 - (void)setupMainVerticalViewWithPaddingTop: (CGFloat)top
                                      bottom: (CGFloat)bottom
                                        left: (CGFloat)left

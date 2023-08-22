@@ -13,6 +13,7 @@
 #import "CustomImageView.h"
 #import "NSMutableAttributedString+Common.h"
 #import "AdvancedTextView.h"
+#import "Licenses-Constants.h"
 
 @implementation AboutWindow
 
@@ -138,9 +139,13 @@
                  "At the moment, WinDiskWriter supports writing Windows Vista, 7, 8, 8.1, 10 and 11 in UEFI mode." "\n"
                  "Future improvements will include support for Legacy systems and other features." "\n\n\n"
                  
-                 "[WIMLIB: GNU LESSER GENERAL PUBLIC LICENSE Version 3]" "\n"
+                 "——————————————————" "\n"
+                 "[ —  WIMLIB Open Source License  — ]" "\n"
+                 "——————————————————" "\n\n"
                  
                 ];
+                
+                [openSourceLicensesAdvancedTextView appendLine: WIMLIB_LICENSE_TEXT];
                 
 
                 
