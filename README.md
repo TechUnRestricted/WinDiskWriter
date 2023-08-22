@@ -2,7 +2,7 @@
 
 <p>
 &emsp;&emsp;<b>WinDiskWriter</b> - an application for macOS that allows you to write flash drives with <b>Microsoft Windows</b> using a macOS-based computer.<br>
-&emsp;&emsp;This software is <b>free</b> and <b>open source</b>, and you can <strong>support me</strong> by <strong>making a donation</strong>.<br>
+&emsp;&emsp;This software is <b>free</b> and <b>open source</b>, and you can <strong>support me</strong> by <strong><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">making a donation</a></strong>.<br>
 </p>
 
 <p align="center">
@@ -126,7 +126,7 @@ Images with install.<b>esd</b> (compressed system image) over 4GB are not suppor
 
 <h2>Additional Information</h2>
 <p align="center">
-  <img width="340" alt="WinDiskWriter About Screen" src="https://github.com/TechUnRestricted/windiskwriter/assets/83237609/96367a8c-b40f-4e18-8481-30fc37dff9e9">
+  <img width="340" alt="WinDiskWriter About Screen" src="https://github.com/TechUnRestricted/windiskwriter/assets/83237609/1ab35bfb-de9c-434d-b5f0-859847c299a7">
 </p>
 <p>
 &emsp;&emsp;WinDiskWriter is developed in the <b>Objective-C</b> programming language to ensure <b>maximum backward compatibility</b> with older versions of macOS.<br>
