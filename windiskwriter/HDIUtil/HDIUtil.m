@@ -10,6 +10,7 @@
 #import "CommandLine.h"
 #import "Constants.h"
 #import "HDIUtil.h"
+#import "NSString+Common.h"
 
 @implementation HDIUtil: NSObject
 
@@ -25,11 +26,15 @@
     struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath arguments:localArgumentsArray];
     
     if (commandLineReturn.terminationStatus != EXIT_SUCCESS) {
+        NSString *errorString = [[NSString alloc] initWithData: commandLineReturn.errorData
+                                                      encoding: NSUTF8StringEncoding].strip;
+        
+        NSString *finalErrorDescription = [NSString stringWithFormat:@"The exit status of hdiutil was not EXIT_SUCCESS.\n[%@]", errorString];
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"hdiutil exited not with an EXIT_SUCCESS status."}];
+                                                     finalErrorDescription}];
         }
         return NO;
     }
