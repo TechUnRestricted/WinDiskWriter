@@ -154,10 +154,16 @@ Images with install.<b>esd</b> (compressed system image) over 4GB are not suppor
     Add support for splitting install.<b>esd</b> (compressed system image) files for FAT32 filesystem.
   </li>
   <li>
+   Add support for stopping the operation without waiting for the end of copying the current file.
+  </li>
+  <li>
     Fix UI bugs on Mac OS X Mavericks 10.9 and lower.
   </li>
   <li>
-    Add 32-Bit CPU support for the already existing fat binary. (x86_64 + ARM64 + x86)
+    Add 32-Bit CPU support for the already existing fat binary. (x86_64 + ARM64 + x86).
+  </li>
+  <li>
+    Make copying process way faster by using more than one thread for this task.
   </li>
 </ul>
 
