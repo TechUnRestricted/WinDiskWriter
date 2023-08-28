@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSError (Common)
 
 - (NSString *)stringValue;
++ (NSError *)errorWithStringValue: (NSString *)stringValue;
 
 @end
 

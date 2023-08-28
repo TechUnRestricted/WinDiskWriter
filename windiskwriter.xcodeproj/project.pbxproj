@@ -102,6 +102,7 @@
 		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
 		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
+		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
 		E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
@@ -430,6 +431,8 @@
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
+		E2BEF1432A9B6FA90083A7AA /* DWProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWProgress.h; sourceTree = "<group>"; };
+		E2BEF1442A9B6FA90083A7AA /* DWProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWProgress.m; sourceTree = "<group>"; };
 		E2C5FFCE2994599600B394F4 /* ArgumentsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentsHandler.h; sourceTree = "<group>"; };
 		E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentsHandler.m; sourceTree = "<group>"; };
 		E2C5FFD229945B8C00B394F4 /* ArgumentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentObject.h; sourceTree = "<group>"; };
@@ -1279,6 +1282,15 @@
 			path = PartitionSchemes;
 			sourceTree = "<group>";
 		};
+		E2BEF1462A9B6FAC0083A7AA /* DWProgress */ = {
+			isa = PBXGroup;
+			children = (
+				E2BEF1432A9B6FA90083A7AA /* DWProgress.h */,
+				E2BEF1442A9B6FA90083A7AA /* DWProgress.m */,
+			);
+			path = DWProgress;
+			sourceTree = "<group>";
+		};
 		E2C5FFD12994599E00B394F4 /* ArgumentsHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1341,6 +1353,7 @@
 			isa = PBXGroup;
 			children = (
 				E250F6D429A4F4D4003BBF7D /* DWFilesContainer */,
+				E2BEF1462A9B6FAC0083A7AA /* DWProgress */,
 				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
 				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
 				E205A45729A6412300FE5B72 /* DWAction.h */,
@@ -1563,6 +1576,7 @@
 				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
 				E217F47E2A92D85400215AF1 /* ModernWindow.m in Sources */,
 				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
+				E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */,
 				E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */,
 				E2DF0F5D2A894CAB00339DDB /* progress.c in Sources */,
 				E2DF0F5E2A894CAB00339DDB /* tagged_items.c in Sources */,
