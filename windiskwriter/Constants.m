@@ -18,7 +18,7 @@ NSString * const APPLICATION_NAME = @"WinDiskWriter";
 NSString * const PACKAGE_NAME = @"com.techunrestricted.windiskwriter";
 NSString * const DEVELOPER_NAME = @"TechUnRestricted";
 
-NSString * const PACKAGE_VERSION = @"1.0";
+NSString * const PACKAGE_VERSION = @"1.1";
 NSString * const NSLocalizedDescriptionKey = @"Reason";
 
 NSString * const FORGOT_SOMETHING_TITLE = @"You forgot something...";
