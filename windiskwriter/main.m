@@ -235,13 +235,14 @@ int main(int argc, const char *argv[]) {
 		DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
 															  destinationPath: targetPartitionPath
 																	 bootMode: BootModeUEFI
-														destinationFilesystem: filesystem];
+														destinationFilesystem: filesystem
+														   skipSecurityChecks: YES];
 		
 		NSError *writeError = NULL;
-		BOOL writeSuccessful = [diskWriter writeWindows_8_10_ISOWithError: &writeError
-																 callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
-			NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent:fileInfo.sourcePath];
-			switch (message) {
+		
+		BOOL writeSuccessfuk = [diskWriter startWritingWithError: &writeError
+														callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
+			switch (dwMessage) {
 				case DWMessageCreateDirectoryProcess:
 					IOLog(@"[Creating Directory]: [%@]", destinationCurrentFilePath);
 					break;
@@ -272,6 +273,15 @@ int main(int argc, const char *argv[]) {
 					IOLog(@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath);
 					if (!skipErrors) { return DWActionStop; }
 					break;
+				case DWMessageBypassWindowsSecurityChecksProcess:
+					
+					break;
+				case DWMessageBypassWindowsSecurityChecksSuccess:
+					
+					break;
+				case DWMessageBypassWindowsSecurityChecksFailure:
+					
+					break;
 				case DWMessageWriteFileProcess:
 					IOLog(@"[Writing File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize);
 					break;
@@ -298,6 +308,7 @@ int main(int argc, const char *argv[]) {
 			return DWActionContinue;
 		}];
 		
+	
 		IOLog(@"");
 		IOLog(@"[Result]: %@", (writeSuccessful ? @"Success" : @"Failure"));
 		

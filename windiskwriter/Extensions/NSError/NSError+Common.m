@@ -7,11 +7,18 @@
 //
 
 #import "NSError+Common.h"
+#import "Constants.h"
 
 @implementation NSError (Common)
 
 - (NSString *)stringValue {
     return [self.userInfo objectForKey: NSLocalizedDescriptionKey];
+}
+
++ (NSError *)errorWithStringValue: (NSString *)stringValue {
+    return [NSError errorWithDomain: PACKAGE_NAME
+                                 code: -1
+                             userInfo: @{NSLocalizedDescriptionKey: stringValue}];
 }
 
 @end

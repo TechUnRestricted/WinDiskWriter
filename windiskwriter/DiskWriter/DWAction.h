@@ -26,7 +26,7 @@
             return NULL;                                       \
     }
 
-enum DWAction {
+typedef NS_ENUM(NSUInteger, DWAction) {
     DWActionContinue,
     DWActionSkip,
     DWActionStop

@@ -51,7 +51,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     PickerView *devicePickerView;
     ButtonView *updateDeviceListButtonView;
     
-    CheckBoxView *formatDeviceCheckboxView;
+    CheckBoxView *skipSecurityChecksCheckboxView;
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     
@@ -164,7 +164,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         }
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];
-        
+        [self->skipSecurityChecksCheckboxView setEnabled: enabledUIState];
         [self->windowsImageInputView setEnabled: enabledUIState];
         [self->devicePickerView setEnabled: enabledUIState];
         
@@ -346,11 +346,12 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, selectedPartitionScheme, selectedFileSystem];
+    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", skip_security_checks: \"%d\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, selectedPartitionScheme, selectedFileSystem, skipSecurityChecksCheckboxView.state == NSOnState];
     
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
+    BOOL skipSecurityChecks = skipSecurityChecksCheckboxView.state == NSOnState;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *diskEraseError = NULL;
@@ -393,15 +394,15 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
                                                                      bootMode: BootModeUEFI
-                                                        destinationFilesystem: selectedFileSystem];
+                                                        destinationFilesystem: selectedFileSystem
+                                                           skipSecurityChecks: skipSecurityChecks];
         
         NSError *writeError = NULL;
         
         __block NSUInteger diskWriterErrorsCount = 0;
         
-        [diskWriter writeWindows_8_10_ISOWithError: &writeError
-                                          callback: ^enum DWAction(DWFile * _Nonnull fileInfo, enum DWMessage message) {
-            
+        [diskWriter startWritingWithError: &writeError
+                         progressCallback: ^DWAction(DWFile * _Nonnull file, uint64_t copiedBytes, DWMessage message) {
             if (self.isScheduledForStop) {
                 // [self setIsScheduledForStop: NO];
                 // [self setEnabledUIState: YES];
@@ -409,7 +410,13 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 return DWActionStop;
             }
             
-            NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent:fileInfo.sourcePath];
+            NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: file.sourcePath];
+            
+            printf("[%s / %s] Copying file: \"%s\".\n",
+                   [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String,
+                   file.unitFormattedSize.UTF8String,
+                   destinationCurrentFilePath.UTF8String
+            );
             
             switch (message) {
                 case DWMessageCreateDirectoryProcess:
@@ -428,18 +435,18 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageSplitWindowsImageProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Splitting Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Splitting Windows Image]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeLog];
                     break;
                 case DWMessageSplitWindowsImageSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Image successfully splitted]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Image successfully splitted]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
                     
                     break;
                 case DWMessageSplitWindowsImageFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't split Windows Image]: [%@ (.swm)] {File Size: >%@}", destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't split Windows Image]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageExtractWindowsBootloaderProcess:
@@ -457,31 +464,43 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeError];
                     break;
+                case DWMessageBypassWindowsSecurityChecksProcess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Patching security checks in Windows Image]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeLog];
+                    break;
+                case DWMessageBypassWindowsSecurityChecksSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Security checks were successfully patched in Windows Image]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeSuccess];
+                    break;
+                case DWMessageBypassWindowsSecurityChecksFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't patch security checks in Windows Image]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeError];
+                    break;
                 case DWMessageWriteFileProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Writing File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Writing File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeLog];
                     break;
                 case DWMessageWriteFileSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File was successfully written]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File was successfully written]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeSuccess];
                     
                     [self->progressBarView incrementBySynchronously:1];
                     
                     break;
                 case DWMessageWriteFileFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't write File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't write File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageFileIsTooLarge:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File is too large]: [%@] {File Size: %@}", fileInfo.sourcePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File is too large]: [%@] {File Size: %@}", file.sourcePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageUnsupportedOperation:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Unsupported operation with this type of File]: [%@ → %@] {File Size: %@}", fileInfo.sourcePath, destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Unsupported operation with this type of File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageEntityAlreadyExists:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File already exists]: [%@] {File Size: %@}",  destinationCurrentFilePath, fileInfo.unitFormattedSize]
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File already exists]: [%@] {File Size: %@}",  destinationCurrentFilePath, file.unitFormattedSize]
                                                                 logType: ASLogTypeError];
                     break;
             }
@@ -741,12 +760,11 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
     
-    formatDeviceCheckboxView = [[CheckBoxView alloc] init]; {
-        [mainVerticalLayout addView:formatDeviceCheckboxView width:INFINITY height:formatDeviceCheckboxView.cell.cellSize.height];
+    skipSecurityChecksCheckboxView = [[CheckBoxView alloc] init]; {
+        [mainVerticalLayout addView:skipSecurityChecksCheckboxView width:INFINITY height:skipSecurityChecksCheckboxView.cell.cellSize.height];
         
-        [formatDeviceCheckboxView setTitle: @"Format Device (Required)"];
-        [formatDeviceCheckboxView setIntegerValue: YES];
-        [formatDeviceCheckboxView setEnabled: NO];
+        [skipSecurityChecksCheckboxView setTitle: @"Skip Security Checks"];
+        [skipSecurityChecksCheckboxView setState: NSOffState];
     }
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
