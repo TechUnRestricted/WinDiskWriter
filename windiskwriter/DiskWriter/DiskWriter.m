@@ -45,14 +45,7 @@ const uint64_t COPY_BUFFER_SIZE = 8388608;
     return self;
 }
 
-#define CallbackHandler(originalFileSizeBytes, writtenBytes, dwMessage)     \
-switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {         \
-case DWActionContinue:                                                      \
-break;                                                                      \
-case DWActionSkip:                                                          \
-case DWActionStop:                                                          \
-return NO;                                                                  \
-}
+
 
 typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage);
 
@@ -61,22 +54,39 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
                 bufferSize: (NSUInteger)bufferSize
                   callback: (ChainedCallbackAction)callback {
     
+    /*
+     Macro for handling callback
+     */
+#define CallbackHandler(originalFileSizeBytes, writtenBytes, dwMessage)     \
+switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {         \
+case DWActionContinue:                                                      \
+break;                                                                      \
+case DWActionSkip:                                                          \
+case DWActionStop:                                                          \
+return NO;                                                                  \
+}
+    
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
     
+    /*
     // Check if we can write a file to the destination filesystem
     if (self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) {
         // *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations"];
+        
+        printf("");
         
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
         
         return NO;
     }
-    
+    */
+     
     // Open the source file in read mode
     FILE *source = fopen([sourcePath UTF8String], "rb");
     if (source == NULL) {
         // *error = [NSError errorWithStringValue: @"Couldn't open source file."];
-        
+        printf("");
+
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
         
         return NO;
@@ -86,7 +96,8 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
     FILE *destination = fopen([destinationFilePath UTF8String], "wb");
     if (destination == NULL) {
         // *error = [NSError errorWithStringValue: @"Couldn't open destination file path."];
-        
+        printf("");
+
         fclose(source);
         
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
@@ -134,7 +145,8 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
             free(buffer);
             fclose(source);
             fclose(destination);
-            
+            printf("");
+
             CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileFailure);
             
             return NO;
@@ -157,11 +169,28 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
     return YES;
 }
 
-- (void)writeWindowsInstallWithDWFile: (DWFile *)dwFile
+- (BOOL)writeWindowsInstallWithDWFile: (DWFile *)dwFile
                       destinationPath: (NSString *)destinationPath
                              callback: (ChainedCallbackAction)callback {
     
+    /*
+     Macro for handling callback with cleanup of temporary files.
+     We need it since we are make a copy of Windows Install Image on the system drive in order to patch it.
+     I don't think that there can be a better solution without "goto cleanup" and macros.
+     */
+#define CallbackHandlerWithCleanup(originalFileSizeBytes, writtenBytes, dwMessage)  \
+switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {                 \
+case DWActionContinue:                                                              \
+break;                                                                              \
+case DWActionSkip:                                                                  \
+case DWActionStop:                                                                  \
+goto cleanup;                                                                       \
+}
+    
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:dwFile.sourcePath];
+    
+    // Determining the success of the operation for "goto cleanup"
+    BOOL operationWasSuccessful = NO;
     
     /*
      [Windows Image Install File is less than FAT32 max file size limit]
@@ -171,15 +200,14 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
     
     
     BOOL requiresSplitting = !((dwFile.size <= FAT32_MAX_FILE_SIZE && self.destinationFilesystem == FilesystemFAT32) || self.destinationFilesystem == FilesystemExFAT);
-    
-    NSString *_tempSecurityBypassImageLocation;
+    NSString *_tempMovedWindowsImageFilePath = NULL;
     
     // Check if we can write Windows Image file without modifications
     if (!requiresSplitting) {
         
-        // Copying Windows Image
         __block DWAction latestAction = DWActionContinue;
         
+        // Copying Windows Image
         BOOL copyWasSuccessfull = [self copyFileWithDWFile: dwFile
                                        destinationFilePath: destinationPath
                                                 bufferSize: COPY_BUFFER_SIZE
@@ -192,87 +220,112 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
         
         // We don't need to continue unless copying wasn't successful. All further operations require a success from the previous operation.
         if (!copyWasSuccessfull) {
-            return;
+            goto cleanup;
         }
         
         if (latestAction == DWActionStop) {
-            return;
+            goto cleanup;
         }
-        
-        _tempSecurityBypassImageLocation = destinationPath;
         
     } else {
         // Splitting Windows Install Images with .esd and .swm extensions is currently not supported
         if (![sourcePath.lowercaseString.pathExtension isEqualToString:@"wim"]) {
             
-            CallbackHandler(dwFile.size, 0, DWMessageUnsupportedOperation);
+            CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageUnsupportedOperation);
             
-            return NO;
+            goto cleanup;
         }
         
         if (self.skipSecurityChecks) {
             NSString *randomFolderName = [NSString stringWithFormat:@"windiskwriter-%@", [HelperFunctions randomStringWithLength:10]];
+            
+            // Defining the path to the temporary location for the Windows Install Image on the system drive.
             NSString *tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), randomFolderName]];
-
-            CallbackHandler(dwFile.size, 0, DWMessageCreateDirectoryProcess);
-
+            
+            CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageCreateDirectoryProcess);
+            
+            // TODO: Implement available storage on the system disk checking
+            
             BOOL directoryCreatedSuccessfully = [localFileManager createDirectoryAtPath: tempDirectory
                                                             withIntermediateDirectories: YES
                                                                              attributes: NULL
                                                                                   error: NULL];
             
-            CallbackHandler(dwFile.size, 0, (directoryCreatedSuccessfully ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
+            CallbackHandlerWithCleanup(dwFile.size, 0, (directoryCreatedSuccessfully ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
             
             // We don't need to continue unless creating a directory wasn't successful. All further operations require a success from the previous operation.
             if (!directoryCreatedSuccessfully) {
-                return;
+                goto cleanup;
             }
             
-            // Setting the temporary location for install image file. (Example: /var/folders/b2/zvoxm8cn7995b9jnt2love090000gn/T/windiskwriter-ABCDEFGHI1/install.wim)
-            _tempSecurityBypassImageLocation = [tempDirectory stringByAppendingPathComponent: sourcePath.lastPathComponent];
+            // Setting the location for Windows Install Image to the NSTemporaryDirectory(). (Example: /var/folders/b2/zvoxm8cn7995b9jnt2love090000gn/T/windiskwriter-ABCDEFGHI1/install.wim)
+            _tempMovedWindowsImageFilePath = [tempDirectory stringByAppendingPathComponent: sourcePath.lastPathComponent];
             
-            [self copyFileWithDWFile: dwFile
-                 destinationFilePath: _tempSecurityBypassImageLocation
-                          bufferSize: COPY_BUFFER_SIZE
-                            callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
-               
-                return NO;
+            __block DWAction latestAction = DWActionContinue;
+            
+            // Copying Windows Install File into a temporary directory
+            BOOL copyWasSuccessfull = [self copyFileWithDWFile: dwFile
+                                           destinationFilePath: _tempMovedWindowsImageFilePath
+                                                    bufferSize: COPY_BUFFER_SIZE
+                                                      callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
+                
+                latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
+                
+                return latestAction;
             }];
             
-            
+            // We don't need to continue unless copying wasn't successful. All further operations require a success from the previous operation.
+            if (!copyWasSuccessfull) {
+                goto cleanup;
+            }
+                        
+            if (latestAction == DWActionStop) {
+                goto cleanup;
+            }
         }
     }
     
     // Removing security checks on Windows Image (TPM + SecureBoot bypass)
     if (self.skipSecurityChecks) {
-        CallbackHandler(dwFile.size, 0, DWMessageBypassWindowsSecurityChecksProcess);
+        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageBypassWindowsSecurityChecksProcess);
         
-        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: _tempSecurityBypassImageLocation];
+        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
+                                            /* Choosing Windows Installer Image Path based on previous operations */
+                                            (_tempMovedWindowsImageFilePath ?: destinationPath)
+        ];
+        
         BOOL *securityChecksSuccessfullyBypassed = [wimlibWrapper bypassWindowsSecurityChecks];
         
-        CallbackHandler(dwFile.size, 0, securityChecksSuccessfullyBypassed ? DWMessageBypassWindowsSecurityChecksSuccess : DWMessageBypassWindowsSecurityChecksFailure);
+        CallbackHandlerWithCleanup(dwFile.size, 0, securityChecksSuccessfullyBypassed ? DWMessageBypassWindowsSecurityChecksSuccess : DWMessageBypassWindowsSecurityChecksFailure);
     }
     
     
-    /*
-     Splitting install.wim file in order to fit into FAT32 partition
-     */
+
+     // Splitting install.wim file in order to fit into FAT32 partition
     {
         UInt8 partsCount = ceil((double)dwFile.size / (double)FAT32_MAX_FILE_SIZE);
         UInt32 maxSliceSize = dwFile.size / partsCount;
         
-        CallbackHandler(dwFile.size, 0, DWMessageSplitWindowsImageProcess);
+        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageSplitWindowsImageProcess);
         
-        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:sourcePath];
+        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: (_tempMovedWindowsImageFilePath ?: destinationPath)];
         enum wimlib_error_code wimlibReturnCode = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
                                                                                maxSliceSizeInBytes: maxSliceSize
                                                                                    progressHandler: NULL
                                                                                            context: NULL];
         
-        CallbackHandler(dwFile.size, 0, (wimlibReturnCode == WIMLIB_ERR_SUCCESS) ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure);
+        CallbackHandlerWithCleanup(dwFile.size, 0, (wimlibReturnCode == WIMLIB_ERR_SUCCESS) ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure);
     }
     
-    return YES;
+    operationWasSuccessful = YES;
+    
+cleanup:
+    if (_tempMovedWindowsImageFilePath != NULL) {
+        [localFileManager removeItemAtPath: _tempMovedWindowsImageFilePath
+                                     error: NULL];
+    }
+    
+    return operationWasSuccessful;
 }
 
 - (BOOL)startWritingWithError: (NSError **)error
@@ -280,12 +333,12 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
     
 #define DWCallbackHandler(currentFile, bytesWritten, message)    \
 switch (progressCallback(currentFile, bytesWritten, message)) {  \
-case DWActionContinue:                                       \
-break;                                                   \
-case DWActionStop:                                           \
-return NO;                                               \
-case DWActionSkip:                                           \
-continue;                                                \
+case DWActionContinue:                                           \
+break;                                                           \
+case DWActionStop:                                               \
+return NO;                                                       \
+case DWActionSkip:                                               \
+continue;                                                        \
 }
     
     if (![self commonErrorCheckerWithError:error]) {
@@ -325,6 +378,8 @@ continue;                                                \
                                        callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 lastAction = progressCallback(currentFile, copiedBytes, dwMessage);
+                
+                printf("");
                 
                 return lastAction;
             }];
