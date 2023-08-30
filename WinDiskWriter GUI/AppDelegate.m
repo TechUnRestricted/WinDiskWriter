@@ -465,7 +465,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeError];
                     break;
                 case DWMessageExtractWindowsBootloaderNotApplicable:
-                    
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows bootloader extraction is not applicable for the current image]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeError];
                     break;
                 case DWMessagePatchWindowsInstallerRequirementsProcess:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Patching security checks in Windows Image]: [%@]", destinationCurrentFilePath]
@@ -476,7 +477,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                                                                 logType: ASLogTypeSuccess];
                     break;
                 case DWMessagePatchWindowsInstallerRequirementsNotRequired:
-                    
+                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Removing hardware requirements is not required for this Windows image]: [%@]", destinationCurrentFilePath]
+                                                                logType: ASLogTypeError];
                     break;
                 case DWMessagePatchWindowsInstallerRequirementsFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't patch security checks in Windows Image]: [%@]", destinationCurrentFilePath]
@@ -523,7 +525,8 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                 case DWMessageWriteFileFailure:
                 case DWMessageFileIsTooLarge:
                 case DWMessageUnsupportedOperation:
-                case DWMessageEntityAlreadyExists: {
+                case DWMessageEntityAlreadyExists:
+                case DWMessagePatchWindowsInstallerRequirementsFailure: {
                     diskWriterErrorsCount += 1;
                     
                     /*

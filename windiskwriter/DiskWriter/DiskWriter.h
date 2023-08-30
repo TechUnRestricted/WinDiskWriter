@@ -81,10 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
                             destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem
                                skipSecurityChecks: (BOOL)skipSecurityChecks;
 
-- (BOOL)writeWindows_8_10_ISOWithError: (NSError *_Nonnull *_Nonnull)error
-                              callback: (DWCallback _Nonnull)callback;
-
-
 typedef DWAction (^NewDWCallback)(DWFile *file, uint64_t copiedBytes, DWMessage message);
 
 - (BOOL)startWritingWithError: (NSError **)error

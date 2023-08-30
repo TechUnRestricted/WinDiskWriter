@@ -262,10 +262,12 @@ goto cleanup;                                                                   
             BOOL copyWasSuccessfull = [self copyFileWithDWFile: dwFile
                                            destinationFilePath: sourcePath
                                                     bufferSize: COPY_BUFFER_SIZE
-                                         ignoreFilesystemCheck: NO
+                                         ignoreFilesystemCheck: YES
                                                       callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
+                
+                printf("");
                 
                 return latestAction;
             }];
@@ -521,13 +523,6 @@ postBootloaderExtract:
                                                                                    error: NULL];
     
     return [[filesystemAttributes objectForKey: NSFileSystemFreeSize] longLongValue];
-}
-
-- (BOOL)writeWindows_8_10_ISOWithError: (NSError *_Nonnull *_Nonnull)error
-                              callback: (DWCallback _Nonnull)callback {
-    
-    return [self commonWriteWithError: error
-                             callback: callback];
 }
 
 @end
