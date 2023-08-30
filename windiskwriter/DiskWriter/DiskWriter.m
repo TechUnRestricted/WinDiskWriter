@@ -52,6 +52,7 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
 - (BOOL)copyFileWithDWFile: (DWFile *)dwFile
        destinationFilePath: (NSString *)destinationFilePath
                 bufferSize: (NSUInteger)bufferSize
+     ignoreFilesystemCheck: (BOOL)ignoreFilesystemCheck
                   callback: (ChainedCallbackAction)callback {
     
     /*
@@ -68,25 +69,20 @@ return NO;                                                                  \
     
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
     
-    /*
     // Check if we can write a file to the destination filesystem
-    if (self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) {
+    if ((self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) && !ignoreFilesystemCheck) {
         // *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations"];
-        
-        printf("");
         
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
         
         return NO;
     }
-    */
-     
+    
     // Open the source file in read mode
     FILE *source = fopen([sourcePath UTF8String], "rb");
     if (source == NULL) {
         // *error = [NSError errorWithStringValue: @"Couldn't open source file."];
-        printf("");
-
+        
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
         
         return NO;
@@ -96,8 +92,7 @@ return NO;                                                                  \
     FILE *destination = fopen([destinationFilePath UTF8String], "wb");
     if (destination == NULL) {
         // *error = [NSError errorWithStringValue: @"Couldn't open destination file path."];
-        printf("");
-
+        
         fclose(source);
         
         CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
@@ -145,8 +140,7 @@ return NO;                                                                  \
             free(buffer);
             fclose(source);
             fclose(destination);
-            printf("");
-
+            
             CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileFailure);
             
             return NO;
@@ -200,7 +194,7 @@ goto cleanup;                                                                   
     
     
     BOOL requiresSplitting = !((dwFile.size <= FAT32_MAX_FILE_SIZE && self.destinationFilesystem == FilesystemFAT32) || self.destinationFilesystem == FilesystemExFAT);
-    NSString *_tempMovedWindowsImageFilePath = NULL;
+    BOOL imageMovedToTheTempFolder = NO;
     
     // Check if we can write Windows Image file without modifications
     if (!requiresSplitting) {
@@ -211,6 +205,7 @@ goto cleanup;                                                                   
         BOOL copyWasSuccessfull = [self copyFileWithDWFile: dwFile
                                        destinationFilePath: destinationPath
                                                 bufferSize: COPY_BUFFER_SIZE
+                                     ignoreFilesystemCheck: YES
                                                   callback: ^DWAction (uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
             
             latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
@@ -237,10 +232,10 @@ goto cleanup;                                                                   
         }
         
         if (self.skipSecurityChecks) {
-            NSString *randomFolderName = [NSString stringWithFormat:@"windiskwriter-%@", [HelperFunctions randomStringWithLength:10]];
+            NSString *randomFolderName = [NSString stringWithFormat:@"install-image-%@", [HelperFunctions randomStringWithLength:10]];
             
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
-            NSString *tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), randomFolderName]];
+            NSString *tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"windiskwriter", randomFolderName]];
             
             CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageCreateDirectoryProcess);
             
@@ -259,14 +254,15 @@ goto cleanup;                                                                   
             }
             
             // Setting the location for Windows Install Image to the NSTemporaryDirectory(). (Example: /var/folders/b2/zvoxm8cn7995b9jnt2love090000gn/T/windiskwriter-ABCDEFGHI1/install.wim)
-            _tempMovedWindowsImageFilePath = [tempDirectory stringByAppendingPathComponent: sourcePath.lastPathComponent];
+            sourcePath = [tempDirectory stringByAppendingPathComponent: sourcePath.lastPathComponent];
             
             __block DWAction latestAction = DWActionContinue;
             
             // Copying Windows Install File into a temporary directory
             BOOL copyWasSuccessfull = [self copyFileWithDWFile: dwFile
-                                           destinationFilePath: _tempMovedWindowsImageFilePath
+                                           destinationFilePath: sourcePath
                                                     bufferSize: COPY_BUFFER_SIZE
+                                         ignoreFilesystemCheck: NO
                                                       callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
@@ -274,11 +270,13 @@ goto cleanup;                                                                   
                 return latestAction;
             }];
             
+            imageMovedToTheTempFolder = YES;
+            
             // We don't need to continue unless copying wasn't successful. All further operations require a success from the previous operation.
             if (!copyWasSuccessfull) {
                 goto cleanup;
             }
-                        
+            
             if (latestAction == DWActionStop) {
                 goto cleanup;
             }
@@ -291,7 +289,7 @@ goto cleanup;                                                                   
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
                                             /* Choosing Windows Installer Image Path based on previous operations */
-                                            (_tempMovedWindowsImageFilePath ?: destinationPath)
+                                        imageMovedToTheTempFolder ? sourcePath : destinationPath
         ];
         
         BOOL *securityChecksSuccessfullyBypassed = [wimlibWrapper bypassWindowsSecurityChecks];
@@ -299,16 +297,14 @@ goto cleanup;                                                                   
         CallbackHandlerWithCleanup(dwFile.size, 0, securityChecksSuccessfullyBypassed ? DWMessageBypassWindowsSecurityChecksSuccess : DWMessageBypassWindowsSecurityChecksFailure);
     }
     
-    
-
-     // Splitting install.wim file in order to fit into FAT32 partition
+    // Splitting install.wim file in order to fit into FAT32 partition
     {
         UInt8 partsCount = ceil((double)dwFile.size / (double)FAT32_MAX_FILE_SIZE);
         UInt32 maxSliceSize = dwFile.size / partsCount;
         
         CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageSplitWindowsImageProcess);
         
-        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: (_tempMovedWindowsImageFilePath ?: destinationPath)];
+        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: sourcePath];
         enum wimlib_error_code wimlibReturnCode = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
                                                                                maxSliceSizeInBytes: maxSliceSize
                                                                                    progressHandler: NULL
@@ -320,8 +316,8 @@ goto cleanup;                                                                   
     operationWasSuccessful = YES;
     
 cleanup:
-    if (_tempMovedWindowsImageFilePath != NULL) {
-        [localFileManager removeItemAtPath: _tempMovedWindowsImageFilePath
+    if (imageMovedToTheTempFolder) {
+        [localFileManager removeItemAtPath: sourcePath
                                      error: NULL];
     }
     
@@ -331,21 +327,21 @@ cleanup:
 - (BOOL)startWritingWithError: (NSError **)error
              progressCallback: (NewDWCallback)progressCallback {
     
-#define DWCallbackHandler(currentFile, bytesWritten, message)    \
-switch (progressCallback(currentFile, bytesWritten, message)) {  \
-case DWActionContinue:                                           \
-break;                                                           \
-case DWActionStop:                                               \
-return NO;                                                       \
-case DWActionSkip:                                               \
-continue;                                                        \
+#define DWCallbackHandlerLoop(currentFile, bytesWritten, message)    \
+switch (progressCallback(currentFile, bytesWritten, message)) {      \
+case DWActionContinue:                                               \
+break;                                                               \
+case DWActionStop:                                                   \
+return NO;                                                           \
+case DWActionSkip:                                                   \
+continue;                                                            \
 }
-    
+
     if (![self commonErrorCheckerWithError:error]) {
         return NO;
     }
     
-    DWFile *installerWIMPackagePath = NULL;
+    DWFile *installerWIMPackageFile = NULL;
     BOOL hasEFIBootloader = NO;
     
     for (DWFile *currentFile in [self.filesContainer files]) {
@@ -356,7 +352,7 @@ continue;                                                        \
         
         // [Detected file type: Directory]
         if (currentFile.fileType == NSFileTypeDirectory) {
-            DWCallbackHandler(currentFile, 0, DWMessageCreateDirectoryProcess);
+            DWCallbackHandlerLoop(currentFile, 0, DWMessageCreateDirectoryProcess);
             
             NSError *createDirectoryError = NULL;
             BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteDestinationPath
@@ -364,13 +360,16 @@ continue;                                                        \
                                                                        attributes: NULL
                                                                             error: &createDirectoryError];
             
-            DWCallbackHandler(currentFile, 0, (directoryCreateSuccess ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
+            DWCallbackHandlerLoop(currentFile, 0, (directoryCreateSuccess ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
             
             continue;
         }
         
         // [Detected file type: Windows Install Image]
         if ([lastPathComponent hasOneOfTheSuffixes:@[@"install.wim", @"install.esd"]]) {
+            // We save the location of the Windows Install Image file for possible extraction of the EFI bootloader from it (if initially absent)
+            installerWIMPackageFile = currentFile;
+            
             __block DWAction lastAction = DWActionContinue;
             
             [self writeWindowsInstallWithDWFile: currentFile
@@ -378,8 +377,6 @@ continue;                                                        \
                                        callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 lastAction = progressCallback(currentFile, copiedBytes, dwMessage);
-                
-                printf("");
                 
                 return lastAction;
             }];
@@ -393,11 +390,18 @@ continue;                                                        \
         
         // [Detected file type: Regular File]
         {
+            // Check if there is a Windows bootloader for UEFI systems in the operating system files. (If it is missing, then later we will try to extract it from Install[.wim/.esd])
+            NSString *relativeSourcePathLowercase = currentFile.sourcePath.lowercaseString;
+            if (!hasEFIBootloader && [relativeSourcePathLowercase hasPrefix:@"efi/boot/boot"] && [relativeSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
+                hasEFIBootloader = YES;
+            }
+            
             __block DWAction lastAction = DWActionContinue;
             
             BOOL copyingWasSuccessfull = [self copyFileWithDWFile: currentFile
                                               destinationFilePath: absoluteDestinationPath
                                                        bufferSize: COPY_BUFFER_SIZE
+                                            ignoreFilesystemCheck: NO
                                                          callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 lastAction = progressCallback(currentFile, copiedBytes, dwMessage);
@@ -412,6 +416,31 @@ continue;                                                        \
             continue;
         }
     }
+    
+    if (installerWIMPackageFile && !hasEFIBootloader) {
+        switch (progressCallback(installerWIMPackageFile, 0, DWMessageExtractWindowsBootloaderProcess)) {
+            case DWActionContinue:
+                break;
+            case DWActionSkip:
+                goto postBootloaderExtract;
+            case DWActionStop:
+                return NO;
+        }
+        
+        NSString *bootloaderAbsolutePath = [self.filesContainer.containerPath stringByAppendingPathComponent: installerWIMPackageFile.sourcePath];
+        BOOL extractionSuccessful = [self extractBootloaderFromInstallFile: bootloaderAbsolutePath];
+        
+        switch (progressCallback(installerWIMPackageFile, 0, (extractionSuccessful ? DWMessageExtractWindowsBootloaderSuccess : DWMessageExtractWindowsBootloaderFailure))) {
+            case DWActionContinue:
+                break;
+            case DWActionSkip:
+                goto postBootloaderExtract;
+            case DWActionStop:
+                return NO;
+        }
+    }
+    
+postBootloaderExtract:
     
     return YES;
 }
