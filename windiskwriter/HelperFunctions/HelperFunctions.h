@@ -35,7 +35,7 @@ enum DestinationDeviceError {
 + (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
                                            isBSDDevice: (BOOL *_Nullable)isBSDDevice
                                                  error: (NSError *_Nullable *_Nullable)error;
-+ (NSString *)unitFormattedSizeFor: (CGFloat)doubleBytes;
++ (NSString *)unitFormattedSizeFor: (UInt64)bytes;
 @end
 
 NS_ASSUME_NONNULL_END

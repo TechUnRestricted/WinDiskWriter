@@ -464,15 +464,18 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeError];
                     break;
-                case DWMessageBypassWindowsSecurityChecksProcess:
+                case DWMessagePatchWindowsInstallerRequirementsProcess:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Patching security checks in Windows Image]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeLog];
                     break;
-                case DWMessageBypassWindowsSecurityChecksSuccess:
+                case DWMessagePatchWindowsInstallerRequirementsSuccess:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Security checks were successfully patched in Windows Image]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeSuccess];
                     break;
-                case DWMessageBypassWindowsSecurityChecksFailure:
+                case DWMessagePatchWindowsInstallerRequirementsNotRequired:
+                    
+                    break;
+                case DWMessagePatchWindowsInstallerRequirementsFailure:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't patch security checks in Windows Image]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeError];
                     break;
@@ -523,7 +526,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     /*
                      Old Cocoa is crap.
                      Can't do anything better ¯\_(ツ)_/¯.
-                     I need to support old OS X releases and maintain modern look.
+                     I need to support old OS X releases and maintain the modern look.
                      */
                     
                     SynchronizedAlertData *synchronizedAlertData = [[SynchronizedAlertData alloc] initWithSemaphore: dispatch_semaphore_create(0)];
@@ -763,7 +766,7 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
     skipSecurityChecksCheckboxView = [[CheckBoxView alloc] init]; {
         [mainVerticalLayout addView:skipSecurityChecksCheckboxView width:INFINITY height:skipSecurityChecksCheckboxView.cell.cellSize.height];
         
-        [skipSecurityChecksCheckboxView setTitle: @"Skip Security Checks"];
+        [skipSecurityChecksCheckboxView setTitle: @"Patch Installer Requirements"];
         [skipSecurityChecksCheckboxView setState: NSOffState];
     }
     

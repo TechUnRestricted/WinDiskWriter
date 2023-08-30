@@ -24,10 +24,93 @@
     return self;
 }
 
-- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
-                                        maxSliceSizeInBytes: (UInt64 * _Nonnull)maxSliceSizeInBytes
+- (UInt32)imagesCount {
+    if (currentWIM == NULL) {
+        return 0;
+    }
+    
+    return currentWIM->hdr.image_count;
+}
+
+- (NSString *_Nullable)propertyValueForKey: (NSString *)key
+                                imageIndex: (NSUInteger)imageIndex {
+    if (currentWIM == NULL) {
+        return NULL;
+    }
+    
+    return [NSString stringWithCString: wimlib_get_image_property(currentWIM, imageIndex, key.UTF8String)
+                              encoding: NSUTF8StringEncoding];
+}
+
+- (WimlibWrapperResult)setPropertyValue: (NSString *)value
+                                 forKey: (NSString *)key
+                             imageIndex: (UInt32)imageIndex {
+    if (currentWIM == NULL) {
+        return NO;
+    }
+    
+    NSString *currentValue = [self propertyValueForKey: key
+                                            imageIndex: imageIndex];
+    
+    if ([value isEqualToString:currentValue]) {
+        return WimlibWrapperResultSkipped;
+    }
+    
+    enum wimlib_error_code result = wimlib_set_image_property(currentWIM,
+                                                              imageIndex,
+                                                              [key cStringUsingEncoding: NSUTF8StringEncoding],
+                                                              [value cStringUsingEncoding: NSUTF8StringEncoding]);
+    
+    if (result != WIMLIB_ERR_SUCCESS) {
+        return WimlibWrapperResultFailure;
+    }
+    
+    return WimlibWrapperResultSuccess;
+}
+
+- (WimlibWrapperResult)setPropertyValueForAllImages: (NSString *)value
+                                             forKey: (NSString *)key {
+    
+    UInt32 imagesCount = [self imagesCount];
+    
+    BOOL requiresOverwriting = NO;
+    
+    for (UInt32 currentImageIndex = 1; currentImageIndex <= imagesCount; currentImageIndex++) {
+        WimlibWrapperResult setPropertyResult = [self setPropertyValue: value
+                                                                forKey: key
+                                                            imageIndex: currentImageIndex];
+        
+        switch (setPropertyResult) {
+            case WimlibWrapperResultSuccess:
+                requiresOverwriting = YES;
+                break;
+            case WimlibWrapperResultFailure:
+                return WimlibWrapperResultFailure;
+            case WimlibWrapperResultSkipped:
+                break;
+        }
+    }
+    
+    return requiresOverwriting ? WimlibWrapperResultSuccess : WimlibWrapperResultSkipped;
+}
+
+- (BOOL)applyChanges {
+    if (currentWIM == NULL) {
+        return NO;
+    }
+    
+    enum wimlib_error_code overwriteReturnCode = wimlib_overwrite(currentWIM, 0, 1);
+    
+    return overwriteReturnCode == WIMLIB_ERR_SUCCESS;
+}
+
+- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString *)destinationDirectoryPath
+                                        maxSliceSizeInBytes: (UInt64 *)maxSliceSizeInBytes
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler
                                                     context: (void *_Nullable)context {
+    if (currentWIM == NULL) {
+        return WIMLIB_ERR_ABORTED_BY_PROGRESS;
+    }
     
     if (progressHandler != NULL) {
         wimlib_register_progress_function(currentWIM, progressHandler, context);
@@ -43,12 +126,16 @@
 }
 
 - (enum wimlib_error_code)extractFiles: (NSArray *)files
-                  destinationDirectory: (NSString *)destinationDirectory {
+                  destinationDirectory: (NSString *)destinationDirectory
+                        fromImageIndex: (NSUInteger)imageIndex {
+    if (currentWIM == NULL) {
+        return NULL;
+    }
     
     CChar2DArray *filesArrayCCharEncoded = [[CChar2DArray alloc] initWithNSArray:files];
     
     return wimlib_extract_paths(currentWIM,
-                                1,
+                                imageIndex,
                                 [destinationDirectory UTF8String],
                                 [filesArrayCCharEncoded getArray],
                                 [files count],
@@ -56,45 +143,25 @@
                                 );
 }
 
-- (BOOL)bypassWindowsSecurityChecks {
-    UInt32 imageCount = currentWIM->hdr.image_count;
-    
-    char *propertyName = "WINDOWS/INSTALLATIONTYPE";
-    char *propertyValueToSet = "Server";
-    
-    BOOL anythingChanged = NO;
-    
-    // Image indexes are 1-based
-    for (UInt32 currentImageIndex = 1; currentImageIndex <= imageCount; currentImageIndex++) {
-        const char *currentValue = wimlib_get_image_property(currentWIM, currentImageIndex, propertyName);
-        
-        // Skipping the iteration if current image has the same Value
-        if (currentValue && !tstrcmp(currentValue, propertyValueToSet)) {
-            continue;
-        }
-        
-        enum wimlib_error_code result = wimlib_set_image_property(currentWIM,
-                                                                  currentImageIndex,
-                                                                  propertyName,
-                                                                  propertyValueToSet);
-        
-        if (result != WIMLIB_ERR_SUCCESS) {
-            return NO;
-        }
-        
-        anythingChanged = YES;
+- (WimlibWrapperResult)patchWindowsRequirementsChecks {
+    if (currentWIM == NULL) {
+        return WimlibWrapperResultFailure;
     }
     
-    // Applying changes if at least one property was changed successfully
-    if (anythingChanged) {
-        enum wimlib_error_code overwriteReturnCode = wimlib_overwrite(currentWIM, 0, 1);
-
-        if (overwriteReturnCode != WIMLIB_ERR_SUCCESS) {
-            return NO;
-        }
+    WimlibWrapperResult setPropertyResult = [self setPropertyValueForAllImages: @"Server"
+                                                                        forKey: @"WINDOWS/INSTALLATIONTYPE"];
+    
+    switch (setPropertyResult) {
+        case WimlibWrapperResultSkipped:
+        case WimlibWrapperResultFailure:
+            return setPropertyResult;
+        default:
+            break;
     }
     
-    return YES;
+    WimlibWrapperResult applyChangesResult = [self applyChanges];
+    
+    return applyChangesResult;
 }
 
 - (void)dealloc {
