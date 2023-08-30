@@ -29,9 +29,10 @@ typedef NS_ENUM(NSUInteger, DWMessage) {
     /* Optional for Windows 11 and up.
      Removes TPM and Secure Boot requirements by setting
      the types of all images inside install(.wim)/(.esd) to "Server" */
-    DWMessageBypassWindowsSecurityChecksProcess,
-    DWMessageBypassWindowsSecurityChecksSuccess,
-    DWMessageBypassWindowsSecurityChecksFailure,
+    DWMessagePatchWindowsInstallerRequirementsProcess,
+    DWMessagePatchWindowsInstallerRequirementsSuccess,
+    DWMessagePatchWindowsInstallerRequirementsNotRequired,
+    DWMessagePatchWindowsInstallerRequirementsFailure,
     
     DWMessageWriteFileProcess,
     DWMessageWriteFileSuccess,
@@ -68,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSString *_Nonnull destinationPath;
 @property (strong, nonatomic, readonly) BootMode _Nonnull bootMode;
 @property (strong, nonatomic, readonly) Filesystem _Nonnull destinationFilesystem;
-@property (nonatomic, readonly) BOOL skipSecurityChecks;
+@property (nonatomic, readonly) BOOL patchInstallerRequirements;
 
 - (instancetype _Nonnull )init NS_UNAVAILABLE;
 

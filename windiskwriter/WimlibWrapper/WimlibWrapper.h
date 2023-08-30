@@ -12,21 +12,44 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WimlibWrapper : NSObject
+
+typedef NS_ENUM(NSUInteger, WimlibWrapperResult) {
+    WimlibWrapperResultSuccess,
+    WimlibWrapperResultFailure,
+    WimlibWrapperResultSkipped
+};
+
+
 @property (strong, readonly, nonatomic) NSString *_Nonnull wimPath;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithWimPath: (NSString *)wimPath;
 
-- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString * _Nonnull)destinationDirectoryPath
-                                        maxSliceSizeInBytes: (UInt64 * _Nonnull)maxSliceSizeInBytes
+- (UInt32)imagesCount;
+
+- (NSString *_Nullable)propertyValueForKey: (NSString *)key
+                                imageIndex: (UInt32)imageIndex;
+
+- (WimlibWrapperResult)setPropertyValue: (NSString *)value
+                                            forKey: (NSString *)key
+                                        imageIndex: (UInt32)imageIndex;
+
+- (WimlibWrapperResult)setPropertyValueForAllImages: (NSString *)value
+                                                        forKey: (NSString *)key;
+
+- (BOOL)applyChanges;
+
+- (enum wimlib_error_code)splitWithDestinationDirectoryPath: (NSString *)destinationDirectoryPath
+                                        maxSliceSizeInBytes: (UInt64 *)maxSliceSizeInBytes
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler
                                                     context: (void *_Nullable)context;
 
 - (enum wimlib_error_code)extractFiles: (NSArray *)files
-                  destinationDirectory: (NSString *)destinationDirectory;
+                  destinationDirectory: (NSString *)destinationDirectory
+                       fromImageIndex: (NSUInteger)imageIndex;
 
-- (BOOL)bypassWindowsSecurityChecks;
+- (WimlibWrapperResult)patchWindowsRequirementsChecks;
 
 @end
 

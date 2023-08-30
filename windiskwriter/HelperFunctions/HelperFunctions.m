@@ -127,8 +127,9 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return NULL;
 }
 
-// TODO: Why it is a CGFloat? Change it to the NSUInteger!
-+ (NSString *)unitFormattedSizeFor: (CGFloat)doubleBytes {
++ (NSString *)unitFormattedSizeFor: (UInt64)bytes {
+    double doubleBytes = bytes;
+    
     NSArray *units = @[
         @"B", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB"
     ];

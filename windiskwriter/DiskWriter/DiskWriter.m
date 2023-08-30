@@ -34,18 +34,18 @@ const uint64_t COPY_BUFFER_SIZE = 8388608;
                                          bootMode: (BootMode _Nonnull)bootMode
                             destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem
                                skipSecurityChecks: (BOOL)skipSecurityChecks {
+    
+    // Just in case ¯\_(ツ)_/¯
     localFileManager = [NSFileManager defaultManager];
     
     _filesContainer = filesContainer;
     _destinationPath = destinationPath;
     _bootMode = bootMode;
     _destinationFilesystem = destinationFilesystem;
-    _skipSecurityChecks = skipSecurityChecks;
+    _patchInstallerRequirements = skipSecurityChecks;
     
     return self;
 }
-
-
 
 typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage);
 
@@ -231,7 +231,7 @@ goto cleanup;                                                                   
             goto cleanup;
         }
         
-        if (self.skipSecurityChecks) {
+        if (self.patchInstallerRequirements) {
             NSString *randomFolderName = [NSString stringWithFormat:@"install-image-%@", [HelperFunctions randomStringWithLength:10]];
             
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
@@ -283,22 +283,34 @@ goto cleanup;                                                                   
         }
     }
     
-    // Removing security checks on Windows Image (TPM + SecureBoot bypass)
-    if (self.skipSecurityChecks) {
-        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageBypassWindowsSecurityChecksProcess);
+    // Patching Windows Image Installer Requirements (Relevant primarily on Windows 11 and up)
+    if (self.patchInstallerRequirements) {
+        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessagePatchWindowsInstallerRequirementsProcess);
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
                                             /* Choosing Windows Installer Image Path based on previous operations */
                                         imageMovedToTheTempFolder ? sourcePath : destinationPath
         ];
         
-        BOOL *securityChecksSuccessfullyBypassed = [wimlibWrapper bypassWindowsSecurityChecks];
+        WimlibWrapperResult installerRequirementsPatchResult = [wimlibWrapper patchWindowsRequirementsChecks];
         
-        CallbackHandlerWithCleanup(dwFile.size, 0, securityChecksSuccessfullyBypassed ? DWMessageBypassWindowsSecurityChecksSuccess : DWMessageBypassWindowsSecurityChecksFailure);
+        DWMessage resultDWMessage;
+        switch (installerRequirementsPatchResult) {
+            case WimlibWrapperResultSuccess:
+                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsSuccess;
+                break;
+            case WimlibWrapperResultSkipped:
+                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsNotRequired;
+                break;
+            case WimlibWrapperResultFailure:
+                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsFailure;
+        }
+        
+        CallbackHandlerWithCleanup(dwFile.size, 0, resultDWMessage);
     }
     
     // Splitting install.wim file in order to fit into FAT32 partition
-    {
+    if (requiresSplitting) {
         UInt8 partsCount = ceil((double)dwFile.size / (double)FAT32_MAX_FILE_SIZE);
         UInt32 maxSliceSize = dwFile.size / partsCount;
         
@@ -336,7 +348,7 @@ return NO;                                                           \
 case DWActionSkip:                                                   \
 continue;                                                            \
 }
-
+    
     if (![self commonErrorCheckerWithError:error]) {
         return NO;
     }
@@ -417,7 +429,9 @@ continue;                                                            \
         }
     }
     
+    // Trying to extract a bootloader for (x86_64 systems only. There is no need to check for x86 or ARM binaries.)
     if (installerWIMPackageFile && !hasEFIBootloader) {
+        // Sadly, there is no way we can do it better without creating another macro
         switch (progressCallback(installerWIMPackageFile, 0, DWMessageExtractWindowsBootloaderProcess)) {
             case DWActionContinue:
                 break;
@@ -514,7 +528,8 @@ postBootloaderExtract:
     }
     
     enum wimlib_error_code extractResult = [wimlibWrapper extractFiles: @[@"/Windows/Boot/EFI/bootmgfw.efi"]
-                                                  destinationDirectory: bootloaderDestinationDirectory];
+                                                  destinationDirectory: bootloaderDestinationDirectory
+                                                        fromImageIndex: 1];
     
     if (extractResult != WIMLIB_ERR_SUCCESS) {
         return NO;
