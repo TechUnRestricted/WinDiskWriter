@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
 		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
+		E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E77E2A9FBAA3004643C1 /* MainWindow.m */; };
 		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
 		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
@@ -241,6 +242,8 @@
 		E20ABA6B299986BA007A651F /* WimlibWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WimlibWrapper.m; sourceTree = "<group>"; };
 		E20ABA6E29999278007A651F /* CChar2DArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CChar2DArray.h; sourceTree = "<group>"; };
 		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
+		E213E77D2A9FBAA3004643C1 /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		E213E77E2A9FBAA3004643C1 /* MainWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
 		E217F4632A90EC8300215AF1 /* IdentifiableMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentifiableMenuItem.h; sourceTree = "<group>"; };
 		E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentifiableMenuItem.m; sourceTree = "<group>"; };
 		E217F46B2A927E3400215AF1 /* NSError+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Common.h"; sourceTree = "<group>"; };
@@ -509,6 +512,15 @@
 				E20ABA6F29999278007A651F /* CChar2DArray.m */,
 			);
 			path = CChar2DArray;
+			sourceTree = "<group>";
+		};
+		E213E7802A9FBAA6004643C1 /* MainWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E213E77D2A9FBAA3004643C1 /* MainWindow.h */,
+				E213E77E2A9FBAA3004643C1 /* MainWindow.m */,
+			);
+			path = MainWindow;
 			sourceTree = "<group>";
 		};
 		E217F4662A90EC8800215AF1 /*  IdentifiableMenuItem */ = {
@@ -1439,6 +1451,7 @@
 			children = (
 				E217F47F2A92D85700215AF1 /* ModernWindow (Base) */,
 				E2F2D2B92A93D27800E1B7FF /* AboutWindow */,
+				E213E7802A9FBAA6004643C1 /* MainWindow */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -1676,6 +1689,7 @@
 				E2F2D2CD2A941ACC00E1B7FF /* Licenses-Constants.m in Sources */,
 				E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
+				E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */,
 				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,
 				E22E6C042A75D73700FD4BFD /* PickerView.m in Sources */,
