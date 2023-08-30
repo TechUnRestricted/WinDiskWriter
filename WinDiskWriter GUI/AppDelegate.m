@@ -464,6 +464,9 @@ typedef NS_OPTIONS(NSUInteger, NSViewAutoresizing) {
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeError];
                     break;
+                case DWMessageExtractWindowsBootloaderNotApplicable:
+                    
+                    break;
                 case DWMessagePatchWindowsInstallerRequirementsProcess:
                     [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Patching security checks in Windows Image]: [%@]", destinationCurrentFilePath]
                                                                 logType: ASLogTypeLog];

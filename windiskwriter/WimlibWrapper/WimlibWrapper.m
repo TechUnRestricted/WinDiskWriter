@@ -32,6 +32,39 @@
     return currentWIM->hdr.image_count;
 }
 
+- (WimLibWrapperCPUArch)CPUArchitectureForImageIndex: (UInt32)imageIndex {
+    if (currentWIM == NULL) {
+        return NULL;
+    }
+    
+    NSString *stringValue = [self propertyValueForKey: @"WINDOWS/ARCH"
+                                           imageIndex: imageIndex];
+    
+    if (stringValue == NULL) {
+        return WimLibWrapperCPUArchUnknown;
+    }
+    
+    NSInteger convertedIntegerValue = [stringValue integerValue];
+    
+    switch (convertedIntegerValue) {
+        case WimLibWrapperCPUArchIntel:
+        case WimLibWrapperCPUArchMIPS:
+        case WimLibWrapperCPUArchAlpha:
+        case WimLibWrapperCPUArchPPC:
+        case WimLibWrapperCPUArchSHX:
+        case WimLibWrapperCPUArchARM:
+        case WimLibWrapperCPUArchIA64:
+        case WimLibWrapperCPUArchAlpha64:
+        case WimLibWrapperCPUArchMSIL:
+        case WimLibWrapperCPUArchAMD64:
+        case WimLibWrapperCPUArchIA32OnWin64:
+        case WimLibWrapperCPUArchARM64:
+            return convertedIntegerValue;
+        default:
+            return WimLibWrapperCPUArchUnknown;
+    }
+}
+
 - (NSString *_Nullable)propertyValueForKey: (NSString *)key
                                 imageIndex: (NSUInteger)imageIndex {
     if (currentWIM == NULL) {
@@ -125,22 +158,54 @@
                         );
 }
 
-- (enum wimlib_error_code)extractFiles: (NSArray *)files
-                  destinationDirectory: (NSString *)destinationDirectory
-                        fromImageIndex: (NSUInteger)imageIndex {
+- (BOOL)extractFiles: (NSArray *)files
+destinationDirectory: (NSString *)destinationDirectory
+      fromImageIndex: (UInt32)imageIndex {
+    
     if (currentWIM == NULL) {
         return NULL;
     }
     
     CChar2DArray *filesArrayCCharEncoded = [[CChar2DArray alloc] initWithNSArray:files];
     
-    return wimlib_extract_paths(currentWIM,
-                                imageIndex,
-                                [destinationDirectory UTF8String],
-                                [filesArrayCCharEncoded getArray],
-                                [files count],
-                                WIMLIB_EXTRACT_FLAG_NO_PRESERVE_DIR_STRUCTURE
-                                );
+    enum wimlib_error_code extractionResult = wimlib_extract_paths(currentWIM,
+                                                                   imageIndex,
+                                                                   [destinationDirectory UTF8String],
+                                                                   [filesArrayCCharEncoded getArray],
+                                                                   [files count],
+                                                                   WIMLIB_EXTRACT_FLAG_NO_PRESERVE_DIR_STRUCTURE
+                                                                   );
+    
+    return extractionResult == WIMLIB_ERR_SUCCESS;
+}
+
+- (WimlibWrapperResult)extractWindowsEFIBootloaderForDestinationDirectory: (NSString *)destinationDirectory {
+    UInt32 imagesCount = [self imagesCount];
+    
+    for (UInt32 currentImageIndex = 1; currentImageIndex <= imagesCount; currentImageIndex++) {
+        if ([self CPUArchitectureForImageIndex:currentImageIndex] != WimLibWrapperCPUArchAMD64) {
+            continue;
+        }
+        
+        BOOL bootloaderExtractionResult = [self extractFiles: @[@"/Windows/Boot/EFI/bootmgfw.efi"]
+                                        destinationDirectory: destinationDirectory
+                                              fromImageIndex: currentImageIndex];
+        
+        if (!bootloaderExtractionResult) {
+            return WimlibWrapperResultFailure;
+        }
+        
+        BOOL bootloaderRanamingSuccess = [NSFileManager.defaultManager moveItemAtPath: [destinationDirectory stringByAppendingPathComponent: @"bootmgfw.efi"]
+                                                                               toPath: [destinationDirectory stringByAppendingPathComponent: @"bootx64.efi"]
+                                                                                error: NULL];
+        if (!bootloaderRanamingSuccess) {
+            return NO;
+        }
+        
+        return WimlibWrapperResultSuccess;
+    }
+    
+    return WimlibWrapperResultSkipped;
 }
 
 - (WimlibWrapperResult)patchWindowsRequirementsChecks {

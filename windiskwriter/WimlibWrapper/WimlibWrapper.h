@@ -19,6 +19,21 @@ typedef NS_ENUM(NSUInteger, WimlibWrapperResult) {
     WimlibWrapperResultSkipped
 };
 
+typedef NS_ENUM(NSInteger, WimLibWrapperCPUArch) {
+    WimLibWrapperCPUArchUnknown = -1,
+    WimLibWrapperCPUArchIntel = 0,
+    WimLibWrapperCPUArchMIPS = 1,
+    WimLibWrapperCPUArchAlpha = 2,
+    WimLibWrapperCPUArchPPC = 3,
+    WimLibWrapperCPUArchSHX = 4,
+    WimLibWrapperCPUArchARM = 5,
+    WimLibWrapperCPUArchIA64 = 6,
+    WimLibWrapperCPUArchAlpha64 = 7,
+    WimLibWrapperCPUArchMSIL = 8,
+    WimLibWrapperCPUArchAMD64 = 9,
+    WimLibWrapperCPUArchIA32OnWin64 = 10,
+    WimLibWrapperCPUArchARM64 = 12,
+};
 
 @property (strong, readonly, nonatomic) NSString *_Nonnull wimPath;
 
@@ -32,11 +47,11 @@ typedef NS_ENUM(NSUInteger, WimlibWrapperResult) {
                                 imageIndex: (UInt32)imageIndex;
 
 - (WimlibWrapperResult)setPropertyValue: (NSString *)value
-                                            forKey: (NSString *)key
-                                        imageIndex: (UInt32)imageIndex;
+                                 forKey: (NSString *)key
+                             imageIndex: (UInt32)imageIndex;
 
 - (WimlibWrapperResult)setPropertyValueForAllImages: (NSString *)value
-                                                        forKey: (NSString *)key;
+                                             forKey: (NSString *)key;
 
 - (BOOL)applyChanges;
 
@@ -45,9 +60,11 @@ typedef NS_ENUM(NSUInteger, WimlibWrapperResult) {
                                             progressHandler: (wimlib_progress_func_t _Nullable)progressHandler
                                                     context: (void *_Nullable)context;
 
-- (enum wimlib_error_code)extractFiles: (NSArray *)files
-                  destinationDirectory: (NSString *)destinationDirectory
-                       fromImageIndex: (NSUInteger)imageIndex;
+- (BOOL)extractFiles: (NSArray *)files
+destinationDirectory: (NSString *)destinationDirectory
+      fromImageIndex: (UInt32)imageIndex;
+
+- (WimlibWrapperResult)extractWindowsEFIBootloaderForDestinationDirectory: (NSString *)destinationDirectory;
 
 - (WimlibWrapperResult)patchWindowsRequirementsChecks;
 

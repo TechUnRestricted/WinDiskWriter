@@ -6,7 +6,6 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "DWAction.h"
 #import "DWProgress.h"
 
 #import "BootModes.h"
@@ -25,6 +24,9 @@ typedef NS_ENUM(NSUInteger, DWMessage) {
     DWMessageExtractWindowsBootloaderProcess,
     DWMessageExtractWindowsBootloaderSuccess,
     DWMessageExtractWindowsBootloaderFailure,
+
+    // If the architecture of the current image in the installation file is not x86_64
+    DWMessageExtractWindowsBootloaderNotApplicable,
     
     /* Optional for Windows 11 and up.
      Removes TPM and Secure Boot requirements by setting
