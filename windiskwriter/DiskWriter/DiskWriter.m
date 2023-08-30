@@ -441,10 +441,27 @@ continue;                                                            \
                 return NO;
         }
         
-        NSString *bootloaderAbsolutePath = [self.filesContainer.containerPath stringByAppendingPathComponent: installerWIMPackageFile.sourcePath];
-        BOOL extractionSuccessful = [self extractBootloaderFromInstallFile: bootloaderAbsolutePath];
+        NSString *installImageAbsolutePath = [self.filesContainer.containerPath stringByAppendingPathComponent: installerWIMPackageFile.sourcePath];
         
-        switch (progressCallback(installerWIMPackageFile, 0, (extractionSuccessful ? DWMessageExtractWindowsBootloaderSuccess : DWMessageExtractWindowsBootloaderFailure))) {
+        NSString *extractedEFIBootloaderDestinationDirectory = [self.destinationPath stringByAppendingPathComponent: @"efi/boot/"];
+        
+        WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:installImageAbsolutePath];
+        WimlibWrapperResult wimlibWrapperExtractionResult = [wimlibWrapper extractWindowsEFIBootloaderForDestinationDirectory:extractedEFIBootloaderDestinationDirectory];
+        
+        DWMessage resultDWMessage;
+        switch (wimlibWrapperExtractionResult) {
+            case WimlibWrapperResultSuccess:
+                resultDWMessage = DWMessageExtractWindowsBootloaderSuccess;
+                break;
+            case WimlibWrapperResultFailure:
+                resultDWMessage = DWMessageExtractWindowsBootloaderFailure;
+                break;
+            case WimlibWrapperResultSkipped:
+                resultDWMessage = DWMessageExtractWindowsBootloaderNotApplicable;
+                break;
+        }
+        
+        switch (progressCallback(installerWIMPackageFile, 0, resultDWMessage)) {
             case DWActionContinue:
                 break;
             case DWActionSkip:
@@ -505,46 +522,6 @@ postBootloaderExtract:
     
     return [[filesystemAttributes objectForKey: NSFileSystemFreeSize] longLongValue];
 }
-
-
-- (BOOL)commonWriteWithError: (NSError *_Nonnull *_Nonnull)error
-                    callback: (DWCallback _Nonnull)callback {
-    
-    return YES;
-}
-
-- (BOOL)extractBootloaderFromInstallFile: (NSString *_Nonnull)installFile {
-    WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: installFile];
-    
-    NSString *bootloaderDestinationDirectory = [self.destinationPath stringByAppendingPathComponent: @"efi/boot/"];
-    
-    BOOL directoryCreationSuccessful = [localFileManager createDirectoryAtPath: bootloaderDestinationDirectory
-                                                   withIntermediateDirectories: YES
-                                                                    attributes: NULL
-                                                                         error: NULL];
-    
-    if (!directoryCreationSuccessful) {
-        return NO;
-    }
-    
-    enum wimlib_error_code extractResult = [wimlibWrapper extractFiles: @[@"/Windows/Boot/EFI/bootmgfw.efi"]
-                                                  destinationDirectory: bootloaderDestinationDirectory
-                                                        fromImageIndex: 1];
-    
-    if (extractResult != WIMLIB_ERR_SUCCESS) {
-        return NO;
-    }
-    
-    BOOL bootloaderRanamingSuccess = [localFileManager moveItemAtPath: [bootloaderDestinationDirectory stringByAppendingPathComponent: @"bootmgfw.efi"]
-                                                               toPath: [bootloaderDestinationDirectory stringByAppendingPathComponent: @"bootx64.efi"]
-                                                                error: NULL];
-    if (!bootloaderRanamingSuccess) {
-        return NO;
-    }
-    
-    return YES;
-}
-
 
 - (BOOL)writeWindows_8_10_ISOWithError: (NSError *_Nonnull *_Nonnull)error
                               callback: (DWCallback _Nonnull)callback {

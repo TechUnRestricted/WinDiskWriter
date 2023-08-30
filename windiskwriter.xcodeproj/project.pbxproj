@@ -237,7 +237,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E205A45729A6412300FE5B72 /* DWAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWAction.h; sourceTree = "<group>"; };
 		E20ABA6A299986BA007A651F /* WimlibWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WimlibWrapper.h; sourceTree = "<group>"; };
 		E20ABA6B299986BA007A651F /* WimlibWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WimlibWrapper.m; sourceTree = "<group>"; };
 		E20ABA6E29999278007A651F /* CChar2DArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CChar2DArray.h; sourceTree = "<group>"; };
@@ -1356,7 +1355,6 @@
 				E2BEF1462A9B6FAC0083A7AA /* DWProgress */,
 				E2CCB2752982C7A4004EE171 /* DiskWriter.m */,
 				E2CCB2772982C7B1004EE171 /* DiskWriter.h */,
-				E205A45729A6412300FE5B72 /* DWAction.h */,
 			);
 			path = DiskWriter;
 			sourceTree = "<group>";

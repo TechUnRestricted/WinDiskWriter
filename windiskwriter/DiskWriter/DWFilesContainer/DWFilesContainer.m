@@ -7,7 +7,16 @@
 //
 
 #import "DWFilesContainer.h"
-#import "DWFile.h"
+
+#define DWCallbackLoopHandler(callback, currentFile, message)  \
+    switch (callback(currentFile, message)) {                  \
+        case DWActionSkip:                                     \
+            continue;                                          \
+        case DWActionContinue:                                 \
+            break;                                             \
+        default:                                               \
+            return NULL;                                       \
+    }                                                          \
 
 @implementation DWFilesContainer
 
