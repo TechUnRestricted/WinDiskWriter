@@ -59,20 +59,39 @@
 - (BOOL)bypassWindowsSecurityChecks {
     UInt32 imageCount = currentWIM->hdr.image_count;
     
+    char *propertyName = "WINDOWS/INSTALLATIONTYPE";
+    char *propertyValueToSet = "Server";
+    
+    BOOL anythingChanged = NO;
+    
     // Image indexes are 1-based
     for (UInt32 currentImageIndex = 1; currentImageIndex <= imageCount; currentImageIndex++) {
-        char *propertyName = "WINDOWS/INSTALLATIONTYPE";
-        char *propertyValue = "Server";
+        const char *currentValue = wimlib_get_image_property(currentWIM, currentImageIndex, propertyName);
+        
+        // Skipping the iteration if current image has the same Value
+        if (currentValue && !tstrcmp(currentValue, propertyValueToSet)) {
+            continue;
+        }
         
         enum wimlib_error_code result = wimlib_set_image_property(currentWIM,
                                                                   currentImageIndex,
                                                                   propertyName,
-                                                                  propertyValue);
+                                                                  propertyValueToSet);
         
-        if (result != WIMLIB_ERR_SUCCESS && result != WIMLIB_ERR_IMAGE_NAME_COLLISION) {
+        if (result != WIMLIB_ERR_SUCCESS) {
             return NO;
         }
         
+        anythingChanged = YES;
+    }
+    
+    // Applying changes if at least one property was changed successfully
+    if (anythingChanged) {
+        enum wimlib_error_code overwriteReturnCode = wimlib_overwrite(currentWIM, 0, 1);
+
+        if (overwriteReturnCode != WIMLIB_ERR_SUCCESS) {
+            return NO;
+        }
     }
     
     return YES;
