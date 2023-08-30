@@ -71,7 +71,13 @@
         return NULL;
     }
     
-    return [NSString stringWithCString: wimlib_get_image_property(currentWIM, imageIndex, key.UTF8String)
+    char *value = wimlib_get_image_property(currentWIM, imageIndex, key.UTF8String);
+    
+    if (value == NULL) {
+        return NULL;
+    }
+    
+    return [NSString stringWithCString: value
                               encoding: NSUTF8StringEncoding];
 }
 
@@ -84,6 +90,10 @@
     
     NSString *currentValue = [self propertyValueForKey: key
                                             imageIndex: imageIndex];
+    
+    if (currentValue == NULL) {
+        return WimlibWrapperResultSkipped;
+    }
     
     if ([value isEqualToString:currentValue]) {
         return WimlibWrapperResultSkipped;
@@ -224,9 +234,9 @@ destinationDirectory: (NSString *)destinationDirectory
             break;
     }
     
-    WimlibWrapperResult applyChangesResult = [self applyChanges];
+    BOOL applyChangesResult = [self applyChanges];
     
-    return applyChangesResult;
+    return applyChangesResult ? WimlibWrapperResultSuccess : WimlibWrapperResultFailure;
 }
 
 - (void)dealloc {
