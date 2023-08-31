@@ -7,15 +7,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "62B3399F-FC58-4902-9A9A-824A3D67174D"
+            uuid = "EA67D353-8151-4782-9C4C-A0A1D3337DEF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "windiskwriter/DiskWriter/DiskWriter.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
+            landmarkName = "-writeWindowsInstallWithDWFile:destinationPath:callback:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8052D8C6-1797-4880-B2B7-EC2D111E590F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "windiskwriter/DiskWriter/DiskWriter.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "-writeWindowsInstallWithDWFile:destinationPath:callback:"
             landmarkType = "7">
          </BreakpointContent>

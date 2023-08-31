@@ -8,6 +8,7 @@
 
 #import "WimlibWrapper.h"
 #import "CChar2DArray.h"
+#import "WimlibSplitInfo.h"
 #import "wimlib.h"
 #import "wim.h"
 #import "xml.h"
@@ -167,6 +168,57 @@
                         NULL
                         );
 }
+
+enum wimlib_progress_status defaultSplitProgress(enum wimlib_progress_msg msg, union wimlib_progress_info *info, void *context) {
+    WimlibSplitInfo *contextWimlibSplitStatus = (__bridge WimlibSplitInfo *)(context);
+
+    switch (msg) {
+        case WIMLIB_PROGRESS_MSG_WRITE_STREAMS: {
+            UInt64 bytesTotal = contextWimlibSplitStatus.lastSplittedPartInfo.total_bytes;
+            UInt64 bytesWritten = info->write_streams.completed_compressed_bytes + contextWimlibSplitStatus.lastSplittedPartInfo.completed_bytes;
+
+            UInt32 totalPartsCount = contextWimlibSplitStatus.lastSplittedPartInfo.total_parts;
+            UInt32 currentPartNumber = contextWimlibSplitStatus.lastSplittedPartInfo.cur_part_number;
+            
+            BOOL shouldContinue = contextWimlibSplitStatus.callback(totalPartsCount, currentPartNumber, bytesWritten, bytesTotal);
+            
+            if (!shouldContinue) {
+                return WIMLIB_PROGRESS_STATUS_ABORT;
+            }
+        }
+            
+            break;
+        case WIMLIB_PROGRESS_MSG_SPLIT_BEGIN_PART:
+        case WIMLIB_PROGRESS_MSG_SPLIT_END_PART:
+            [contextWimlibSplitStatus setLastSplittedPartInfo: info->split];
+            break;
+    }
+        
+    return WIMLIB_PROGRESS_STATUS_CONTINUE;
+}
+
+- (WimlibWrapperResult)splitWithDestinationDirectoryPath: (NSString *)destinationDirectoryPath
+                                     maxSliceSizeInBytes: (UInt64 *)maxSliceSizeInBytes
+                                                callback: (WimLibWrapperSplitImageCallback)callback {
+    
+    WimlibSplitInfo *wimlibSplitInfo = [[WimlibSplitInfo alloc] initWithCallback: callback];
+    
+    enum wimlib_error_code wimlibSplitStatus = [self splitWithDestinationDirectoryPath: destinationDirectoryPath
+                                                                   maxSliceSizeInBytes: maxSliceSizeInBytes
+                                                                       progressHandler: defaultSplitProgress
+                                                                               context: (__bridge void * _Nullable)(wimlibSplitInfo)];
+        
+    switch (wimlibSplitStatus) {
+        case WIMLIB_ERR_SUCCESS:
+            return WimlibWrapperResultSuccess;
+        case WIMLIB_ERR_ABORTED_BY_PROGRESS:
+            return WimlibWrapperResultSkipped;
+        default:
+            return WimlibWrapperResultFailure;
+    }
+
+}
+
 
 - (BOOL)extractFiles: (NSArray *)files
 destinationDirectory: (NSString *)destinationDirectory

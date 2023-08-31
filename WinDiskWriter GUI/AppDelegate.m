@@ -7,50 +7,15 @@
 //
 
 #import "AppDelegate.h"
-#import "FrameLayout.h"
-#import "LabelView.h"
-#import "ButtonView.h"
-#import "PickerView.h"
-#import "TextInputView.h"
-#import "CheckBoxView.h"
-#import "AdvancedTextView.h"
-#import "ProgressBarView.h"
-
-#import "SynchronizedAlertData.h"
-
-#import "NSColor+Common.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
 
 #import "Constants.h"
 
-#import "DiskManager.h"
-#import "DiskWriter.h"
-#import "HDIUtil.h"
-
-#import "HelperFunctions.h"
-
-#import "ModernWindow.h"
 #import "AboutWindow.h"
 #import "MainWindow.h"
 
 @implementation AppDelegate {
-    /* Initialized in -applicationDidFinishLaunching: */
-    TextInputView *windowsImageInputView;
-    ButtonView *chooseWindowsImageButtonView;
-    
-    PickerView *devicePickerView;
-    ButtonView *updateDeviceListButtonView;
-    
-    CheckBoxView *skipSecurityChecksCheckboxView;
-    NSSegmentedControl *filesystemPickerSegmentedControl;
-    NSSegmentedControl *partitionSchemePickerSegmentedControl;
-    
-    AdvancedTextView *logsAutoScrollTextView;
-    
-    ButtonView *startStopButtonView;
-    ProgressBarView *progressBarView;
-    
     MainWindow *mainWindow;
     AboutWindow *aboutWindow;
     
@@ -154,9 +119,9 @@
         NSSize maxWindowSize = CGSizeMake(500, 650);
         
         mainWindow = [[MainWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
-                                                    title: APPLICATION_NAME
-                                                  padding: CHILD_CONTENT_SPACING
-                                            aboutWindow:aboutWindow];
+                                                  title: APPLICATION_NAME
+                                                padding: CHILD_CONTENT_SPACING
+                                            aboutWindow: aboutWindow];
         
         [mainWindow setMinSize: minWindowSize];
         [mainWindow setMaxSize: maxWindowSize];

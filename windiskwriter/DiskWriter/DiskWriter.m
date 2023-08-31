@@ -66,6 +66,19 @@ case DWActionSkip:                                                          \
 case DWActionStop:                                                          \
 return NO;                                                                  \
 }
+
+#define CallbackHandlerWithCleanupOnStop(originalFileSizeBytes, writtenBytes, dwMessage)    \
+switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {                         \
+case DWActionContinue:                                                                      \
+break;                                                                                      \
+case DWActionSkip:                                                                          \
+case DWActionStop: {                                                                        \
+free(buffer);                                                                               \
+fclose(source);                                                                             \
+fclose(destination);                                                                        \
+return NO;                                                                                  \
+}                                                                                           \
+}
     
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
     
@@ -121,7 +134,7 @@ return NO;                                                                  \
     uint64_t bytesRead = 0;
     uint64_t bytesWritten = 0;
     
-    CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileProcess);
+    CallbackHandlerWithCleanupOnStop(sourceSize, bytesWritten, DWMessageWriteFileProcess);
     
     // Copy the file using the buffer
     while (true) {
@@ -150,7 +163,7 @@ return NO;                                                                  \
         bytesRead += read_size;
         bytesWritten += write_size;
         
-        CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileProcess);
+        CallbackHandlerWithCleanupOnStop(sourceSize, bytesWritten, DWMessageWriteFileProcess);
     }
     
     // Free the buffer and close the files
@@ -266,9 +279,7 @@ goto cleanup;                                                                   
                                                       callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
                 
                 latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
-                
-                printf("");
-                
+                                
                 return latestAction;
             }];
             
@@ -319,12 +330,26 @@ goto cleanup;                                                                   
         CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageSplitWindowsImageProcess);
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: sourcePath];
-        enum wimlib_error_code wimlibReturnCode = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
-                                                                               maxSliceSizeInBytes: maxSliceSize
-                                                                                   progressHandler: NULL
-                                                                                           context: NULL];
         
-        CallbackHandlerWithCleanup(dwFile.size, 0, (wimlibReturnCode == WIMLIB_ERR_SUCCESS) ? DWMessageSplitWindowsImageSuccess : DWMessageSplitWindowsImageFailure);
+        __block DWAction lastAction = DWActionContinue;
+        
+        __block BOOL isFirstCall = YES;
+        WimlibWrapperResult *splitImageResult = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
+                                                                             maxSliceSizeInBytes: maxSliceSize
+                                                                                        callback: ^BOOL(uint32_t totalPartsCount, uint32 currentPartNumber, uint64 bytesWritten, uint64 bytesTotal) {
+            
+            if (isFirstCall) {
+                [dwFile setSize:bytesTotal];
+                
+                isFirstCall = NO;
+            }
+            
+            lastAction = callback(dwFile, bytesWritten, lastAction);
+            
+            return lastAction == DWActionContinue;
+        }];
+        
+        CallbackHandlerWithCleanup(dwFile.size, 0, (splitImageResult == WimlibWrapperResultFailure) ? DWMessageSplitWindowsImageFailure : DWMessageSplitWindowsImageSuccess);
     }
     
     operationWasSuccessful = YES;
