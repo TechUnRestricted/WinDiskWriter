@@ -10,6 +10,8 @@
 		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
 		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
 		E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E77E2A9FBAA3004643C1 /* MainWindow.m */; };
+		E213E7862AA0B501004643C1 /* WimlibSplitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */; };
+		E213E7872AA0B501004643C1 /* WimlibSplitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */; };
 		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
 		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
@@ -244,6 +246,8 @@
 		E20ABA6F29999278007A651F /* CChar2DArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CChar2DArray.m; sourceTree = "<group>"; };
 		E213E77D2A9FBAA3004643C1 /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
 		E213E77E2A9FBAA3004643C1 /* MainWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
+		E213E7842AA0B501004643C1 /* WimlibSplitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WimlibSplitInfo.h; sourceTree = "<group>"; };
+		E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WimlibSplitInfo.m; sourceTree = "<group>"; };
 		E217F4632A90EC8300215AF1 /* IdentifiableMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentifiableMenuItem.h; sourceTree = "<group>"; };
 		E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentifiableMenuItem.m; sourceTree = "<group>"; };
 		E217F46B2A927E3400215AF1 /* NSError+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Common.h"; sourceTree = "<group>"; };
@@ -499,6 +503,7 @@
 		E20ABA6929998685007A651F /* WimlibWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				E213E7882AA0B505004643C1 /* WimlibSplitInfo */,
 				E20ABA6A299986BA007A651F /* WimlibWrapper.h */,
 				E20ABA6B299986BA007A651F /* WimlibWrapper.m */,
 			);
@@ -521,6 +526,15 @@
 				E213E77E2A9FBAA3004643C1 /* MainWindow.m */,
 			);
 			path = MainWindow;
+			sourceTree = "<group>";
+		};
+		E213E7882AA0B505004643C1 /* WimlibSplitInfo */ = {
+			isa = PBXGroup;
+			children = (
+				E213E7842AA0B501004643C1 /* WimlibSplitInfo.h */,
+				E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */,
+			);
+			path = WimlibSplitInfo;
 			sourceTree = "<group>";
 		};
 		E217F4662A90EC8800215AF1 /*  IdentifiableMenuItem */ = {
@@ -1598,6 +1612,7 @@
 				E2DF0F632A894CAB00339DDB /* reparse.c in Sources */,
 				E2DF0F642A894CAB00339DDB /* xml_windows.c in Sources */,
 				E2DF0F652A894CAB00339DDB /* x86_cpu_features.c in Sources */,
+				E213E7872AA0B501004643C1 /* WimlibSplitInfo.m in Sources */,
 				E2DF0F662A894CAB00339DDB /* lzms_common.c in Sources */,
 				E2DF0F672A894CAB00339DDB /* file_io.c in Sources */,
 				E2DF0F682A894CAB00339DDB /* paths.c in Sources */,
@@ -1705,6 +1720,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2247B532986FA1E000B24A1 /* timestamp.c in Sources */,
+				E213E7862AA0B501004643C1 /* WimlibSplitInfo.m in Sources */,
 				E2247B542986FA1E000B24A1 /* compress_parallel.c in Sources */,
 				E2247B1C2986FA1D000B24A1 /* unix_capture.c in Sources */,
 				E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */,
