@@ -68,12 +68,15 @@ WriteExitForce();                 \
 - (instancetype)initWithNSRect: (NSRect)nsRect
                          title: (NSString *)title
                        padding: (CGFloat)padding
-                   aboutWindow: (AboutWindow *)aboutWindow {
+                   aboutWindow: (AboutWindow *)aboutWindow
+                  quitMenuItem: quitMenuItem {
+    
     self = [super initWithNSRect: nsRect
                            title: title
                          padding: padding];
     
     self->aboutWindow = aboutWindow;
+    self->quitMenuItem = quitMenuItem;
     
     NSButton *windowZoomButton = [self standardWindowButton:NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];
@@ -525,7 +528,7 @@ WriteExitForce();                 \
         __block NSUInteger diskWriterErrorsCount = 0;
         
         [diskWriter startWritingWithError: &writeError
-                         progressCallback: ^DWAction(DWFile * _Nonnull file, uint64_t copiedBytes, DWMessage message) {
+                         progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
             if (self.isScheduledForStop) {
                 // [self setIsScheduledForStop: NO];
                 // [self setEnabledUIState: YES];
@@ -533,165 +536,90 @@ WriteExitForce();                 \
                 return DWActionStop;
             }
             
-            NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: file.sourcePath];
+            NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: dwFile.sourcePath];
             
-            printf("[%s / %s] Copying file: \"%s\".\n",
-                   [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String,
-                   file.unitFormattedSize.UTF8String,
-                   destinationCurrentFilePath.UTF8String
-                   );
-            
-            switch (message) {
-                case DWMessageCreateDirectoryProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Creating Directory]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeLog];
+            switch (operationResult) {
+                case DWOperationResultStart:
+                    printf("[START:] ");
                     break;
-                case DWMessageCreateDirectorySuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Directory successfully created]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeSuccess];
-                    
-                    [self->progressBarView incrementBySynchronously:1];
-                    
+                case DWOperationResultProcess:
+                    printf("[Process: %s/%s] ", [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String, dwFile.unitFormattedSize.UTF8String);
                     break;
-                case DWMessageCreateDirectoryFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't create Directory]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeError];
+                case DWOperationResultSuccess:
+                    printf("[Success:] ");
                     break;
-                case DWMessageSplitWindowsImageProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Splitting Windows Image]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeLog];
+                case DWOperationResultFailure:
+                    printf("[FAILURE:] ");
                     break;
-                case DWMessageSplitWindowsImageSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Image successfully splitted]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeSuccess];
-                    
-                    [self->progressBarView incrementBySynchronously:1];
-                    
-                    break;
-                case DWMessageSplitWindowsImageFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't split Windows Image]: [%@ (.swm)] {File Size: %@}", destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageExtractWindowsBootloaderProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Extracting Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeLog];
-                    break;
-                case DWMessageExtractWindowsBootloaderSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows Bootloader successfully extracted from the Install file]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeSuccess];
-                    
-                    [self->progressBarView incrementBySynchronously:1];
-                    
-                    break;
-                case DWMessageExtractWindowsBootloaderFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't extract Windows Bootloader from the Install file]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageExtractWindowsBootloaderNotApplicable:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Windows bootloader extraction is not applicable for the current image]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessagePatchWindowsInstallerRequirementsProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Patching security checks in Windows Image]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeLog];
-                    break;
-                case DWMessagePatchWindowsInstallerRequirementsSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Security checks were successfully patched in Windows Image]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeSuccess];
-                    break;
-                case DWMessagePatchWindowsInstallerRequirementsNotRequired:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Removing hardware requirements is not required for this Windows image]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessagePatchWindowsInstallerRequirementsFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't patch security checks in Windows Image]: [%@]", destinationCurrentFilePath]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageWriteFileProcess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Writing File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeLog];
-                    break;
-                case DWMessageWriteFileSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File was successfully written]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeSuccess];
-                    
-                    [self->progressBarView incrementBySynchronously:1];
-                    
-                    break;
-                case DWMessageWriteFileFailure:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Can't write File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageFileIsTooLarge:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File is too large]: [%@] {File Size: %@}", file.sourcePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageUnsupportedOperation:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[Unsupported operation with this type of File]: [%@ → %@] {File Size: %@}", file.sourcePath, destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeError];
-                    break;
-                case DWMessageEntityAlreadyExists:
-                    [self->logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"[File already exists]: [%@] {File Size: %@}",  destinationCurrentFilePath, file.unitFormattedSize]
-                                                                logType: ASLogTypeError];
+                case DWOperationResultSkipped:
+                    printf("[Skipped:] ");
                     break;
             }
             
-            /*
-             Asking user if they want to interrupt the writing process
-             if something went wrong while copying the file
-             */
+            switch (operationType) {
+                case DWOperationTypeCreateDirectory:
+                    printf("Create Directory: ");
+                    break;
+                case DWOperationTypeWriteFile:
+                    printf("Write File: ");
+                    break;
+                case DWOperationTypeSplitWindowsImage:
+                    printf("Split Image: ");
+                    break;
+                case DWOperationTypeExtractWindowsBootloader:
+                    printf("Extract Bootloader: ");
+                    break;
+                case DWOperationTypePatchWindowsInstallerRequirements:
+                    printf("Patch Installer Requirements: ");
+                    break;
+            }
             
-            switch (message) {
-                case DWMessageCreateDirectoryFailure:
-                case DWMessageSplitWindowsImageFailure:
-                case DWMessageExtractWindowsBootloaderFailure:
-                case DWMessageWriteFileFailure:
-                case DWMessageFileIsTooLarge:
-                case DWMessageUnsupportedOperation:
-                case DWMessageEntityAlreadyExists:
-                case DWMessagePatchWindowsInstallerRequirementsFailure: {
-                    diskWriterErrorsCount += 1;
+            printf("[%s]", destinationCurrentFilePath.UTF8String);
+            
+            printf("\n");
+            
+            if (operationResult == DWOperationResultFailure) {
+                diskWriterErrorsCount += 1;
+                
+                /*
+                 Old Cocoa is crap.
+                 Can't do anything better ¯\_(ツ)_/¯.
+                 I need to support old OS X releases and maintain the modern look.
+                 */
+                
+                SynchronizedAlertData *synchronizedAlertData = [[SynchronizedAlertData alloc] initWithSemaphore: dispatch_semaphore_create(0)];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    /*
-                     Old Cocoa is crap.
-                     Can't do anything better ¯\_(ツ)_/¯.
-                     I need to support old OS X releases and maintain the modern look.
-                     */
+                    [self removeAttachedSheetWithReturnCode: NSAlertFirstButtonReturn];
                     
-                    SynchronizedAlertData *synchronizedAlertData = [[SynchronizedAlertData alloc] initWithSemaphore: dispatch_semaphore_create(0)];
+                    NSAlert *alert = [[NSAlert alloc] init];
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        [self removeAttachedSheetWithReturnCode: NSAlertFirstButtonReturn];
-                        
-                        NSAlert *alert = [[NSAlert alloc] init];
-                        
-                        [alert setMessageText: @"A problem occurred when writing a file to disk"];
-                        [alert setInformativeText: [NSString stringWithFormat:@"You can skip the following file or abort the writing process.\n[%@]", destinationCurrentFilePath]];
-                        
-                        [alert addButtonWithTitle: @"Abort Writing"];
-                        [alert addButtonWithTitle: @"Skip file"];
-                        
-                        [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
-                        
-                        [alert beginSheetModalForWindow: self
-                                          modalDelegate: self
-                                         didEndSelector: @selector(alertWarnAboutErrorDuringWriting:returnCode:contextInfo:)
-                                            contextInfo: (__bridge void * _Nullable)(synchronizedAlertData)];
-                    });
-                    dispatch_semaphore_wait(synchronizedAlertData.semaphore, DISPATCH_TIME_FOREVER);
+                    [alert setMessageText: @"A problem occurred when writing a file to disk"];
+                    [alert setInformativeText: [NSString stringWithFormat:@"You can skip the following file or abort the writing process.\n[%@]", destinationCurrentFilePath]];
                     
-                    if (synchronizedAlertData.resultCode == NSAlertFirstButtonReturn) {
-                        [self setIsScheduledForStop: YES];
-                        
-                        return DWActionStop;
-                    } else {
-                        return DWActionSkip;
-                    }
+                    [alert addButtonWithTitle: @"Abort Writing"];
+                    [alert addButtonWithTitle: @"Skip file"];
+                    
+                    [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
+                    
+                    [alert beginSheetModalForWindow: self
+                                      modalDelegate: self
+                                     didEndSelector: @selector(alertWarnAboutErrorDuringWriting:returnCode:contextInfo:)
+                                        contextInfo: (__bridge void * _Nullable)(synchronizedAlertData)];
+                });
+                dispatch_semaphore_wait(synchronizedAlertData.semaphore, DISPATCH_TIME_FOREVER);
+                
+                if (synchronizedAlertData.resultCode == NSAlertFirstButtonReturn) {
+                    [self setIsScheduledForStop: YES];
+                    
+                    return DWActionStop;
+                } else {
+                    return DWActionSkip;
                 }
-                default:
-                    return DWActionContinue;
             }
+            
+            return DWActionContinue;
         }];
         
         WriteExitConditionally();
