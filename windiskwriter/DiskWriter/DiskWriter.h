@@ -11,38 +11,27 @@
 #import "BootModes.h"
 #import "DWFilesContainer.h"
 
-typedef NS_ENUM(NSUInteger, DWMessage) {
-    DWMessageCreateDirectoryProcess,
-    DWMessageCreateDirectorySuccess,
-    DWMessageCreateDirectoryFailure,
-    
-    DWMessageSplitWindowsImageProcess,
-    DWMessageSplitWindowsImageSuccess,
-    DWMessageSplitWindowsImageFailure,
+typedef NS_ENUM(NSUInteger, DWOperationResult) {
+    DWOperationResultStart,
+    DWOperationResultProcess,
+    DWOperationResultSuccess,
+    DWOperationResultFailure,
+    // DWOperationResultNotApplicable,
+    DWOperationResultSkipped
+};
+
+typedef NS_ENUM(NSUInteger, DWOperationType) {
+    DWOperationTypeCreateDirectory,
+    DWOperationTypeWriteFile,
+    DWOperationTypeSplitWindowsImage,
     
     /* Required only for Windows Vista / 7 */
-    DWMessageExtractWindowsBootloaderProcess,
-    DWMessageExtractWindowsBootloaderSuccess,
-    DWMessageExtractWindowsBootloaderFailure,
-
-    // If the architecture of the current image in the installation file is not x86_64
-    DWMessageExtractWindowsBootloaderNotApplicable,
+    DWOperationTypeExtractWindowsBootloader,
     
     /* Optional for Windows 11 and up.
      Removes TPM and Secure Boot requirements by setting
      the types of all images inside install(.wim)/(.esd) to "Server" */
-    DWMessagePatchWindowsInstallerRequirementsProcess,
-    DWMessagePatchWindowsInstallerRequirementsSuccess,
-    DWMessagePatchWindowsInstallerRequirementsNotRequired,
-    DWMessagePatchWindowsInstallerRequirementsFailure,
-    
-    DWMessageWriteFileProcess,
-    DWMessageWriteFileSuccess,
-    DWMessageWriteFileFailure,
-    
-    DWMessageFileIsTooLarge,
-    DWMessageUnsupportedOperation,
-    DWMessageEntityAlreadyExists
+    DWOperationTypePatchWindowsInstallerRequirements
 };
 
 typedef NS_ENUM(NSUInteger, DWErrorCode) {
@@ -60,8 +49,6 @@ struct FileWriteInfo {
     NSString *_Nonnull destinationFilePath;
     UInt64 entitiesRemain;
 };
-
-typedef enum DWAction (^DWCallback)(DWFile * _Nonnull fileInfo, enum DWMessage message);
 
 @interface DiskWriter: NSObject
 
@@ -81,10 +68,10 @@ NS_ASSUME_NONNULL_BEGIN
                             destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem
                                skipSecurityChecks: (BOOL)skipSecurityChecks;
 
-typedef DWAction (^NewDWCallback)(DWFile *file, uint64_t copiedBytes, DWMessage message);
+typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error);
 
 - (BOOL)startWritingWithError: (NSError **)error
-             progressCallback: (NewDWCallback)progressCallback;
+             progressCallback: (ChainedCallbackAction)progressCallback;
 
 NS_ASSUME_NONNULL_END
 

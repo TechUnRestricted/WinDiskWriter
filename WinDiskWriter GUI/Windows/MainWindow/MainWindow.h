@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNSRect: (NSRect)nsRect
                          title: (NSString *)title
                        padding: (CGFloat)padding
-                   aboutWindow: (AboutWindow *)aboutWindow;
+                   aboutWindow: (AboutWindow *)aboutWindow
+                  quitMenuItem: quitMenuItem;
 
 @end
 

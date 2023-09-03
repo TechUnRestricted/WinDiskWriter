@@ -121,7 +121,8 @@
         mainWindow = [[MainWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                   title: APPLICATION_NAME
                                                 padding: CHILD_CONTENT_SPACING
-                                            aboutWindow: aboutWindow];
+                                            aboutWindow: aboutWindow
+                                           quitMenuItem: quitMenuItem];
         
         [mainWindow setMinSize: minWindowSize];
         [mainWindow setMaxSize: maxWindowSize];
@@ -133,8 +134,8 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self setupWindows];
     [self setupMenuItems];
+    [self setupWindows];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

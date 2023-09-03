@@ -47,8 +47,6 @@ const uint64_t COPY_BUFFER_SIZE = 8388608;
     return self;
 }
 
-typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage);
-
 - (BOOL)copyFileWithDWFile: (DWFile *)dwFile
        destinationFilePath: (NSString *)destinationFilePath
                 bufferSize: (NSUInteger)bufferSize
@@ -58,35 +56,35 @@ typedef DWAction (^ChainedCallbackAction)(uint64 originalFileSizeBytes, uint64 c
     /*
      Macro for handling callback
      */
-#define CallbackHandler(originalFileSizeBytes, writtenBytes, dwMessage)     \
-switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {         \
-case DWActionContinue:                                                      \
-break;                                                                      \
-case DWActionSkip:                                                          \
-case DWActionStop:                                                          \
-return NO;                                                                  \
+#define CallbackHandler(dwFile, writtenBytes, operationType, operationResult, error)                    \
+switch (callback(dwFile, writtenBytes, operationType, operationResult, error)) {                        \
+case DWActionContinue:                                                                                  \
+break;                                                                                                  \
+case DWActionSkip:                                                                                      \
+case DWActionStop:                                                                                      \
+return NO;                                                                                              \
 }
 
-#define CallbackHandlerWithCleanupOnStop(originalFileSizeBytes, writtenBytes, dwMessage)    \
-switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {                         \
-case DWActionContinue:                                                                      \
-break;                                                                                      \
-case DWActionSkip:                                                                          \
-case DWActionStop: {                                                                        \
-free(buffer);                                                                               \
-fclose(source);                                                                             \
-fclose(destination);                                                                        \
-return NO;                                                                                  \
-}                                                                                           \
+#define CallbackHandlerWithCleanupOnStop(dwFile, writtenBytes, operationType, operationResult, error)     \
+switch (callback(dwFile, writtenBytes, operationType, operationResult, error)) {                          \
+case DWActionContinue:                                                                                    \
+break;                                                                                                    \
+case DWActionSkip:                                                                                        \
+case DWActionStop: {                                                                                      \
+free(buffer);                                                                                             \
+fclose(source);                                                                                           \
+fclose(destination);                                                                                      \
+return NO;                                                                                                \
+}                                                                                                         \
 }
     
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
     
     // Check if we can write a file to the destination filesystem
     if ((self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) && !ignoreFilesystemCheck) {
-        // *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations"];
-        
-        CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
+        NSError *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations."];
+
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
         
         return NO;
     }
@@ -94,47 +92,50 @@ return NO;                                                                      
     // Open the source file in read mode
     FILE *source = fopen([sourcePath UTF8String], "rb");
     if (source == NULL) {
-        // *error = [NSError errorWithStringValue: @"Couldn't open source file."];
+        NSError *error = [NSError errorWithStringValue: @"Couldn't open source file."];
         
-        CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
-        
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
+
         return NO;
     }
     
     // Open the destination file in write mode
     FILE *destination = fopen([destinationFilePath UTF8String], "wb");
     if (destination == NULL) {
-        // *error = [NSError errorWithStringValue: @"Couldn't open destination file path."];
+        NSError *error = [NSError errorWithStringValue: @"Couldn't open destination file path."];
         
         fclose(source);
         
-        CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
-        
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
+                
         return NO;
     }
     
     // Allocate a buffer
     char *buffer = malloc(bufferSize);
     if (buffer == NULL) {
-        // *error = [NSError errorWithStringValue: @"Couldn't allocate memory for buffer."];
+        NSError *error = [NSError errorWithStringValue: @"Couldn't allocate memory for buffer."];
         
         fclose(source);
         fclose(destination);
         
-        CallbackHandler(dwFile.size, 0, DWMessageWriteFileFailure);
-        
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
+
         return NO;
     }
     
     fseek(source, 0, SEEK_END);
     uint64_t sourceSize = ftell(source);
+    //[dwFile setSize: sourceSize];
+    
     fseek(source, 0, SEEK_SET);
     
     // Initialize the progress variables
     uint64_t bytesRead = 0;
     uint64_t bytesWritten = 0;
     
-    CallbackHandlerWithCleanupOnStop(sourceSize, bytesWritten, DWMessageWriteFileProcess);
+    
+    CallbackHandlerWithCleanupOnStop(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultStart, NULL);
     
     // Copy the file using the buffer
     while (true) {
@@ -148,13 +149,13 @@ return NO;                                                                      
         // Write the chunk of data to the destination file
         size_t write_size = fwrite(buffer, 1, read_size, destination);
         if (write_size != read_size) {
-            // *error = [NSError errorWithStringValue: @"Can't write data to destination path."];
+            NSError *error = [NSError errorWithStringValue: @"Can't write data to destination path."];
             
             free(buffer);
             fclose(source);
             fclose(destination);
             
-            CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileFailure);
+            CallbackHandler(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultFailure, NULL);
             
             return NO;
         }
@@ -163,7 +164,7 @@ return NO;                                                                      
         bytesRead += read_size;
         bytesWritten += write_size;
         
-        CallbackHandlerWithCleanupOnStop(sourceSize, bytesWritten, DWMessageWriteFileProcess);
+        CallbackHandlerWithCleanupOnStop(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultProcess, NULL);
     }
     
     // Free the buffer and close the files
@@ -171,8 +172,8 @@ return NO;                                                                      
     fclose(source);
     fclose(destination);
     
-    CallbackHandler(sourceSize, bytesWritten, DWMessageWriteFileSuccess);
-    
+    CallbackHandler(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultSuccess, NULL);
+        
     return YES;
 }
 
@@ -185,13 +186,14 @@ return NO;                                                                      
      We need it since we are make a copy of Windows Install Image on the system drive in order to patch it.
      I don't think that there can be a better solution without "goto cleanup" and macros.
      */
-#define CallbackHandlerWithCleanup(originalFileSizeBytes, writtenBytes, dwMessage)  \
-switch (callback(originalFileSizeBytes, writtenBytes, dwMessage)) {                 \
-case DWActionContinue:                                                              \
-break;                                                                              \
-case DWActionSkip:                                                                  \
-case DWActionStop:                                                                  \
-goto cleanup;                                                                       \
+ 
+#define CallbackHandlerWithCleanup(dwFile, writtenBytes, operationType, operationResult, error)                 \
+switch (callback(dwFile, writtenBytes, operationType, operationResult, error)) {                                \
+case DWActionContinue:                                                                                          \
+break;                                                                                                          \
+case DWActionSkip:                                                                                              \
+case DWActionStop:                                                                                              \
+goto cleanup;                                                                                                   \
 }
     
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:dwFile.sourcePath];
@@ -219,9 +221,9 @@ goto cleanup;                                                                   
                                        destinationFilePath: destinationPath
                                                 bufferSize: COPY_BUFFER_SIZE
                                      ignoreFilesystemCheck: YES
-                                                  callback: ^DWAction (uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
-            
-            latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
+                                                  callback: ^DWAction(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error) {
+        
+            latestAction = callback(dwFile, copiedBytes, operationType, operationResult, error);
             
             return latestAction;
         }];
@@ -236,10 +238,10 @@ goto cleanup;                                                                   
         }
         
     } else {
-        // Splitting Windows Install Images with .esd and .swm extensions is currently not supported
         if (![sourcePath.lowercaseString.pathExtension isEqualToString:@"wim"]) {
+            NSError *error = [NSError errorWithStringValue: @"Splitting Windows Install Images with .esd and .swm extensions is currently not supported."];
             
-            CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageUnsupportedOperation);
+            CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSplitWindowsImage, DWOperationResultFailure, error);
             
             goto cleanup;
         }
@@ -250,16 +252,18 @@ goto cleanup;                                                                   
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
             NSString *tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"windiskwriter", randomFolderName]];
             
-            CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageCreateDirectoryProcess);
+            CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
             
             // TODO: Implement available storage on the system disk checking
+            
+            NSError *directoryCreateError = NULL;
             
             BOOL directoryCreatedSuccessfully = [localFileManager createDirectoryAtPath: tempDirectory
                                                             withIntermediateDirectories: YES
                                                                              attributes: NULL
-                                                                                  error: NULL];
+                                                                                  error: &directoryCreateError];
             
-            CallbackHandlerWithCleanup(dwFile.size, 0, (directoryCreatedSuccessfully ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
+            CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeCreateDirectory, (directoryCreatedSuccessfully ? DWOperationResultSuccess : DWOperationResultFailure), directoryCreateError);
             
             // We don't need to continue unless creating a directory wasn't successful. All further operations require a success from the previous operation.
             if (!directoryCreatedSuccessfully) {
@@ -276,9 +280,9 @@ goto cleanup;                                                                   
                                            destinationFilePath: sourcePath
                                                     bufferSize: COPY_BUFFER_SIZE
                                          ignoreFilesystemCheck: YES
-                                                      callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
+                                                      callback:^DWAction(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error) {
                 
-                latestAction = callback(originalFileSizeBytes, copiedBytes, dwMessage);
+                latestAction = callback(dwFile, copiedBytes, operationType, operationResult, error);
                                 
                 return latestAction;
             }];
@@ -298,7 +302,7 @@ goto cleanup;                                                                   
     
     // Patching Windows Image Installer Requirements (Relevant primarily on Windows 11 and up)
     if (self.patchInstallerRequirements) {
-        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessagePatchWindowsInstallerRequirementsProcess);
+        CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypePatchWindowsInstallerRequirements, DWOperationResultStart, NULL);
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
                                             /* Choosing Windows Installer Image Path based on previous operations */
@@ -307,19 +311,19 @@ goto cleanup;                                                                   
         
         WimlibWrapperResult installerRequirementsPatchResult = [wimlibWrapper patchWindowsRequirementsChecks];
         
-        DWMessage resultDWMessage;
+        DWOperationResult operationResult;
         switch (installerRequirementsPatchResult) {
             case WimlibWrapperResultSuccess:
-                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsSuccess;
+                operationResult = DWOperationResultSuccess;
                 break;
             case WimlibWrapperResultSkipped:
-                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsNotRequired;
+                operationResult = DWOperationResultSkipped;
                 break;
             case WimlibWrapperResultFailure:
-                resultDWMessage = DWMessagePatchWindowsInstallerRequirementsFailure;
+                operationResult = DWOperationResultFailure;
         }
         
-        CallbackHandlerWithCleanup(dwFile.size, 0, resultDWMessage);
+        CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypePatchWindowsInstallerRequirements, operationResult, NULL);
     }
     
     // Splitting install.wim file in order to fit into FAT32 partition
@@ -327,14 +331,14 @@ goto cleanup;                                                                   
         UInt8 partsCount = ceil((double)dwFile.size / (double)FAT32_MAX_FILE_SIZE);
         UInt32 maxSliceSize = dwFile.size / partsCount;
         
-        CallbackHandlerWithCleanup(dwFile.size, 0, DWMessageSplitWindowsImageProcess);
-        
+        CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSplitWindowsImage, DWOperationResultStart, NULL);
+                
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: sourcePath];
         
         __block DWAction lastAction = DWActionContinue;
         
         __block BOOL isFirstCall = YES;
-        WimlibWrapperResult *splitImageResult = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
+        WimlibWrapperResult splitImageResult = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
                                                                              maxSliceSizeInBytes: maxSliceSize
                                                                                         callback: ^BOOL(uint32_t totalPartsCount, uint32 currentPartNumber, uint64 bytesWritten, uint64 bytesTotal) {
             
@@ -344,12 +348,29 @@ goto cleanup;                                                                   
                 isFirstCall = NO;
             }
             
-            lastAction = callback(dwFile, bytesWritten, lastAction);
+            lastAction = callback(dwFile, bytesWritten, DWOperationTypeSplitWindowsImage, DWOperationResultProcess, NULL);
             
             return lastAction == DWActionContinue;
         }];
         
-        CallbackHandlerWithCleanup(dwFile.size, 0, (splitImageResult == WimlibWrapperResultFailure) ? DWMessageSplitWindowsImageFailure : DWMessageSplitWindowsImageSuccess);
+        if (lastAction != DWActionContinue) {
+            return NO;
+        }
+        
+        DWOperationResult operationResult;
+        switch (splitImageResult) {
+            case WimlibWrapperResultSuccess:
+                operationResult = DWOperationResultSuccess;
+                break;
+            case WimlibWrapperResultFailure:
+                operationResult = DWOperationResultFailure;
+                break;
+            case WimlibWrapperResultSkipped:
+                operationResult = DWOperationResultSkipped;
+                break;
+        }
+        
+        CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSplitWindowsImage, operationResult, NULL);
     }
     
     operationWasSuccessful = YES;
@@ -364,16 +385,16 @@ cleanup:
 }
 
 - (BOOL)startWritingWithError: (NSError **)error
-             progressCallback: (NewDWCallback)progressCallback {
+             progressCallback: (ChainedCallbackAction)progressCallback {
     
-#define DWCallbackHandlerLoop(currentFile, bytesWritten, message)    \
-switch (progressCallback(currentFile, bytesWritten, message)) {      \
-case DWActionContinue:                                               \
-break;                                                               \
-case DWActionStop:                                                   \
-return NO;                                                           \
-case DWActionSkip:                                                   \
-continue;                                                            \
+#define DWCallbackHandlerLoop(dwFile, writtenBytes, operationType, operationResult, error)    \
+switch (progressCallback(dwFile, writtenBytes, operationType, operationResult, error)) {      \
+case DWActionContinue:                                                                        \
+break;                                                                                        \
+case DWActionStop:                                                                            \
+return NO;                                                                                    \
+case DWActionSkip:                                                                            \
+continue;                                                                                     \
 }
     
     if (![self commonErrorCheckerWithError:error]) {
@@ -391,7 +412,7 @@ continue;                                                            \
         
         // [Detected file type: Directory]
         if (currentFile.fileType == NSFileTypeDirectory) {
-            DWCallbackHandlerLoop(currentFile, 0, DWMessageCreateDirectoryProcess);
+            DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
             
             NSError *createDirectoryError = NULL;
             BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteDestinationPath
@@ -399,7 +420,7 @@ continue;                                                            \
                                                                        attributes: NULL
                                                                             error: &createDirectoryError];
             
-            DWCallbackHandlerLoop(currentFile, 0, (directoryCreateSuccess ? DWMessageCreateDirectorySuccess : DWMessageCreateDirectoryFailure));
+            DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, (directoryCreateSuccess ? DWOperationResultSuccess : DWOperationResultFailure), createDirectoryError);
             
             continue;
         }
@@ -413,9 +434,9 @@ continue;                                                            \
             
             [self writeWindowsInstallWithDWFile: currentFile
                                 destinationPath: absoluteDestinationPath
-                                       callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
-                
-                lastAction = progressCallback(currentFile, copiedBytes, dwMessage);
+                                       callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+            
+                lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
                 
                 return lastAction;
             }];
@@ -441,9 +462,9 @@ continue;                                                            \
                                               destinationFilePath: absoluteDestinationPath
                                                        bufferSize: COPY_BUFFER_SIZE
                                             ignoreFilesystemCheck: NO
-                                                         callback: ^DWAction(uint64 originalFileSizeBytes, uint64 copiedBytes, DWMessage dwMessage) {
+                                                         callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
                 
-                lastAction = progressCallback(currentFile, copiedBytes, dwMessage);
+                lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
                 
                 return lastAction;
             }];
@@ -459,7 +480,7 @@ continue;                                                            \
     // Trying to extract a bootloader for (x86_64 systems only. There is no need to check for x86 or ARM binaries.)
     if (installerWIMPackageFile && !hasEFIBootloader) {
         // Sadly, there is no way we can do it better without creating another macro
-        switch (progressCallback(installerWIMPackageFile, 0, DWMessageExtractWindowsBootloaderProcess)) {
+        switch (progressCallback(installerWIMPackageFile, 0, DWOperationTypeExtractWindowsBootloader, DWOperationResultStart, NULL)) {
             case DWActionContinue:
                 break;
             case DWActionSkip:
@@ -475,20 +496,20 @@ continue;                                                            \
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:installImageAbsolutePath];
         WimlibWrapperResult wimlibWrapperExtractionResult = [wimlibWrapper extractWindowsEFIBootloaderForDestinationDirectory:extractedEFIBootloaderDestinationDirectory];
         
-        DWMessage resultDWMessage;
+        DWOperationResult operationResult;
         switch (wimlibWrapperExtractionResult) {
             case WimlibWrapperResultSuccess:
-                resultDWMessage = DWMessageExtractWindowsBootloaderSuccess;
+                operationResult = DWOperationResultSuccess;
                 break;
             case WimlibWrapperResultFailure:
-                resultDWMessage = DWMessageExtractWindowsBootloaderFailure;
+                operationResult = DWOperationResultFailure;
                 break;
             case WimlibWrapperResultSkipped:
-                resultDWMessage = DWMessageExtractWindowsBootloaderNotApplicable;
+                operationResult = DWOperationResultSkipped;
                 break;
         }
         
-        switch (progressCallback(installerWIMPackageFile, 0, resultDWMessage)) {
+        switch (progressCallback(installerWIMPackageFile, 0, DWOperationTypeExtractWindowsBootloader, operationResult, NULL)) {
             case DWActionContinue:
                 break;
             case DWActionSkip:
