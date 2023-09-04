@@ -115,7 +115,7 @@
     }
     
     {
-        NSSize minWindowSize = CGSizeMake(330, 520);
+        NSSize minWindowSize = CGSizeMake(330, 555);
         NSSize maxWindowSize = CGSizeMake(500, 650);
         
         mainWindow = [[MainWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)

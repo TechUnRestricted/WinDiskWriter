@@ -46,8 +46,8 @@
             filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "712"
-            endingLineNumber = "712"
+            startingLineNumber = "801"
+            endingLineNumber = "801"
             landmarkName = "-setEnabledUIState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "539"
-            endingLineNumber = "539"
+            startingLineNumber = "628"
+            endingLineNumber = "628"
             landmarkName = "-writeAction"
             landmarkType = "7">
          </BreakpointContent>

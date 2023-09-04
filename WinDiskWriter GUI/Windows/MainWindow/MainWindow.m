@@ -35,7 +35,7 @@
 
 #define WriteExitForce()                \
 [self setEnabledUIState: YES];          \
-[self->progressBarView resetProgress];  \
+[self resetProgress];                   \
 return;
 
 #define WriteExitConditionally()      \
@@ -58,7 +58,14 @@ WriteExitForce();                     \
     AdvancedTextView *logsAutoScrollTextView;
     
     ButtonView *startStopButtonView;
-    ProgressBarView *progressBarView;
+    
+    LabelView *currentOperationLabelView;
+    LabelView *bytesWrittenLabelView;
+    LabelView *slashSeparatorLabelView;
+    LabelView *bytesFileSizeLabelView;
+    
+    ProgressBarView *currentOperationProgressBarView;
+    ProgressBarView *totalOperationProgressBarView;
     
     NSMenuItem* quitMenuItem;
     
@@ -87,6 +94,11 @@ WriteExitForce();                     \
     [self setupViews];
     
     return self;
+}
+
+- (void)resetProgress {
+    [currentOperationProgressBarView resetProgress];
+    [totalOperationProgressBarView resetProgress];
 }
 
 - (void)setupViews {
@@ -263,30 +275,99 @@ WriteExitForce();                     \
     
     [mainVerticalLayout addView:spacerView width:0 height:4];
     
+    FrameLayoutVertical *operationMonitoringVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+        [mainVerticalLayout addView:operationMonitoringVerticalLayout width:INFINITY height:0];
+                
+        [operationMonitoringVerticalLayout setHugHeightFrame: YES];
+
+        [operationMonitoringVerticalLayout setSpacing: 2];
+        
+        FrameLayoutHorizontal *textInfoHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
+            [operationMonitoringVerticalLayout addView:textInfoHorizontalLayout width:INFINITY height:0];
+            
+            [textInfoHorizontalLayout setAlphaValue: 0.75];
+            
+            [textInfoHorizontalLayout setHugHeightFrame: YES];
+
+            currentOperationLabelView = [[LabelView alloc] init]; {
+                [textInfoHorizontalLayout addView:currentOperationLabelView width:INFINITY height:currentOperationLabelView.cell.cellSize.height];
+            }
+            
+            FrameLayoutHorizontal *bytesProgressHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
+                [textInfoHorizontalLayout addView:bytesProgressHorizontalLayout width:0 height:0];
+
+                [bytesProgressHorizontalLayout setHugHeightFrame: YES];
+                [bytesProgressHorizontalLayout setHugWidthFrame: YES];
+
+                bytesWrittenLabelView = [[LabelView alloc] init]; {
+                    [bytesWrittenLabelView setStringValue: @"00.00 KB"];
+                    
+                    [bytesWrittenLabelView setAlignment: NSTextAlignmentCenter];
+                    
+                    [bytesProgressHorizontalLayout addView: bytesWrittenLabelView
+                                                     width: bytesWrittenLabelView.cell.cellSize.width
+                                                    height: bytesWrittenLabelView.cell.cellSize.height];
+                }
+                
+                slashSeparatorLabelView = [[LabelView alloc] init]; {
+                    [slashSeparatorLabelView setStringValue: @"/"];
+                    [slashSeparatorLabelView setWantsLayer: YES];
+                    [slashSeparatorLabelView.layer setBackgroundColor: NSColor.yellowColor.toCGColor];
+                    
+                    [bytesProgressHorizontalLayout addView: slashSeparatorLabelView
+                                                     width: slashSeparatorLabelView.cell.cellSize.width
+                                                    height: slashSeparatorLabelView.cell.cellSize.height];
+                }
+                
+                bytesFileSizeLabelView = [[LabelView alloc] init]; {
+                    [bytesFileSizeLabelView setStringValue: @"00.00 KB"];
+                    
+                    [bytesFileSizeLabelView setAlignment: NSTextAlignmentCenter];
+
+                    [bytesProgressHorizontalLayout addView: bytesFileSizeLabelView
+                                                     width: bytesFileSizeLabelView.cell.cellSize.width
+                                                    height: bytesFileSizeLabelView.cell.cellSize.height];
+                }
+            }
+        }
+        
+        FrameLayoutVertical *progressBarVerticalLayout = [[FrameLayoutVertical alloc] init]; {
+            [operationMonitoringVerticalLayout addView:progressBarVerticalLayout width:INFINITY height:0];
+            
+            [progressBarVerticalLayout setHugHeightFrame: YES];
+            
+            currentOperationProgressBarView = [[ProgressBarView alloc] init]; {
+                [progressBarVerticalLayout addView:currentOperationProgressBarView width:INFINITY height:14];
+                                
+                [currentOperationProgressBarView setIndeterminate: YES];
+            }
+            
+            totalOperationProgressBarView = [[ProgressBarView alloc] init]; {
+                [progressBarVerticalLayout addView:totalOperationProgressBarView width:INFINITY height:14];
+                
+                [totalOperationProgressBarView setIndeterminate: YES];
+            }
+        }
+
+    }
+    
     FrameLayoutVertical *startStopVerticalLayout = [[FrameLayoutVertical alloc] init]; {
-        [mainVerticalLayout addView:startStopVerticalLayout width:INFINITY height:INFINITY];
+        [mainVerticalLayout addView:startStopVerticalLayout width:INFINITY height:50];
         
         [startStopVerticalLayout setHorizontalAlignment: FrameLayoutHorizontalCenter];
         [startStopVerticalLayout setVerticalAlignment: FrameLayoutVerticalCenter];
         
         [startStopVerticalLayout setSpacing:10];
         
-        [startStopVerticalLayout setHugHeightFrame: YES];
+        // [startStopVerticalLayout setHugHeightFrame: YES];
         
         startStopButtonView = [[ButtonView alloc] init]; {
             [startStopVerticalLayout addView:startStopButtonView minWidth:40 maxWidth:180 minHeight:startStopButtonView.cell.cellSize.height maxHeight:startStopButtonView.cell.cellSize.height];
             
             [startStopButtonView setTarget: self];
         }
-        
-        progressBarView = [[ProgressBarView alloc] init]; {
-            [startStopVerticalLayout addView:progressBarView width:INFINITY height:8];
-                        
-            [progressBarView setIndeterminate: NO];
-        }
+
     }
-    
-    
     
     LabelView *developerNameLabelView = [[LabelView alloc] init]; {
         [mainVerticalLayout addView:developerNameLabelView width:INFINITY height:developerNameLabelView.cell.cellSize.height];
@@ -473,7 +554,14 @@ WriteExitForce();                     \
     [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", skip_security_checks: \"%d\").", bsdName, destinationDiskInfo.deviceVendor, destinationDiskInfo.deviceModel, newPartitionName, selectedPartitionScheme, selectedFileSystem, skipSecurityChecksCheckboxView.state == NSOnState];
+    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", patch_security_checks: \"%d\").",
+                                        bsdName,
+                                        destinationDiskInfo.deviceVendor,
+                                        destinationDiskInfo.deviceModel,
+                                        newPartitionName,
+                                        selectedPartitionScheme,
+                                        selectedFileSystem,
+                                        skipSecurityChecksCheckboxView.state == NSOnState];
     
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
@@ -516,7 +604,7 @@ WriteExitForce();                     \
         
         UInt64 totalFilesSize = [filesContainer sizeOfFiles];
         
-        [self->progressBarView setMaxValueSynchronously: totalFilesSize];
+        [self->currentOperationProgressBarView setMaxValueSynchronously: totalFilesSize];
         
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
@@ -531,10 +619,11 @@ WriteExitForce();                     \
         [diskWriter startWritingWithError: &writeError
                          progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
             if (self.isScheduledForStop) {
-                // [self setIsScheduledForStop: NO];
-                // [self setEnabledUIState: YES];
-                
                 return DWActionStop;
+            }
+            
+            if (copiedBytes == 0) {
+                previousWriteCallbackBytesCount = 0;
             }
             
             NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: dwFile.sourcePath];
@@ -567,7 +656,7 @@ WriteExitForce();                     \
                 case DWOperationResultProcess: {
                     UInt64 requiredValueIncrement = copiedBytes - previousWriteCallbackBytesCount;
                     
-                    [self->progressBarView incrementBySynchronously:requiredValueIncrement];
+                    [self->currentOperationProgressBarView incrementBySynchronously:requiredValueIncrement];
                   
                     // printf("[Process: %s/%s]\n", [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String, dwFile.unitFormattedSize.UTF8String);
                     
@@ -584,11 +673,6 @@ WriteExitForce();                     \
                 case DWOperationResultSkipped:
                     [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeSkipped];
                     break;
-            }
-            
-            if (operationResult != DWOperationResultProcess) {
-                [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText];
-                previousWriteCallbackBytesCount = 0;
             }
             
             if (operationResult == DWOperationResultFailure) {
@@ -708,6 +792,11 @@ WriteExitForce();                     \
         if (enabledUIState) {
             [self->quitMenuItem setAction:@selector(terminate:)];
             
+            [self->currentOperationLabelView setStringValue: @"Ready for action"];
+            
+            [self->bytesWrittenLabelView setStringValue: @""];
+            [self->bytesFileSizeLabelView setStringValue: @""];
+                    
             [self->startStopButtonView setTitle: BUTTON_START_TITLE];
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {
@@ -722,12 +811,13 @@ WriteExitForce();                     \
         [self->windowsImageInputView setEnabled: enabledUIState];
         [self->devicePickerView setEnabled: enabledUIState];
         
+        [self->slashSeparatorLabelView setHidden: enabledUIState];
+        
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
         
         NSButton *windowZoomButton = [self standardWindowButton:NSWindowCloseButton];
         [windowZoomButton setEnabled: enabledUIState];
-        
     });
 }
 
