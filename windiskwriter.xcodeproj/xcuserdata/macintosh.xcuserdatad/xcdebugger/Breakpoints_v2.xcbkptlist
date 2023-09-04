@@ -46,8 +46,8 @@
             filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "712"
+            endingLineNumber = "712"
             landmarkName = "-setEnabledUIState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -55,31 +55,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BFF259FC-3929-4A8F-87F3-FF3C51BB6B46"
+            uuid = "3694B1A8-55FA-4EAC-B9BD-281AF9CC1B5B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "551"
-            endingLineNumber = "551"
-            landmarkName = "-writeAction"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3694B1A8-55FA-4EAC-B9BD-281AF9CC1B5B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "539"
+            endingLineNumber = "539"
             landmarkName = "-writeAction"
             landmarkType = "7">
          </BreakpointContent>

@@ -12,10 +12,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString *ASLogType NS_TYPED_ENUM;
-extern ASLogType const ASLogTypeLog;
+
+extern ASLogType const ASLogTypeStart;
 extern ASLogType const ASLogTypeSuccess;
+extern ASLogType const ASLogTypeFailure;
+extern ASLogType const ASLogTypeSkipped;
+
+extern ASLogType const ASLogTypeLog;
 extern ASLogType const ASLogTypeWarning;
-extern ASLogType const ASLogTypeError;
 extern ASLogType const ASLogTypeFatal;
 extern ASLogType const ASLogTypeAssertionError;
 
@@ -26,6 +30,8 @@ extern ASLogType const ASLogTypeAssertionError;
 @property (nonatomic, readwrite) BOOL automaticallyScroll;
 
 - (void)appendLine:(NSString *)message;
+
+- (void)appendTimestampedLine: (NSString *)message;
 
 - (void)appendTimestampedLine: (NSString *)message
                       logType: (ASLogType)logType;

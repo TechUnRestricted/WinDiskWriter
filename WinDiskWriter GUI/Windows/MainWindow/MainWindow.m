@@ -40,11 +40,11 @@ return;
 
 #define WriteExitConditionally()      \
 if (self.isScheduledForStop) {        \
-WriteExitForce();                 \
+WriteExitForce();                     \
 }
 
 @implementation MainWindow {
-    /* Initialized in -applicationDidFinishLaunching: */
+    /* Initialized in -setupViews: */
     TextInputView *windowsImageInputView;
     ButtonView *chooseWindowsImageButtonView;
     
@@ -281,6 +281,7 @@ WriteExitForce();                 \
         
         progressBarView = [[ProgressBarView alloc] init]; {
             [startStopVerticalLayout addView:progressBarView width:INFINITY height:8];
+                        
             [progressBarView setIndeterminate: NO];
         }
     }
@@ -513,9 +514,9 @@ WriteExitForce();                 \
         
         WriteExitConditionally();
         
-        NSUInteger filesCount = [filesContainer.files count];
+        UInt64 totalFilesSize = [filesContainer sizeOfFiles];
         
-        [self->progressBarView setMaxValueSynchronously: filesCount];
+        [self->progressBarView setMaxValueSynchronously: totalFilesSize];
         
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
@@ -525,7 +526,7 @@ WriteExitForce();                 \
         
         NSError *writeError = NULL;
         
-        __block NSUInteger diskWriterErrorsCount = 0;
+        __block UInt64 previousWriteCallbackBytesCount = 0;
         
         [diskWriter startWritingWithError: &writeError
                          progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
@@ -537,50 +538,60 @@ WriteExitForce();                 \
             }
             
             NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: dwFile.sourcePath];
-            
-            switch (operationResult) {
-                case DWOperationResultStart:
-                    printf("[START:] ");
-                    break;
-                case DWOperationResultProcess:
-                    printf("[Process: %s/%s] ", [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String, dwFile.unitFormattedSize.UTF8String);
-                    break;
-                case DWOperationResultSuccess:
-                    printf("[Success:] ");
-                    break;
-                case DWOperationResultFailure:
-                    printf("[FAILURE:] ");
-                    break;
-                case DWOperationResultSkipped:
-                    printf("[Skipped:] ");
-                    break;
-            }
+            NSMutableString *onscreenLogText = [NSMutableString string];
             
             switch (operationType) {
                 case DWOperationTypeCreateDirectory:
-                    printf("Create Directory: ");
+                    [onscreenLogText appendString: @"Create directory: "];
                     break;
                 case DWOperationTypeWriteFile:
-                    printf("Write File: ");
+                    [onscreenLogText appendString: @"Write File: "];
                     break;
                 case DWOperationTypeSplitWindowsImage:
-                    printf("Split Image: ");
+                    [onscreenLogText appendString: @"Split Image: "];
                     break;
                 case DWOperationTypeExtractWindowsBootloader:
-                    printf("Extract Bootloader: ");
+                    [onscreenLogText appendString: @"Extract Bootloader: "];
                     break;
                 case DWOperationTypePatchWindowsInstallerRequirements:
-                    printf("Patch Installer Requirements: ");
+                    [onscreenLogText appendString: @"Patch Installer Requirements: "];
                     break;
             }
             
-            printf("[%s]", destinationCurrentFilePath.UTF8String);
+            [onscreenLogText appendString:destinationCurrentFilePath];
             
-            printf("\n");
+            switch (operationResult) {
+                case DWOperationResultStart:
+                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeStart];
+                    break;
+                case DWOperationResultProcess: {
+                    UInt64 requiredValueIncrement = copiedBytes - previousWriteCallbackBytesCount;
+                    
+                    [self->progressBarView incrementBySynchronously:requiredValueIncrement];
+                  
+                    // printf("[Process: %s/%s]\n", [HelperFunctions unitFormattedSizeFor:copiedBytes].UTF8String, dwFile.unitFormattedSize.UTF8String);
+                    
+                    previousWriteCallbackBytesCount = copiedBytes;
+                    
+                    break;
+                }
+                case DWOperationResultSuccess:
+                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeSuccess];
+                    break;
+                case DWOperationResultFailure:
+                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeFailure];
+                    break;
+                case DWOperationResultSkipped:
+                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeSkipped];
+                    break;
+            }
+            
+            if (operationResult != DWOperationResultProcess) {
+                [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText];
+                previousWriteCallbackBytesCount = 0;
+            }
             
             if (operationResult == DWOperationResultFailure) {
-                diskWriterErrorsCount += 1;
-                
                 /*
                  Old Cocoa is crap.
                  Can't do anything better ¯\_(ツ)_/¯.
