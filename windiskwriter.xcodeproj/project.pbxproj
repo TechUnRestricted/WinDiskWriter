@@ -522,6 +522,7 @@
 		E213E7802A9FBAA6004643C1 /* MainWindow */ = {
 			isa = PBXGroup;
 			children = (
+				E2F2D2CF2A95015700E1B7FF /* SynchronizedAlertData */,
 				E213E77D2A9FBAA3004643C1 /* MainWindow.h */,
 				E213E77E2A9FBAA3004643C1 /* MainWindow.m */,
 			);
@@ -1101,10 +1102,8 @@
 				E23298BE2A37C31500869736 /* Extensions */,
 				E23298BA2A37C31500869736 /* Views */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
-				E2F2D2CF2A95015700E1B7FF /* SynchronizedAlertData */,
 				E2F2D2BA2A93DC8C00E1B7FF /* Windows */,
-				E23298B82A37C23600869736 /* AppDelegate.h */,
-				E23298B72A37C23600869736 /* AppDelegate.m */,
+				E27FF65C2AA548E900C0356F /* AppDelegate */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter_GUI.entitlements */,
 				E2F2D2E52A95307A00E1B7FF /* Images.xcassets */,
@@ -1260,6 +1259,15 @@
 				E2DF0FB72A8ECA0400339DDB /* Constants.m */,
 			);
 			path = windiskwriter;
+			sourceTree = "<group>";
+		};
+		E27FF65C2AA548E900C0356F /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				E23298B82A37C23600869736 /* AppDelegate.h */,
+				E23298B72A37C23600869736 /* AppDelegate.m */,
+			);
+			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 		E289E2B9298EE08D0011B620 /* BootModes */ = {

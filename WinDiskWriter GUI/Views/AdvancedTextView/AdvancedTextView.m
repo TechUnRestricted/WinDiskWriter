@@ -9,10 +9,14 @@
 #import "AdvancedTextView.h"
 #import "NSColor+Common.h"
 
-ASLogType const ASLogTypeLog = @"Log";
+
+ASLogType const ASLogTypeStart = @"Start";
 ASLogType const ASLogTypeSuccess = @"Success";
+ASLogType const ASLogTypeFailure = @"Failure";
+ASLogType const ASLogTypeSkipped = @"Skipped";
+
+ASLogType const ASLogTypeLog = @"Log";
 ASLogType const ASLogTypeWarning = @"Warning";
-ASLogType const ASLogTypeError = @"Error";
 ASLogType const ASLogTypeFatal = @"Fatal";
 ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
@@ -86,6 +90,14 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     NSString *timestampedString = [NSString stringWithFormat:@"[(%@) %@] %@", logType, timeString, message];
     
     [self appendLine: timestampedString];
+}
+
+- (void)appendTimestampedLine: (NSString *)message {
+    NSString *timeString = [dateFormatter stringFromDate: NSDate.date];
+
+    NSString *finalString = [NSString stringWithFormat: @"[%@] %@", timeString, message];
+    
+    [self appendLine: finalString];
 }
 
 - (void)clear {
