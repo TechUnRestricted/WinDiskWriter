@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)incrementBySynchronously:(double)delta;
 
-- (void)resetProgress;
+- (void)setDoubleValueSynchronously:(double)doubleValue;
+
+- (void)resetProgressSynchronously;
 
 @end
 
