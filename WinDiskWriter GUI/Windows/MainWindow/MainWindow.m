@@ -698,6 +698,10 @@ WriteExitForce();                     \
                     [self->totalOperationProgressBarView incrementBySynchronously: 1];
                     break;
                 case DWOperationResultFailure:
+                    if (error != NULL) {
+                        [onscreenLogText appendString: [NSString stringWithFormat: @" (Error message: %@)", error.stringValue]];
+                    }
+                    
                     [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeFailure];
                     break;
                 case DWOperationResultSkipped:

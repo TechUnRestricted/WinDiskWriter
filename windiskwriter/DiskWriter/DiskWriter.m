@@ -13,6 +13,7 @@
 #import "NSString+Common.h"
 #import "NSError+Common.h"
 #import "WimlibWrapper.h"
+#include <sys/statvfs.h>
 #import "DiskManager.h"
 #import "Filesystems.h"
 #import "DiskWriter.h"
@@ -47,6 +48,19 @@ const uint64_t COPY_BUFFER_SIZE = 8388608;
     return self;
 }
 
+- (UInt64)freeSpaceInPath: (NSString *)path
+                    error: (NSError **)error {
+    struct statvfs stat;
+    
+    if (statvfs([path UTF8String], &stat) != 0) {
+        *error = [NSError errorWithStringValue: @"Can't get the available space for the specified path."];
+        return 0;
+    }
+
+    // the available size is f_frsize * f_bavail
+    return stat.f_frsize * stat.f_bavail;
+}
+
 - (BOOL)copyFileWithDWFile: (DWFile *)dwFile
        destinationFilePath: (NSString *)destinationFilePath
                 bufferSize: (NSUInteger)bufferSize
@@ -77,13 +91,32 @@ fclose(destination);                                                            
 return NO;                                                                                                \
 }                                                                                                         \
 }
-    
+
+//
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
+    
+    NSError *freeSpaceInPathError = NULL;
+    UInt64 availableSpace = [self freeSpaceInPath: [destinationFilePath stringByDeletingLastPathComponent]
+                                            error: &freeSpaceInPathError];
+    
+    if (freeSpaceInPathError != NULL) {
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, freeSpaceInPathError);
+        
+        return NO;
+    }
+    
+    if (dwFile.size > availableSpace) {
+        NSError *error = [NSError errorWithStringValue: @"Not enough free disk space."];
+        
+        CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
+        
+        return NO;
+    }
     
     // Check if we can write a file to the destination filesystem
     if ((self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) && !ignoreFilesystemCheck) {
         NSError *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations."];
-
+        
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
         
         return NO;
@@ -95,7 +128,7 @@ return NO;                                                                      
         NSError *error = [NSError errorWithStringValue: @"Couldn't open source file."];
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
-
+        
         return NO;
     }
     
@@ -107,7 +140,7 @@ return NO;                                                                      
         fclose(source);
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
-                
+        
         return NO;
     }
     
@@ -120,10 +153,11 @@ return NO;                                                                      
         fclose(destination);
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
-
+        
         return NO;
     }
     
+    // Checking the size once again because it can be changed by user or system ¯\_(ツ)_/¯
     fseek(source, 0, SEEK_END);
     uint64_t sourceSize = ftell(source);
     //[dwFile setSize: sourceSize];
@@ -173,7 +207,7 @@ return NO;                                                                      
     fclose(destination);
     
     CallbackHandler(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultSuccess, NULL);
-        
+    
     return YES;
 }
 
@@ -186,7 +220,7 @@ return NO;                                                                      
      We need it since we are make a copy of Windows Install Image on the system drive in order to patch it.
      I don't think that there can be a better solution without "goto cleanup" and macros.
      */
- 
+    
 #define CallbackHandlerWithCleanup(dwFile, writtenBytes, operationType, operationResult, error)                 \
 switch (callback(dwFile, writtenBytes, operationType, operationResult, error)) {                                \
 case DWActionContinue:                                                                                          \
@@ -195,7 +229,8 @@ case DWActionSkip:                                                              
 case DWActionStop:                                                                                              \
 goto cleanup;                                                                                                   \
 }
-    
+
+//
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:dwFile.sourcePath];
     
     // Determining the success of the operation for "goto cleanup"
@@ -207,9 +242,8 @@ goto cleanup;                                                                   
      [Selected Filesystem is not FAT32]
      */
     
-    
     BOOL requiresSplitting = !((dwFile.size <= FAT32_MAX_FILE_SIZE && self.destinationFilesystem == FilesystemFAT32) || self.destinationFilesystem == FilesystemExFAT);
-    BOOL imageMovedToTheTempFolder = NO;
+    NSString *tempDirectory = NULL;
     
     // Check if we can write Windows Image file without modifications
     if (!requiresSplitting) {
@@ -222,7 +256,7 @@ goto cleanup;                                                                   
                                                 bufferSize: COPY_BUFFER_SIZE
                                      ignoreFilesystemCheck: YES
                                                   callback: ^DWAction(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error) {
-        
+            
             latestAction = callback(dwFile, copiedBytes, operationType, operationResult, error);
             
             return latestAction;
@@ -250,11 +284,9 @@ goto cleanup;                                                                   
             NSString *randomFolderName = [NSString stringWithFormat:@"install-image-%@", [HelperFunctions randomStringWithLength:10]];
             
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
-            NSString *tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"windiskwriter", randomFolderName]];
+            tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"windiskwriter", randomFolderName]];
             
             CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
-            
-            // TODO: Implement available storage on the system disk checking
             
             NSError *directoryCreateError = NULL;
             
@@ -283,11 +315,9 @@ goto cleanup;                                                                   
                                                       callback:^DWAction(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error) {
                 
                 latestAction = callback(dwFile, copiedBytes, operationType, operationResult, error);
-                                
+                
                 return latestAction;
             }];
-            
-            imageMovedToTheTempFolder = YES;
             
             // We don't need to continue unless copying wasn't successful. All further operations require a success from the previous operation.
             if (!copyWasSuccessfull) {
@@ -306,7 +336,7 @@ goto cleanup;                                                                   
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
                                             /* Choosing Windows Installer Image Path based on previous operations */
-                                        imageMovedToTheTempFolder ? sourcePath : destinationPath
+                                        tempDirectory == NULL ? sourcePath : destinationPath
         ];
         
         WimlibWrapperResult installerRequirementsPatchResult = [wimlibWrapper patchWindowsRequirementsChecks];
@@ -332,15 +362,15 @@ goto cleanup;                                                                   
         UInt32 maxSliceSize = dwFile.size / partsCount;
         
         CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSplitWindowsImage, DWOperationResultStart, NULL);
-                
+        
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath: sourcePath];
         
         __block DWAction lastAction = DWActionContinue;
         
         __block BOOL isFirstCall = YES;
         WimlibWrapperResult splitImageResult = [wimlibWrapper splitWithDestinationDirectoryPath: [destinationPath stringByDeletingLastPathComponent]
-                                                                             maxSliceSizeInBytes: maxSliceSize
-                                                                                        callback: ^BOOL(uint32_t totalPartsCount, uint32 currentPartNumber, uint64 bytesWritten, uint64 bytesTotal) {
+                                                                            maxSliceSizeInBytes: maxSliceSize
+                                                                                       callback: ^BOOL(uint32_t totalPartsCount, uint32 currentPartNumber, uint64 bytesWritten, uint64 bytesTotal) {
             
             if (isFirstCall) {
                 [dwFile setSize:bytesTotal];
@@ -354,7 +384,7 @@ goto cleanup;                                                                   
         }];
         
         if (lastAction != DWActionContinue) {
-            return NO;
+            goto cleanup;
         }
         
         DWOperationResult operationResult;
@@ -376,8 +406,8 @@ goto cleanup;                                                                   
     operationWasSuccessful = YES;
     
 cleanup:
-    if (imageMovedToTheTempFolder) {
-        [localFileManager removeItemAtPath: sourcePath
+    if (tempDirectory != NULL) {
+        [localFileManager removeItemAtPath: tempDirectory
                                      error: NULL];
     }
     
@@ -396,10 +426,10 @@ return NO;                                                                      
 case DWActionSkip:                                                                            \
 continue;                                                                                     \
 }
-    
-    if (![self commonErrorCheckerWithError:error]) {
-        return NO;
-    }
+
+if (![self commonErrorCheckerWithError:error]) {
+    return NO;
+}
     
     DWFile *installerWIMPackageFile = NULL;
     BOOL hasEFIBootloader = NO;
@@ -435,7 +465,7 @@ continue;                                                                       
             [self writeWindowsInstallWithDWFile: currentFile
                                 destinationPath: absoluteDestinationPath
                                        callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
-            
+                
                 lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
                 
                 return lastAction;
