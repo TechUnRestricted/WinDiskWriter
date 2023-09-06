@@ -10,6 +10,16 @@
 
 @implementation ProgressBarView
 
+- (instancetype)init {
+    self = [super init];
+    
+    [self setIndeterminate: NO];
+    
+    [self resetProgressSynchronously];
+    
+    return self;
+}
+
 - (void)setMaxValueSynchronously:(double)maxValue {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setMaxValue:maxValue];
@@ -22,18 +32,23 @@
     });
 }
 
+- (void)setDoubleValueSynchronously:(double)doubleValue {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setDoubleValue:doubleValue];
+    });
+}
+
 - (void)incrementBySynchronously:(double)delta {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self incrementBy:delta];
     });
 }
 
-- (void)resetProgress {
+- (void)resetProgressSynchronously {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setDoubleValue: 0.0];
-        
-        [self setMinValue: 0.0];
-        [self setMaxValue: 100.0];
+        [self setMinValue: 0];
+        [self setMaxValue: FLT_MAX];
     });
 }
 
