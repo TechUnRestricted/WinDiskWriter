@@ -180,7 +180,7 @@ int main(int argc, const char *argv[]) {
 		/* Prepairing to write an Image to the Destination Device */
 		
 		/* Erasing the Disk if required */
-		struct DiskInfo destinationDiskInfo = [destinationDM getDiskInfo];
+		struct DiskInfo destinationDiskInfo = [destinationDM diskInfo];
 		NSString *targetPartitionPath = _destination;
 		
 		if (!doNotErase) {

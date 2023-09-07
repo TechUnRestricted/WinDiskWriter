@@ -101,6 +101,8 @@
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
+		E27FF65F2AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
+		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
 		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
 		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
@@ -428,6 +430,8 @@
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
 		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
+		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
+		E27FF65E2AAA2C1500C0356F /* DiskInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskInfo.m; sourceTree = "<group>"; };
 		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
 		E289E2BB298EE0BD0011B620 /* BootModes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootModes.m; sourceTree = "<group>"; };
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
@@ -1270,6 +1274,15 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
+		E27FF6612AAA2C1800C0356F /* DiskInfo */ = {
+			isa = PBXGroup;
+			children = (
+				E27FF65D2AAA2C1500C0356F /* DiskInfo.h */,
+				E27FF65E2AAA2C1500C0356F /* DiskInfo.m */,
+			);
+			path = DiskInfo;
+			sourceTree = "<group>";
+		};
 		E289E2B9298EE08D0011B620 /* BootModes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1396,6 +1409,7 @@
 		E2CCB29329854D9B004EE171 /* DiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				E27FF6612AAA2C1800C0356F /* DiskInfo */,
 				E289E2B9298EE08D0011B620 /* BootModes */,
 				E2B52BBA29858D6E00DF362B /* Filesystems */,
 				E2B52BBE2985923400DF362B /* PartitionSchemes */,
@@ -1705,6 +1719,7 @@
 				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,
 				E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */,
 				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
+				E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */,
 				E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */,
 				E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */,
 				E23298B92A37C23700869736 /* AppDelegate.m in Sources */,
@@ -1787,6 +1802,7 @@
 				E2247B4D2986FA1E000B24A1 /* xpress_decompress.c in Sources */,
 				E2247B332986FA1D000B24A1 /* encoding.c in Sources */,
 				E2247B552986FA1E000B24A1 /* error.c in Sources */,
+				E27FF65F2AAA2C1500C0356F /* DiskInfo.m in Sources */,
 				E2247B4A2986FA1E000B24A1 /* test_support.c in Sources */,
 				E2247B312986FA1D000B24A1 /* inode_table.c in Sources */,
 				E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */,
@@ -1834,9 +1850,11 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "WinDiskWriter GUI/WinDiskWriter_GUI.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1863,9 +1881,11 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "WinDiskWriter GUI/WinDiskWriter_GUI.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

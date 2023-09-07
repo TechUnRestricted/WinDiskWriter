@@ -189,7 +189,7 @@ return NO;                                                                      
             fclose(source);
             fclose(destination);
             
-            CallbackHandler(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultFailure, NULL);
+            CallbackHandler(dwFile, bytesWritten, DWOperationTypeWriteFile, DWOperationResultFailure, error);
             
             return NO;
         }
@@ -336,7 +336,7 @@ goto cleanup;                                                                   
         
         WimlibWrapper *wimlibWrapper = [[WimlibWrapper alloc] initWithWimPath:
                                             /* Choosing Windows Installer Image Path based on previous operations */
-                                        tempDirectory == NULL ? sourcePath : destinationPath
+                                        tempDirectory != NULL ? sourcePath : destinationPath
         ];
         
         WimlibWrapperResult installerRequirementsPatchResult = [wimlibWrapper patchWindowsRequirementsChecks];

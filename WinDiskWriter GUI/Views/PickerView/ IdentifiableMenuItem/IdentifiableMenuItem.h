@@ -7,20 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DiskInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IdentifiableMenuItem : NSMenuItem
 
-@property (strong, nonatomic, readwrite) id userIdentifiableData;
+@property (strong, nonatomic, readwrite) DiskInfo *diskInfo;
 
-- (instancetype)initWithTitle: (NSString *)title
-         identifiableUserData: (id)identifiableUserData;
-
-- (instancetype)initWithDeviceVendor: (NSString *)deviceVendor
-                         deviceModel: (NSString *)deviceModel
-              storageCapacityInBytes: (NSUInteger)storageCapacityInBytes
-                             bsdName: (NSString *)bsdName;
+- (instancetype)initWithDiskInfo: (DiskInfo *)diskInfo;
 
 @end
 
