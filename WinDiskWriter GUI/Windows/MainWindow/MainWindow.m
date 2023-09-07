@@ -98,7 +98,7 @@ WriteExitForce();                     \
 
 - (void)resetProgress {
     [self setCurrentProgressWithWrittenBytes: 0
-                             fileSizeBytes: 0];
+                               fileSizeBytes: 0];
     
     [currentOperationProgressBarView resetProgressSynchronously];
     [totalOperationProgressBarView resetProgressSynchronously];
@@ -527,10 +527,9 @@ WriteExitForce();                     \
     [self setIsScheduledForStop: NO];
     [self setEnabledUIState: NO];
     
-    NSString *bsdName = [(IdentifiableMenuItem *)devicePickerView.selectedItem userIdentifiableData];
-    DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:bsdName];
+    DiskInfo *destinationDiskInfo = [(IdentifiableMenuItem *)devicePickerView.selectedItem diskInfo];
+    DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:destinationDiskInfo.BSDName];
     
-    struct DiskInfo destinationDiskInfo = [destinationDiskDM getDiskInfo];
     if (destinationDiskDM == NULL || !destinationDiskInfo.isDeviceUnit) {
         [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
                                   subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
@@ -584,7 +583,7 @@ WriteExitForce();                     \
                                           logType: ASLogTypeLog];
     
     NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", patch_security_checks: \"%d\").",
-                                        bsdName,
+                                        destinationDiskInfo.BSDName,
                                         destinationDiskInfo.deviceVendor,
                                         destinationDiskInfo.deviceModel,
                                         newPartitionName,
@@ -605,13 +604,13 @@ WriteExitForce();                     \
                                                      filesystem: selectedFileSystem
                                                         newName: newPartitionName
                                                           error: &diskEraseError];
-                
+        
         if (diskEraseError != NULL) {
             [self displayWarningAlertWithTitle: DISK_ERASE_FAILURE_TITLE
                                       subtitle: diskEraseError.stringValue
                                           icon: NSImageNameCaution];
             
-            [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_FAILURE_TITLE
+            [self->logsAutoScrollTextView appendTimestampedLine: [DISK_ERASE_FAILURE_TITLE stringByAppendingFormat: @" (Error message: %@)", diskEraseError.stringValue]
                                                         logType: ASLogTypeFatal];
             
             WriteExitForce();
@@ -644,7 +643,7 @@ WriteExitForce();                     \
                                                            skipSecurityChecks: skipSecurityChecks];
         
         NSError *writeError = NULL;
-                
+        
         [diskWriter startWritingWithError: &writeError
                          progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
             if (self.isScheduledForStop) {
@@ -660,7 +659,7 @@ WriteExitForce();                     \
             
             [self setCurrentProgressWithWrittenBytes: copiedBytes
                                        fileSizeBytes: dwFile.size];
-                        
+            
             NSString *destinationCurrentFilePath = [targetPartitionPath stringByAppendingPathComponent: dwFile.sourcePath];
             NSMutableString *onscreenLogText = [NSMutableString string];
             
@@ -796,24 +795,21 @@ WriteExitForce();                     \
     
     [logsAutoScrollTextView appendTimestampedLine:@"Clearing the device picker list." logType:ASLogTypeLog];
     
-    NSArray<NSString *> *bsdNames = [DiskManager getBSDDrivesNames];
+    NSArray<NSString *> *bsdNames = [DiskManager BSDDrivesNames];
     
     NSString *textLog = [NSString stringWithFormat:@"Found devices: %@", [bsdNames componentsJoinedByString:@", "]];
     [logsAutoScrollTextView appendTimestampedLine:textLog logType:ASLogTypeLog];
     
     for (NSString *bsdName in bsdNames) {
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
-        struct DiskInfo diskInfo = [diskManager getDiskInfo];
+        DiskInfo *diskInfo = [diskManager diskInfo];
         
         if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
             !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive || !diskInfo.isWritable) {
             continue;
         }
         
-        IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDeviceVendor: [diskInfo.deviceVendor strip]
-                                                                                            deviceModel: [diskInfo.deviceModel strip]
-                                                                                 storageCapacityInBytes: [diskInfo.mediaSize floatValue]
-                                                                                                bsdName: bsdName];
+        IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDiskInfo:diskInfo];
         
         [devicePickerView.menu addItem:identifiableMenuItem];
     }
@@ -830,12 +826,12 @@ WriteExitForce();                     \
         if (enabledUIState) {
             [self resetProgress];
             [self->currentOperationLabelView setStringValue: @"Ready for action"];
-
+            
             [self->quitMenuItem setAction:@selector(terminate:)];
             
             [self->bytesWrittenLabelView setStringValue: @""];
             [self->bytesFileSizeLabelView setStringValue: @""];
-                        
+            
             [self->startStopButtonView setTitle: BUTTON_START_TITLE];
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {

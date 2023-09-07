@@ -6,28 +6,22 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import "IdentifiableMenuItem.h"
 #import "NSMutableAttributedString+Common.h"
+#import "IdentifiableMenuItem.h"
+#import "NSString+Common.h"
 #import "HelperFunctions.h"
 
 @implementation IdentifiableMenuItem
 
-- (instancetype)initWithTitle: (NSString *)title
-         identifiableUserData: (id)identifiableUserData {
+- (instancetype)initWithDiskInfo: (DiskInfo *)diskInfo {
     self = [super init];
+
+    NSString *deviceVendor = [diskInfo.deviceVendor strip];
+    NSString *deviceModel = [diskInfo.deviceModel strip];
+    NSString *bsdName = diskInfo.BSDName;
     
-    [self setTitle: title];
-    [self setUserIdentifiableData: identifiableUserData];
-
-    return self;
-}
-
-- (instancetype)initWithDeviceVendor: (NSString *)deviceVendor
-                         deviceModel: (NSString *)deviceModel
-              storageCapacityInBytes: (NSUInteger)storageCapacityInBytes
-                             bsdName: (NSString *)bsdName {
-    self = [super init];
-
+    UInt64 storageCapacityInBytes = [diskInfo.mediaSize unsignedIntValue];
+    
     NSMutableAttributedString *mutableAttributesStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@ %@", deviceVendor, deviceModel]
                                                                                                               weight: 6
                                                                                                                 size: NSFont.systemFontSize];
@@ -42,7 +36,7 @@
     
     [self setAttributedTitle: mutableAttributesStringResult];
     
-    [self setUserIdentifiableData: bsdName];
+    [self setDiskInfo: diskInfo];
     
     return self;
 }

@@ -46,7 +46,7 @@
     return self;
 }
 
-+ (NSArray *)getBSDDrivesNames {
++ (NSArray *)BSDDrivesNames {
     io_iterator_t iterator = 0;
     
     CFDictionaryRef matching = IOServiceMatching(kIOServicePlane);
@@ -130,7 +130,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         newName = [newName uppercaseString];
     }
     
-    struct DiskInfo diskInfo = [self getDiskInfo];
+    DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
@@ -178,7 +178,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         newName = [newName uppercaseString];
     }
     
-    struct DiskInfo diskInfo = [self getDiskInfo];
+    DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
@@ -215,22 +215,22 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
                                      code: DMErrorCodeEraseDiskFailure
                                  userInfo: @{NSLocalizedDescriptionKey: [errorPipeOutput strip]}
         ];
-
+        
     }
     
     return NO;
     
 }
 
-+ (BOOL) isBSDPath: (NSString *)path {
++ (BOOL)isBSDPath: (NSString *)path {
     return [path hasOneOfThePrefixes:@[
         @"disk", @"/dev/disk",
         @"rdisk", @"/dev/rdisk"
     ]];
 }
 
-- (struct DiskInfo) getDiskInfo {
-    struct DiskInfo diskInfo;
+- (DiskInfo *)diskInfo {
+    DiskInfo *diskInfo = [[DiskInfo alloc] init];
     NSDictionary *diskDescription = CFBridgingRelease(DADiskCopyDescription(currentDisk));
     
     diskInfo.isWholeDrive = [[diskDescription objectForKey:@"DAMediaWhole"] boolValue];
