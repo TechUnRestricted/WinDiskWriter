@@ -28,6 +28,8 @@ NSString * const CHECK_DATA_CORRECTNESS_TITLE = @"Check the correctness of the e
 NSString * const NO_AVAILABLE_DEVICES_TITLE = @"No writable devices found.";
 NSString * const PRESS_UPDATE_BUTTON_SUBTITLE = @"Connect a compatible USB device and click on the Update button.";
 NSString * const BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE = @"Chosen Device is no longer available.";
+NSString * const BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID = @"The information about this device is outdated or invalid.";
+
 NSString * const IMAGE_VERIFICATION_ERROR_TITLE = @"Can't verify this Image.";
 NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
 NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";

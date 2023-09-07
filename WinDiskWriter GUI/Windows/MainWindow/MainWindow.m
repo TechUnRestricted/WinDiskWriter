@@ -527,10 +527,14 @@ WriteExitForce();                     \
     [self setIsScheduledForStop: NO];
     [self setEnabledUIState: NO];
     
-    DiskInfo *destinationDiskInfo = [(IdentifiableMenuItem *)devicePickerView.selectedItem diskInfo];
-    DiskManager *destinationDiskDM = [[DiskManager alloc] initWithBSDName:destinationDiskInfo.BSDName];
+    // Saved information from the last device scanning operation
+    DiskInfo *destinationSavedDiskInfo = [(IdentifiableMenuItem *)devicePickerView.selectedItem diskInfo];
     
-    if (destinationDiskDM == NULL || !destinationDiskInfo.isDeviceUnit) {
+    // Making sure that the selected BSD Device name is still available
+    DiskManager *secondVerifyingStageDiskManager = [[DiskManager alloc] initWithBSDName:destinationSavedDiskInfo.BSDName];
+    DiskInfo *secondVerifyingStageDiskInfo = [secondVerifyingStageDiskManager diskInfo];
+
+    if (secondVerifyingStageDiskManager == NULL || !destinationSavedDiskInfo.isDeviceUnit) {
         [self displayWarningAlertWithTitle: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
                                   subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
@@ -539,6 +543,23 @@ WriteExitForce();                     \
                                               logType: ASLogTypeFatal];
         WriteExitForce();
     }
+    
+    /* !!DATA-LOSS PREVENTION!!
+    - We need to make sure that we will format exactly the device that was selected in the list
+    of available devices, and not the one that managed to occupy the vacated BSD Name.
+    - The most adequate way in this case is to verify the initialization date of the bsd device. */
+    
+    if (destinationSavedDiskInfo.appearanceTime.doubleValue != secondVerifyingStageDiskInfo.appearanceTime.doubleValue) {
+        [self displayWarningAlertWithTitle: BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID
+                                  subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
+                                      icon: NSImageNameCaution];
+        
+        [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID
+                                              logType: ASLogTypeFatal];
+        
+        WriteExitForce();
+    }
+    
     
     NSError *imageMountError = NULL;
     NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: windowsImageInputView.stringValue
@@ -583,9 +604,9 @@ WriteExitForce();                     \
                                           logType: ASLogTypeLog];
     
     NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", patch_security_checks: \"%d\").",
-                                        destinationDiskInfo.BSDName,
-                                        destinationDiskInfo.deviceVendor,
-                                        destinationDiskInfo.deviceModel,
+                                        destinationSavedDiskInfo.BSDName,
+                                        destinationSavedDiskInfo.deviceVendor,
+                                        destinationSavedDiskInfo.deviceModel,
                                         newPartitionName,
                                         selectedPartitionScheme,
                                         selectedFileSystem,
@@ -600,7 +621,7 @@ WriteExitForce();                     \
         [self setCurrentProgressTitle: @"Formatting the drive"];
         
         NSError *diskEraseError = NULL;
-        [destinationDiskDM diskUtilEraseDiskWithPartitionScheme: selectedPartitionScheme
+        [secondVerifyingStageDiskManager diskUtilEraseDiskWithPartitionScheme: selectedPartitionScheme
                                                      filesystem: selectedFileSystem
                                                         newName: newPartitionName
                                                           error: &diskEraseError];
