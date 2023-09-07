@@ -6,12 +6,28 @@
 </p>
 
 <p align="center">
-  <img width="420" alt="WinDiskWriter Main Screen" src="https://images2.imgbox.com/8d/a7/Ap7To111_o.jpg">
+  <img width="420" alt="WinDiskWriter Main Screen" src="https://i.postimg.cc/xQwFTxnf/Win-Disk-Writer-Main-Screen.png">
 </p>
 
 <p>
 &emsp;&emsp;You can choose between a user-friendly <b>graphical interface</b> or a powerful <b>console</b> version, depending on your preference and skill level.<br>
 &emsp;&emsp;WinDiskWriter is <i>still in development</i>, so if you encounter any issues or have any questions, please <i>feel free to create an Issue on GitHub</i> and I will do my best to help you.</p>
+
+<h2>Features</h2>
+<ul>
+  <li>
+    Creating bootable USB drives for Windows Vista to 11.
+  </li>
+  <li>
+    Patching Windows 11 Installer in order to remove hardware restrictions (TPM chip and Secure Boot requirements).
+  </li>
+  <li>
+    Extracting the UEFI-compatible bootloader from the Windows Vista or 7 installation file.
+  </li>
+  <li>
+    Splitting a large install.wim file into multiple .swm files to comply with the FAT32 file size limit.
+  </li>
+</ul>
 
 <h2>Compatibility</h2>
 <h3>macOS Support</h3>
@@ -40,7 +56,7 @@
         </tr>
         <tr>
             <td>OS X Mavericks 10.9</td>
-            <td rowspan="8" align="center">Yes</td>
+            <td rowspan="999" align="center">Yes</td>
         </tr>
         <tr>
             <td>OS X Yosemite 10.10</td>
@@ -69,10 +85,6 @@
         </tr>
         <tr>
             <td>macOS Monterey 12.0</td>
-            <td rowspan="999" align="center">
-              Not Yet<br>
-              <sub>(should work)</sub>
-            </td>
         </tr>
         <tr>
             <td>macOS Ventura 13.0</td>
@@ -119,51 +131,41 @@
 </table>
 
 <sup>
-Only <b>UEFI x86_64</b> images are currently supported.<br>
-Images with install.<b>esd</b> (compressed system image) over 4GB are not supported yet on FAT32, but install.<b>wim</b> works fine with every size.<br>
-<i>Legacy Boot Mode and install.<b>esd</b> support is <b>coming soon</b>.</i>
+  <b>UEFI x86_64</b> images are the only supported format at the moment.<br>
+  Images with install.<b>esd</b> (compressed system image) larger than 4GB are not compatible with FAT32, but install.<b>wim</b> works well with any size.<br>
+  <i>Support for Legacy Boot Mode and large install.<b>esd</b> files is <b>under development</b>.</i>
 </sup>
 
 <h2>Additional Information</h2>
 <p align="center">
-  <img width="340" alt="WinDiskWriter About Screen" src="https://images2.imgbox.com/8b/34/NkkuMKxc_o.png">
+  <img width="340" alt="WinDiskWriter About Screen" src="https://i.postimg.cc/SkDr8DFz/Win-Disk-Writer-About-Screen.png">
 </p>
 <p>
 &emsp;&emsp;WinDiskWriter is developed in the <b>Objective-C</b> programming language to ensure <b>maximum backward compatibility</b> with older versions of macOS.<br>
-&emsp;&emsp;For building the interface, a custom solution was developed, which is an alternative to NSStackView, but for old operating systems.<br>
-&emsp;&emsp;The interface supports setting minimum and maximum widths and heights of elements, which would simply be impossible to implement through .xib or .storyboard.<br>
-&emsp;&emsp;The application <b>does not have any external dynamically-linked additional helpers</b>, so its functionality is guaranteed even if you run the application binary file separately.<br>
-&emsp;&emsp;Since WinDiskWriter was written in Objective-C, which is supported from the very first version of Mac OS X, the <b>size of the application is very small</b>, while it contains several architectures (x86_64 and ARM64).
+&emsp;&emsp;The application <b>can be run as a standalone binary</b> that does not depend on any external dynamic libraries, ensuring its functionality even when executed on its own.<br>
+&emsp;&emsp;Using this language, which is supported by all versions of Mac OS X, WinDiskWriter achieves a <b>compact application size</b>, despite containing multiple architectures (x86_64 and ARM64).
+
 </p>
 
-<h2>Todo</h2>
+<h2>Planned Features</h2>
 <ul>
   <li>
-    Add support for Legacy BIOS booting.
+    Enable Legacy BIOS booting option.
   </li>
   <li>
-    Add support for choosing individual partitions in WinDiskWriter (GUI).
+    Allow selecting individual partitions in WinDiskWriter (GUI).
   </li>
   <li>
-    Add "Show internal drives" toggle.
+    Provide a toggle to show internal drives.
   </li>
   <li>
-    Add support for bypassing Windows 11 install requirements on unsupported hardware.
+    Support splitting install.<b>esd</b> (compressed system image) files for FAT32 filesystem compatibility.
   </li>
   <li>
-    Add support for splitting install.<b>esd</b> (compressed system image) files for FAT32 filesystem.
+    Resolve UI Elements drawing issues on Mac OS X Mavericks 10.9 and lower.
   </li>
   <li>
-   Add support for stopping the operation without waiting for the end of copying the current file.
-  </li>
-  <li>
-    Fix UI bugs on Mac OS X Mavericks 10.9 and lower.
-  </li>
-  <li>
-    Add 32-Bit CPU support for the already existing fat binary. (x86_64 + ARM64 + x86).
-  </li>
-  <li>
-    Make copying process way faster by using more than one thread for this task.
+    Add 32-Bit CPU support for the existing fat binary. (x86_64 + ARM64 + x86).
   </li>
 </ul>
 

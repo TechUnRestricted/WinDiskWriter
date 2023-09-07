@@ -44,12 +44,6 @@ typedef NS_ENUM(NSUInteger, DWErrorCode) {
     DWErrorCodeGetDiskAvailableSpaceFailure
 };
 
-struct FileWriteInfo {
-    NSString *_Nonnull sourceFilePath;
-    NSString *_Nonnull destinationFilePath;
-    UInt64 entitiesRemain;
-};
-
 @interface DiskWriter: NSObject
 
 NS_ASSUME_NONNULL_BEGIN

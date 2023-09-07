@@ -20,7 +20,7 @@
     NSString *deviceModel = [diskInfo.deviceModel strip];
     NSString *bsdName = diskInfo.BSDName;
     
-    UInt64 storageCapacityInBytes = [diskInfo.mediaSize unsignedIntValue];
+    UInt64 storageCapacityInBytes = [diskInfo.mediaSize unsignedLongLongValue];
     
     NSMutableAttributedString *mutableAttributesStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@ %@", deviceVendor, deviceModel]
                                                                                                               weight: 6
