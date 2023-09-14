@@ -10,8 +10,9 @@
 </p>
 
 <p>
-&emsp;&emsp;You can choose between a user-friendly <b>graphical interface</b> or a powerful <b>console</b> version, depending on your preference and skill level.<br>
-&emsp;&emsp;WinDiskWriter is <i>still in development</i>, so if you encounter any issues or have any questions, please <i>feel free to create an Issue on GitHub</i> and I will do my best to help you.</p>
+&emsp;&emsp;You can enjoy a <b>user-friendly graphical interface</b> that makes the process easy and intuitive.<br>
+&emsp;&emsp;WinDiskWriter is <i>still in development</i>, so if you encounter any issues or have any questions, please <i>feel free to create an Issue on GitHub</i> and I will do my best to help you.
+</p>
 
 <h2>Features</h2>
 <ul>

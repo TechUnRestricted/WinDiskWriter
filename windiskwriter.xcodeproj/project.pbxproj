@@ -7,86 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6B299986BA007A651F /* WimlibWrapper.m */; };
-		E20ABA7029999278007A651F /* CChar2DArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E20ABA6F29999278007A651F /* CChar2DArray.m */; };
 		E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E77E2A9FBAA3004643C1 /* MainWindow.m */; };
-		E213E7862AA0B501004643C1 /* WimlibSplitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */; };
 		E213E7872AA0B501004643C1 /* WimlibSplitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */; };
 		E217F4652A90EC8300215AF1 /* IdentifiableMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F4642A90EC8300215AF1 /* IdentifiableMenuItem.m */; };
-		E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F46C2A927E3400215AF1 /* NSError+Common.m */; };
 		E217F47E2A92D85400215AF1 /* ModernWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E217F47D2A92D85400215AF1 /* ModernWindow.m */; };
-		E2247B182986FA1D000B24A1 /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
-		E2247B192986FA1D000B24A1 /* join.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6B2986FA1D000B24A1 /* join.c */; };
-		E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
-		E2247B1B2986FA1D000B24A1 /* extract.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6F2986FA1D000B24A1 /* extract.c */; };
-		E2247B1C2986FA1D000B24A1 /* unix_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A722986FA1D000B24A1 /* unix_capture.c */; };
-		E2247B1D2986FA1D000B24A1 /* add_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A752986FA1D000B24A1 /* add_image.c */; };
-		E2247B1E2986FA1D000B24A1 /* wimboot.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A782986FA1D000B24A1 /* wimboot.c */; };
-		E2247B1F2986FA1D000B24A1 /* progress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A7B2986FA1D000B24A1 /* progress.c */; };
-		E2247B202986FA1D000B24A1 /* tagged_items.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A7D2986FA1D000B24A1 /* tagged_items.c */; };
-		E2247B212986FA1D000B24A1 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A802986FA1D000B24A1 /* util.c */; };
-		E2247B222986FA1D000B24A1 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A822986FA1D000B24A1 /* compress.c */; };
-		E2247B232986FA1D000B24A1 /* decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A832986FA1D000B24A1 /* decompress.c */; };
-		E2247B242986FA1D000B24A1 /* security.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A872986FA1D000B24A1 /* security.c */; };
-		E2247B252986FA1D000B24A1 /* avl_tree.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A892986FA1D000B24A1 /* avl_tree.c */; };
-		E2247B262986FA1D000B24A1 /* decompress_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A8D2986FA1D000B24A1 /* decompress_common.c */; };
-		E2247B272986FA1D000B24A1 /* reparse.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A8F2986FA1D000B24A1 /* reparse.c */; };
-		E2247B282986FA1D000B24A1 /* xml_windows.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A922986FA1D000B24A1 /* xml_windows.c */; };
-		E2247B292986FA1D000B24A1 /* reference.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A942986FA1D000B24A1 /* reference.c */; };
-		E2247B2A2986FA1D000B24A1 /* x86_cpu_features.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A972986FA1D000B24A1 /* x86_cpu_features.c */; };
-		E2247B2B2986FA1D000B24A1 /* lzms_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9B2986FA1D000B24A1 /* lzms_common.c */; };
-		E2247B2D2986FA1D000B24A1 /* integrity.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A9D2986FA1D000B24A1 /* integrity.c */; };
-		E2247B2E2986FA1D000B24A1 /* file_io.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA02986FA1D000B24A1 /* file_io.c */; };
-		E2247B2F2986FA1D000B24A1 /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA12986FA1D000B24A1 /* verify.c */; };
-		E2247B302986FA1D000B24A1 /* paths.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA32986FA1D000B24A1 /* paths.c */; };
-		E2247B312986FA1D000B24A1 /* inode_table.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA62986FA1D000B24A1 /* inode_table.c */; };
-		E2247B322986FA1D000B24A1 /* split.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AA82986FA1D000B24A1 /* split.c */; };
-		E2247B332986FA1D000B24A1 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAB2986FA1D000B24A1 /* encoding.c */; };
-		E2247B342986FA1D000B24A1 /* template.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAC2986FA1D000B24A1 /* template.c */; };
-		E2247B352986FA1D000B24A1 /* solid.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AAF2986FA1D000B24A1 /* solid.c */; };
-		E2247B362986FA1D000B24A1 /* lzms_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB02986FA1D000B24A1 /* lzms_decompress.c */; };
-		E2247B372986FA1D000B24A1 /* lzx_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB22986FA1D000B24A1 /* lzx_compress.c */; };
-		E2247B382986FA1E000B24A1 /* scan.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB42986FA1D000B24A1 /* scan.c */; };
-		E2247B392986FA1E000B24A1 /* win32_vss.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB82986FA1D000B24A1 /* win32_vss.c */; };
-		E2247B3A2986FA1E000B24A1 /* mount_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AB92986FA1D000B24A1 /* mount_image.c */; };
-		E2247B3B2986FA1E000B24A1 /* lcpit_matchfinder.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ABC2986FA1D000B24A1 /* lcpit_matchfinder.c */; };
-		E2247B3C2986FA1E000B24A1 /* xml.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ABF2986FA1D000B24A1 /* xml.c */; };
-		E2247B3D2986FA1E000B24A1 /* divsufsort.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AC22986FA1D000B24A1 /* divsufsort.c */; };
-		E2247B3E2986FA1E000B24A1 /* win32_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AC52986FA1D000B24A1 /* win32_common.c */; };
-		E2247B3F2986FA1E000B24A1 /* compress_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACA2986FA1D000B24A1 /* compress_common.c */; };
-		E2247B402986FA1E000B24A1 /* ntfs-3g_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACB2986FA1D000B24A1 /* ntfs-3g_capture.c */; };
-		E2247B412986FA1E000B24A1 /* lzx_common.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ACF2986FA1D000B24A1 /* lzx_common.c */; };
-		E2247B422986FA1E000B24A1 /* inode.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD42986FA1D000B24A1 /* inode.c */; };
-		E2247B432986FA1E000B24A1 /* textfile.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD62986FA1D000B24A1 /* textfile.c */; };
-		E2247B442986FA1E000B24A1 /* win32_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AD82986FA1D000B24A1 /* win32_apply.c */; };
-		E2247B452986FA1E000B24A1 /* pathlist.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADB2986FA1D000B24A1 /* pathlist.c */; };
-		E2247B462986FA1E000B24A1 /* export_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADC2986FA1D000B24A1 /* export_image.c */; };
-		E2247B472986FA1E000B24A1 /* compress_serial.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADD2986FA1D000B24A1 /* compress_serial.c */; };
-		E2247B482986FA1E000B24A1 /* update_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247ADE2986FA1D000B24A1 /* update_image.c */; };
-		E2247B492986FA1E000B24A1 /* lzms_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE02986FA1D000B24A1 /* lzms_compress.c */; };
-		E2247B4A2986FA1E000B24A1 /* test_support.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE42986FA1D000B24A1 /* test_support.c */; };
-		E2247B4B2986FA1E000B24A1 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE72986FA1D000B24A1 /* sha1.c */; };
-		E2247B4C2986FA1E000B24A1 /* lzx_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AE92986FA1D000B24A1 /* lzx_decompress.c */; };
-		E2247B4D2986FA1E000B24A1 /* xpress_decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AEB2986FA1D000B24A1 /* xpress_decompress.c */; };
-		E2247B4E2986FA1E000B24A1 /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AEE2986FA1D000B24A1 /* registry.c */; };
-		E2247B4F2986FA1E000B24A1 /* wim.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AF32986FA1D000B24A1 /* wim.c */; };
-		E2247B502986FA1E000B24A1 /* win32_replacements.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AF72986FA1D000B24A1 /* win32_replacements.c */; };
-		E2247B512986FA1E000B24A1 /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AFB2986FA1D000B24A1 /* pattern.c */; };
-		E2247B522986FA1E000B24A1 /* resource.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247AFE2986FA1D000B24A1 /* resource.c */; };
-		E2247B532986FA1E000B24A1 /* timestamp.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B012986FA1D000B24A1 /* timestamp.c */; };
-		E2247B542986FA1E000B24A1 /* compress_parallel.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B032986FA1D000B24A1 /* compress_parallel.c */; };
-		E2247B552986FA1E000B24A1 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B072986FA1D000B24A1 /* error.c */; };
-		E2247B562986FA1E000B24A1 /* inode_fixup.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B082986FA1D000B24A1 /* inode_fixup.c */; };
-		E2247B572986FA1E000B24A1 /* win32_capture.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0A2986FA1D000B24A1 /* win32_capture.c */; };
-		E2247B582986FA1E000B24A1 /* delete_image.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0B2986FA1D000B24A1 /* delete_image.c */; };
-		E2247B592986FA1E000B24A1 /* header.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B0F2986FA1D000B24A1 /* header.c */; };
-		E2247B5A2986FA1E000B24A1 /* blob_table.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B112986FA1D000B24A1 /* blob_table.c */; };
-		E2247B5B2986FA1E000B24A1 /* metadata_resource.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B132986FA1D000B24A1 /* metadata_resource.c */; };
-		E2247B5C2986FA1E000B24A1 /* iterate_dir.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B142986FA1D000B24A1 /* iterate_dir.c */; };
-		E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B152986FA1D000B24A1 /* unix_apply.c */; };
-		E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247B162986FA1D000B24A1 /* xpress_compress.c */; };
-		E22B444229A1670B00846C1D /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
 		E22E6BE42A75C87000FD4BFD /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6BE32A75C87000FD4BFD /* ButtonView.m */; };
 		E22E6C042A75D73700FD4BFD /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6C032A75D73700FD4BFD /* PickerView.m */; };
 		E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E6C072A76B3C700FD4BFD /* CheckBoxView.m */; };
@@ -99,26 +24,10 @@
 		E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */; };
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
-		E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
-		E25946072982A77F000C60A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E25946062982A77F000C60A4 /* main.m */; };
-		E27FF65F2AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
-		E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
-		E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */; };
-		E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
-		E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
-		E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
-		E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
-		E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD72994619700B394F4 /* NSArray+Common.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
 		E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B412A857C2D008B9FAC /* VibrantTextView.m */; };
-		E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
-		E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
-		E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
-		E2CCB28629833695004EE171 /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
-		E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
-		E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
 		E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */; };
 		E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */; };
 		E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
@@ -206,10 +115,7 @@
 		E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
 		E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
 		E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
-		E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */; };
-		E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */; };
 		E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */; };
-		E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
 		E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */; };
@@ -218,28 +124,6 @@
 		E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */; };
 		E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F2D2E52A95307A00E1B7FF /* Images.xcassets */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E25946012982A77F000C60A4 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		E289E2B7298D98EE0011B620 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E20ABA6A299986BA007A651F /* WimlibWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WimlibWrapper.h; sourceTree = "<group>"; };
@@ -428,8 +312,6 @@
 		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
-		E25946032982A77F000C60A4 /* windiskwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = windiskwriter; sourceTree = BUILT_PRODUCTS_DIR; };
-		E25946062982A77F000C60A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 1; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
 		E27FF65E2AAA2C1500C0356F /* DiskInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskInfo.m; sourceTree = "<group>"; };
 		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
@@ -443,10 +325,6 @@
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
 		E2BEF1432A9B6FA90083A7AA /* DWProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWProgress.h; sourceTree = "<group>"; };
 		E2BEF1442A9B6FA90083A7AA /* DWProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWProgress.m; sourceTree = "<group>"; };
-		E2C5FFCE2994599600B394F4 /* ArgumentsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentsHandler.h; sourceTree = "<group>"; };
-		E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentsHandler.m; sourceTree = "<group>"; };
-		E2C5FFD229945B8C00B394F4 /* ArgumentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgumentObject.h; sourceTree = "<group>"; };
-		E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArgumentObject.m; sourceTree = "<group>"; };
 		E2C5FFD62994619700B394F4 /* NSArray+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Common.h"; sourceTree = "<group>"; };
 		E2C5FFD72994619700B394F4 /* NSArray+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Common.m"; sourceTree = "<group>"; };
 		E2C73B392A855FD5008B9FAC /* AdvancedTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdvancedTextView.h; sourceTree = "<group>"; };
@@ -488,13 +366,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		E23298A42A37C1FB00869736 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E25946002982A77F000C60A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1102,10 +973,10 @@
 		E23298A82A37C1FB00869736 /* WinDiskWriter GUI */ = {
 			isa = PBXGroup;
 			children = (
-				E2F2D2CE2A941AD100E1B7FF /* Licenses-Constants */,
+				E2F7CE382AB353C000BA6FE4 /* Classes */,
+				E2F2D2CE2A941AD100E1B7FF /* Constants */,
 				E23298BE2A37C31500869736 /* Extensions */,
 				E23298BA2A37C31500869736 /* Views */,
-				E245C8892A44BBDA009CBB43 /* FrameLayout */,
 				E2F2D2BA2A93DC8C00E1B7FF /* Windows */,
 				E27FF65C2AA548E900C0356F /* AppDelegate */,
 				E23298B12A37C1FC00869736 /* main.m */,
@@ -1143,6 +1014,10 @@
 		E23298BE2A37C31500869736 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E217F46E2A927E3900215AF1 /* NSError */,
+				E289E2BD298EE6260011B620 /* NSString */,
+				E289E2BE298EE6310011B620 /* NSFileManager */,
+				E2C5FFD92994619C00B394F4 /* NSArray */,
 				E2F2D2C52A93EAB500E1B7FF /* NSMutableAttributedString */,
 				E23298BF2A37C31500869736 /* NSColor */,
 				E23298C22A37C31500869736 /* NSWindow */,
@@ -1231,7 +1106,6 @@
 			children = (
 				E2F2D2D32A952CF400E1B7FF /* README.md */,
 				E22478072985E0A7000B24A1 /* libs */,
-				E25946052982A77F000C60A4 /* windiskwriter */,
 				E23298A82A37C1FB00869736 /* WinDiskWriter GUI */,
 				E25946042982A77F000C60A4 /* Products */,
 			);
@@ -1240,29 +1114,9 @@
 		E25946042982A77F000C60A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E25946032982A77F000C60A4 /* windiskwriter */,
 				E23298A72A37C1FB00869736 /* WinDiskWriter.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		E25946052982A77F000C60A4 /* windiskwriter */ = {
-			isa = PBXGroup;
-			children = (
-				E20ABA6D299991E0007A651F /* CChar2DArray */,
-				E20ABA6929998685007A651F /* WimlibWrapper */,
-				E2CCB2882983E5D9004EE171 /* Extensions */,
-				E2CCB29229854D91004EE171 /* DiskWriter */,
-				E2CCB29329854D9B004EE171 /* DiskManager */,
-				E2CCB29429854DA4004EE171 /* HDIUtil */,
-				E2CCB29529854DAC004EE171 /* CommandLine */,
-				E2CCB29629854DB8004EE171 /* HelperFunctions */,
-				E2C5FFD12994599E00B394F4 /* ArgumentsHandler */,
-				E25946062982A77F000C60A4 /* main.m */,
-				E289E2C5298FDFC00011B620 /* Constants.h */,
-				E2DF0FB72A8ECA0400339DDB /* Constants.m */,
-			);
-			path = windiskwriter;
 			sourceTree = "<group>";
 		};
 		E27FF65C2AA548E900C0356F /* AppDelegate */ = {
@@ -1337,25 +1191,6 @@
 			path = DWProgress;
 			sourceTree = "<group>";
 		};
-		E2C5FFD12994599E00B394F4 /* ArgumentsHandler */ = {
-			isa = PBXGroup;
-			children = (
-				E2C5FFD529945B9000B394F4 /* ArgumentObject */,
-				E2C5FFCE2994599600B394F4 /* ArgumentsHandler.h */,
-				E2C5FFCF2994599600B394F4 /* ArgumentsHandler.m */,
-			);
-			path = ArgumentsHandler;
-			sourceTree = "<group>";
-		};
-		E2C5FFD529945B9000B394F4 /* ArgumentObject */ = {
-			isa = PBXGroup;
-			children = (
-				E2C5FFD229945B8C00B394F4 /* ArgumentObject.h */,
-				E2C5FFD329945B8C00B394F4 /* ArgumentObject.m */,
-			);
-			path = ArgumentObject;
-			sourceTree = "<group>";
-		};
 		E2C5FFD92994619C00B394F4 /* NSArray */ = {
 			isa = PBXGroup;
 			children = (
@@ -1382,17 +1217,6 @@
 				E2C73B412A857C2D008B9FAC /* VibrantTextView.m */,
 			);
 			path = VibrantTextView;
-			sourceTree = "<group>";
-		};
-		E2CCB2882983E5D9004EE171 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				E217F46E2A927E3900215AF1 /* NSError */,
-				E289E2BD298EE6260011B620 /* NSString */,
-				E289E2BE298EE6310011B620 /* NSFileManager */,
-				E2C5FFD92994619C00B394F4 /* NSArray */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E2CCB29229854D91004EE171 /* DiskWriter */ = {
@@ -1510,13 +1334,15 @@
 			path = NSMutableAttributedString;
 			sourceTree = "<group>";
 		};
-		E2F2D2CE2A941AD100E1B7FF /* Licenses-Constants */ = {
+		E2F2D2CE2A941AD100E1B7FF /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				E289E2C5298FDFC00011B620 /* Constants.h */,
+				E2DF0FB72A8ECA0400339DDB /* Constants.m */,
 				E2F2D2CB2A941ACC00E1B7FF /* Licenses-Constants.h */,
 				E2F2D2CC2A941ACC00E1B7FF /* Licenses-Constants.m */,
 			);
-			path = "Licenses-Constants";
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		E2F2D2CF2A95015700E1B7FF /* SynchronizedAlertData */ = {
@@ -1526,6 +1352,21 @@
 				E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */,
 			);
 			path = SynchronizedAlertData;
+			sourceTree = "<group>";
+		};
+		E2F7CE382AB353C000BA6FE4 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E20ABA6D299991E0007A651F /* CChar2DArray */,
+				E20ABA6929998685007A651F /* WimlibWrapper */,
+				E2CCB29229854D91004EE171 /* DiskWriter */,
+				E2CCB29329854D9B004EE171 /* DiskManager */,
+				E2CCB29429854DA4004EE171 /* HDIUtil */,
+				E2CCB29529854DAC004EE171 /* CommandLine */,
+				E2CCB29629854DB8004EE171 /* HelperFunctions */,
+				E245C8892A44BBDA009CBB43 /* FrameLayout */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1548,24 +1389,6 @@
 			productReference = E23298A72A37C1FB00869736 /* WinDiskWriter.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E25946022982A77F000C60A4 /* windiskwriter */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E259460A2982A77F000C60A4 /* Build configuration list for PBXNativeTarget "windiskwriter" */;
-			buildPhases = (
-				E25945FF2982A77F000C60A4 /* Sources */,
-				E25946002982A77F000C60A4 /* Frameworks */,
-				E25946012982A77F000C60A4 /* CopyFiles */,
-				E289E2B7298D98EE0011B620 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = windiskwriter;
-			productName = windiskwriter;
-			productReference = E25946032982A77F000C60A4 /* windiskwriter */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1577,9 +1400,6 @@
 				TargetAttributes = {
 					E23298A62A37C1FB00869736 = {
 						CreatedOnToolsVersion = 13.2.1;
-					};
-					E25946022982A77F000C60A4 = {
-						CreatedOnToolsVersion = 11.7;
 					};
 				};
 			};
@@ -1596,7 +1416,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E25946022982A77F000C60A4 /* windiskwriter */,
 				E23298A62A37C1FB00869736 /* WinDiskWriter GUI */,
 			);
 		};
@@ -1712,8 +1531,6 @@
 				E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */,
 				E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */,
 				E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */,
-				E2DF0FAE2A894CAB00339DDB /* ArgumentObject.m in Sources */,
-				E2DF0FAF2A894CAB00339DDB /* ArgumentsHandler.m in Sources */,
 				E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */,
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
 				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,
@@ -1735,105 +1552,6 @@
 				E23298C52A37C31500869736 /* LabelView.m in Sources */,
 				E22E6BE42A75C87000FD4BFD /* ButtonView.m in Sources */,
 				E23298C62A37C31500869736 /* NSColor+Common.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E25945FF2982A77F000C60A4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E2247B532986FA1E000B24A1 /* timestamp.c in Sources */,
-				E213E7862AA0B501004643C1 /* WimlibSplitInfo.m in Sources */,
-				E2247B542986FA1E000B24A1 /* compress_parallel.c in Sources */,
-				E2247B1C2986FA1D000B24A1 /* unix_capture.c in Sources */,
-				E2C5FFD82994619700B394F4 /* NSArray+Common.m in Sources */,
-				E2247B5D2986FA1E000B24A1 /* unix_apply.c in Sources */,
-				E2247B202986FA1D000B24A1 /* tagged_items.c in Sources */,
-				E2B52BBD29858D8000DF362B /* Filesystems.m in Sources */,
-				E2247B512986FA1E000B24A1 /* pattern.c in Sources */,
-				E2247B4B2986FA1E000B24A1 /* sha1.c in Sources */,
-				E2247B3B2986FA1E000B24A1 /* lcpit_matchfinder.c in Sources */,
-				E2B52BC12985925600DF362B /* PartitionSchemes.m in Sources */,
-				E20ABA6C299986BA007A651F /* WimlibWrapper.m in Sources */,
-				E2247B592986FA1E000B24A1 /* header.c in Sources */,
-				E2247B222986FA1D000B24A1 /* compress.c in Sources */,
-				E2247B432986FA1E000B24A1 /* textfile.c in Sources */,
-				E2247B5C2986FA1E000B24A1 /* iterate_dir.c in Sources */,
-				E2247B3E2986FA1E000B24A1 /* win32_common.c in Sources */,
-				E2CCB28629833695004EE171 /* HelperFunctions.m in Sources */,
-				E2247B402986FA1E000B24A1 /* ntfs-3g_capture.c in Sources */,
-				E2247B3F2986FA1E000B24A1 /* compress_common.c in Sources */,
-				E2247B472986FA1E000B24A1 /* compress_serial.c in Sources */,
-				E2247B4F2986FA1E000B24A1 /* wim.c in Sources */,
-				E2247B392986FA1E000B24A1 /* win32_vss.c in Sources */,
-				E2247B5A2986FA1E000B24A1 /* blob_table.c in Sources */,
-				E2247B182986FA1D000B24A1 /* write.c in Sources */,
-				E2247B562986FA1E000B24A1 /* inode_fixup.c in Sources */,
-				E2247B302986FA1D000B24A1 /* paths.c in Sources */,
-				E2247B412986FA1E000B24A1 /* lzx_common.c in Sources */,
-				E2247B1B2986FA1D000B24A1 /* extract.c in Sources */,
-				E2247B2F2986FA1D000B24A1 /* verify.c in Sources */,
-				E2247B1D2986FA1D000B24A1 /* add_image.c in Sources */,
-				E2247B362986FA1D000B24A1 /* lzms_decompress.c in Sources */,
-				E2247B262986FA1D000B24A1 /* decompress_common.c in Sources */,
-				E25946072982A77F000C60A4 /* main.m in Sources */,
-				E2247B2B2986FA1D000B24A1 /* lzms_common.c in Sources */,
-				E2CCB27B2982F8C3004EE171 /* HDIUtil.m in Sources */,
-				E2247B1A2986FA1D000B24A1 /* dentry.c in Sources */,
-				E2247B342986FA1D000B24A1 /* template.c in Sources */,
-				E2247B282986FA1D000B24A1 /* xml_windows.c in Sources */,
-				E2247B352986FA1D000B24A1 /* solid.c in Sources */,
-				E2247B242986FA1D000B24A1 /* security.c in Sources */,
-				E2247B3D2986FA1E000B24A1 /* divsufsort.c in Sources */,
-				E2247B582986FA1E000B24A1 /* delete_image.c in Sources */,
-				E2247B2D2986FA1D000B24A1 /* integrity.c in Sources */,
-				E22B444229A1670B00846C1D /* DWFile.m in Sources */,
-				E2247B382986FA1E000B24A1 /* scan.c in Sources */,
-				E20ABA7029999278007A651F /* CChar2DArray.m in Sources */,
-				E2247B292986FA1D000B24A1 /* reference.c in Sources */,
-				E2247B522986FA1E000B24A1 /* resource.c in Sources */,
-				E2247B2A2986FA1D000B24A1 /* x86_cpu_features.c in Sources */,
-				E217F46D2A927E3400215AF1 /* NSError+Common.m in Sources */,
-				E2247B452986FA1E000B24A1 /* pathlist.c in Sources */,
-				E2247B272986FA1D000B24A1 /* reparse.c in Sources */,
-				E2247B3C2986FA1E000B24A1 /* xml.c in Sources */,
-				E2247B1F2986FA1D000B24A1 /* progress.c in Sources */,
-				E2247B492986FA1E000B24A1 /* lzms_compress.c in Sources */,
-				E2247B4D2986FA1E000B24A1 /* xpress_decompress.c in Sources */,
-				E2247B332986FA1D000B24A1 /* encoding.c in Sources */,
-				E2247B552986FA1E000B24A1 /* error.c in Sources */,
-				E27FF65F2AAA2C1500C0356F /* DiskInfo.m in Sources */,
-				E2247B4A2986FA1E000B24A1 /* test_support.c in Sources */,
-				E2247B312986FA1D000B24A1 /* inode_table.c in Sources */,
-				E2247B5E2986FA1E000B24A1 /* xpress_compress.c in Sources */,
-				E2247B2E2986FA1D000B24A1 /* file_io.c in Sources */,
-				E2247B502986FA1E000B24A1 /* win32_replacements.c in Sources */,
-				E2247B372986FA1D000B24A1 /* lzx_compress.c in Sources */,
-				E2CCB2762982C7A4004EE171 /* DiskWriter.m in Sources */,
-				E2247B4E2986FA1E000B24A1 /* registry.c in Sources */,
-				E2247B192986FA1D000B24A1 /* join.c in Sources */,
-				E289E2BC298EE0BD0011B620 /* BootModes.m in Sources */,
-				E2247B322986FA1D000B24A1 /* split.c in Sources */,
-				E2247B572986FA1E000B24A1 /* win32_capture.c in Sources */,
-				E2247B482986FA1E000B24A1 /* update_image.c in Sources */,
-				E2247B232986FA1D000B24A1 /* decompress.c in Sources */,
-				E2247B1E2986FA1D000B24A1 /* wimboot.c in Sources */,
-				E2247B252986FA1D000B24A1 /* avl_tree.c in Sources */,
-				E2247B422986FA1E000B24A1 /* inode.c in Sources */,
-				E2CCB28B2983E5F2004EE171 /* NSString+Common.m in Sources */,
-				E2247B212986FA1D000B24A1 /* util.c in Sources */,
-				E2C5FFD429945B8C00B394F4 /* ArgumentObject.m in Sources */,
-				E250F6D329A4F4D0003BBF7D /* DWFilesContainer.m in Sources */,
-				E2247B442986FA1E000B24A1 /* win32_apply.c in Sources */,
-				E289E2C1298EE66F0011B620 /* NSFileManager+Common.m in Sources */,
-				E2247B462986FA1E000B24A1 /* export_image.c in Sources */,
-				E2CCB28E2983EE60004EE171 /* DiskManager.m in Sources */,
-				E2247B5B2986FA1E000B24A1 /* metadata_resource.c in Sources */,
-				E2247B3A2986FA1E000B24A1 /* mount_image.c in Sources */,
-				E2247B4C2986FA1E000B24A1 /* lzx_decompress.c in Sources */,
-				E2CCB27F2982FB1B004EE171 /* CommandLine.m in Sources */,
-				E2DF0FB82A8ECA0400339DDB /* Constants.m in Sources */,
-				E2C5FFD02994599600B394F4 /* ArgumentsHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2013,36 +1731,6 @@
 			};
 			name = Release;
 		};
-		E259460B2982A77F000C60A4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
-			};
-			name = Debug;
-		};
-		E259460C2982A77F000C60A4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2060,15 +1748,6 @@
 			buildConfigurations = (
 				E25946082982A77F000C60A4 /* Debug */,
 				E25946092982A77F000C60A4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E259460A2982A77F000C60A4 /* Build configuration list for PBXNativeTarget "windiskwriter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E259460B2982A77F000C60A4 /* Debug */,
-				E259460C2982A77F000C60A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
