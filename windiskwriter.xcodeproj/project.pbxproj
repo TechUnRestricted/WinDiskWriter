@@ -25,6 +25,7 @@
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
+		E2B6027C2AB43E7C00885038 /* AutoUnattendBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B6027A2AB43E7C00885038 /* AutoUnattendBuilder.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
 		E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B412A857C2D008B9FAC /* VibrantTextView.m */; };
@@ -123,6 +124,7 @@
 		E2F2D2CD2A941ACC00E1B7FF /* Licenses-Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2CC2A941ACC00E1B7FF /* Licenses-Constants.m */; };
 		E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */; };
 		E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F2D2E52A95307A00E1B7FF /* Images.xcassets */; };
+		E2F7CE3B2AB3816700BA6FE4 /* AutoAttendCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F7CE3A2AB3816700BA6FE4 /* AutoAttendCreator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -323,6 +325,8 @@
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
+		E2B6027A2AB43E7C00885038 /* AutoUnattendBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoUnattendBuilder.m; sourceTree = "<group>"; };
+		E2B6027B2AB43E7C00885038 /* AutoUnattendBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoUnattendBuilder.h; sourceTree = "<group>"; };
 		E2BEF1432A9B6FA90083A7AA /* DWProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWProgress.h; sourceTree = "<group>"; };
 		E2BEF1442A9B6FA90083A7AA /* DWProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWProgress.m; sourceTree = "<group>"; };
 		E2C5FFD62994619700B394F4 /* NSArray+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Common.h"; sourceTree = "<group>"; };
@@ -362,6 +366,8 @@
 		E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynchronizedAlertData.m; sourceTree = "<group>"; };
 		E2F2D2D32A952CF400E1B7FF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E2F2D2E52A95307A00E1B7FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E2F7CE392AB3816700BA6FE4 /* AutoAttendCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoAttendCreator.h; sourceTree = "<group>"; };
+		E2F7CE3A2AB3816700BA6FE4 /* AutoAttendCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoAttendCreator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1182,6 +1188,15 @@
 			path = PartitionSchemes;
 			sourceTree = "<group>";
 		};
+		E2B602792AB43E7C00885038 /* AutoUnattendBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				E2B6027A2AB43E7C00885038 /* AutoUnattendBuilder.m */,
+				E2B6027B2AB43E7C00885038 /* AutoUnattendBuilder.h */,
+			);
+			path = AutoUnattendBuilder;
+			sourceTree = "<group>";
+		};
 		E2BEF1462A9B6FAC0083A7AA /* DWProgress */ = {
 			isa = PBXGroup;
 			children = (
@@ -1357,6 +1372,7 @@
 		E2F7CE382AB353C000BA6FE4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E2B602792AB43E7C00885038 /* AutoUnattendBuilder */,
 				E20ABA6D299991E0007A651F /* CChar2DArray */,
 				E20ABA6929998685007A651F /* WimlibWrapper */,
 				E2CCB29229854D91004EE171 /* DiskWriter */,
@@ -1365,8 +1381,18 @@
 				E2CCB29529854DAC004EE171 /* CommandLine */,
 				E2CCB29629854DB8004EE171 /* HelperFunctions */,
 				E245C8892A44BBDA009CBB43 /* FrameLayout */,
+				E2F7CE3C2AB3816A00BA6FE4 /* AutoAttendCreator */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		E2F7CE3C2AB3816A00BA6FE4 /* AutoAttendCreator */ = {
+			isa = PBXGroup;
+			children = (
+				E2F7CE392AB3816700BA6FE4 /* AutoAttendCreator.h */,
+				E2F7CE3A2AB3816700BA6FE4 /* AutoAttendCreator.m */,
+			);
+			path = AutoAttendCreator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1504,6 +1530,7 @@
 				E2DF0F912A894CAB00339DDB /* win32_apply.c in Sources */,
 				E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */,
 				E2DF0F922A894CAB00339DDB /* export_image.c in Sources */,
+				E2F7CE3B2AB3816700BA6FE4 /* AutoAttendCreator.m in Sources */,
 				E2DF0F932A894CAB00339DDB /* compress_serial.c in Sources */,
 				E2DF0F942A894CAB00339DDB /* update_image.c in Sources */,
 				E2DF0F952A894CAB00339DDB /* lzx_decompress.c in Sources */,
@@ -1552,6 +1579,7 @@
 				E23298C52A37C31500869736 /* LabelView.m in Sources */,
 				E22E6BE42A75C87000FD4BFD /* ButtonView.m in Sources */,
 				E23298C62A37C31500869736 /* NSColor+Common.m in Sources */,
+				E2B6027C2AB43E7C00885038 /* AutoUnattendBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
