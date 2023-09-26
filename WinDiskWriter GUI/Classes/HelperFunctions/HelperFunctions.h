@@ -13,28 +13,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define IOLog(FORMAT, ...) fprintf(stderr,"%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
-enum ImageMountError {
+typedef NS_ENUM(NSUInteger, ImageMountError) {
     ImageMountErrorFileDoesNotExist,
     ImageMountErrorFileIsNotISO
 };
 
-enum DestinationDeviceError {
+typedef NS_ENUM(NSUInteger, DestinationDeviceError) {
     DestinationDeviceErrorBadPath,
     DestinationDeviceErrorUnsupportedAPICall,
     DestinationDeviceErrorInvalidBSDName
 };
 
 @interface HelperFunctions : NSObject
+
 - (instancetype)init NS_UNAVAILABLE;
+
 + (void)printTimeElapsedWhenRunningCode: (NSString *)title
                               operation: (void (^)(void))operation;
-+ (BOOL) hasElevatedRights;
+
++ (BOOL)hasElevatedRights;
+
 + (NSString *)randomStringWithLength: (UInt64)requiredLength;
-+ (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
-                                           error: (NSError *_Nullable *_Nullable)error;
-+ (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
-                                           isBSDDevice: (BOOL *_Nullable)isBSDDevice
-                                                 error: (NSError *_Nullable *_Nullable)error;
+
++ (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath
+                                        error: (NSError *_Nullable *_Nullable)error;
+
++ (DiskManager *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
+                                        isBSDDevice: (BOOL *_Nullable)isBSDDevice
+                                              error: (NSError *_Nullable *_Nullable)error;
+
 + (NSString *)unitFormattedSizeFor: (UInt64)bytes;
 @end
 

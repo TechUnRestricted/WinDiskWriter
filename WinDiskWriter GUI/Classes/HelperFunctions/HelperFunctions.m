@@ -16,7 +16,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 
 @implementation HelperFunctions
 
-+ (BOOL) hasElevatedRights {
++ (BOOL)hasElevatedRights {
     return getuid() == 0;
 }
 
@@ -25,12 +25,13 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     operation();
     CFAbsoluteTime timeElapsed = CFAbsoluteTimeGetCurrent() - startTime;
- 
+    
     NSLog(@"Time elapsed for %@: %f s.", title, timeElapsed);
 }
 
 + (NSString *)randomStringWithLength: (UInt64)requiredLength {
     NSMutableString *generatedString = [NSMutableString stringWithCapacity:requiredLength];
+    
     for (NSUInteger i = 0U; i < requiredLength; i++) {
         u_int32_t r = arc4random() % [MSDOSCompliantSymbols length];
         unichar c = [MSDOSCompliantSymbols characterAtIndex:r];
@@ -40,8 +41,8 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return generatedString;
 }
 
-+ (NSString *_Nullable)getWindowsSourceMountPath: (NSString *_Nonnull)sourcePath
-                                           error: (NSError *_Nullable *_Nullable)error {
++ (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath
+                                        error: (NSError *_Nullable *_Nullable)error {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
     BOOL isDirectory;
@@ -80,14 +81,15 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     return NULL;
 }
 
-+ (DiskManager *_Nullable)getDiskManagerWithDevicePath: (NSString *)devicePath
-                                           isBSDDevice: (BOOL *_Nullable)isBSDDevice
-                                                 error: (NSError *_Nullable *_Nullable)error {
++ (DiskManager *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
+                                        isBSDDevice: (BOOL *_Nullable)isBSDDevice
+                                              error: (NSError *_Nullable *_Nullable)error {
     
     if ([DiskManager isBSDPath:devicePath]) {
         if (isBSDDevice != NULL) {
             *isBSDDevice = YES;
         }
+        
         /* Received device destination path was defined as BSD Name. */
         return [[DiskManager alloc] initWithBSDName:devicePath];
     }
@@ -135,7 +137,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     ];
     
     UInt8 unitPosition = 0;
-
+    
     while (doubleBytes > 1000) {
         doubleBytes /= 1000;
         unitPosition += 1;

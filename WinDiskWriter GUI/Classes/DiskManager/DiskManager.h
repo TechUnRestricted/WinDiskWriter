@@ -32,9 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
  };
  */
 
-enum DMErrorCode {
+typedef NS_ENUM(NSUInteger, DMErrorCode) {
     DMErrorCodeSpecifiedBSDNameDoesNotExist,
-    DMErrorCodeEraseDiskFailure,
+    DMErrorCodeEraseDiskFailure
 };
 
 @interface DiskManager : NSObject

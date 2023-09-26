@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DWFile.h"
 
-enum DWFilesContainerMessage {
+typedef NS_ENUM(NSUInteger, DWFilesContainerMessage) {
     DWFilesContainerMessageGetAttributesProcess,
     DWFilesContainerMessageGetAttributesSuccess,
     DWFilesContainerMessageGetAttributesFailure
