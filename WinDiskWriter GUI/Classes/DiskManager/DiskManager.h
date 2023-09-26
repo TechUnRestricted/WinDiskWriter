@@ -40,10 +40,13 @@ typedef NS_ENUM(NSUInteger, DMErrorCode) {
 @interface DiskManager : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName API_AVAILABLE(macosx(10.4));
-- (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath API_AVAILABLE(macosx(10.7));
+
+- (instancetype _Nullable)initWithBSDName: (NSString *)bsdName API_AVAILABLE(macosx(10.4));
+
+- (instancetype _Nullable)initWithVolumePath: (NSString *)volumePath API_AVAILABLE(macosx(10.7));
 
 - (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options;
+
 - (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options;
 
 - (BOOL)diskUtilEraseVolumeWithFilesystem: (Filesystem)filesystem
@@ -56,7 +59,9 @@ typedef NS_ENUM(NSUInteger, DMErrorCode) {
                                        error: (NSError *_Nullable *_Nullable)error;
 
 + (BOOL)isBSDPath: (NSString *)path;
+
 - (DiskInfo *)diskInfo;
+
 + (NSArray *)BSDDrivesNames;
 
 @end

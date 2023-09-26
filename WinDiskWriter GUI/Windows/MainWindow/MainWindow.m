@@ -31,7 +31,7 @@
 #import "HelperFunctions.h"
 
 #import "ModernWindow.h"
-#import "AboutWindow.h"
+#import "AdditionalOptionsSheetWindow.h"
 
 #define WriteExitForce()                \
 [self setEnabledUIState: YES];          \
@@ -75,12 +75,14 @@ WriteExitForce();                     \
 - (instancetype)initWithNSRect: (NSRect)nsRect
                          title: (NSString *)title
                        padding: (CGFloat)padding
+        paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware
                    aboutWindow: (AboutWindow *)aboutWindow
-                  quitMenuItem: quitMenuItem {
+                  quitMenuItem: (NSMenuItem *)quitMenuItem {
     
     self = [super initWithNSRect: nsRect
                            title: title
-                         padding: padding];
+                         padding: padding
+          paddingIsTitleBarAware: paddingIsTitleBarAware];
     
     self->aboutWindow = aboutWindow;
     self->quitMenuItem = quitMenuItem;
@@ -198,6 +200,18 @@ WriteExitForce();                     \
         [skipSecurityChecksCheckboxView setTitle: @"Patch Installer Requirements"];
         [skipSecurityChecksCheckboxView setState: NSOffState];
     }
+    
+    ButtonView *additionalSettingsButtonView = [[ButtonView alloc] init]; {
+        [additionalSettingsButtonView setBezelStyle: NSBezelStyleTexturedSquare];
+        
+        [additionalSettingsButtonView setAction: @selector(showAdditionalOptions)];
+        [additionalSettingsButtonView setTarget: self];
+        
+        [additionalSettingsButtonView setTitle: @"Additional Options"];
+        
+        [mainVerticalLayout addView:additionalSettingsButtonView width:INFINITY height:additionalSettingsButtonView.cell.cellSize.height];
+    }
+    
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
     
@@ -384,6 +398,23 @@ WriteExitForce();                     \
     [[NSApplication sharedApplication] terminate:nil];
 }
 
+- (void)showAdditionalOptions {
+    printf("Clicked on %s\n", __FUNCTION__);
+    
+    CGRect windowRect = CGRectMake(0, 0, 100, 100);
+    
+    AdditionalOptionsSheetWindow *additionalOptionsSheetWindow = [[AdditionalOptionsSheetWindow alloc] initWithNSRect: windowRect
+                                                                                                                title: NULL
+                                                                                                              padding: 10
+                                                                                               paddingIsTitleBarAware: NO];
+        
+    [NSApp beginSheet: additionalOptionsSheetWindow
+       modalForWindow: self
+        modalDelegate: self
+       didEndSelector: NULL
+          contextInfo: NULL];
+}
+
 - (void)displayWarningAlertWithTitle: (NSString *)title
                             subtitle: (NSString *_Nullable)subtitle
                                 icon: (NSImageName)icon {
@@ -562,7 +593,7 @@ WriteExitForce();                     \
     
     
     NSError *imageMountError = NULL;
-    NSString *mountedImagePath = [HelperFunctions getWindowsSourceMountPath: windowsImageInputView.stringValue
+    NSString *mountedImagePath = [HelperFunctions windowsSourceMountPath: windowsImageInputView.stringValue
                                                                       error: &imageMountError];
     if (imageMountError != NULL) {
         NSString *errorSubtitle = imageMountError.stringValue;

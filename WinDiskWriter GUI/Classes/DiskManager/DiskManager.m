@@ -24,7 +24,7 @@
     diskSession = DASessionCreate(kCFAllocatorDefault);
 }
 
-- (instancetype _Nullable)initWithBSDName: (NSString * _Nonnull)bsdName {
+- (instancetype _Nullable)initWithBSDName: (NSString *)bsdName {
     [self initDiskSession];
     currentDisk = DADiskCreateFromBSDName(kCFAllocatorDefault, diskSession, [bsdName UTF8String]);
     
@@ -35,7 +35,7 @@
     return self;
 }
 
-- (instancetype _Nullable)initWithVolumePath: (NSString * _Nonnull)volumePath {
+- (instancetype _Nullable)initWithVolumePath: (NSString *)volumePath {
     [self initDiskSession];
     currentDisk = DADiskCreateFromVolumePath(kCFAllocatorDefault, diskSession, (CFURLRef)[NSURL fileURLWithPath:volumePath]);
     

@@ -25,6 +25,7 @@
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
+		E2A70F8B2AC2B5490086A99F /* AdditionalOptionsSheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A70F8A2AC2B5490086A99F /* AdditionalOptionsSheetWindow.m */; };
 		E2B6027C2AB43E7C00885038 /* AutoUnattendBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B6027A2AB43E7C00885038 /* AutoUnattendBuilder.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
@@ -321,6 +322,8 @@
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
 		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
 		E289E2C5298FDFC00011B620 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		E2A70F892AC2B5490086A99F /* AdditionalOptionsSheetWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdditionalOptionsSheetWindow.h; sourceTree = "<group>"; };
+		E2A70F8A2AC2B5490086A99F /* AdditionalOptionsSheetWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdditionalOptionsSheetWindow.m; sourceTree = "<group>"; };
 		E2B52BBB29858D8000DF362B /* Filesystems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Filesystems.h; sourceTree = "<group>"; };
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
@@ -404,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F2D2CF2A95015700E1B7FF /* SynchronizedAlertData */,
+				E2A70F8C2AC2B54D0086A99F /* AdditionalOptionsSheetWindow */,
 				E213E77D2A9FBAA3004643C1 /* MainWindow.h */,
 				E213E77E2A9FBAA3004643C1 /* MainWindow.m */,
 			);
@@ -1170,6 +1174,15 @@
 			path = NSFileManager;
 			sourceTree = "<group>";
 		};
+		E2A70F8C2AC2B54D0086A99F /* AdditionalOptionsSheetWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E2A70F892AC2B5490086A99F /* AdditionalOptionsSheetWindow.h */,
+				E2A70F8A2AC2B5490086A99F /* AdditionalOptionsSheetWindow.m */,
+			);
+			path = AdditionalOptionsSheetWindow;
+			sourceTree = "<group>";
+		};
 		E2B52BBA29858D6E00DF362B /* Filesystems */ = {
 			isa = PBXGroup;
 			children = (
@@ -1570,6 +1583,7 @@
 				E22E6C082A76B3C700FD4BFD /* CheckBoxView.m in Sources */,
 				E2F2D2CD2A941ACC00E1B7FF /* Licenses-Constants.m in Sources */,
 				E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */,
+				E2A70F8B2AC2B5490086A99F /* AdditionalOptionsSheetWindow.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
 				E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */,
 				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,

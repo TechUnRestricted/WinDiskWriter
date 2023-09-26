@@ -19,10 +19,12 @@
 
 - (instancetype)initWithNSRect: (NSRect)nsRect
                          title: (NSString *)title
-                       padding: (CGFloat)padding {
+                       padding: (CGFloat)padding
+        paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware{
     self = [super initWithNSRect: nsRect
                            title: title
-                         padding: padding];
+                         padding: padding
+          paddingIsTitleBarAware: paddingIsTitleBarAware];
     
     NSButton *windowZoomButton = [self standardWindowButton:NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];

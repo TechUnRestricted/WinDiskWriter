@@ -8,10 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ModernWindow : NSWindow
 
 - (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithContentRect: (NSRect)contentRect
                           styleMask: (NSWindowStyleMask)style
                             backing: (NSBackingStoreType)backingStoreType
@@ -21,11 +23,12 @@
                           styleMask:(NSWindowStyleMask)style
                             backing:(NSBackingStoreType)backingStoreType
                               defer:(BOOL)flag
-                             screen:(NSScreen *)screen NS_UNAVAILABLE;
+                             screen:(NSScreen *_Nullable)screen NS_UNAVAILABLE;
 
 - (instancetype)initWithNSRect: (NSRect)nsRect
-                         title: (NSString *)title
-                       padding: (CGFloat)padding;
+                         title: (NSString *_Nullable)title
+                       padding: (CGFloat)padding
+        paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware;
 
 - (void)showWindow;
 
@@ -40,3 +43,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

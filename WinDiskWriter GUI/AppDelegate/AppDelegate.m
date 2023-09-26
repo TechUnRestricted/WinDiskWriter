@@ -108,7 +108,8 @@
         
         aboutWindow = [[AboutWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                     title: [NSString stringWithFormat:@"%@ %@", MENU_ITEM_ABOUT_TITLE, APPLICATION_NAME]
-                                                  padding: CHILD_CONTENT_SPACING * 2];
+                                                  padding: CHILD_CONTENT_SPACING * 2
+                                   paddingIsTitleBarAware: YES];
         
         [aboutWindow setMinSize: minWindowSize];
         [aboutWindow setMaxSize: maxWindowSize];
@@ -121,6 +122,7 @@
         mainWindow = [[MainWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
                                                   title: APPLICATION_NAME
                                                 padding: CHILD_CONTENT_SPACING
+                                 paddingIsTitleBarAware: YES
                                             aboutWindow: aboutWindow
                                            quitMenuItem: quitMenuItem];
         

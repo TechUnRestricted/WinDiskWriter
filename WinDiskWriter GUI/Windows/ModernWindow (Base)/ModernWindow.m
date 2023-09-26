@@ -25,8 +25,10 @@
 }
 
 - (instancetype)initWithNSRect: (NSRect)nsRect
-                         title: (NSString *)title
-                       padding: (CGFloat)padding {
+                         title: (NSString *_Nullable)title
+                       padding: (CGFloat)padding
+        paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware {
+    
     self = [super initWithContentRect: nsRect
                             styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
                               backing: NSBackingStoreBuffered
@@ -35,7 +37,10 @@
     [self setReleasedWhenClosed: NO];
     
     [self setMovableByWindowBackground: YES];
-    [self setTitle: title];
+    
+    if (title != NULL) {
+        [self setTitle: title];
+    }
     
     NSView *backgroundView;
     
@@ -55,7 +60,12 @@
     
     [self setContentView: backgroundView];
     
-    [self setupMainVerticalViewWithPaddingTop: (padding / 2) + self.titlebarHeight 
+    CGFloat topPadding = padding;
+    if (paddingIsTitleBarAware) {
+        topPadding = (padding / 2) + self.titlebarHeight;
+    }
+    
+    [self setupMainVerticalViewWithPaddingTop: topPadding
                                        bottom: padding
                                          left: padding
                                         right: padding];
@@ -70,7 +80,7 @@
 
 - (void)removeAttachedSheetWithReturnCode: (NSInteger)returnCode {
     NSWindow *attachedSheet = [self attachedSheet];
-
+    
     if (attachedSheet != NULL) {
         [NSApp endSheet: attachedSheet
              returnCode: returnCode];
