@@ -75,7 +75,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     HDIUtil *hdiutil = [[HDIUtil alloc] initWithImagePath:sourcePath];
     if([hdiutil attachImageWithArguments:@[@"-readonly", @"-noverify", @"-noautofsck", @"-noautoopen"]
                                    error: error]) {
-        return [hdiutil getMountPoint];
+        return [hdiutil mountPoint];
     }
     
     return NULL;

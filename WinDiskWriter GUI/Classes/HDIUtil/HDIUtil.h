@@ -8,24 +8,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HDIUtil: NSObject {
-    NSString *_imagePath;
-    NSString *_mountPoint;
-    NSString *_BSDEntry;
-    NSString *_volumeKind;
-}
+@interface HDIUtil: NSObject
 
-@property(strong, nonatomic, readwrite) NSString *hdiutilPath;
+@property (copy, nonatomic, readwrite) NSString *hdiutilPath;
+@property (copy, nonatomic, readwrite) NSString *imagePath;
+
 - (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithImagePath: (NSString *)imagePath;
+
 - (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments
                            error: (NSError *_Nullable *_Nullable)error;
+
 - (BOOL)attachImageWithError: (NSError *_Nullable *_Nullable)attachImageError;
 
-- (NSString *)getImagePath;
-- (NSString *)getBSDEntry;
-- (NSString *)getMountPoint;
-- (NSString *)getVolumeKind;
+
+- (NSString *)BSDEntry;
+- (NSString *)mountPoint;
+- (NSString *)volumeKind;
+
 @end
 
 NS_ASSUME_NONNULL_END

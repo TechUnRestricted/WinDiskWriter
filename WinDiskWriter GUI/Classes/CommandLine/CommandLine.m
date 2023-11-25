@@ -11,40 +11,42 @@
 
 @implementation CommandLine
 
-+ (struct CommandLineReturn)execute: (NSString *)executable
-                          arguments: (NSArray *)arguments {
-    struct CommandLineReturn commandLineReturn;
++ (CommandLineData *_Nullable)execute: (NSString *)executable
+                            arguments: (NSArray *_Nullable)arguments {
+        
     @try {
         NSTask *task = [[NSTask alloc] init];
         
         NSPipe *standartdPipe = [NSPipe pipe];
         [task setStandardOutput: standartdPipe];
-
+        
         NSPipe *errorPipe = [NSPipe pipe];
         [task setStandardError: errorPipe];
-
+        
         [task setLaunchPath: executable];
-        [task setArguments: arguments];
+        
+        if (arguments) {
+            [task setArguments: arguments];
+        }
         
         NSFileHandle *fileHandleStandardPipe = [standartdPipe fileHandleForReading];
         NSFileHandle *fileHandleErrorPipe = [errorPipe fileHandleForReading];
-
+        
         [task launch];
         [task waitUntilExit];
         
-        commandLineReturn.standardData = [fileHandleStandardPipe readDataToEndOfFile];
-        commandLineReturn.errorData = [fileHandleErrorPipe readDataToEndOfFile];
-
-        commandLineReturn.terminationStatus = [task terminationStatus];
-        commandLineReturn.processIdentifier = [task processIdentifier];
-        commandLineReturn.terminationReason = [task terminationReason];
-                
-        return commandLineReturn;
+        CommandLineData *commandLineData = [[CommandLineData alloc] initWithProcessIdentifier: [task processIdentifier]
+                                                                            terminationStatus: [task terminationStatus]
+                                                                            terminationReason: [task terminationReason]
+                                                                                 standardData: [fileHandleStandardPipe readDataToEndOfFile]
+                                                                                    errorData: [fileHandleErrorPipe readDataToEndOfFile]];
+        
+        return commandLineData;
     } @catch (NSException *exception) {
         /* An error occurred while executing a terminal command */
     }
     
-    return commandLineReturn;
+    return NULL;
 }
 
 @end

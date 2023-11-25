@@ -48,7 +48,7 @@ const uint64_t COPY_BUFFER_SIZE = 8388608;
     return self;
 }
 
-- (UInt64)freeSpaceInPath: (NSString *)path
+- (UInt64)freeSpaceAtPath: (NSString *)path
                     error: (NSError **)error {
     struct statvfs stat;
     
@@ -96,7 +96,7 @@ return NO;                                                                      
     NSString *sourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent: dwFile.sourcePath];
     
     NSError *freeSpaceInPathError = NULL;
-    UInt64 availableSpace = [self freeSpaceInPath: [destinationFilePath stringByDeletingLastPathComponent]
+    UInt64 availableSpace = [self freeSpaceAtPath: [destinationFilePath stringByDeletingLastPathComponent]
                                             error: &freeSpaceInPathError];
     
     if (freeSpaceInPathError != NULL) {

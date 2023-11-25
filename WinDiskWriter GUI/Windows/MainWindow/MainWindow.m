@@ -31,7 +31,6 @@
 #import "HelperFunctions.h"
 
 #import "ModernWindow.h"
-#import "AdditionalOptionsSheetWindow.h"
 
 #define WriteExitForce()                \
 [self setEnabledUIState: YES];          \
@@ -51,6 +50,7 @@ WriteExitForce();                     \
     ButtonView *updateDeviceListButtonView;
     
     CheckBoxView *skipSecurityChecksCheckboxView;
+    CheckBoxView *installLegacyBootCheckBoxView;
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     
@@ -201,17 +201,14 @@ WriteExitForce();                     \
         [skipSecurityChecksCheckboxView setState: NSOffState];
     }
     
-    ButtonView *additionalSettingsButtonView = [[ButtonView alloc] init]; {
-        [additionalSettingsButtonView setBezelStyle: NSBezelStyleTexturedSquare];
+    installLegacyBootCheckBoxView = [[CheckBoxView alloc] init]; {
+        [mainVerticalLayout addView:installLegacyBootCheckBoxView width:INFINITY height:installLegacyBootCheckBoxView.cell.cellSize.height];
         
-        [additionalSettingsButtonView setAction: @selector(showAdditionalOptions)];
-        [additionalSettingsButtonView setTarget: self];
+        [installLegacyBootCheckBoxView setTitle: @"Install Legacy BIOS Boot Sector"];
+        [installLegacyBootCheckBoxView setState: [HelperFunctions hasElevatedRights]];
         
-        [additionalSettingsButtonView setTitle: @"Additional Options"];
-        
-        [mainVerticalLayout addView:additionalSettingsButtonView width:INFINITY height:additionalSettingsButtonView.cell.cellSize.height];
+        [installLegacyBootCheckBoxView setAction: @selector(updateDeviceList)];
     }
-    
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
     
@@ -398,23 +395,6 @@ WriteExitForce();                     \
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-- (void)showAdditionalOptions {
-    printf("Clicked on %s\n", __FUNCTION__);
-    
-    CGRect windowRect = CGRectMake(0, 0, 100, 100);
-    
-    AdditionalOptionsSheetWindow *additionalOptionsSheetWindow = [[AdditionalOptionsSheetWindow alloc] initWithNSRect: windowRect
-                                                                                                                title: NULL
-                                                                                                              padding: 10
-                                                                                               paddingIsTitleBarAware: NO];
-        
-    [NSApp beginSheet: additionalOptionsSheetWindow
-       modalForWindow: self
-        modalDelegate: self
-       didEndSelector: NULL
-          contextInfo: NULL];
-}
-
 - (void)displayWarningAlertWithTitle: (NSString *)title
                             subtitle: (NSString *_Nullable)subtitle
                                 icon: (NSImageName)icon {
@@ -468,10 +448,18 @@ WriteExitForce();                     \
                         contextInfo: NULL];
 }
 
-- (void)alertActionStartPromptDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+- (void)alertActionStartPromptDidEnd: (NSAlert *)alert
+                          returnCode: (NSInteger)returnCode
+                         contextInfo: (void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
         [self writeAction];
     }
+}
+
+- (void)alertActionRestartAsRootDidEnd:(NSAlert *)alert
+                            returnCode:(NSInteger)returnCode
+                           contextInfo:(void *)contextInfo {
+    
 }
 
 - (void)startAction {
@@ -895,11 +883,10 @@ WriteExitForce();                     \
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];
         [self->skipSecurityChecksCheckboxView setEnabled: enabledUIState];
+        [self->installLegacyBootCheckBoxView setEnabled: enabledUIState];
         [self->windowsImageInputView setEnabled: enabledUIState];
         [self->devicePickerView setEnabled: enabledUIState];
-        
-        // [self->slashSeparatorLabelView setHidden: enabledUIState];
-        
+                
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
         

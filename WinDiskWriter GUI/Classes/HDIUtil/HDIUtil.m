@@ -12,36 +12,47 @@
 #import "HDIUtil.h"
 #import "NSString+Common.h"
 
-@implementation HDIUtil: NSObject
+@implementation HDIUtil {
+    NSString *mountPoint;
+    NSString *BSDEntry;
+    NSString *volumeKind;
+}
 
 - (BOOL)attachImageWithArguments: (NSArray * _Nullable)arguments
                            error: (NSError *_Nullable *_Nullable)error {
-    NSMutableArray *localArgumentsArray = [NSMutableArray arrayWithArray:@[@"attach", _imagePath, @"-plist"]];
+    NSMutableArray *localArgumentsArray = [NSMutableArray arrayWithArray: @[
+        @"attach",
+        self.imagePath,
+        @"-plist"]
+    ];
     
     if (arguments != NULL) {
         /* Adding custom arguments to the HDIUtil attach command */
         [localArgumentsArray addObjectsFromArray:arguments];
     }
     
-    struct CommandLineReturn commandLineReturn = [CommandLine execute:_hdiutilPath arguments:localArgumentsArray];
-    
-    if (commandLineReturn.terminationStatus != EXIT_SUCCESS) {
-        NSString *errorString = [[NSString alloc] initWithData: commandLineReturn.errorData
+    CommandLineData *commandLineData = [CommandLine execute: self.hdiutilPath
+                                                  arguments: localArgumentsArray];
+        
+    if (commandLineData.terminationStatus != EXIT_SUCCESS) {
+        NSString *errorString = [[NSString alloc] initWithData: commandLineData.errorData
                                                       encoding: NSUTF8StringEncoding].strip;
         
         NSString *finalErrorDescription = [NSString stringWithFormat:@"The exit status of hdiutil was not EXIT_SUCCESS.\n[%@]", errorString];
+      
         if (error) {
             *error = [NSError errorWithDomain: PACKAGE_NAME
                                          code: -1
                                      userInfo: @{NSLocalizedDescriptionKey:
                                                      finalErrorDescription}];
         }
+        
         return NO;
     }
     
     NSString *plistLoadErrorDescription;
     NSDictionary *plist = [NSPropertyListSerialization
-                           propertyListFromData: commandLineReturn.standardData
+                           propertyListFromData: commandLineData.standardData
                            mutabilityOption: NSPropertyListImmutable
                            format: NULL
                            errorDescription: &plistLoadErrorDescription];
@@ -53,6 +64,7 @@
                                      userInfo: @{NSLocalizedDescriptionKey:
                                                      @"An error occurred while reading output from hdiutil."}];
         }
+        
         return NO;
     }
     
@@ -90,20 +102,24 @@
     }
     
     NSDictionary *firstSystemEntity = [systemEntities firstObject];
-    _BSDEntry = [firstSystemEntity objectForKey:@"dev-entry"];
-    _mountPoint = [firstSystemEntity objectForKey:@"mount-point"];
-    _volumeKind = [firstSystemEntity objectForKey:@"volume-kind"];
+    
+    BSDEntry = [firstSystemEntity objectForKey:@"dev-entry"];
+    mountPoint = [firstSystemEntity objectForKey:@"mount-point"];
+    volumeKind = [firstSystemEntity objectForKey:@"volume-kind"];
     
     return YES;
 }
 
 - (BOOL)attachImageWithError: (NSError *_Nullable *_Nullable)attachImageError {
     NSError *attachWithArgumentsError = NULL;
+    
     [self attachImageWithArguments:NULL
                              error: &attachWithArgumentsError];
+    
     if (attachImageError != NULL) {
         *attachImageError = attachWithArgumentsError;
     }
+    
     return YES;
 }
 
@@ -112,6 +128,8 @@
 }
 
 - (instancetype)initWithImagePath: (NSString *)imagePath {
+    self = [super init];
+    
     [self initDefaultProperties];
     
     _imagePath = imagePath;
@@ -119,20 +137,16 @@
     return self;
 }
 
-- (NSString *)getImagePath {
-    return _imagePath;
+- (NSString *)BSDEntry {
+    return BSDEntry;
 }
 
-- (NSString *)getBSDEntry {
-    return _BSDEntry;
+- (NSString *)mountPoint {
+    return mountPoint;
 }
 
-- (NSString *)getMountPoint {
-    return _mountPoint;
-}
-
-- (NSString *)getVolumeKind {
-    return _volumeKind;
+- (NSString *)volumeKind {
+    return volumeKind;
 }
 
 @end

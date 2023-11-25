@@ -18,6 +18,7 @@
 }
 
 - (instancetype)initWithWimPath: (NSString *)wimPath {
+    self = [super self];
     
     enum wimlib_error_code wimOpenStatus = wimlib_open_wim([wimPath UTF8String], NULL, &currentWIM);
     _wimPath = wimPath;

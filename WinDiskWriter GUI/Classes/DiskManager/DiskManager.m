@@ -24,8 +24,21 @@
     diskSession = DASessionCreate(kCFAllocatorDefault);
 }
 
+- (void)dealloc {
+    if (diskSession != NULL) {
+        CFRelease(diskSession);
+    }
+    
+    if (currentDisk != NULL) {
+        CFRelease(currentDisk);
+    }
+}
+
 - (instancetype _Nullable)initWithBSDName: (NSString *)bsdName {
+    self = [super init];
+    
     [self initDiskSession];
+    
     currentDisk = DADiskCreateFromBSDName(kCFAllocatorDefault, diskSession, [bsdName UTF8String]);
     
     if (currentDisk == NULL) {
@@ -36,7 +49,10 @@
 }
 
 - (instancetype _Nullable)initWithVolumePath: (NSString *)volumePath {
+    self = [super init];
+    
     [self initDiskSession];
+    
     currentDisk = DADiskCreateFromVolumePath(kCFAllocatorDefault, diskSession, (CFURLRef)[NSURL fileURLWithPath:volumePath]);
     
     if (currentDisk == NULL) {
@@ -141,15 +157,15 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         return NO;
     }
     
-    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil"
-                                                            arguments:@[@"eraseVolume",
-                                                                        filesystem,
-                                                                        newName,
-                                                                        diskInfo.BSDName
-                                                                      ]
+    CommandLineData *commandLineData = [CommandLine execute: @"/usr/sbin/diskutil"
+                                                  arguments: @[@"eraseVolume",
+                                                               filesystem,
+                                                               newName,
+                                                               diskInfo.BSDName
+                                                             ]
     ];
     
-    if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
+    if (commandLineData.terminationStatus == EXIT_SUCCESS) {
         return YES;
     } else {
         if (error) {
@@ -190,23 +206,23 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         return NO;
     }
     
-    struct CommandLineReturn commandLineReturn = [CommandLine execute:@"/usr/sbin/diskutil"
-                                                            arguments:@[@"eraseDisk",
-                                                                        filesystem,
-                                                                        newName,
-                                                                        partitionScheme,
-                                                                        diskInfo.BSDName
-                                                                      ]
+    CommandLineData *commandLineData = [CommandLine execute: @"/usr/sbin/diskutil"
+                                                  arguments: @[@"eraseDisk",
+                                                               filesystem,
+                                                               newName,
+                                                               partitionScheme,
+                                                               diskInfo.BSDName
+                                                             ]
     ];
     
-    if (commandLineReturn.terminationStatus == EXIT_SUCCESS) {
+    if (commandLineData.terminationStatus == EXIT_SUCCESS) {
         return YES;
     }
     
     if (error) {
         NSString *errorPipeOutput;
-        if (commandLineReturn.errorData) {
-            errorPipeOutput = [[NSString alloc] initWithData:commandLineReturn.errorData encoding:NSUTF8StringEncoding];
+        if (commandLineData.errorData) {
+            errorPipeOutput = [[NSString alloc] initWithData:commandLineData.errorData encoding:NSUTF8StringEncoding];
         } else {
             errorPipeOutput = @"Can't retrieve the information from the command line error output pipe.";
         }

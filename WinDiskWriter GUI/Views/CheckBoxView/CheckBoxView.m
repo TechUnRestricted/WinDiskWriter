@@ -12,10 +12,15 @@
 
 - (instancetype)init {
     self = [super init];
-    
+        
     [self setButtonType: NSSwitchButton];
-    
+        
     return self;
 }
+
+- (void)performClick:(id)sender {
+    printf("Boobs\n");
+}
+
 
 @end
