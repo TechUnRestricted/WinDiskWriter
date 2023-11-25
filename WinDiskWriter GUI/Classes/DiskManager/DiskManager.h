@@ -32,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
  };
  */
 
-typedef NS_ENUM(NSUInteger, DMErrorCode) {
-    DMErrorCodeSpecifiedBSDNameDoesNotExist,
-    DMErrorCodeEraseDiskFailure
-};
-
 @interface DiskManager : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;

@@ -14,6 +14,7 @@
 #import "HelperFunctions.h"
 #import "Filesystems/Filesystems.h"
 #import "NSString+Common.h"
+#import "NSError+Common.h"
 
 @implementation DiskManager {
     DASessionRef diskSession;
@@ -149,34 +150,43 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DMErrorCodeSpecifiedBSDNameDoesNotExist
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"Specified BSD Name does not exist. Can't erase this volume."}];
+            *error = [NSError errorWithStringValue: @"Specified BSD Name does not exist. Can't erase this volume."];
         }
+        
         return NO;
     }
     
+    NSException *eraseVolumeException = NULL;
     CommandLineData *commandLineData = [CommandLine execute: @"/usr/sbin/diskutil"
                                                   arguments: @[@"eraseVolume",
                                                                filesystem,
                                                                newName,
                                                                diskInfo.BSDName
                                                              ]
+                                                  exception: &eraseVolumeException
     ];
+    
+    if (eraseVolumeException != NULL) {
+        if (error) {
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", eraseVolumeException.reason];
+            
+            *error = [NSError errorWithStringValue: exceptionErrorString];
+        }
+        
+        return NO;
+    }
     
     if (commandLineData.terminationStatus == EXIT_SUCCESS) {
         return YES;
     } else {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DMErrorCodeEraseDiskFailure
-                                     userInfo: @{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
-                                                                             filesystem,
-                                                                             newName,
-                                                                             diskInfo.BSDName]}
+            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
+                                                    filesystem,
+                                                    newName,
+                                                    diskInfo.BSDName]
             ];
         }
+        
         return NO;
     }
     
@@ -197,15 +207,12 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: DMErrorCodeSpecifiedBSDNameDoesNotExist
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"Specified BSD Name does not exist. Can't erase this volume."}
-            ];
+            *error = [NSError errorWithStringValue: @"Specified BSD Name does not exist. Can't erase this volume."];
         }
         return NO;
     }
     
+    NSException *eraseVolumeException = NULL;
     CommandLineData *commandLineData = [CommandLine execute: @"/usr/sbin/diskutil"
                                                   arguments: @[@"eraseDisk",
                                                                filesystem,
@@ -213,7 +220,18 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
                                                                partitionScheme,
                                                                diskInfo.BSDName
                                                              ]
+                                                  exception: &eraseVolumeException
     ];
+    
+    if (eraseVolumeException != NULL) {
+        if (error) {
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", eraseVolumeException.reason];
+            
+            *error = [NSError errorWithStringValue: exceptionErrorString];
+        }
+        
+        return NO;
+    }
     
     if (commandLineData.terminationStatus == EXIT_SUCCESS) {
         return YES;
@@ -227,11 +245,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
             errorPipeOutput = @"Can't retrieve the information from the command line error output pipe.";
         }
         
-        *error = [NSError errorWithDomain: PACKAGE_NAME
-                                     code: DMErrorCodeEraseDiskFailure
-                                 userInfo: @{NSLocalizedDescriptionKey: [errorPipeOutput strip]}
-        ];
-        
+        *error = [NSError errorWithStringValue: [errorPipeOutput strip]];
     }
     
     return NO;

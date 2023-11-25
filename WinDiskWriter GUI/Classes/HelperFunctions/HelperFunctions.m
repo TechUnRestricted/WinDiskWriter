@@ -8,6 +8,7 @@
 
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
+#import "NSError+Common.h"
 #import "DiskManager.h"
 #import "Constants.h"
 #import "HDIUtil.h"
@@ -50,11 +51,9 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     
     if (!exists) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: ImageMountErrorFileDoesNotExist
-                                     userInfo: @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File [directory] \"%@\" doesn't exist.", sourcePath]}
-            ];
+            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"File [directory] \"%@\" doesn't exist.", sourcePath]];
         }
+        
         return NULL;
     }
     
@@ -64,11 +63,9 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     
     if (![[[sourcePath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: ImageMountErrorFileIsNotISO
-                                     userInfo: @{NSLocalizedDescriptionKey: @"This file does not have an .iso extension."}
-            ];
+            *error = [NSError errorWithStringValue: @"This file does not have an .iso extension."];
         }
+        
         return NULL;
     }
     
@@ -104,11 +101,9 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
         
         if (!exists) {
             if (error) {
-                *error = [NSError errorWithDomain: PACKAGE_NAME
-                                             code: DestinationDeviceErrorBadPath
-                                         userInfo: @{NSLocalizedDescriptionKey: @"The given Destination path does not exist."}
-                ];
+                *error = [NSError errorWithStringValue: @"The given Destination path does not exist."];
             }
+            
             return NULL;
         }
         
@@ -118,11 +113,9 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             if (error) {
-                *error = [NSError errorWithDomain: PACKAGE_NAME
-                                             code: DestinationDeviceErrorUnsupportedAPICall
-                                         userInfo: @{NSLocalizedDescriptionKey: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."}
-                ];
+                *error = [NSError errorWithStringValue: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."];
             }
+            
             return NULL;
         }
     }

@@ -34,16 +34,6 @@ typedef NS_ENUM(NSUInteger, DWOperationType) {
     DWOperationTypePatchWindowsInstallerRequirements
 };
 
-typedef NS_ENUM(NSUInteger, DWErrorCode) {
-    DWErrorCodeUnsupportedBootMode,
-    DWErrorCodeSourcePathDoesNotExist,
-    DWErrorCodeDestinationPathDoesNotExist,
-    DWErrorCodeEnumerateSourceFilesFailure,
-    DWErrorCodeDiskAttributesObtainingFailure,
-    DWErrorCodeSourceIsTooLarge,
-    DWErrorCodeGetDiskAvailableSpaceFailure
-};
-
 @interface DiskWriter: NSObject
 
 NS_ASSUME_NONNULL_BEGIN

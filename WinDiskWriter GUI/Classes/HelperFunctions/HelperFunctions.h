@@ -13,17 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define IOLog(FORMAT, ...) fprintf(stderr,"%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
-typedef NS_ENUM(NSUInteger, ImageMountError) {
-    ImageMountErrorFileDoesNotExist,
-    ImageMountErrorFileIsNotISO
-};
-
-typedef NS_ENUM(NSUInteger, DestinationDeviceError) {
-    DestinationDeviceErrorBadPath,
-    DestinationDeviceErrorUnsupportedAPICall,
-    DestinationDeviceErrorInvalidBSDName
-};
-
 @interface HelperFunctions : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;

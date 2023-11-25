@@ -17,8 +17,8 @@
 
 + (NSError *)errorWithStringValue: (NSString *)stringValue {
     return [NSError errorWithDomain: PACKAGE_NAME
-                                 code: -1
-                             userInfo: @{NSLocalizedDescriptionKey: stringValue}];
+                               code: -1
+                           userInfo: @{NSLocalizedDescriptionKey: stringValue}];
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "HDIUtil.h"
 #import "NSString+Common.h"
+#import "NSError+Common.h"
 
 @implementation HDIUtil {
     NSString *mountPoint;
@@ -31,8 +32,21 @@
         [localArgumentsArray addObjectsFromArray:arguments];
     }
     
+    NSException *imageMountException = NULL;
+    
     CommandLineData *commandLineData = [CommandLine execute: self.hdiutilPath
-                                                  arguments: localArgumentsArray];
+                                                  arguments: localArgumentsArray
+                                                  exception: &imageMountException];
+    
+    if (imageMountException != NULL) {
+        if (error) {
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", imageMountException.reason];
+            
+            *error = [NSError errorWithStringValue: exceptionErrorString];
+        }
+        
+        return NO;
+    }
         
     if (commandLineData.terminationStatus != EXIT_SUCCESS) {
         NSString *errorString = [[NSString alloc] initWithData: commandLineData.errorData
@@ -41,10 +55,7 @@
         NSString *finalErrorDescription = [NSString stringWithFormat:@"The exit status of hdiutil was not EXIT_SUCCESS.\n[%@]", errorString];
       
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     finalErrorDescription}];
+            *error = [NSError errorWithStringValue: finalErrorDescription];
         }
         
         return NO;
@@ -59,10 +70,7 @@
     
     if (plist == NULL) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"An error occurred while reading output from hdiutil."}];
+            *error = [NSError errorWithStringValue: @"An error occurred while reading output from hdiutil."];
         }
         
         return NO;
@@ -73,31 +81,25 @@
     NSArray *systemEntities = [plist objectForKey:@"system-entities"];
     if (systemEntities == NULL) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"Can't load \"system-entities\" from parsed plist."}];
+            *error = [NSError errorWithStringValue: @"Can't load \"system-entities\" from parsed plist."];
         }
+        
         return NO;
     }
     
     if ([systemEntities count] == 0) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"This image does not contain any System Entity."}];
+            *error = [NSError errorWithStringValue: @"This image does not contain any System Entity."];
         }
+        
         return NO;
     }
     
     if ([systemEntities count] > 1) {
         if (error) {
-            *error = [NSError errorWithDomain: PACKAGE_NAME
-                                         code: -1
-                                     userInfo: @{NSLocalizedDescriptionKey:
-                                                     @"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image."}];
+            *error = [NSError errorWithStringValue: @"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image."];
         }
+        
         return NO;
     }
     

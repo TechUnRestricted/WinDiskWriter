@@ -557,17 +557,13 @@ postBootloaderExtract:
 - (BOOL)commonErrorCheckerWithError: (NSError *_Nonnull *_Nonnull)error {
     /* Currently unsupported option */
     if (_bootMode != BootModeUEFI) {
-        *error = [NSError errorWithDomain: PACKAGE_NAME
-                                     code: DWErrorCodeUnsupportedBootMode
-                                 userInfo: @{NSLocalizedDescriptionKey: @"Legacy Boot Mode is not supported yet."}];
+        *error = [NSError errorWithStringValue: @"Legacy Boot Mode is not supported yet."];
         
         return NO;
     }
     
     if (![localFileManager folderExistsAtPath: _destinationPath]) {
-        *error = [NSError errorWithDomain: PACKAGE_NAME
-                                     code: DWErrorCodeDestinationPathDoesNotExist
-                                 userInfo: @{NSLocalizedDescriptionKey: @"Destination Path does not exist."}];
+        *error = [NSError errorWithStringValue: @"Destination Path does not exist."];
         
         return NO;
     }
@@ -578,16 +574,14 @@ postBootloaderExtract:
     UInt64 destinationDiskAvailableSpace = [self destinationDiskFreeSpace];
     
     if (destinationDiskAvailableSpace == 0) {
-        *error = [NSError errorWithDomain: PACKAGE_NAME
-                                     code: DWErrorCodeGetDiskAvailableSpaceFailure
-                                 userInfo: @{NSLocalizedDescriptionKey: @"Can't get Destination Disk available space."}];
+        *error = [NSError errorWithStringValue: @"Can't get Destination Disk available space."];
+        
         return NO;
     }
     
     if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
-        *error = [NSError errorWithDomain: PACKAGE_NAME
-                                     code: DWErrorCodeSourceIsTooLarge
-                                 userInfo: @{NSLocalizedDescriptionKey: @"Source is too large for the Destination Disk."}];
+        *error = [NSError errorWithStringValue: @"Source is too large for the Destination Disk."];
+
         return NO;
     }
     

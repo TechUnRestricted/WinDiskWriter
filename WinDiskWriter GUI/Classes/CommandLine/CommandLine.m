@@ -12,7 +12,8 @@
 @implementation CommandLine
 
 + (CommandLineData *_Nullable)execute: (NSString *)executable
-                            arguments: (NSArray *_Nullable)arguments {
+                            arguments: (NSArray *_Nullable)arguments
+                            exception: (NSException *_Nullable *_Nullable)nsException {
         
     @try {
         NSTask *task = [[NSTask alloc] init];
@@ -44,6 +45,9 @@
         return commandLineData;
     } @catch (NSException *exception) {
         /* An error occurred while executing a terminal command */
+        if (nsException) {
+            *nsException = exception;
+        }
     }
     
     return NULL;
