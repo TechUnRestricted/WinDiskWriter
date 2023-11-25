@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)hasElevatedRights;
 
++ (BOOL)restartWithElevatedPermissionsWithError: (NSError *_Nonnull *_Nonnull)error;
+
 + (NSString *)randomStringWithLength: (UInt64)requiredLength;
 
 + (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath

@@ -30,8 +30,8 @@
             filePath = "WinDiskWriter GUI/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "572"
-            endingLineNumber = "572"
+            startingLineNumber = "604"
+            endingLineNumber = "604"
             landmarkName = "-writeAction"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,14 +168,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "057AC5A0-F621-4785-9980-FA5B19D40095"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WinDiskWriter GUI/Classes/DiskManager/DiskManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-diskUtilEraseDiskWithPartitionScheme:filesystem:newName:error:"
             landmarkType = "7">
          </BreakpointContent>

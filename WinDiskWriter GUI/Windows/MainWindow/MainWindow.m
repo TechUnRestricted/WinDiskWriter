@@ -206,8 +206,15 @@ WriteExitForce();                     \
         
         [installLegacyBootCheckBoxView setTitle: @"Install Legacy BIOS Boot Sector"];
         [installLegacyBootCheckBoxView setState: [HelperFunctions hasElevatedRights]];
+
+        if (![HelperFunctions hasElevatedRights]) {
+            [installLegacyBootCheckBoxView setAction: @selector(requireRestartAsRoot)];
+        } else {
+            [NSApp activateIgnoringOtherApps: YES];
+            [self makeKeyAndOrderFront: NULL];
+            [NSApp activateIgnoringOtherApps: NO];
+        }
         
-        [installLegacyBootCheckBoxView setAction: @selector(updateDeviceList)];
     }
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
@@ -456,10 +463,35 @@ WriteExitForce();                     \
     }
 }
 
-- (void)alertActionRestartAsRootDidEnd:(NSAlert *)alert
-                            returnCode:(NSInteger)returnCode
-                           contextInfo:(void *)contextInfo {
+- (void)alertActionRestartAsRootDidEnd: (NSAlert *)alert
+                            returnCode: (NSInteger)returnCode
+                           contextInfo: (void *)contextInfo {
+    NSError *restartError = NULL;
     
+    if (returnCode == NSAlertFirstButtonReturn) {
+        [HelperFunctions restartWithElevatedPermissionsWithError: &restartError];
+    }
+    
+    if (restartError != NULL) {
+        [self displayWarningAlertWithTitle: @"Failed to restart"
+                                  subtitle: [restartError stringValue]
+                                      icon: NSImageNameCaution];
+    }
+}
+
+- (void)requireRestartAsRoot {
+    [installLegacyBootCheckBoxView setState: NSOffState];
+
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"This option requires the application to be relaunched with Root Permissions"];
+    [alert setInformativeText: @"All unsaved changes will be lost"];
+    [alert addButtonWithTitle: @"Relaunch"];
+    [alert addButtonWithTitle: BUTTON_DISMISS_TITLE];
+    
+    [alert beginSheetModalForWindow: self
+                      modalDelegate: self
+                     didEndSelector: @selector(alertActionRestartAsRootDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
 }
 
 - (void)startAction {

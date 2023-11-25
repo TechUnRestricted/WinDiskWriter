@@ -18,8 +18,8 @@
     @try {
         NSTask *task = [[NSTask alloc] init];
         
-        NSPipe *standartdPipe = [NSPipe pipe];
-        [task setStandardOutput: standartdPipe];
+        NSPipe *standartPipe = [NSPipe pipe];
+        [task setStandardOutput: standartPipe];
         
         NSPipe *errorPipe = [NSPipe pipe];
         [task setStandardError: errorPipe];
@@ -30,7 +30,7 @@
             [task setArguments: arguments];
         }
         
-        NSFileHandle *fileHandleStandardPipe = [standartdPipe fileHandleForReading];
+        NSFileHandle *fileHandleStandardPipe = [standartPipe fileHandleForReading];
         NSFileHandle *fileHandleErrorPipe = [errorPipe fileHandleForReading];
         
         [task launch];
@@ -41,6 +41,9 @@
                                                                             terminationReason: [task terminationReason]
                                                                                  standardData: [fileHandleStandardPipe readDataToEndOfFile]
                                                                                     errorData: [fileHandleErrorPipe readDataToEndOfFile]];
+        
+        fileHandleStandardPipe = NULL;
+        fileHandleErrorPipe = NULL;
         
         return commandLineData;
     } @catch (NSException *exception) {

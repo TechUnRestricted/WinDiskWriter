@@ -209,6 +209,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         if (error) {
             *error = [NSError errorWithStringValue: @"Specified BSD Name does not exist. Can't erase this volume."];
         }
+        
         return NO;
     }
     

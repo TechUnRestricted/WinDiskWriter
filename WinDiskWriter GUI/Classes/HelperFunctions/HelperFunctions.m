@@ -6,6 +6,7 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
+#import <AppKit/AppKit.h>
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
@@ -18,7 +19,7 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 @implementation HelperFunctions
 
 + (BOOL)hasElevatedRights {
-    return getuid() == 0;
+    return geteuid() == 0;
 }
 
 + (void)printTimeElapsedWhenRunningCode: (NSString *)title
@@ -40,6 +41,94 @@ NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     }
     
     return generatedString;
+}
+
++ (BOOL)restartWithElevatedPermissionsWithError: (NSError *_Nonnull *_Nonnull)error {
+    NSArray<NSString *> *argumentsList = NSProcessInfo.processInfo.arguments;
+    if (argumentsList.count == 0) {
+        if (error) {
+            *error = [NSError errorWithStringValue: @"Application arguments list is empty."];
+        }
+        
+        return NO;
+    }
+    
+    NSString *executablePath = [argumentsList firstObject];
+    if (![[NSFileManager defaultManager] fileExistsAtPath: executablePath]) {
+        if (error) {
+            *error = [NSError errorWithStringValue: @"The first object of application arguments list is not a file."];
+        }
+        
+        return NO;
+    }
+    
+    AuthorizationRef authorizationRef;
+    AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagPreAuthorize, &authorizationRef);
+    
+    char *cExecutablePath = (char *)[executablePath cStringUsingEncoding: NSUTF8StringEncoding];
+    char *args[] = {NULL};
+    
+    OSStatus executionStatus = AuthorizationExecuteWithPrivileges(authorizationRef, cExecutablePath, kAuthorizationFlagDefaults, args, NULL);
+    
+    NSString *executionErrorString = NULL;
+    
+    switch (executionStatus) {
+        case errAuthorizationSuccess:
+            [[NSApplication sharedApplication] terminate:nil];
+            break;
+        case errAuthorizationInvalidSet:
+            executionErrorString = @"The authorization rights are invalid.";
+            break;
+        case errAuthorizationInvalidRef:
+            executionErrorString = @"The authorization reference is invalid.";
+            break;
+        case errAuthorizationInvalidTag:
+            executionErrorString = @"The authorization tag is invalid.";
+            break;
+        case errAuthorizationInvalidPointer:
+            executionErrorString = @"The returned authorization is invalid.";
+            break;
+        case errAuthorizationDenied:
+            executionErrorString = @"The authorization was denied.";
+            break;
+        case errAuthorizationCanceled:
+            executionErrorString = @"The authorization was canceled by the user.";
+            break;
+        case errAuthorizationInteractionNotAllowed:
+            executionErrorString = @"The authorization was denied since no user interaction was possible.";
+            break;
+        case errAuthorizationInternal:
+            executionErrorString = @"Unable to obtain authorization for this operation.";
+            break;
+        case errAuthorizationExternalizeNotAllowed:
+            executionErrorString = @"The authorization is not allowed to be converted to an external format.";
+            break;
+        case errAuthorizationInternalizeNotAllowed:
+            executionErrorString = @"The authorization is not allowed to be created from an external format.";
+            break;
+        case errAuthorizationInvalidFlags:
+            executionErrorString = @"The provided option flag(s) are invalid for this authorization operation.";
+            break;
+        case errAuthorizationToolExecuteFailure:
+            executionErrorString = @"The specified program could not be executed.";
+            break;
+        case errAuthorizationToolEnvironmentError:
+            executionErrorString = @"An invalid status was returned during execution of a privileged tool.";
+            break;
+        case errAuthorizationBadAddress:
+            executionErrorString = @"The requested socket address is invalid (must be 0-1023 inclusive).";
+            break;
+    }
+
+    if (authorizationRef != NULL) {
+        AuthorizationFree(authorizationRef, kAuthorizationFlagPreAuthorize);
+    }
+    
+    if (error) {
+        *error = [NSError errorWithStringValue: executionErrorString];
+    }
+    
+    return NO;
 }
 
 + (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath
