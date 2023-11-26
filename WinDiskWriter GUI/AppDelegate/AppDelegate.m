@@ -32,17 +32,20 @@
         NSMenu *mainItemsMenu = [[NSMenu alloc]init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
             
+            NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
+                                                                   action: @selector(showAboutWindow)
+                                                            keyEquivalent: @""]; {
+                [mainItemsMenu addItem:aboutMenuItem];
+            }
+            
+            [mainItemsMenu addItem: NSMenuItem.separatorItem];
+            
             quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", MENU_ITEM_QUIT_TITLE, APPLICATION_NAME]
                                                       action: NULL
                                                keyEquivalent: @"q"]; {
                 [mainItemsMenu addItem:quitMenuItem];
             }
             
-            NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
-                                                                   action: @selector(showAboutWindow)
-                                                            keyEquivalent: @""]; {
-                [mainItemsMenu addItem:aboutMenuItem];
-            }
         }
     }
     

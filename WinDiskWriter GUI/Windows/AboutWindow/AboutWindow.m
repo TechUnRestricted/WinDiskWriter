@@ -149,8 +149,6 @@
                 
                 [openSourceLicensesAdvancedTextView appendLine: WIMLIB_LICENSE_TEXT];
                 
-
-                
                 [openSourceLicensesVerticalLayout addView: openSourceLicensesAdvancedTextView
                                                  minWidth: 0
                                                  maxWidth: INFINITY

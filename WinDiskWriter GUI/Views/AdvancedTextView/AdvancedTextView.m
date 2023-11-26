@@ -9,17 +9,6 @@
 #import "AdvancedTextView.h"
 #import "NSColor+Common.h"
 
-
-ASLogType const ASLogTypeStart = @"Start";
-ASLogType const ASLogTypeSuccess = @"Success";
-ASLogType const ASLogTypeFailure = @"Failure";
-ASLogType const ASLogTypeSkipped = @"Skipped";
-
-ASLogType const ASLogTypeLog = @"Log";
-ASLogType const ASLogTypeWarning = @"Warning";
-ASLogType const ASLogTypeFatal = @"Fatal";
-ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
-
 @implementation AdvancedTextView {
     NSDateFormatter *dateFormatter;
 }
@@ -31,27 +20,25 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
 
     [self setHasVerticalScroller: YES];
-    
     [self setAutohidesScrollers: YES];
-    
-    [self setHasHorizontalScroller:NO];
-    
+    [self setHasHorizontalScroller: NO];
     [self setDrawsBackground: NO];
-    [self.contentView setWantsLayer:YES];
-    [self.contentView.layer setCornerRadius:10.0f];
+    
+    [self.contentView setWantsLayer: YES];
+    [self.contentView.layer setCornerRadius: 10.0f];
 
-    [self.contentView.layer setBorderColor:[NSColor.textColor colorWithAlphaComponent:0.25].toCGColor];
+    [self.contentView.layer setBorderColor: [NSColor.textColor colorWithAlphaComponent: 0.25].toCGColor];
 
     [self.contentView.layer setBorderWidth: 1.5f];
     
     _textViewInstance = [[VibrantTextView alloc] init];
     
     [self.textViewInstance setTextContainerInset: NSMakeSize(5, 10)];
-    [self.textViewInstance setAutoresizingMask:NSViewWidthSizable];
+    [self.textViewInstance setAutoresizingMask: NSViewWidthSizable];
     [self.textViewInstance setEditable: NO];
     [self.textViewInstance setSelectable: YES];
     
-    [self.textViewInstance setFocusRingType:NSFocusRingTypeNone];
+    [self.textViewInstance setFocusRingType: NSFocusRingTypeNone];
 
     [self setDocumentView: self.textViewInstance];
 

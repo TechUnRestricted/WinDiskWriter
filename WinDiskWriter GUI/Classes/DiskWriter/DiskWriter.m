@@ -167,7 +167,7 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
         *error = [NSError errorWithStringValue: @"Can't get the available space for the specified path."];
         return 0;
     }
-
+    
     // the available size is f_frsize * f_bavail
     return stat.f_frsize * stat.f_bavail;
 }
@@ -545,75 +545,77 @@ if (![self commonErrorCheckerWithError:error]) {
     BOOL hasEFIBootloader = NO;
     
     for (DWFile *currentFile in [self.filesContainer files]) {
-        NSString *absoluteSourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:currentFile.sourcePath];
-        NSString *absoluteDestinationPath = [_destinationPath stringByAppendingPathComponent:currentFile.sourcePath];
-        
-        NSString *lastPathComponent = [[[currentFile sourcePath] lastPathComponent] lowercaseString];
-        
-        // [Detected file type: Directory]
-        if (currentFile.fileType == NSFileTypeDirectory) {
-            DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
+        @autoreleasepool {
+            NSString *absoluteSourcePath = [self.filesContainer.containerPath stringByAppendingPathComponent:currentFile.sourcePath];
+            NSString *absoluteDestinationPath = [_destinationPath stringByAppendingPathComponent:currentFile.sourcePath];
             
-            NSError *createDirectoryError = NULL;
-            BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteDestinationPath
-                                                      withIntermediateDirectories: YES
-                                                                       attributes: NULL
-                                                                            error: &createDirectoryError];
+            NSString *lastPathComponent = [[[currentFile sourcePath] lastPathComponent] lowercaseString];
             
-            DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, (directoryCreateSuccess ? DWOperationResultSuccess : DWOperationResultFailure), createDirectoryError);
-            
-            continue;
-        }
-        
-        // [Detected file type: Windows Install Image]
-        if ([lastPathComponent hasOneOfTheSuffixes:@[@"install.wim", @"install.esd"]]) {
-            // We save the location of the Windows Install Image file for possible extraction of the EFI bootloader from it (if initially absent)
-            installerWIMPackageFile = currentFile;
-            
-            __block DWAction lastAction = DWActionContinue;
-            
-            [self writeWindowsInstallWithDWFile: currentFile
-                                destinationPath: absoluteDestinationPath
-                                       callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+            // [Detected file type: Directory]
+            if (currentFile.fileType == NSFileTypeDirectory) {
+                DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
                 
-                lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
+                NSError *createDirectoryError = NULL;
+                BOOL directoryCreateSuccess = [localFileManager createDirectoryAtPath: absoluteDestinationPath
+                                                          withIntermediateDirectories: YES
+                                                                           attributes: NULL
+                                                                                error: &createDirectoryError];
                 
-                return lastAction;
-            }];
-            
-            if (lastAction == DWActionStop) {
-                return NO;
+                DWCallbackHandlerLoop(currentFile, 0, DWOperationTypeCreateDirectory, (directoryCreateSuccess ? DWOperationResultSuccess : DWOperationResultFailure), createDirectoryError);
+                
+                continue;
             }
             
-            continue;
-        }
-        
-        // [Detected file type: Regular File]
-        {
-            // Check if there is a Windows bootloader for UEFI systems in the operating system files. (If it is missing, then later we will try to extract it from Install[.wim/.esd])
-            NSString *relativeSourcePathLowercase = currentFile.sourcePath.lowercaseString;
-            if (!hasEFIBootloader && [relativeSourcePathLowercase hasPrefix:@"efi/boot/boot"] && [relativeSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
-                hasEFIBootloader = YES;
+            // [Detected file type: Windows Install Image]
+            if ([lastPathComponent hasOneOfTheSuffixes:@[@"install.wim", @"install.esd"]]) {
+                // We save the location of the Windows Install Image file for possible extraction of the EFI bootloader from it (if initially absent)
+                installerWIMPackageFile = currentFile;
+                
+                __block DWAction lastAction = DWActionContinue;
+                
+                [self writeWindowsInstallWithDWFile: currentFile
+                                    destinationPath: absoluteDestinationPath
+                                           callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+                    
+                    lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
+                    
+                    return lastAction;
+                }];
+                
+                if (lastAction == DWActionStop) {
+                    return NO;
+                }
+                
+                continue;
             }
             
-            __block DWAction lastAction = DWActionContinue;
-            
-            BOOL copyingWasSuccessfull = [self copyFileWithDWFile: currentFile
-                                              destinationFilePath: absoluteDestinationPath
-                                                       bufferSize: COPY_BUFFER_SIZE
-                                            ignoreFilesystemCheck: NO
-                                                         callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+            // [Detected file type: Regular File]
+            {
+                // Check if there is a Windows bootloader for UEFI systems in the operating system files. (If it is missing, then later we will try to extract it from Install[.wim/.esd])
+                NSString *relativeSourcePathLowercase = currentFile.sourcePath.lowercaseString;
+                if (!hasEFIBootloader && [relativeSourcePathLowercase hasPrefix:@"efi/boot/boot"] && [relativeSourcePathLowercase.lastPathComponent hasSuffix:@".efi"]) {
+                    hasEFIBootloader = YES;
+                }
                 
-                lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
+                __block DWAction lastAction = DWActionContinue;
                 
-                return lastAction;
-            }];
-            
-            if (lastAction == DWActionStop) {
-                return NO;
+                BOOL copyingWasSuccessfull = [self copyFileWithDWFile: currentFile
+                                                  destinationFilePath: absoluteDestinationPath
+                                                           bufferSize: COPY_BUFFER_SIZE
+                                                ignoreFilesystemCheck: NO
+                                                             callback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+                    
+                    lastAction = progressCallback(dwFile, copiedBytes, operationType, operationResult, error);
+                    
+                    return lastAction;
+                }];
+                
+                if (lastAction == DWActionStop) {
+                    return NO;
+                }
+                
+                continue;
             }
-            
-            continue;
         }
     }
     
@@ -697,7 +699,7 @@ postBootloaderExtract:
     
     if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
         *error = [NSError errorWithStringValue: @"Source is too large for the Destination Disk."];
-
+        
         return NO;
     }
     

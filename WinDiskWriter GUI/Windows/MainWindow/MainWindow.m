@@ -9,6 +9,9 @@
 #import "MainWindow.h"
 #import "FrameLayout.h"
 #import "LabelView.h"
+#import "LogView.h"
+#import "VibrantTableView.h"
+
 #import "ButtonView.h"
 #import "PickerView.h"
 #import "TextInputView.h"
@@ -54,7 +57,7 @@ WriteExitForce();                     \
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
     
-    AdvancedTextView *logsAutoScrollTextView;
+    LogView *logsView;
     
     ButtonView *startStopButtonView;
     
@@ -288,10 +291,8 @@ WriteExitForce();                     \
     
     [mainVerticalLayout addView:spacerView width:4 height:4];
     
-    logsAutoScrollTextView = [[AdvancedTextView alloc] init]; {
-        [logsAutoScrollTextView setAutomaticallyScroll: YES];
-        
-        [mainVerticalLayout addView:logsAutoScrollTextView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:INFINITY];
+    logsView = [[LogView alloc] init]; {
+        [mainVerticalLayout addView:logsView minWidth:0 maxWidth:INFINITY minHeight:120 maxHeight:INFINITY];
     }
     
     [mainVerticalLayout addView:spacerView width:0 height:4];
@@ -502,7 +503,7 @@ WriteExitForce();                     \
                                   subtitle: PATH_FIELD_IS_EMPTY_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: PATH_FIELD_IS_EMPTY_SUBTITLE
+        [logsView appendRow: PATH_FIELD_IS_EMPTY_SUBTITLE
                                               logType: ASLogTypeAssertionError];
         WriteExitForce();
     }
@@ -516,7 +517,7 @@ WriteExitForce();                     \
                                   subtitle: PATH_DOES_NOT_EXIST_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: PATH_DOES_NOT_EXIST_SUBTITLE
+        [logsView appendRow: PATH_DOES_NOT_EXIST_SUBTITLE
                                               logType: ASLogTypeAssertionError];
         
         WriteExitForce();
@@ -527,7 +528,7 @@ WriteExitForce();                     \
                                   subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: NO_AVAILABLE_DEVICES_TITLE
+        [logsView appendRow: NO_AVAILABLE_DEVICES_TITLE
                                               logType: ASLogTypeAssertionError];
         WriteExitForce();
     }
@@ -590,7 +591,7 @@ WriteExitForce();                     \
                                   subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
+        [logsView appendRow: BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE
                                               logType: ASLogTypeFatal];
         WriteExitForce();
     }
@@ -605,7 +606,7 @@ WriteExitForce();                     \
                                   subtitle: PRESS_UPDATE_BUTTON_SUBTITLE
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID
+        [logsView appendRow: BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID
                                               logType: ASLogTypeFatal];
         
         WriteExitForce();
@@ -623,7 +624,7 @@ WriteExitForce();                     \
                                   subtitle: errorSubtitle
                                       icon: NSImageNameCaution];
         
-        [logsAutoScrollTextView appendTimestampedLine: logText
+        [logsView appendRow: logText
                                               logType: ASLogTypeFatal];
         
         WriteExitForce();
@@ -643,15 +644,15 @@ WriteExitForce();                     \
         selectedPartitionScheme = PartitionSchemeGPT;
     }
     
-    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
+    [logsView appendRow: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
                                           logType: ASLogTypeSuccess];
     
     NSString *newPartitionName = [NSString stringWithFormat:@"WDW_%@", [HelperFunctions randomStringWithLength:7]];
-    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Generated partition name: \"%@\".", newPartitionName]
+    [logsView appendRow: [NSString stringWithFormat:@"Generated partition name: \"%@\".", newPartitionName]
                                           logType: ASLogTypeLog];
     
     NSString *targetPartitionPath = [NSString stringWithFormat:@"/Volumes/%@", newPartitionName];
-    [logsAutoScrollTextView appendTimestampedLine: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
+    [logsView appendRow: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
     NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", patch_security_checks: \"%d\").",
@@ -663,7 +664,7 @@ WriteExitForce();                     \
                                         selectedFileSystem,
                                         skipSecurityChecksCheckboxView.state == NSOnState];
     
-    [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
+    [logsView appendRow: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
     BOOL patchInstallerRequirements = skipSecurityChecksCheckboxView.state == NSOnState;
@@ -683,7 +684,7 @@ WriteExitForce();                     \
                                       subtitle: diskEraseError.stringValue
                                           icon: NSImageNameCaution];
             
-            [self->logsAutoScrollTextView appendTimestampedLine: [DISK_ERASE_FAILURE_TITLE stringByAppendingFormat: @" (Error message: %@)", diskEraseError.stringValue]
+            [self->logsView appendRow: [DISK_ERASE_FAILURE_TITLE stringByAppendingFormat: @" (Error message: %@)", diskEraseError.stringValue]
                                                         logType: ASLogTypeFatal];
             
             WriteExitForce();
@@ -691,7 +692,7 @@ WriteExitForce();                     \
         
         [self setCurrentProgressTitle: DISK_ERASE_SUCCESS_TITLE];
         
-        [self->logsAutoScrollTextView appendTimestampedLine: DISK_ERASE_SUCCESS_TITLE
+        [self->logsView appendRow: DISK_ERASE_SUCCESS_TITLE
                                                     logType: ASLogTypeSuccess];
         
         WriteExitConditionally();
@@ -761,14 +762,14 @@ WriteExitForce();                     \
             
             switch (operationResult) {
                 case DWOperationResultStart:
-                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeStart];
+                    [self->logsView appendRow:onscreenLogText logType:ASLogTypeStart];
                     break;
                 case DWOperationResultProcess: {
                     
                     break;
                 }
                 case DWOperationResultSuccess:
-                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeSuccess];
+                    [self->logsView appendRow:onscreenLogText logType:ASLogTypeSuccess];
                     
                     [self->totalOperationProgressBarView incrementBySynchronously: 1];
                     break;
@@ -777,10 +778,10 @@ WriteExitForce();                     \
                         [onscreenLogText appendString: [NSString stringWithFormat: @" (Error message: %@)", error.stringValue]];
                     }
                     
-                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeFailure];
+                    [self->logsView appendRow:onscreenLogText logType:ASLogTypeFailure];
                     break;
                 case DWOperationResultSkipped:
-                    [self->logsAutoScrollTextView appendTimestampedLine:onscreenLogText logType:ASLogTypeSkipped];
+                    [self->logsView appendRow:onscreenLogText logType:ASLogTypeSkipped];
                     break;
             }
             
@@ -834,13 +835,13 @@ WriteExitForce();                     \
         
         if (writeError) {
             [self displayWarningAlertWithTitle:IMAGE_WRITING_FAILURE_TITLE subtitle:writeError.stringValue icon:NSImageNameCaution];
-            [self->logsAutoScrollTextView appendTimestampedLine:writeError.stringValue logType:ASLogTypeFatal];
+            [self->logsView appendRow:writeError.stringValue logType:ASLogTypeFatal];
             
             WriteExitForce();
         }
         
         [self displayWarningAlertWithTitle:IMAGE_WRITING_SUCCESS_TITLE subtitle:IMAGE_WRITING_SUCCESS_SUBTITLE icon: NSImageNameStatusAvailable];
-        [self->logsAutoScrollTextView appendTimestampedLine:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
+        [self->logsView appendRow:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
         
         WriteExitForce();
     });
@@ -869,12 +870,12 @@ WriteExitForce();                     \
 - (void)updateDeviceList {
     [devicePickerView removeAllItems];
     
-    [logsAutoScrollTextView appendTimestampedLine:@"Clearing the device picker list." logType:ASLogTypeLog];
+    [logsView appendRow:@"Clearing the device picker list." logType:ASLogTypeLog];
     
     NSArray<NSString *> *bsdNames = [DiskManager BSDDrivesNames];
     
-    NSString *textLog = [NSString stringWithFormat:@"Found devices: %@", [bsdNames componentsJoinedByString:@", "]];
-    [logsAutoScrollTextView appendTimestampedLine:textLog logType:ASLogTypeLog];
+    NSString *textLog = [NSString stringWithFormat: @"Found devices: %@", [bsdNames componentsJoinedByString:@", "]];
+    [logsView appendRow:textLog logType:ASLogTypeLog];
     
     for (NSString *bsdName in bsdNames) {
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];

@@ -118,6 +118,8 @@
 		E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
 		E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */; };
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
+		E2E64A892B1375AB00B99917 /* LogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A882B1375AB00B99917 /* LogView.m */; };
+		E2E64A8D2B13762400B99917 /* VibrantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A8C2B13762400B99917 /* VibrantTableView.m */; };
 		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
 		E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */; };
 		E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */; };
@@ -352,6 +354,10 @@
 		E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
 		E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
 		E2DF0FB72A8ECA0400339DDB /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		E2E64A872B1375AB00B99917 /* LogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogView.h; sourceTree = "<group>"; };
+		E2E64A882B1375AB00B99917 /* LogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogView.m; sourceTree = "<group>"; };
+		E2E64A8B2B13762400B99917 /* VibrantTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VibrantTableView.h; sourceTree = "<group>"; };
+		E2E64A8C2B13762400B99917 /* VibrantTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VibrantTableView.m; sourceTree = "<group>"; };
 		E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
 		E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutWindow.m; sourceTree = "<group>"; };
 		E2F2D2BB2A93E8AE00E1B7FF /* CustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageView.h; sourceTree = "<group>"; };
@@ -1009,6 +1015,7 @@
 				E22E6C092A76B3CA00FD4BFD /* CheckBoxView */,
 				E2C73B3C2A855FDA008B9FAC /* AdvancedTextView */,
 				E2F2D2BE2A93E8B200E1B7FF /* CustomImageView */,
+				E2E64A8A2B1375AE00B99917 /* LogView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1300,6 +1307,25 @@
 			path = ProgressBarView;
 			sourceTree = "<group>";
 		};
+		E2E64A8A2B1375AE00B99917 /* LogView */ = {
+			isa = PBXGroup;
+			children = (
+				E2E64A8E2B13762700B99917 /* VibrantTableView */,
+				E2E64A872B1375AB00B99917 /* LogView.h */,
+				E2E64A882B1375AB00B99917 /* LogView.m */,
+			);
+			path = LogView;
+			sourceTree = "<group>";
+		};
+		E2E64A8E2B13762700B99917 /* VibrantTableView */ = {
+			isa = PBXGroup;
+			children = (
+				E2E64A8B2B13762400B99917 /* VibrantTableView.h */,
+				E2E64A8C2B13762400B99917 /* VibrantTableView.m */,
+			);
+			path = VibrantTableView;
+			sourceTree = "<group>";
+		};
 		E2F2D2B92A93D27800E1B7FF /* AboutWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -1450,6 +1476,7 @@
 				E2DF0F5C2A894CAB00339DDB /* wimboot.c in Sources */,
 				E2DF0F5D2A894CAB00339DDB /* progress.c in Sources */,
 				E2DF0F5E2A894CAB00339DDB /* tagged_items.c in Sources */,
+				E2E64A892B1375AB00B99917 /* LogView.m in Sources */,
 				E2DF0F5F2A894CAB00339DDB /* util.c in Sources */,
 				E2DF0F602A894CAB00339DDB /* security.c in Sources */,
 				E2DF0F612A894CAB00339DDB /* avl_tree.c in Sources */,
@@ -1537,6 +1564,7 @@
 				E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */,
 				E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */,
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
+				E2E64A8D2B13762400B99917 /* VibrantTableView.m in Sources */,
 				E24364E22A72CCE600541719 /* TextInputView.m in Sources */,
 				E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */,
 				E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */,
