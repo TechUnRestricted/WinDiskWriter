@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSFileManager (Common)
 
 - (BOOL)folderExistsAtPath: (NSString *)folderPath;
+- (BOOL)fileExistsAtPathAndNotAFolder:(NSString *)filePath;
 
 @end
 

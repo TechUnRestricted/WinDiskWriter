@@ -150,9 +150,9 @@ WriteExitForce();                     \
             chooseWindowsImageButtonView = [[ButtonView alloc] init]; {
                 [isoPickerHorizontalLayout addView:chooseWindowsImageButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
-                [chooseWindowsImageButtonView setTitle:@"Choose"];
-                [chooseWindowsImageButtonView setTarget:self];
-                [chooseWindowsImageButtonView setAction:@selector(chooseImageAction)];
+                [chooseWindowsImageButtonView setTitle: @"Choose"];
+                [chooseWindowsImageButtonView setTarget: self];
+                [chooseWindowsImageButtonView setAction: @selector(chooseImageAction)];
             }
         }
     }
@@ -160,7 +160,7 @@ WriteExitForce();                     \
     FrameLayoutVertical *devicePickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:devicePickerVerticalLayout width:INFINITY height:0];
         
-        [devicePickerVerticalLayout setHugHeightFrame:YES];
+        [devicePickerVerticalLayout setHugHeightFrame: YES];
         
         [devicePickerVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
         
@@ -666,8 +666,9 @@ WriteExitForce();                     \
     [logsAutoScrollTextView appendTimestampedLine: diskEraseOperationText
                                           logType: ASLogTypeLog];
     
-    BOOL skipSecurityChecks = skipSecurityChecksCheckboxView.state == NSOnState;
-    
+    BOOL patchInstallerRequirements = skipSecurityChecksCheckboxView.state == NSOnState;
+    BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self setCurrentProgressTitle: @"Formatting the drive"];
         
@@ -710,9 +711,12 @@ WriteExitForce();                     \
         
         DiskWriter *diskWriter = [[DiskWriter alloc] initWithDWFilesContainer: filesContainer
                                                               destinationPath: targetPartitionPath
-                                                                     bootMode: BootModeUEFI
-                                                        destinationFilesystem: selectedFileSystem
-                                                           skipSecurityChecks: skipSecurityChecks];
+                                                       destinationDiskManager: secondVerifyingStageDiskManager
+        ];
+        
+        [diskWriter setDestinationFilesystem: selectedFileSystem];
+        [diskWriter setPatchInstallerRequirements: patchInstallerRequirements];
+        [diskWriter setInstallLegacyBoot: installLegacyBoot];
         
         NSError *writeError = NULL;
         

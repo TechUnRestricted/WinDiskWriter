@@ -40,9 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype _Nullable)initWithVolumePath: (NSString *)volumePath API_AVAILABLE(macosx(10.7));
 
-- (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options;
+- (BOOL)unmountDiskWithOptions: (DADiskUnmountOptions)options
+                         error: (NSError *_Nullable *_Nullable)error;
 
-- (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options;
+- (BOOL)mountDiskWithOptions: (DADiskMountOptions)options
+                       error: (NSError *_Nullable *_Nullable)error;
 
 - (BOOL)diskUtilEraseVolumeWithFilesystem: (Filesystem)filesystem
                                   newName: (NSString * _Nullable)newName

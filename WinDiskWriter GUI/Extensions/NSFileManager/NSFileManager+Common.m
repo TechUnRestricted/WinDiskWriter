@@ -18,4 +18,16 @@
     return (exists && isDirectory);
 }
 
+- (BOOL)fileExistsAtPathAndNotAFolder:(NSString *)filePath {
+    BOOL isDirectory = NO;
+    BOOL exists = [self fileExistsAtPath: filePath
+                             isDirectory: &isDirectory];
+    
+    if (!exists || isDirectory) {
+        return NO;
+    }
+
+    return YES;
+}
+
 @end

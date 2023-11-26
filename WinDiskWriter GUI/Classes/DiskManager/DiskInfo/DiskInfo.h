@@ -22,33 +22,34 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite, nonatomic) BOOL isNetworkVolume;
 @property (readwrite, nonatomic) BOOL isEjectable;
 
-@property (readwrite, retain, nonatomic) NSNumber *BSDUnit;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *BSDUnit;
 
-@property (readwrite, retain, nonatomic) NSNumber *mediaSize;
-@property (readwrite, retain, nonatomic) NSNumber *mediaBSDMajor;
-@property (readwrite, retain, nonatomic) NSNumber *mediaBSDMinor;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *mediaSize;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *mediaBSDMajor;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *mediaBSDMinor;
 
-@property (readwrite, retain, nonatomic) NSNumber *blockSize;
-@property (readwrite, retain, nonatomic) NSNumber *appearanceTime;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *blockSize;
+@property (readwrite, retain, nonatomic, nullable) NSNumber *appearanceTime;
 
-@property (readwrite, retain, nonatomic) NSString *devicePath;
-@property (readwrite, retain, nonatomic) NSString *deviceModel;
-@property (readwrite, retain, nonatomic) NSString *BSDName;
-@property (readwrite, retain, nonatomic) NSString *mediaKind;
-@property (readwrite, retain, nonatomic) NSString *volumeKind;
-@property (readwrite, retain, nonatomic) NSString *volumeName;
-@property (readwrite, retain, nonatomic) NSString *volumePath;
-@property (readwrite, retain, nonatomic) NSString *mediaPath;
-@property (readwrite, retain, nonatomic) NSString *mediaName;
-@property (readwrite, retain, nonatomic) NSString *mediaContent;
-@property (readwrite, retain, nonatomic) NSString *busPath;
-@property (readwrite, retain, nonatomic) NSString *deviceProtocol;
-@property (readwrite, retain, nonatomic) NSString *deviceRevision;
-@property (readwrite, retain, nonatomic) NSString *busName;
-@property (readwrite, retain, nonatomic) NSString *deviceVendor;
-@property (readwrite, retain, nonatomic) NSString *volumeUUID;
+@property (readwrite, retain, nonatomic, nullable) NSString *devicePath;
+@property (readwrite, retain, nonatomic, nullable) NSString *deviceModel;
+@property (readwrite, retain, nonatomic, nullable) NSString *BSDName;
+@property (readwrite, retain, nonatomic, nullable) NSString *mediaKind;
+@property (readwrite, retain, nonatomic, nullable) NSString *volumeKind;
+@property (readwrite, retain, nonatomic, nullable) NSString *volumeName;
+@property (readwrite, retain, nonatomic, nullable) NSString *volumePath;
+@property (readwrite, retain, nonatomic, nullable) NSString *mediaPath;
+@property (readwrite, retain, nonatomic, nullable) NSString *mediaName;
+@property (readwrite, retain, nonatomic, nullable) NSString *mediaContent;
+@property (readwrite, retain, nonatomic, nullable) NSString *busPath;
+@property (readwrite, retain, nonatomic, nullable) NSString *deviceProtocol;
+@property (readwrite, retain, nonatomic, nullable) NSString *deviceRevision;
+@property (readwrite, retain, nonatomic, nullable) NSString *busName;
+@property (readwrite, retain, nonatomic, nullable) NSString *deviceVendor;
+@property (readwrite, retain, nonatomic, nullable) NSString *volumeUUID;
 
 - (NSDate *_Nullable)appearanceNSDate;
+- (NSString *_Nullable)BSDFullPath;
 
 @end
 

@@ -8,7 +8,6 @@
 
 #import "DWProgress.h"
 
-#import "BootModes.h"
 #import "DWFilesContainer.h"
 
 typedef NS_ENUM(NSUInteger, DWOperationResult) {
@@ -38,24 +37,27 @@ typedef NS_ENUM(NSUInteger, DWOperationType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@property (strong, nonatomic, readonly) DWFilesContainer *_Nonnull filesContainer;
-@property (strong, nonatomic, readonly) NSString *_Nonnull destinationPath;
-@property (strong, nonatomic, readonly) BootMode _Nonnull bootMode;
-@property (strong, nonatomic, readonly) Filesystem _Nonnull destinationFilesystem;
-@property (nonatomic, readonly) BOOL patchInstallerRequirements;
+@property (strong, nonatomic, readonly) DWFilesContainer *filesContainer;
+@property (strong, nonatomic, readonly) NSString *destinationPath;
+@property (strong, nonatomic, readonly) DiskManager *destinationDiskManager;
 
-- (instancetype _Nonnull )init NS_UNAVAILABLE;
+@property (strong, nonatomic, readwrite) Filesystem destinationFilesystem;
+@property (nonatomic, readwrite) BOOL patchInstallerRequirements;
+@property (nonatomic, readwrite) BOOL installLegacyBoot;
 
-- (instancetype _Nonnull)initWithDWFilesContainer: (DWFilesContainer * _Nonnull)filesContainer
-                                  destinationPath: (NSString * _Nonnull)destinationPath
-                                         bootMode: (BootMode _Nonnull)bootMode
-                            destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem
-                               skipSecurityChecks: (BOOL)skipSecurityChecks;
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithDWFilesContainer: (DWFilesContainer *)filesContainer
+                         destinationPath: (NSString *)destinationPath
+                  destinationDiskManager: (DiskManager *)destinationDiskManager;
 
 typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error);
 
 - (BOOL)startWritingWithError: (NSError **)error
              progressCallback: (ChainedCallbackAction)progressCallback;
+
++ (NSString *)bootloaderMBRFilePath;
++ (NSString *)bootloaderGrldrFilePath;
 
 NS_ASSUME_NONNULL_END
 

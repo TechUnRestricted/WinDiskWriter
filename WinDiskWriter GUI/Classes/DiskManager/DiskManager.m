@@ -109,7 +109,58 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     dispatch_semaphore_signal(callbackWrapper->semaphore);
 }
 
-- (DAReturn)unmountDiskWithOptions: (DADiskUnmountOptions)options {
++ (NSError *_Nullable)errorFromDADiskReturn: (DAReturn)daReturn {
+    NSString *errorMessage;
+    
+    switch (daReturn) {
+        case kDAReturnSuccess:
+            return NULL;
+        case kDAReturnError:
+            errorMessage = @"An unspecified error occurred.";
+            break;
+        case kDAReturnBusy:
+            errorMessage = @"The disk is busy and cannot be unmounted.";
+            break;
+        case kDAReturnBadArgument:
+            errorMessage = @"An invalid argument was passed to the function.";
+            break;
+        case kDAReturnExclusiveAccess:
+            errorMessage = @"The disk is locked and cannot be modified.";
+            break;
+        case kDAReturnNoResources:
+            errorMessage = @"There are not enough resources to complete the operation.";
+            break;
+        case kDAReturnNotFound:
+            errorMessage = @"The disk or the volume was not found.";
+            break;
+        case kDAReturnNotMounted:
+            errorMessage = @"The volume is not mounted.";
+            break;
+        case kDAReturnNotPermitted:
+            errorMessage = @"The operation is not permitted.";
+            break;
+        case kDAReturnNotPrivileged:
+            errorMessage = @"The user does not have the required privileges.";
+            break;
+        case kDAReturnNotReady:
+            errorMessage = @"The disk is not ready.";
+            break;
+        case kDAReturnNotWritable:
+            errorMessage = @"The disk or the volume is not writable.";
+            break;
+        case kDAReturnUnsupported:
+            errorMessage = @"The operation is not supported by the disk or the volume.";
+            break;
+        default:
+            errorMessage = @"An unknown error occurred.";
+            break;
+    }
+    
+    return [NSError errorWithStringValue: errorMessage];
+}
+
+- (BOOL)unmountDiskWithOptions: (DADiskUnmountOptions)options
+                         error: (NSError *_Nullable *_Nullable)error {
     struct CallbackWrapper callbackWrapper;
     callbackWrapper.semaphore = dispatch_semaphore_create(0);
     
@@ -119,10 +170,16 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
     
-    return callbackWrapper.daReturn;
+    NSError *localError = [DiskManager errorFromDADiskReturn: callbackWrapper.daReturn];
+    if (error) {
+        *error = localError;
+    }
+    
+    return localError == NULL;
 }
 
-- (DAReturn)mountDiskWithOptions: (DADiskMountOptions)options {
+- (BOOL)mountDiskWithOptions: (DADiskMountOptions)options
+                           error: (NSError *_Nullable *_Nullable)error {
     struct CallbackWrapper callbackWrapper;
     callbackWrapper.semaphore = dispatch_semaphore_create(0);
     
@@ -132,7 +189,12 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
     
-    return callbackWrapper.daReturn;
+    NSError *localError = [DiskManager errorFromDADiskReturn: callbackWrapper.daReturn];
+    if (error) {
+        *error = localError;
+    }
+    
+    return localError == NULL;
 }
 
 // TODO: Merge base logic [diskUtilEraseVolumeWithFilesystem + diskUtilEraseDiskWithPartitionScheme]

@@ -17,7 +17,6 @@
 #import "DiskManager.h"
 #import "Filesystems.h"
 #import "DiskWriter.h"
-#import "BootModes.h"
 #import "constants.h"
 #import "HDIUtil.h"
 
@@ -26,26 +25,138 @@ const uint32_t FAT32_MAX_FILE_SIZE = UINT32_MAX;
 // 8MB Buffer for copying files with interrupt-like callback
 const uint64_t COPY_BUFFER_SIZE = 8388608;
 
+static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
+
 @implementation DiskWriter {
     NSFileManager *localFileManager;
 }
 
-- (instancetype _Nonnull)initWithDWFilesContainer: (DWFilesContainer * _Nonnull)filesContainer
-                                  destinationPath: (NSString * _Nonnull)destinationPath
-                                         bootMode: (BootMode _Nonnull)bootMode
-                            destinationFilesystem: (Filesystem _Nonnull)destinationFilesystem
-                               skipSecurityChecks: (BOOL)skipSecurityChecks {
+- (instancetype)initWithDWFilesContainer: (DWFilesContainer *)filesContainer
+                         destinationPath: (NSString *)destinationPath
+                  destinationDiskManager: (DiskManager *)destinationDiskManager {
+    self = [super init];
     
     // Just in case ¯\_(ツ)_/¯
     localFileManager = [NSFileManager defaultManager];
     
     _filesContainer = filesContainer;
     _destinationPath = destinationPath;
-    _bootMode = bootMode;
-    _destinationFilesystem = destinationFilesystem;
-    _patchInstallerRequirements = skipSecurityChecks;
+    _destinationDiskManager = destinationDiskManager;
+    
+    // Default constructor values
+    _destinationFilesystem = FilesystemFAT32;
+    _patchInstallerRequirements = NO;
+    _installLegacyBoot = NO;
     
     return self;
+}
+
++ (NSString *)bootloaderMBRFilePath {
+    return [[NSBundle mainBundle] pathForResource: @"grldr"
+                                           ofType: @"mbr"
+                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
+    
+}
+
++ (NSString *)bootloaderGrldrFilePath {
+    return [[NSBundle mainBundle] pathForResource: @"grldr"
+                                           ofType: NULL
+                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
+}
+
+- (BOOL)writeLegacyBootSectorWithError: (NSError **)error {
+    NSString *bootloaderMBRFilePath = [DiskWriter bootloaderMBRFilePath];
+    NSString *bootloaderGrldrFilePath = [DiskWriter bootloaderGrldrFilePath];
+    
+    DiskInfo *destinationDiskInfo = [self.destinationDiskManager diskInfo];
+    NSString *bsdFullPath = [destinationDiskInfo BSDFullPath];
+    
+    if (bsdFullPath == NULL) {
+        *error = [NSError errorWithStringValue: @"Can't determine the BSD path for the destination device."];
+        
+        return NO;
+    }
+    
+    if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMBRFilePath]) {
+        *error = [NSError errorWithStringValue: @"Bootloader MBR file doesn't exist."];
+        
+        return NO;
+    }
+    
+    if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMBRFilePath]) {
+        *error = [NSError errorWithStringValue: @"Bootloader Grldr file doesn't exist."];
+        
+        return NO;
+    }
+    
+    // Copying grldr (second-stage boot for the grub4dos)
+    NSError *grldrCopyError = NULL;
+    NSString *grldrDestinationPath = [self.destinationPath stringByAppendingPathComponent: bootloaderGrldrFilePath.lastPathComponent];
+    [localFileManager copyItemAtPath: bootloaderGrldrFilePath
+                              toPath: grldrDestinationPath
+                               error: &grldrCopyError];
+    
+    if (grldrCopyError != NULL) {
+        NSString *errorString = [NSString stringWithFormat: @"Can't install grldr to the destination device (%@).", grldrCopyError.stringValue];
+        
+        *error = [NSError errorWithStringValue: errorString];
+        
+        return NO;
+    }
+    
+    // Unmounting the destination device in order to install the boot sector.
+    NSError *unmountError = NULL;
+    BOOL unmountWasSuccessful = [self.destinationDiskManager unmountDiskWithOptions: kDADiskUnmountOptionForce | kDADiskUnmountOptionWhole
+                                                                              error: &unmountError];
+    
+    if (unmountError != NULL) {
+        NSString *errorString = [NSString stringWithFormat: @"Can't unmount the destination device (%@).", unmountError.stringValue];
+        
+        *error = [NSError errorWithStringValue: errorString];
+        
+        return NO;
+    }
+    
+    NSFileHandle *inputHandle = [NSFileHandle fileHandleForReadingAtPath: bootloaderMBRFilePath];
+    if (inputHandle == NULL) {
+        *error = [NSError errorWithStringValue: @"Can't open the input handle for the MBR file."];
+        
+        return NO;
+    }
+    
+    NSFileHandle *outputHandle = [NSFileHandle fileHandleForWritingAtPath: bsdFullPath];
+    if (outputHandle == NULL) {
+        *error = [NSError errorWithStringValue: @"Can't open the output device."];
+        
+        return NO;
+    }
+    
+    @try {
+        // Copy the first 446 bytes from the input to the output
+        NSData *data = [inputHandle readDataOfLength:446];
+        [outputHandle writeData:data];
+        
+        // Seek to the 512th byte in the input and the output
+        [inputHandle seekToFileOffset:512];
+        [outputHandle seekToFileOffset:512];
+        
+        // Copy the remaining bytes from the input to the output
+        while ((data = [inputHandle readDataOfLength:512]).length > 0) {
+            [outputHandle writeData:data];
+        }
+        
+        [outputHandle synchronizeFile];
+    } @catch (NSException *exception) {
+        NSString *string = [NSString stringWithFormat: @"Can't complete the legacy bootloader install stage (%@).", exception.reason];
+        
+        *error = [NSError errorWithStringValue: string];
+    }
+    
+    // Close the files
+    [inputHandle closeFile];
+    [outputHandle closeFile];
+    
+    return *error == NULL;
 }
 
 - (UInt64)freeSpaceAtPath: (NSString *)path
@@ -167,7 +278,6 @@ return NO;                                                                      
     // Initialize the progress variables
     uint64_t bytesRead = 0;
     uint64_t bytesWritten = 0;
-    
     
     CallbackHandlerWithCleanupOnStop(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultStart, NULL);
     
@@ -551,17 +661,23 @@ if (![self commonErrorCheckerWithError:error]) {
     
 postBootloaderExtract:
     
+    if (self.installLegacyBoot) {
+        NSError *installLegacyBootError = NULL;
+        
+        BOOL installLegacyBootResult = [self writeLegacyBootSectorWithError: &installLegacyBootError];
+        
+        // Temporary debug print
+        if (installLegacyBootError != NULL) {
+            printf("Install Legacy Boot ERROR!: %s\n", installLegacyBootError.stringValue.UTF8String);
+        }
+        
+        printf("Legacy install result: %s\n", installLegacyBootResult ? "Success" : "Failure");
+    }
+    
     return YES;
 }
 
 - (BOOL)commonErrorCheckerWithError: (NSError *_Nonnull *_Nonnull)error {
-    /* Currently unsupported option */
-    if (_bootMode != BootModeUEFI) {
-        *error = [NSError errorWithStringValue: @"Legacy Boot Mode is not supported yet."];
-        
-        return NO;
-    }
-    
     if (![localFileManager folderExistsAtPath: _destinationPath]) {
         *error = [NSError errorWithStringValue: @"Destination Path does not exist."];
         

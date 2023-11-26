@@ -22,4 +22,12 @@
     return dateConverted;
 }
 
+- (NSString *_Nullable)BSDFullPath {
+    if(self.BSDName == NULL) {
+        return NULL;
+    }
+    
+    return [NSString stringWithFormat:@"/dev/%@", self.BSDName];
+}
+
 @end

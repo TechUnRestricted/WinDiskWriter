@@ -31,7 +31,7 @@ NSString * const BSD_DEVICE_IS_NO_LONGER_AVAILABLE_TITLE = @"Chosen Device is no
 NSString * const BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID = @"The information about this device is outdated or invalid.";
 
 NSString * const IMAGE_VERIFICATION_ERROR_TITLE = @"Can't verify this Image.";
-NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destionation device.";
+NSString * const DISK_ERASE_FAILURE_TITLE = @"Can't erase the destination device.";
 NSString * const DISK_ERASE_SUCCESS_TITLE = @"The destination device was successfully erased.";
 
 NSString * const IMAGE_WRITING_SUCCESS_TITLE = @"Image writing completed successfully";

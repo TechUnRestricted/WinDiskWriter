@@ -110,7 +110,6 @@
 		E2DF0FA42A894CAB00339DDB /* DWFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E22B444129A1670B00846C1D /* DWFile.m */; };
 		E2DF0FA52A894CAB00339DDB /* DWFilesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */; };
 		E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
-		E2DF0FA72A894CAB00339DDB /* BootModes.m in Sources */ = {isa = PBXBuildFile; fileRef = E289E2BB298EE0BD0011B620 /* BootModes.m */; };
 		E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
 		E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
@@ -319,8 +318,6 @@
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
 		E27FF65E2AAA2C1500C0356F /* DiskInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskInfo.m; sourceTree = "<group>"; };
-		E289E2BA298EE0BD0011B620 /* BootModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootModes.h; sourceTree = "<group>"; };
-		E289E2BB298EE0BD0011B620 /* BootModes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootModes.m; sourceTree = "<group>"; };
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
 		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
 		E289E2C5298FDFC00011B620 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -1152,15 +1149,6 @@
 			path = DiskInfo;
 			sourceTree = "<group>";
 		};
-		E289E2B9298EE08D0011B620 /* BootModes */ = {
-			isa = PBXGroup;
-			children = (
-				E289E2BA298EE0BD0011B620 /* BootModes.h */,
-				E289E2BB298EE0BD0011B620 /* BootModes.m */,
-			);
-			path = BootModes;
-			sourceTree = "<group>";
-		};
 		E289E2BD298EE6260011B620 /* NSString */ = {
 			isa = PBXGroup;
 			children = (
@@ -1249,7 +1237,6 @@
 			isa = PBXGroup;
 			children = (
 				E27FF6612AAA2C1800C0356F /* DiskInfo */,
-				E289E2B9298EE08D0011B620 /* BootModes */,
 				E2B52BBA29858D6E00DF362B /* Filesystems */,
 				E2B52BBE2985923400DF362B /* PartitionSchemes */,
 				E2CCB28C2983EE60004EE171 /* DiskManager.h */,
@@ -1542,7 +1529,6 @@
 				E2DF0FA42A894CAB00339DDB /* DWFile.m in Sources */,
 				E2DF0FA52A894CAB00339DDB /* DWFilesContainer.m in Sources */,
 				E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */,
-				E2DF0FA72A894CAB00339DDB /* BootModes.m in Sources */,
 				E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */,
 				E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */,
 				E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */,
@@ -1600,7 +1586,7 @@
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
 				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1631,7 +1617,7 @@
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
 				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
