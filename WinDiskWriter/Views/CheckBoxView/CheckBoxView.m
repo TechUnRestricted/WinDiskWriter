@@ -18,9 +18,4 @@
     return self;
 }
 
-- (void)performClick:(id)sender {
-    printf("Boobs\n");
-}
-
-
 @end

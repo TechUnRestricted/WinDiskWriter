@@ -52,7 +52,7 @@ WriteExitForce();                     \
     PickerView *devicePickerView;
     ButtonView *updateDeviceListButtonView;
     
-    CheckBoxView *skipSecurityChecksCheckboxView;
+    CheckBoxView *patchInstallerRequirementsCheckboxView;
     CheckBoxView *installLegacyBootCheckBoxView;
     NSSegmentedControl *filesystemPickerSegmentedControl;
     NSSegmentedControl *partitionSchemePickerSegmentedControl;
@@ -197,11 +197,11 @@ WriteExitForce();                     \
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
     
-    skipSecurityChecksCheckboxView = [[CheckBoxView alloc] init]; {
-        [mainVerticalLayout addView:skipSecurityChecksCheckboxView width:INFINITY height:skipSecurityChecksCheckboxView.cell.cellSize.height];
+    patchInstallerRequirementsCheckboxView = [[CheckBoxView alloc] init]; {
+        [mainVerticalLayout addView:patchInstallerRequirementsCheckboxView width:INFINITY height:patchInstallerRequirementsCheckboxView.cell.cellSize.height];
         
-        [skipSecurityChecksCheckboxView setTitle: @"Patch Installer Requirements"];
-        [skipSecurityChecksCheckboxView setState: NSOffState];
+        [patchInstallerRequirementsCheckboxView setTitle: @"Patch Installer Requirements"];
+        [patchInstallerRequirementsCheckboxView setState: NSOffState];
     }
     
     installLegacyBootCheckBoxView = [[CheckBoxView alloc] init]; {
@@ -655,20 +655,28 @@ WriteExitForce();                     \
     [logsView appendRow: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
                                           logType: ASLogTypeLog];
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat:@"Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: \"%@\", partition_scheme: \"%@\", filesystem: \"%@\", patch_security_checks: \"%d\").",
+    BOOL patchInstallerRequirements = patchInstallerRequirementsCheckboxView.state == NSOnState;
+    BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
+    
+    NSString *diskEraseOperationText = [NSString stringWithFormat:
+                                        @"Device %@ (%@ %@) is ready to be erased with the following properties: ("
+                                        "partition_name: \"%@\", "
+                                        "partition_scheme: \"%@\", "
+                                        "filesystem: \"%@\", "
+                                        "patch_security_checks: \"%d\", "
+                                        "install_legacy_boot: \"%d\""
+                                        ").",
                                         destinationSavedDiskInfo.BSDName,
                                         destinationSavedDiskInfo.deviceVendor,
                                         destinationSavedDiskInfo.deviceModel,
                                         newPartitionName,
                                         selectedPartitionScheme,
                                         selectedFileSystem,
-                                        skipSecurityChecksCheckboxView.state == NSOnState];
+                                        patchInstallerRequirements,
+                                        installLegacyBoot];
     
     [logsView appendRow: diskEraseOperationText
-                                          logType: ASLogTypeLog];
-    
-    BOOL patchInstallerRequirements = skipSecurityChecksCheckboxView.state == NSOnState;
-    BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
+                logType: ASLogTypeLog];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self setCurrentProgressTitle: @"Formatting the drive"];
@@ -758,7 +766,7 @@ WriteExitForce();                     \
                     break;
             }
             
-            [onscreenLogText appendString:destinationCurrentFilePath];
+            [onscreenLogText appendString: destinationCurrentFilePath];
             
             switch (operationResult) {
                 case DWOperationResultStart:
@@ -803,7 +811,16 @@ WriteExitForce();                     \
                     NSAlert *alert = [[NSAlert alloc] init];
                     
                     [alert setMessageText: @"A problem occurred when writing a file to disk"];
-                    [alert setInformativeText: [NSString stringWithFormat:@"You can skip the following file or abort the writing process.\n[%@]", destinationCurrentFilePath]];
+                    
+                    NSMutableString *errorReasonMutableString = [NSMutableString stringWithString: @"You can skip the following file or abort the writing process."];
+                    
+                    if (error != NULL) {
+                        [errorReasonMutableString appendFormat: @"\n(Reason: %@)", [error stringValue]];
+                    }
+                    
+                    [errorReasonMutableString appendFormat: @"\n[%@]", destinationCurrentFilePath];
+                    
+                    [alert setInformativeText: errorReasonMutableString];
                     
                     [alert addButtonWithTitle: @"Abort Writing"];
                     [alert addButtonWithTitle: @"Skip file"];
@@ -919,7 +936,7 @@ WriteExitForce();                     \
         }
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];
-        [self->skipSecurityChecksCheckboxView setEnabled: enabledUIState];
+        [self->patchInstallerRequirementsCheckboxView setEnabled: enabledUIState];
         [self->installLegacyBootCheckBoxView setEnabled: enabledUIState];
         [self->windowsImageInputView setEnabled: enabledUIState];
         [self->devicePickerView setEnabled: enabledUIState];

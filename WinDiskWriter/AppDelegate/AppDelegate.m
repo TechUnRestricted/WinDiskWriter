@@ -19,7 +19,7 @@
     MainWindow *mainWindow;
     AboutWindow *aboutWindow;
     
-    NSMenuItem* quitMenuItem;
+    NSMenuItem *quitMenuItem;
 }
 
 - (void)setupMenuItems {
@@ -29,13 +29,13 @@
     NSMenuItem *mainMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:mainMenuBarItem];
         
-        NSMenu *mainItemsMenu = [[NSMenu alloc]init]; {
+        NSMenu *mainItemsMenu = [[NSMenu alloc] init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
             
             NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
                                                                    action: @selector(showAboutWindow)
                                                             keyEquivalent: @""]; {
-                [mainItemsMenu addItem:aboutMenuItem];
+                [mainItemsMenu addItem: aboutMenuItem];
             }
             
             [mainItemsMenu addItem: NSMenuItem.separatorItem];

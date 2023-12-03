@@ -49,19 +49,7 @@
     }
     
     NSRect selfFrame = self.frame;
-    printf(
-        "[PaddingView Frame]: (width: %f; height: %f;)\n",
-           selfFrame.size.width,
-           selfFrame.size.height
-    );
-    
     NSRect documentViewFrame = self.documentView.frame;
-    
-    printf(
-        "[DocumentView Frame]: (width: %f; height: %f;)\n",
-           documentViewFrame.size.width,
-           documentViewFrame.size.height
-    );
     
     documentViewFrame.origin.y = self.paddingTop;
     documentViewFrame.origin.x = self.paddingLeft;
