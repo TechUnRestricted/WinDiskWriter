@@ -7,11 +7,13 @@
 //
 
 #import "VibrantTableView.h"
-#import "VerticalCenteredTextFieldCell.h"
+#import "MiddleAlignedCell.h"
 
-@implementation VibrantTableView
+@implementation VibrantTableView {
+    NSTableColumn *tableColumn;
+}
 
-NSString *MAIN_COLUMN = @"MAIN_COLUMN";
+NSString *MAIN_COLUMN = @"MainTableColumn";
 
 - (instancetype)init {
     self = [super init];
@@ -32,15 +34,39 @@ NSString *MAIN_COLUMN = @"MAIN_COLUMN";
     
     [self setRowHeight: dummyTextField.cell.cellSize.height + 2];
     
-    _mainColumn = [[NSTableColumn alloc] initWithIdentifier: MAIN_COLUMN];
-    [self.mainColumn.dataCell setFont: self.requiredFont];
-
-    [self addTableColumn: self.mainColumn];
+    tableColumn = [[NSTableColumn alloc] initWithIdentifier: MAIN_COLUMN];
+    
+    MiddleAlignedCell *middleAlignedCell = [[MiddleAlignedCell alloc] init];
+    [middleAlignedCell setFont: self.requiredFont];
+    
+    [tableColumn setDataCell: middleAlignedCell];
+    
+    [self addTableColumn: tableColumn];
     
     [self setDelegate: self];
     [self setDataSource: self];
         
     return self;
+}
+
+- (void)setFrameSize:(NSSize)newSize {
+    NSSize currentSize = self.frame.size;
+    
+    newSize.width = currentSize.width;
+        
+    [super setFrameSize:newSize];
+}
+
+- (CGFloat)columnWidth {
+    return tableColumn.width;
+}
+
+- (void)setColumnWidth: (CGFloat)width {
+    NSSize selfSize = self.frame.size;
+        
+    selfSize.width = width;
+    
+    [super setFrameSize: selfSize];
 }
 
 - (NSInteger)numberOfRowsInTableView: (NSTableView *)tableView {

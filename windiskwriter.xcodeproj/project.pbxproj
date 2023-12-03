@@ -23,10 +23,10 @@
 		E23298C62A37C31500869736 /* NSColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C02A37C31500869736 /* NSColor+Common.m */; };
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
 		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
-		E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */; };
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
+		E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
 		E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B412A857C2D008B9FAC /* VibrantTextView.m */; };
@@ -120,6 +120,7 @@
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2E64A892B1375AB00B99917 /* LogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A882B1375AB00B99917 /* LogView.m */; };
 		E2E64A8D2B13762400B99917 /* VibrantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A8C2B13762400B99917 /* VibrantTableView.m */; };
+		E2EE60852B1B7018001363EC /* ContaineredTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EE60842B1B7018001363EC /* ContaineredTableView.m */; };
 		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
 		E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */; };
 		E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */; };
@@ -309,8 +310,6 @@
 		E23298C42A37C31500869736 /* NSWindow+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Common.m"; sourceTree = "<group>"; };
 		E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutHorizontal.m; sourceTree = "<group>"; };
 		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
-		E24364D92A72C88000541719 /* VerticalCenteredTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalCenteredTextFieldCell.h; sourceTree = "<group>"; };
-		E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalCenteredTextFieldCell.m; sourceTree = "<group>"; };
 		E24364E02A72CCE600541719 /* TextInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputView.m; sourceTree = "<group>"; };
 		E24364E12A72CCE600541719 /* TextInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputView.h; sourceTree = "<group>"; };
 		E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutVertical.h; sourceTree = "<group>"; };
@@ -323,6 +322,8 @@
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
 		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
 		E289E2C5298FDFC00011B620 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		E29B5B9D2B1CA2EE009A8D0C /* MiddleAlignedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiddleAlignedCell.h; sourceTree = "<group>"; };
+		E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiddleAlignedCell.m; sourceTree = "<group>"; };
 		E2B52BBB29858D8000DF362B /* Filesystems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Filesystems.h; sourceTree = "<group>"; };
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
@@ -358,6 +359,8 @@
 		E2E64A882B1375AB00B99917 /* LogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogView.m; sourceTree = "<group>"; };
 		E2E64A8B2B13762400B99917 /* VibrantTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VibrantTableView.h; sourceTree = "<group>"; };
 		E2E64A8C2B13762400B99917 /* VibrantTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VibrantTableView.m; sourceTree = "<group>"; };
+		E2EE60832B1B7018001363EC /* ContaineredTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContaineredTableView.h; sourceTree = "<group>"; };
+		E2EE60842B1B7018001363EC /* ContaineredTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContaineredTableView.m; sourceTree = "<group>"; };
 		E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
 		E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutWindow.m; sourceTree = "<group>"; };
 		E2F2D2BB2A93E8AE00E1B7FF /* CustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageView.h; sourceTree = "<group>"; };
@@ -993,6 +996,7 @@
 				E2F7CE382AB353C000BA6FE4 /* Classes */,
 				E2F2D2CE2A941AD100E1B7FF /* Constants */,
 				E23298BE2A37C31500869736 /* Extensions */,
+				E29B5BA12B1CA3AB009A8D0C /* Cells */,
 				E23298BA2A37C31500869736 /* Views */,
 				E2F2D2BA2A93DC8C00E1B7FF /* Windows */,
 				E27FF65C2AA548E900C0356F /* AppDelegate */,
@@ -1008,7 +1012,6 @@
 			children = (
 				E2DF0FB32A8C1F0A00339DDB /* ProgressBarView */,
 				E24364E32A72CCEB00541719 /* TextInputView */,
-				E24364DC2A72C88600541719 /* VerticalCenteredTextFieldCell */,
 				E23298BB2A37C31500869736 /* LabelView */,
 				E22E6BE52A75C87400FD4BFD /* ButtonView */,
 				E22E6C052A75D73C00FD4BFD /* PickerView */,
@@ -1068,15 +1071,6 @@
 				E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */,
 			);
 			path = FrameLayoutHorizontal;
-			sourceTree = "<group>";
-		};
-		E24364DC2A72C88600541719 /* VerticalCenteredTextFieldCell */ = {
-			isa = PBXGroup;
-			children = (
-				E24364D92A72C88000541719 /* VerticalCenteredTextFieldCell.h */,
-				E24364DA2A72C88000541719 /* VerticalCenteredTextFieldCell.m */,
-			);
-			path = VerticalCenteredTextFieldCell;
 			sourceTree = "<group>";
 		};
 		E24364E32A72CCEB00541719 /* TextInputView */ = {
@@ -1172,6 +1166,23 @@
 				E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */,
 			);
 			path = NSFileManager;
+			sourceTree = "<group>";
+		};
+		E29B5BA02B1CA392009A8D0C /* MiddleAlignedCell */ = {
+			isa = PBXGroup;
+			children = (
+				E29B5B9D2B1CA2EE009A8D0C /* MiddleAlignedCell.h */,
+				E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */,
+			);
+			path = MiddleAlignedCell;
+			sourceTree = "<group>";
+		};
+		E29B5BA12B1CA3AB009A8D0C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E29B5BA02B1CA392009A8D0C /* MiddleAlignedCell */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		E2B52BBA29858D6E00DF362B /* Filesystems */ = {
@@ -1310,6 +1321,7 @@
 		E2E64A8A2B1375AE00B99917 /* LogView */ = {
 			isa = PBXGroup;
 			children = (
+				E2EE60862B1B701C001363EC /* ContaineredTableView */,
 				E2E64A8E2B13762700B99917 /* VibrantTableView */,
 				E2E64A872B1375AB00B99917 /* LogView.h */,
 				E2E64A882B1375AB00B99917 /* LogView.m */,
@@ -1324,6 +1336,15 @@
 				E2E64A8C2B13762400B99917 /* VibrantTableView.m */,
 			);
 			path = VibrantTableView;
+			sourceTree = "<group>";
+		};
+		E2EE60862B1B701C001363EC /* ContaineredTableView */ = {
+			isa = PBXGroup;
+			children = (
+				E2EE60832B1B7018001363EC /* ContaineredTableView.h */,
+				E2EE60842B1B7018001363EC /* ContaineredTableView.m */,
+			);
+			path = ContaineredTableView;
 			sourceTree = "<group>";
 		};
 		E2F2D2B92A93D27800E1B7FF /* AboutWindow */ = {
@@ -1469,6 +1490,7 @@
 			files = (
 				E217F46F2A927ECB00215AF1 /* NSError+Common.m in Sources */,
 				E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */,
+				E2EE60852B1B7018001363EC /* ContaineredTableView.m in Sources */,
 				E2DF0F5A2A894CAB00339DDB /* write.c in Sources */,
 				E217F47E2A92D85400215AF1 /* ModernWindow.m in Sources */,
 				E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */,
@@ -1561,6 +1583,7 @@
 				E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */,
 				E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */,
 				E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */,
+				E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */,
 				E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */,
 				E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */,
 				E23298B22A37C1FC00869736 /* main.m in Sources */,
@@ -1577,7 +1600,6 @@
 				E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */,
 				E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */,
 				E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */,
-				E24364DB2A72C88000541719 /* VerticalCenteredTextFieldCell.m in Sources */,
 				E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */,
 				E22E6C042A75D73700FD4BFD /* PickerView.m in Sources */,
 				E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */,

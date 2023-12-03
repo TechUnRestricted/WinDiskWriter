@@ -1,8 +1,8 @@
 //
-//  VerticalCenteredTextFieldCell.h
+//  MiddleAlignedCell.h
 //  WinDiskWriter GUI
 //
-//  Created by Macintosh on 27.07.2023.
+//  Created by Macintosh on 03.12.2023.
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VerticalCenteredTextFieldCell : NSTextFieldCell
+@interface MiddleAlignedCell : NSCell
 
 @end
 

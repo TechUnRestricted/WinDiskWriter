@@ -10,6 +10,8 @@
 #import "NSColor+Common.h"
 #import "VibrantTableView.h"
 #import "NSMutableAttributedString+Common.h"
+#import "ContaineredTableView.h"
+#import "MiddleAlignedCell.h"
 
 ASLogType const ASLogTypeStart = @"Start";
 ASLogType const ASLogTypeSuccess = @"Success";
@@ -30,11 +32,16 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     self = [super init];
     
     _tableViewInstance = [[VibrantTableView alloc] init];
+    // [self.tableViewInstance setWantsLayer: YES];
+    // [self.tableViewInstance.layer setBackgroundColor: NSColor.purpleColor.toCGColor];
     
     dateFormatter = [[NSDateFormatter alloc] init];
     
     dummyTextField = [[NSTextField alloc] init];
-    [dummyTextField setFont: ((VibrantTableView *)self.tableViewInstance).requiredFont];
+    
+    MiddleAlignedCell *middleAlignedCell = [[MiddleAlignedCell alloc] init];
+    [dummyTextField setCell:middleAlignedCell];
+    [dummyTextField setFont: ((VibrantTableView *)self.documentView).requiredFont];
     
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
 
@@ -43,8 +50,15 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
     [self setAutohidesScrollers: YES];
     [self setDrawsBackground: NO];
-    
-    [self setDocumentView: self.tableViewInstance];
+        
+    ContaineredTableView *paddingView = [[ContaineredTableView alloc] initWithDocumentView: self.tableViewInstance];
+    [paddingView setPaddingTop: 4];
+    [paddingView setPaddingBottom: 4];
+
+    // [paddingView setWantsLayer: YES];
+    // [paddingView.layer setBackgroundColor: NSColor.brownColor.toCGColor];
+     
+    [self setDocumentView: paddingView];
     
     [self.contentView setWantsLayer: YES];
     [self.contentView.layer setCornerRadius: 10.0f];
@@ -60,17 +74,18 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
     return [dateFormatter stringFromDate: NSDate.date];
 }
 
-- (void)appendRow: (NSString *)string {
+- (void)appendRow:(NSString *)string {
     dispatch_async(dispatch_get_main_queue(), ^{
         VibrantTableView *childView = (VibrantTableView *)self.tableViewInstance;
         
         [self->dummyTextField setStringValue: string];
         
         CGFloat requiredCellWidth = self->dummyTextField.cell.cellSize.width;
-        CGFloat currentColumnWidth = [childView.mainColumn width];
+        
+        CGFloat currentColumnWidth = childView.frame.size.width;
         
         if (requiredCellWidth > currentColumnWidth) {
-            [childView.mainColumn setWidth:requiredCellWidth];
+            [childView setColumnWidth: requiredCellWidth + 12];
         }
         
         [childView.rowData addObject: string];
@@ -79,7 +94,6 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
         if ([childView numberOfRows] > 0) {
             [childView scrollRowToVisible: [childView numberOfRows] - 1];
         }
-        //[childView.mainColumn setWidth: 5000];
     });
 }
 
