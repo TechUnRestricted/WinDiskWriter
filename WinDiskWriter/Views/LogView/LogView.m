@@ -60,9 +60,16 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
      
     [self setDocumentView: paddingView];
     
-    [self.contentView setWantsLayer: YES];
-    [self.contentView.layer setCornerRadius: 10.0f];
+    const CGFloat CORNER_RADIUS = 10.0f;
     
+    // Give the NSScrollView a backing layer and set it's corner radius.
+    [self setWantsLayer:YES];
+    [self.layer setCornerRadius:CORNER_RADIUS];
+
+    // Give the NSScrollView's internal clip view a backing layer and set it's corner radius.
+    [self.contentView setWantsLayer:YES];
+    [self.contentView.layer setCornerRadius:CORNER_RADIUS];
+
     [self.contentView.layer setBorderColor: [NSColor.textColor colorWithAlphaComponent: 0.25].toCGColor];
     
     [self.contentView.layer setBorderWidth: 1.5f];

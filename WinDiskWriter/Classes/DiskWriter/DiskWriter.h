@@ -30,7 +30,8 @@ typedef NS_ENUM(NSUInteger, DWOperationType) {
     /* Optional for Windows 11 and up.
      Removes TPM and Secure Boot requirements by setting
      the types of all images inside install(.wim)/(.esd) to "Server" */
-    DWOperationTypePatchWindowsInstallerRequirements
+    DWOperationTypePatchWindowsInstallerRequirements,
+    DWOperationTypeInstallLegacyBootSector
 };
 
 @interface DiskWriter: NSObject
@@ -51,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
                          destinationPath: (NSString *)destinationPath
                   destinationDiskManager: (DiskManager *)destinationDiskManager;
 
-typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *error);
+typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *_Nullable error);
 
 - (BOOL)startWritingWithError: (NSError **)error
              progressCallback: (ChainedCallbackAction)progressCallback;

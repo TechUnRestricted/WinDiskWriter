@@ -71,4 +71,7 @@ NSString * const MENU_WINDOW_TITLE = @"Window";
 NSString * const MENU_MINIMIZE_TITLE = @"Minimize";
 NSString * const MENU_HIDE_TITLE = @"Hide";
 
+NSString * const MENU_DONATE_ME_TITLE = @"❤️ Donate Me ❤️";
+NSString * const MENU_ITEM_OPEN_DONATION_WEB_PAGE_TITLE = @"Open Donation Web Page";
+
 @end

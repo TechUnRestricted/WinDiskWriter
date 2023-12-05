@@ -1,0 +1,39 @@
+# Set the color scheme to black/white
+color black/white black/white black/white black/white
+
+# Set the timeout to 30 seconds
+timeout 30
+
+# Set the menu border color to black
+color border=0x000000
+
+# Set the video mode to 24 or 32 bits per pixel
+graphicsmode -1 640:800 480:600 24:32 || graphicsmode -1 -1 -1 24:32
+
+# Remove the splash image
+splashimage
+
+# Read the default menu entry from the /default file
+default /default
+
+# Enable the menu auto-numbering feature
+write 0x8274 0x2001
+
+####################################
+iftitle [find --set-root --devices=h /bootmgr && call set bootmgr=%@root^%] Boot Windows (Vista / 7 / 8 / 8.1 / 10 / 1)
+
+# Load the boot manager from the root device
+chainloader %bootmgr%/bootmgr
+
+savedefault --wait=2
+####################################
+
+# Start a new menu entry for rebooting the system
+title Reboot
+reboot
+
+# Start a new menu entry for halting the system
+title Halt
+halt
+
+

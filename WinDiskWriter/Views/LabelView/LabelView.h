@@ -12,7 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LabelView : NSTextField
 
-- (instancetype)init;
+- (BOOL)isClickActionRegistered;
+
+- (void)unregisterClickAction;
+
+- (void)registerClickWithTarget: (id)target
+                       selector: (SEL)selector;
 
 @end
 

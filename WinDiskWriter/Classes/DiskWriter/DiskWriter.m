@@ -64,10 +64,17 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
                                       inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
 }
 
++ (NSString *)bootloaderMenuFilePath {
+    return [[NSBundle mainBundle] pathForResource: @"menu"
+                                           ofType: @"lst"
+                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
+}
+
 - (BOOL)writeLegacyBootSectorWithError: (NSError **)error {
     NSString *bootloaderMBRFilePath = [DiskWriter bootloaderMBRFilePath];
     NSString *bootloaderGrldrFilePath = [DiskWriter bootloaderGrldrFilePath];
-    
+    NSString *bootloaderMenuFilePath = [DiskWriter bootloaderMenuFilePath];
+
     DiskInfo *destinationDiskInfo = [self.destinationDiskManager diskInfo];
     NSString *bsdFullPath = [destinationDiskInfo BSDFullPath];
     
@@ -83,25 +90,38 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
         return NO;
     }
     
-    if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMBRFilePath]) {
+    if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderGrldrFilePath]) {
         *error = [NSError errorWithStringValue: @"Bootloader Grldr file doesn't exist."];
         
         return NO;
     }
     
-    // Copying grldr (second-stage boot for the grub4dos)
-    NSError *grldrCopyError = NULL;
-    NSString *grldrDestinationPath = [self.destinationPath stringByAppendingPathComponent: bootloaderGrldrFilePath.lastPathComponent];
-    [localFileManager copyItemAtPath: bootloaderGrldrFilePath
-                              toPath: grldrDestinationPath
-                               error: &grldrCopyError];
-    
-    if (grldrCopyError != NULL) {
-        NSString *errorString = [NSString stringWithFormat: @"Can't install grldr to the destination device (%@).", grldrCopyError.stringValue];
-        
-        *error = [NSError errorWithStringValue: errorString];
+    if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMenuFilePath]) {
+        *error = [NSError errorWithStringValue: @"Bootloader Menu file doesn't exist."];
         
         return NO;
+    }
+    
+    for (NSString *currentFile in @[bootloaderGrldrFilePath, bootloaderMenuFilePath]) {
+        NSError *bootloaderFileCopyError = NULL;
+        
+        NSString *destinationPath = [self.destinationPath stringByAppendingPathComponent: currentFile.lastPathComponent];
+        
+        [localFileManager copyItemAtPath: currentFile
+                                  toPath: destinationPath
+                                   error: &bootloaderFileCopyError];
+        
+        if (bootloaderFileCopyError != NULL) {
+            NSString *errorString = [
+                NSString stringWithFormat: @"Can't copy %@ to the destination device (%@).",
+                currentFile.lastPathComponent,
+                bootloaderFileCopyError.stringValue
+            ];
+            
+            *error = [NSError errorWithStringValue: errorString];
+            
+            return NO;
+        }
     }
     
     // Unmounting the destination device in order to install the boot sector.
@@ -664,17 +684,30 @@ if (![self commonErrorCheckerWithError:error]) {
 postBootloaderExtract:
     
     if (self.installLegacyBoot) {
+        DWFile *legacyBootloaderDWFile = [[DWFile alloc] initWithSourcePath: @"[Legacy Bootloader]"];
+        
+        switch (progressCallback(legacyBootloaderDWFile, 0, DWOperationTypeInstallLegacyBootSector, DWOperationResultStart, NULL)) {
+            case DWActionContinue:
+                break;
+            case DWActionSkip:
+                goto postLegacyBootloaderInstall;
+            case DWActionStop:
+                return NO;
+        }
+        
         NSError *installLegacyBootError = NULL;
         
         BOOL installLegacyBootResult = [self writeLegacyBootSectorWithError: &installLegacyBootError];
         
-        // Temporary debug print
-        if (installLegacyBootError != NULL) {
-            printf("Install Legacy Boot ERROR!: %s\n", installLegacyBootError.stringValue.UTF8String);
-        }
+        progressCallback(legacyBootloaderDWFile, 0, DWOperationTypeInstallLegacyBootSector, (installLegacyBootError == NULL) ? DWOperationResultSuccess : DWOperationResultFailure, installLegacyBootError);
         
-        printf("Legacy install result: %s\n", installLegacyBootResult ? "Success" : "Failure");
+        if (!installLegacyBootResult) {
+            // We don't need to continue since it's the last step
+            return NO;
+        }
     }
+    
+postLegacyBootloaderInstall:
     
     return YES;
 }

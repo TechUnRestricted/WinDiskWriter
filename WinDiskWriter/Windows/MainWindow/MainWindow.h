@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
                        padding: (CGFloat)padding
         paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware
                    aboutWindow: (AboutWindow *)aboutWindow
-                  quitMenuItem: (NSMenuItem *)quitMenuItem;
+                  quitMenuItem: (NSMenuItem *)quitMenuItem
+                 closeMenuItem: (NSMenuItem *)closeMenuItem;
 
 @end
 

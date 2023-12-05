@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
+#import "HelperFunctions.h"
 
 #import "Constants.h"
 
@@ -20,11 +21,12 @@
     AboutWindow *aboutWindow;
     
     NSMenuItem *quitMenuItem;
+    NSMenuItem *closeMenuItem;
 }
 
 - (void)setupMenuItems {
     NSMenu *menuBar = [[NSMenu alloc]init];
-    [NSApp setMainMenu:menuBar];
+    [NSApp setMainMenu: menuBar];
     
     NSMenuItem *mainMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:mainMenuBarItem];
@@ -32,7 +34,7 @@
         NSMenu *mainItemsMenu = [[NSMenu alloc] init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
             
-            NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
+            NSMenuItem *aboutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_ABOUT_TITLE
                                                                    action: @selector(showAboutWindow)
                                                             keyEquivalent: @""]; {
                 [mainItemsMenu addItem: aboutMenuItem];
@@ -53,51 +55,73 @@
         [menuBar addItem:editMenuBarItem];
         
         NSMenu *editMenu = [[NSMenu alloc] initWithTitle: MENU_EDIT_TITLE]; {
-            [editMenuBarItem setSubmenu:editMenu];
+            [editMenuBarItem setSubmenu: editMenu];
             
-            NSMenuItem* cutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_CUT_TITLE
+            NSMenuItem *cutMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_CUT_TITLE
                                                                  action: @selector(cut:)
                                                           keyEquivalent: @"x"]; {
-                [editMenu addItem:cutMenuItem];
+                [editMenu addItem: cutMenuItem];
             }
             
-            NSMenuItem* copyMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_COPY_TITLE
+            NSMenuItem *copyMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_COPY_TITLE
                                                                   action: @selector(copy:)
                                                            keyEquivalent: @"c"]; {
-                [editMenu addItem:copyMenuItem];
+                [editMenu addItem: copyMenuItem];
             }
             
-            NSMenuItem* pasteMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_PASTE_TITLE
+            NSMenuItem *pasteMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_PASTE_TITLE
                                                                    action: @selector(paste:)
                                                             keyEquivalent: @"v"]; {
-                [editMenu addItem:pasteMenuItem];
+                [editMenu addItem: pasteMenuItem];
             }
             
-            NSMenuItem* selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_SELECT_ALL_TITLE
+            NSMenuItem *selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_SELECT_ALL_TITLE
                                                                        action: @selector(selectAll:)
                                                                 keyEquivalent: @"a"]; {
-                [editMenu addItem:selectAllMenuItem];
+                [editMenu addItem: selectAllMenuItem];
             }
         }
         
     }
     
     NSMenuItem *windowMenuBarItem = [[NSMenuItem alloc] init]; {
-        [menuBar addItem:windowMenuBarItem];
+        [menuBar addItem: windowMenuBarItem];
         
         NSMenu *windowMenu = [[NSMenu alloc] initWithTitle: MENU_WINDOW_TITLE]; {
-            [windowMenuBarItem setSubmenu:windowMenu];
+            [windowMenuBarItem setSubmenu: windowMenu];
             
-            NSMenuItem* minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_MINIMIZE_TITLE
-                                                                      action: @selector(miniaturize:)
-                                                               keyEquivalent: @"m"]; {
-                [windowMenu addItem:minimizeMenuItem];
+            closeMenuItem = [[NSMenuItem alloc] initWithTitle: @"Close"
+                                                       action: NULL
+                                                keyEquivalent: @"w"]; {
+                [windowMenu addItem: closeMenuItem];
             }
             
-            NSMenuItem* hideMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_HIDE_TITLE
+            NSMenuItem *minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_MINIMIZE_TITLE
+                                                                      action: @selector(miniaturize:)
+                                                               keyEquivalent: @"m"]; {
+                [windowMenu addItem: minimizeMenuItem];
+            }
+            
+            NSMenuItem *hideMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_HIDE_TITLE
                                                                   action: @selector(hide:)
                                                            keyEquivalent: @"h"]; {
-                [windowMenu addItem:hideMenuItem];
+                [windowMenu addItem: hideMenuItem];
+            }
+        }
+    }
+    
+    NSMenuItem *supportMeMenuBarItem = [[NSMenuItem alloc] init]; {
+        [menuBar addItem: supportMeMenuBarItem];
+
+        NSMenu *supportMeMenu = [[NSMenu alloc] initWithTitle: MENU_DONATE_ME_TITLE]; {
+            [supportMeMenuBarItem setSubmenu: supportMeMenu];
+            
+            NSMenuItem *openDonationURLMenuItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_OPEN_DONATION_WEB_PAGE_TITLE
+                                                                             action: @selector(openDonationsPage)
+                                                                      keyEquivalent: @"d"]; {
+                [openDonationURLMenuItem setTarget: [HelperFunctions class]];
+                
+                [supportMeMenu addItem: openDonationURLMenuItem];
             }
         }
     }
@@ -127,7 +151,8 @@
                                                 padding: CHILD_CONTENT_SPACING
                                  paddingIsTitleBarAware: YES
                                             aboutWindow: aboutWindow
-                                           quitMenuItem: quitMenuItem];
+                                           quitMenuItem: quitMenuItem
+                                          closeMenuItem: closeMenuItem];
         
         [mainWindow setMinSize: minWindowSize];
         [mainWindow setMaxSize: maxWindowSize];

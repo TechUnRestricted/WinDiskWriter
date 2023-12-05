@@ -14,12 +14,17 @@
 #import "Constants.h"
 #import "HDIUtil.h"
 
-NSString const *MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
 
 @implementation HelperFunctions
 
 + (BOOL)hasElevatedRights {
     return geteuid() == 0;
+}
+
++ (void)openDonationsPage {
+    NSURL *url = [NSURL URLWithString: @"https://github.com/TechUnRestricted/windiskwriter"];
+    [[NSWorkspace sharedWorkspace] openURL: url];
 }
 
 + (void)printTimeElapsedWhenRunningCode: (NSString *)title

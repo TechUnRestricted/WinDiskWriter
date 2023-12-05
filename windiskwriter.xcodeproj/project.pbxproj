@@ -26,6 +26,7 @@
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
+		E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */; };
 		E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
@@ -319,6 +320,8 @@
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
 		E27FF65E2AAA2C1500C0356F /* DiskInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskInfo.m; sourceTree = "<group>"; };
+		E284256F2B1F3FE600EC4A4D /* SlideShowedLabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideShowedLabelView.h; sourceTree = "<group>"; };
+		E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SlideShowedLabelView.m; sourceTree = "<group>"; };
 		E289E2BF298EE66F0011B620 /* NSFileManager+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Common.h"; sourceTree = "<group>"; };
 		E289E2C0298EE66F0011B620 /* NSFileManager+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Common.m"; sourceTree = "<group>"; };
 		E289E2C5298FDFC00011B620 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -1026,6 +1029,7 @@
 		E23298BB2A37C31500869736 /* LabelView */ = {
 			isa = PBXGroup;
 			children = (
+				E28425722B1F3FEA00EC4A4D /* SlideShowedLabelView */,
 				E23298BC2A37C31500869736 /* LabelView.h */,
 				E23298BD2A37C31500869736 /* LabelView.m */,
 			);
@@ -1148,6 +1152,15 @@
 				E27FF65E2AAA2C1500C0356F /* DiskInfo.m */,
 			);
 			path = DiskInfo;
+			sourceTree = "<group>";
+		};
+		E28425722B1F3FEA00EC4A4D /* SlideShowedLabelView */ = {
+			isa = PBXGroup;
+			children = (
+				E284256F2B1F3FE600EC4A4D /* SlideShowedLabelView.h */,
+				E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */,
+			);
+			path = SlideShowedLabelView;
 			sourceTree = "<group>";
 		};
 		E289E2BD298EE6260011B620 /* NSString */ = {
@@ -1322,7 +1335,6 @@
 			isa = PBXGroup;
 			children = (
 				E2EE60862B1B701C001363EC /* ContaineredTableView */,
-				E2E64A8E2B13762700B99917 /* VibrantTableView */,
 				E2E64A872B1375AB00B99917 /* LogView.h */,
 				E2E64A882B1375AB00B99917 /* LogView.m */,
 			);
@@ -1341,6 +1353,7 @@
 		E2EE60862B1B701C001363EC /* ContaineredTableView */ = {
 			isa = PBXGroup;
 			children = (
+				E2E64A8E2B13762700B99917 /* VibrantTableView */,
 				E2EE60832B1B7018001363EC /* ContaineredTableView.h */,
 				E2EE60842B1B7018001363EC /* ContaineredTableView.m */,
 			);
@@ -1527,6 +1540,7 @@
 				E2DF0F772A894CAB00339DDB /* lzms_compress.c in Sources */,
 				E2DF0F782A894CAB00339DDB /* test_support.c in Sources */,
 				E2DF0F792A894CAB00339DDB /* sha1.c in Sources */,
+				E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */,
 				E2DF0F7A2A894CAB00339DDB /* registry.c in Sources */,
 				E2DF0FB62A8C1F2400339DDB /* ProgressBarView.m in Sources */,
 				E2DF0F7B2A894CAB00339DDB /* wim.c in Sources */,

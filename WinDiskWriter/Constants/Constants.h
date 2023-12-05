@@ -81,6 +81,10 @@ extern NSString * const MENU_WINDOW_TITLE;
 extern NSString * const MENU_MINIMIZE_TITLE;
 extern NSString * const MENU_HIDE_TITLE;
 
+// ❤️ Support Me ❤️ Menu
+extern NSString * const MENU_DONATE_ME_TITLE;
+extern NSString * const MENU_ITEM_OPEN_DONATION_WEB_PAGE_TITLE;
+
 @end
 
 #endif /* Constants_h */

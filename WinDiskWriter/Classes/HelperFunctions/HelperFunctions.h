@@ -17,10 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
++ (BOOL)hasElevatedRights;
+
++ (void)openDonationsPage;
+
 + (void)printTimeElapsedWhenRunningCode: (NSString *)title
                               operation: (void (^)(void))operation;
-
-+ (BOOL)hasElevatedRights;
 
 + (BOOL)restartWithElevatedPermissionsWithError: (NSError *_Nonnull *_Nonnull)error;
 
@@ -34,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
                                               error: (NSError *_Nullable *_Nullable)error;
 
 + (NSString *)unitFormattedSizeFor: (UInt64)bytes;
+
 @end
 
 NS_ASSUME_NONNULL_END

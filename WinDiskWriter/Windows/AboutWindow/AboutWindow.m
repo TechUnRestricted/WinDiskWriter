@@ -9,11 +9,13 @@
 #import "AboutWindow.h"
 #import "FrameLayout.h"
 #import "LabelView.h"
+#import "ButtonView.h"
 #import "Constants.h"
 #import "CustomImageView.h"
 #import "NSMutableAttributedString+Common.h"
 #import "AdvancedTextView.h"
 #import "Licenses-Constants.h"
+#import "HelperFunctions.h"
 
 @implementation AboutWindow
 
@@ -161,6 +163,17 @@
         
         [mainVerticalLayout addView:spacerView width:0 height:8];
         
+        ButtonView *openDonationWebPageButtonView = [[ButtonView alloc] init]; {
+            [openDonationWebPageButtonView setTitle: MENU_DONATE_ME_TITLE];
+            
+            [openDonationWebPageButtonView setTarget: [HelperFunctions class]];
+            [openDonationWebPageButtonView setAction: @selector(openDonationsPage)];
+                        
+            [mainVerticalLayout addView: openDonationWebPageButtonView
+                                  width: openDonationWebPageButtonView.cell.cellSize.width
+                                 height: openDonationWebPageButtonView.cell.cellSize.height];
+        }
+        
         LabelView *developerNameLabelView = [[LabelView alloc] init]; {
             [developerNameLabelView setStringValue: DEVELOPER_NAME];
             
@@ -168,7 +181,6 @@
                                   width: developerNameLabelView.cell.cellSize.width
                                  height: developerNameLabelView.cell.cellSize.height];
         }
-        
         
     }
     

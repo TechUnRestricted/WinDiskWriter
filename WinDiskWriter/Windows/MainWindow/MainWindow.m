@@ -32,6 +32,7 @@
 #import "HDIUtil.h"
 
 #import "HelperFunctions.h"
+#import "SlideShowedLabelView.h"
 
 #import "ModernWindow.h"
 
@@ -70,8 +71,9 @@ WriteExitForce();                     \
     ProgressBarView *currentOperationProgressBarView;
     ProgressBarView *totalOperationProgressBarView;
     
-    NSMenuItem* quitMenuItem;
-    
+    NSMenuItem *quitMenuItem;
+    NSMenuItem *closeMenuItem;
+
     ModernWindow *aboutWindow;
 }
 
@@ -80,7 +82,8 @@ WriteExitForce();                     \
                        padding: (CGFloat)padding
         paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware
                    aboutWindow: (AboutWindow *)aboutWindow
-                  quitMenuItem: (NSMenuItem *)quitMenuItem {
+                  quitMenuItem: (NSMenuItem *)quitMenuItem
+                 closeMenuItem: (NSMenuItem *)closeMenuItem {
     
     self = [super initWithNSRect: nsRect
                            title: title
@@ -89,6 +92,7 @@ WriteExitForce();                     \
     
     self->aboutWindow = aboutWindow;
     self->quitMenuItem = quitMenuItem;
+    self->closeMenuItem = closeMenuItem;
     
     NSButton *windowZoomButton = [self standardWindowButton:NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];
@@ -201,6 +205,11 @@ WriteExitForce();                     \
         [mainVerticalLayout addView:patchInstallerRequirementsCheckboxView width:INFINITY height:patchInstallerRequirementsCheckboxView.cell.cellSize.height];
         
         [patchInstallerRequirementsCheckboxView setTitle: @"Patch Installer Requirements"];
+        [patchInstallerRequirementsCheckboxView setToolTip:
+             @"Remove TPM, Secure Boot and RAM requirements from the Installer." "\n"
+             "(Only for Windows 11+)"
+        ];
+        
         [patchInstallerRequirementsCheckboxView setState: NSOffState];
     }
     
@@ -208,6 +217,8 @@ WriteExitForce();                     \
         [mainVerticalLayout addView:installLegacyBootCheckBoxView width:INFINITY height:installLegacyBootCheckBoxView.cell.cellSize.height];
         
         [installLegacyBootCheckBoxView setTitle: @"Install Legacy BIOS Boot Sector"];
+        [installLegacyBootCheckBoxView setToolTip: @"Add support for older BIOS firmwares that doesn't support booting from EFI."];
+        
         [installLegacyBootCheckBoxView setState: [HelperFunctions hasElevatedRights]];
 
         if (![HelperFunctions hasElevatedRights]) {
@@ -226,8 +237,12 @@ WriteExitForce();                     \
     FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
         
+        [formattingSectionVerticalLayout setToolTip:
+             @"Desired filesystem for the destination device." "\n"
+             "(FAT32 is the best choice for compatibility with EFI firmwares)"];
+        
         [formattingSectionVerticalLayout setHugHeightFrame: YES];
-        [formattingSectionVerticalLayout setSpacing:CHILD_CONTENT_SPACING];
+        [formattingSectionVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
         
         FrameLayoutVertical *fileSystemPickerVerticalLayout = [[FrameLayoutVertical alloc] init]; {
             [formattingSectionVerticalLayout addView:fileSystemPickerVerticalLayout width:INFINITY height:0];
@@ -259,6 +274,7 @@ WriteExitForce();                     \
             [partitionSchemePickerVerticalLayout setHugHeightFrame: YES];
             [partitionSchemePickerVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
             
+            /*
             LabelView *partitionSchemeLabelView = [[LabelView alloc] init]; {
                 [partitionSchemePickerVerticalLayout addView: partitionSchemeLabelView
                                                     minWidth: 0
@@ -283,8 +299,8 @@ WriteExitForce();                     \
                 
                 [partitionSchemePickerSegmentedControl setSelectedSegment:0];
                 
-                [partitionSchemePickerVerticalLayout addView:partitionSchemePickerSegmentedControl minWidth:0 maxWidth:INFINITY minHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height maxHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height];
-            }
+                // [partitionSchemePickerVerticalLayout addView:partitionSchemePickerSegmentedControl minWidth:0 maxWidth:INFINITY minHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height maxHeight:partitionSchemePickerSegmentedControl.cell.cellSize.height];
+            }*/
         }
         
     }
@@ -315,6 +331,8 @@ WriteExitForce();                     \
                 [textInfoHorizontalLayout addView:currentOperationLabelView width:INFINITY height:currentOperationLabelView.cell.cellSize.height];
             }
             
+            NSString * const LARGEST_BYTES_CHAR_WIDTH_STRING = @"444.44 MB";
+            
             bytesProgressHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
                 [textInfoHorizontalLayout addView:bytesProgressHorizontalLayout width:0 height:0];
                 
@@ -323,7 +341,7 @@ WriteExitForce();                     \
                 
                 bytesWrittenLabelView = [[LabelView alloc] init]; {
                     // Reserving a space for symbols in order to get a proper cellSize values
-                    [bytesWrittenLabelView setStringValue: @"000.00 KB"];
+                    [bytesWrittenLabelView setStringValue: LARGEST_BYTES_CHAR_WIDTH_STRING];
                     
                     [bytesWrittenLabelView setAlignment: NSTextAlignmentCenter];
                     
@@ -342,7 +360,7 @@ WriteExitForce();                     \
                 
                 bytesFileSizeLabelView = [[LabelView alloc] init]; {
                     // Reserving a space for symbols in order to get a proper cellSize values
-                    [bytesFileSizeLabelView setStringValue: @"000.00 KB"];
+                    [bytesFileSizeLabelView setStringValue: LARGEST_BYTES_CHAR_WIDTH_STRING];
                     
                     [bytesFileSizeLabelView setAlignment: NSTextAlignmentCenter];
                     
@@ -387,12 +405,21 @@ WriteExitForce();                     \
         
     }
     
-    LabelView *developerNameLabelView = [[LabelView alloc] init]; {
-        [mainVerticalLayout addView:developerNameLabelView width:INFINITY height:developerNameLabelView.cell.cellSize.height];
+    NSArray *slideShowTextArray = @[
+        [NSString stringWithFormat:@"%@ 2023", DEVELOPER_NAME],
+        MENU_DONATE_ME_TITLE
+    ];
+    
+    SlideShowedLabelView *slideShowedLabelView = [[SlideShowedLabelView alloc] initWithStringArray: slideShowTextArray
+                                                                                     delayDuration: 8]; {
+        [mainVerticalLayout addView:slideShowedLabelView width:INFINITY height:slideShowedLabelView.cell.cellSize.height];
+       
+        [slideShowedLabelView setAlignment:NSTextAlignmentCenter];
         
-        [developerNameLabelView setAlignment:NSTextAlignmentCenter];
-        
-        [developerNameLabelView setStringValue: [NSString stringWithFormat:@"%@ 2023", DEVELOPER_NAME]];
+        [slideShowedLabelView setIsSlideShowed: YES];
+
+        [slideShowedLabelView registerClickWithTarget: [HelperFunctions class]
+                                             selector: @selector(openDonationsPage)];
     }
     
     [self setEnabledUIState: YES];
@@ -612,7 +639,6 @@ WriteExitForce();                     \
         WriteExitForce();
     }
     
-    
     NSError *imageMountError = NULL;
     NSString *mountedImagePath = [HelperFunctions windowsSourceMountPath: windowsImageInputView.stringValue
                                                                       error: &imageMountError];
@@ -637,23 +663,31 @@ WriteExitForce();                     \
         selectedFileSystem = FilesystemExFAT;
     }
     
-    PartitionScheme selectedPartitionScheme;
-    if (partitionSchemePickerSegmentedControl.selectedSegment == 0) {
-        selectedPartitionScheme = PartitionSchemeMBR;
-    } else {
-        selectedPartitionScheme = PartitionSchemeGPT;
-    }
+    /*
+     ! We don't need anything other than MBR !
+     
+     [Reason №1]: If GPT is selected, diskutil creates an additional EFI partition for UEFI system.
+     But there is a problem: Windows Installer is very buggy.
+     If the installation media has a EFI partition, it will just crash with an error:
+     "Windows could not prepare the computer to boot into the next phase of installation".
+     
+     [Reason №2]: Why GPT? There is no any benefit from it.
+     It less compatible with some firmwares/operating systems.
+     For example, my Lenovo Q67 motherboard can't even boot from GPT-formatted disks in UEFI mode.
+     */
     
-    [logsView appendRow: [NSString stringWithFormat:@"Image was mounted successfully on \"%@\".", mountedImagePath]
-                                          logType: ASLogTypeSuccess];
+    PartitionScheme selectedPartitionScheme = PartitionSchemeMBR;
+     
+    [logsView appendRow: [NSString stringWithFormat: @"Image was mounted successfully on \"%@\".", mountedImagePath]
+                                            logType: ASLogTypeSuccess];
     
-    NSString *newPartitionName = [NSString stringWithFormat:@"WDW_%@", [HelperFunctions randomStringWithLength:7]];
-    [logsView appendRow: [NSString stringWithFormat:@"Generated partition name: \"%@\".", newPartitionName]
-                                          logType: ASLogTypeLog];
+    NSString *newPartitionName = [NSString stringWithFormat: @"WDW_%@", [HelperFunctions randomStringWithLength:7]];
+    [logsView appendRow: [NSString stringWithFormat: @"Generated partition name: \"%@\".", newPartitionName]
+                                            logType: ASLogTypeLog];
     
-    NSString *targetPartitionPath = [NSString stringWithFormat:@"/Volumes/%@", newPartitionName];
-    [logsView appendRow: [NSString stringWithFormat:@"Target partition path: \"%@\".", targetPartitionPath]
-                                          logType: ASLogTypeLog];
+    NSString *targetPartitionPath = [NSString stringWithFormat: @"/Volumes/%@", newPartitionName];
+    [logsView appendRow: [NSString stringWithFormat: @"Target partition path: \"%@\".", targetPartitionPath]
+                                            logType: ASLogTypeLog];
     
     BOOL patchInstallerRequirements = patchInstallerRequirementsCheckboxView.state == NSOnState;
     BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
@@ -730,7 +764,7 @@ WriteExitForce();                     \
         NSError *writeError = NULL;
         
         [diskWriter startWritingWithError: &writeError
-                         progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError * _Nonnull error) {
+                         progressCallback: ^DWAction(DWFile * _Nonnull dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *_Nullable error) {
             if (self.isScheduledForStop) {
                 return DWActionStop;
             }
@@ -764,6 +798,9 @@ WriteExitForce();                     \
                 case DWOperationTypePatchWindowsInstallerRequirements:
                     [onscreenLogText appendString: @"Patch Installer Requirements: "];
                     break;
+                case DWOperationTypeInstallLegacyBootSector:
+                    [onscreenLogText appendString: @"Install Legacy Bootloader: "];
+                    break;
             }
             
             [onscreenLogText appendString: destinationCurrentFilePath];
@@ -773,7 +810,7 @@ WriteExitForce();                     \
                     [self->logsView appendRow:onscreenLogText logType:ASLogTypeStart];
                     break;
                 case DWOperationResultProcess: {
-                    
+                    // Don't need to do anything ¯\_(ツ)_/¯
                     break;
                 }
                 case DWOperationResultSuccess:
@@ -858,6 +895,7 @@ WriteExitForce();                     \
         }
         
         [self displayWarningAlertWithTitle:IMAGE_WRITING_SUCCESS_TITLE subtitle:IMAGE_WRITING_SUCCESS_SUBTITLE icon: NSImageNameStatusAvailable];
+        
         [self->logsView appendRow:IMAGE_WRITING_SUCCESS_TITLE logType:ASLogTypeSuccess];
         
         WriteExitForce();
@@ -907,8 +945,6 @@ WriteExitForce();                     \
         
         [devicePickerView.menu addItem:identifiableMenuItem];
     }
-    
-    
 }
 
 - (void)setEnabledUIState:(BOOL)enabledUIState {
@@ -922,6 +958,7 @@ WriteExitForce();                     \
             [self->currentOperationLabelView setStringValue: @"Ready for action"];
             
             [self->quitMenuItem setAction:@selector(terminate:)];
+            [self->closeMenuItem setAction:@selector(close)];
             
             [self->bytesWrittenLabelView setStringValue: @""];
             [self->bytesFileSizeLabelView setStringValue: @""];
@@ -930,6 +967,7 @@ WriteExitForce();                     \
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {
             [self->quitMenuItem setAction: NULL];
+            [self->closeMenuItem setAction: NULL];
             
             [self->startStopButtonView setTitle: BUTTON_STOP_TITLE];
             [self->startStopButtonView setAction: @selector(stopAction)];
@@ -944,8 +982,8 @@ WriteExitForce();                     \
         [self->chooseWindowsImageButtonView setEnabled: enabledUIState];
         [self->filesystemPickerSegmentedControl setEnabled: enabledUIState];
         
-        NSButton *windowZoomButton = [self standardWindowButton:NSWindowCloseButton];
-        [windowZoomButton setEnabled: enabledUIState];
+        NSButton *windowCloseButton = [self standardWindowButton: NSWindowCloseButton];
+        [windowCloseButton setEnabled: enabledUIState];
     });
 }
 
