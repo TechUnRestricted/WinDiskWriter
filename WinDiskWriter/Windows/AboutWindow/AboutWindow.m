@@ -126,23 +126,24 @@
                                                    height: openSourceLicensesLabelView.cell.cellSize.height];
             }
             
+            // TODO: Replace with external text loading
             AdvancedTextView *openSourceLicensesAdvancedTextView = [[AdvancedTextView alloc] init]; {
                 [openSourceLicensesAdvancedTextView appendLine:
-                 @"WinDiskWriter is an application for macOS that enables users to create bootable flash drives with the Windows operating system, which belongs to Microsoft Corporation." "\n\n"
-                 "The application is an Open Source product developed by TechUnRestricted." "\n"
+                 @"WinDiskWriter is a macOS application that allows users to create bootable flash drives with the Windows operating system, which is a product of Microsoft Corporation." "\n\n"
+                 "The application is an open source project developed by TechUnRestricted." "\n\n"
                  
-                 "It relies on the wimlib library, which is licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 3." "\n\n"
-                 "The library has been slightly modified to avoid application crashes caused by assertions." "\n"
-                 "This allowed the integration of wimlib as a part of the project, instead of a separate binary file that is invoked through the console." "\n\n"
+                 "It uses the wimlib library, which is licensed under the GNU Lesser General Public License Version 3. The library has been slightly modified to prevent application crashes caused by assertions. This enabled the integration of wimlib as a part of the project, instead of a separate binary file that is invoked through the console." "\n\n"
                  
-                 "The application is written in Objective-C programming language, with backward compatibility for older operating systems." "\n"
-                 "This is achieved by using legacy code and custom solutions, instead of reinventing the wheel." "\n"
-                 "The user interface and the logic of element placement are coded manually, without using xib and storyboards." "\n\n"
+                 "The application also uses the grub4dos tool, which is licensed under the GNU General Public License Version 2. The tool is not built into the code, but it is a separate binary file in the Resources folder." "\n"
+                 "Grub4dos used to enable legacy booting for older systems." "\n\n"
+                 "!!! The user is free to modify, replace or remove grub4dos binaries from the WinDiskWriter.app !!!" "\n\n"
                  
-                 "This software has two versions: GUI and CLI." "\n"
-                 "At the moment, WinDiskWriter supports writing Windows Vista, 7, 8, 8.1, 10 and 11 in UEFI mode." "\n"
-                 "Future improvements will include support for Legacy systems and other features." "\n\n\n"
+                 "The application is written in Objective-C programming language, with backward compatibility for older operating systems. This is achieved by using legacy code and custom solutions, instead of relying on external frameworks. The user interface and the logic of element placement are coded manually, without using xib and storyboards." "\n\n"
                  
+                 "The application has only one version: GUI. It supports writing Windows Vista, 7, 8, 8.1, 10 and 11 in both UEFI and Legacy modes. It also supports x32 bit Windows images. Future improvements will include more features and enhancements." "\n\n\n"
+
+            
+
                  "——————————————————" "\n"
                  "[ —  WIMLIB Open Source License  — ]" "\n"
                  "——————————————————" "\n\n"
@@ -150,6 +151,14 @@
                 ];
                 
                 [openSourceLicensesAdvancedTextView appendLine: WIMLIB_LICENSE_TEXT];
+                
+                [openSourceLicensesAdvancedTextView appendLine:
+                 @"\n\n"
+                 "——————————————————" "\n"
+                 "[ —  grub4dos Open Source License  — ]" "\n"
+                 "——————————————————" "\n\n"];
+                
+                [openSourceLicensesAdvancedTextView appendLine: GRUB4DOS_LICENSE_TEXT];
                 
                 [openSourceLicensesVerticalLayout addView: openSourceLicensesAdvancedTextView
                                                  minWidth: 0

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Licenses_Constants : NSObject
 
 extern NSString * const WIMLIB_LICENSE_TEXT;
+extern NSString * const GRUB4DOS_LICENSE_TEXT;
 
 @end
 

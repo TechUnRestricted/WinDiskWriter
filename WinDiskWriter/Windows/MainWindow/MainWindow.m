@@ -423,7 +423,6 @@ WriteExitForce();                     \
     }
     
     [self setEnabledUIState: YES];
-    
 }
 
 - (void)exitApplication {

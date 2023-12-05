@@ -60,14 +60,10 @@
 - (void)mouseEntered:(NSEvent *)event {
     [super mouseEntered: event];
     
-    [[NSCursor pointingHandCursor] set];
+    [self addCursorRect:[self bounds] cursor:[NSCursor pointingHandCursor]];
+    [self resetCursorRects];
 }
 
-- (void)mouseExited:(NSEvent *)event {
-    [super mouseExited: event];
-    
-    [[NSCursor arrowCursor] set];
-}
 
 - (void)mouseDown:(NSEvent *)event {
     [super mouseDown: event];
