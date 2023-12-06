@@ -248,7 +248,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
       🌐 <strong>Implement a feature that allows to skip the online account requirement from Windows 11 22H2+</strong><br>
          <sub>
            This feature will allow users to skip the requirement for signing in to their Microsoft Account on the install stage.<br>
-         For now, since this feature implemented, users can use <strong><em>OOBE</em>\BYPASSNRO</strong>
+         For now, since this feature isn't implemented, users can use <strong><em>OOBE</em>\BYPASSNRO</strong>
          </sub>
    </li>
   <br>
