@@ -206,8 +206,8 @@ WriteExitForce();                     \
         
         [patchInstallerRequirementsCheckboxView setTitle: @"Patch Installer Requirements"];
         [patchInstallerRequirementsCheckboxView setToolTip:
-             @"Remove TPM, Secure Boot and RAM requirements from the Installer." "\n"
-             "(Only for Windows 11+)"
+             @"Remove TPM, Secure Boot and RAM requirements from the installer." "\n"
+             "(Windows 11 only)"
         ];
         
         [patchInstallerRequirementsCheckboxView setState: NSOffState];
@@ -216,8 +216,8 @@ WriteExitForce();                     \
     installLegacyBootCheckBoxView = [[CheckBoxView alloc] init]; {
         [mainVerticalLayout addView:installLegacyBootCheckBoxView width:INFINITY height:installLegacyBootCheckBoxView.cell.cellSize.height];
         
-        [installLegacyBootCheckBoxView setTitle: @"Install Legacy BIOS Boot Sector"];
-        [installLegacyBootCheckBoxView setToolTip: @"Add support for older BIOS firmwares that doesn't support booting from EFI."];
+        [installLegacyBootCheckBoxView setTitle: @"Install Legacy Boot Sector"];
+        [installLegacyBootCheckBoxView setToolTip: @"Add support for older firmware that don't support booting from EFI."];
         
         [installLegacyBootCheckBoxView setState: [HelperFunctions hasElevatedRights]];
 
@@ -239,7 +239,7 @@ WriteExitForce();                     \
         
         [formattingSectionVerticalLayout setToolTip:
              @"Desired filesystem for the destination device." "\n"
-             "(FAT32 is the best choice for compatibility with EFI firmwares)"];
+             "(FAT32 is the best choice for compatibility.)"];
         
         [formattingSectionVerticalLayout setHugHeightFrame: YES];
         [formattingSectionVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
@@ -846,9 +846,9 @@ WriteExitForce();                     \
                     
                     NSAlert *alert = [[NSAlert alloc] init];
                     
-                    [alert setMessageText: @"A problem occurred when writing a file to disk"];
+                    [alert setMessageText: @"A problem occurred when writing the file to disk"];
                     
-                    NSMutableString *errorReasonMutableString = [NSMutableString stringWithString: @"You can skip the following file or abort the writing process."];
+                    NSMutableString *errorReasonMutableString = [NSMutableString stringWithString: @"Would you like to skip this file, or stop writing?"];
                     
                     if (error != NULL) {
                         [errorReasonMutableString appendFormat: @"\n(Reason: %@)", [error stringValue]];
@@ -858,8 +858,8 @@ WriteExitForce();                     \
                     
                     [alert setInformativeText: errorReasonMutableString];
                     
-                    [alert addButtonWithTitle: @"Abort Writing"];
-                    [alert addButtonWithTitle: @"Skip file"];
+                    [alert addButtonWithTitle: @"Stop Writing"];
+                    [alert addButtonWithTitle: @"Skip File"];
                     
                     [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
                     
