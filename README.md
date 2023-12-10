@@ -203,7 +203,7 @@ Everything is designed to be user-friendly and intuitive, so you can create boot
 <h2>Planned Changes</h2>
 <ul>
    <li>
-      📁 <strong>Add support for the individually selecting partitions</strong><br>
+      📁 <strong>Add support for individually selecting partitions</strong><br>
          <sub>
            This will allow you to choose the destination device not only from the list of ‘whole’ disks, but also the individual partitions of your USB drive or any internal disk.
          </sub>
@@ -221,7 +221,7 @@ Everything is designed to be user-friendly and intuitive, so you can create boot
          <sub>
            Some Windows ISOs, (usually repacks) use .esd system images for better compression.<br>
            But sometimes, even a .esd file is too large to fit into FAT32 partitions.<br>
-           Right now, WinDiskImager can only split install.wim images. Splitting .esd requires wimlib to be updated.
+           Right now, WinDiskWriter can only split install.wim images. Splitting .esd requires wimlib to be updated.
          </sub>
    </li>
   <br>
