@@ -1,5 +1,3 @@
-<h1>WinDiskWriter</h1>
-
 <p align="center">
   <img src="https://i.postimg.cc/0x7VXSz9/Artboard.png"/>
 </p>
@@ -27,29 +25,29 @@
 </p>
 
 <pre>
-  <p align="center">💖 Dear user, if you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially</a></b> 💖</p></pre>
+  <p align="center">💖 Hey there! If you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially!</a></b> 💖</p></pre>
 
-<b>WinDiskWriter</b> — bootable disk creator for macOS.<br>
-You can use this software to create a bootable universal USB drive that supports both **UEFI** and **Legacy BIOS** modes.<br>
-With this USB drive, you can install and enjoy <strong>Microsoft Windows</strong> on your <strong>PC</strong>, <strong>Intel Mac</strong> or <strong>Virtual Machine</strong>.
+<b>WinDiskWriter</b> — Bootable Disk Creator for macOS<br>
+You can use this app to create a bootable universal USB Windows installers that supports both **UEFI** and **Legacy BIOS** modes.<br>
+With this USB drive, you can install and enjoy <strong>Windows</strong> on your <strong>PC</strong>, <strong>Intel Mac</strong> or certain <strong>Virtual Machines</strong>.
 
-This software has a <b>straightforward UI</b> that makes it easy to use and understand.<br>
-You can simply select the <b>Windows image file</b>, the <b>destination device</b>, and the <b>options</b> you want, and then click the “Start” button to start the process.
+Simply select the <b>Windows image file</b>, the <b>destination device</b>, the <b>options</b> you want.
+After pressing Start, WinDiskWriter handles everything for you!
 
 <center>
   <img alt="WinDiskWriter Main Window" src="https://i.postimg.cc/CFYbxwkD/Win-Disk-Writer-Main-Wind-w.png">
 </center>
 
-<b>WinDiskWriter</b> will show you the progress and status of the operation, and notify you when it is done.<br>
-UI is designed to be user-friendly and intuitive, so <strong>you can create bootable USB drives with Windows without any hassle</strong>.
+WinDiskWriter shows you the progress and status of your USB being written, and will notify you when it's done.<br>
+Everything is designed to be user-friendly and intuitive, so you can create bootable Windows installers <strong>without any hassle</strong>.
 
 <h2>Table of Contents</h2>
 <b>
 <ol>
-  <li><a href="#features">Feautures</a></li>
+  <li><a href="#features">Features</a></li>
   <li><a href="#compatibility">Compatibility</a>
     <ol>
-      <li><a href="#-supported-windows-images-iso">💻 Supported Windows Images (.iso)</a></li>
+      <li><a href="#-supported-windows-images">💻 Supported Windows Images</a></li>
       <li><a href="#-supported-macos-versions">🍏 Supported macOS Versions</a></li>
     </ol>
   </li>
@@ -57,62 +55,61 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
   <li><a href="#additional-information">Additional Information</a></li>
   <li><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">❤️ Support Me ❤️ (Donations)</a></li>
   <li><a href="#authors">Authors</a></li>
-  <li><a href="#used-external-software">Used External Software</a></li>
+  <li><a href="#software-used">Software Used</a></li>
 </ol>
 </b>
 
 <h2>Features</h2>
 <ul>
    <li>
-     📀 <strong>Create bootable USB disk drives Microsoft Windows starting from Windows Vista up to Windows 11</strong><br>
+     📀 <strong>Create bootable USB Windows installers with ease</strong><br>
       <sub>
-        WinDiskWriter automatically use the required writing logic for each Windows Image type.
+        WinDiskWriter knows how to write a USB for each Windows Image type.
       </sub>
    </li>
   <br>
    <li>
      🛠 <strong>Patch Windows 11 Installer</strong><br>
       <sub>
-        You can bypass  TPM, Minimum RAM, Secure Boot and some other System Requirements set by Microsoft for Windows 11.<br>
-        All you need is tick a checkbox «<strong>Bypass Installer Requirements</strong>» and WinDiskWriter will do the rest of the job for you.
+        You can bypass TPM, Minimum RAM, Secure Boot and some other System Requirements set by Microsoft for Windows 11.<br>
+        Just click <strong>Patch Installer Requirements</strong> before writing.
       </sub>
    </li>
   <br>
    <li>
-     👾 <strong>Legacy BIOS boot support</strong><br>
+     👾 <strong>Legacy BIOS Support</strong><br>
       <sub>
         You can create an all-in-one USB drive that supports both <strong>UEFI</strong> and <strong>Legacy</strong> boot modes.<br>
-        It&#39;s required if you want to install the Microsoft Windows from the bootable media on computers with <strong>older firmwares</strong> that don&#39;t support modern <strong>EFI booting</strong>.
+        It&#39;s required if you want to install Windows on computers with <strong>older firmware</strong> that doesn&#39;t support EFI booting.
       </sub>
    </li>
   <br>
    <li>
-     🔐 <strong>Prepare Windows Vista / Windows 7 images to boot in EFI mode</strong><br>
+     🔐 <strong>Add EFI Support to Legacy Windows Versions</strong><br>
       <sub>
-        Initially, these Microsoft Windows versions don&#39;t support EFI booting out-of-box.<br>
-        An additional steps are required to make these images bootable, such as <strong>extracting a EFI-capable bootloader</strong> from the install.wim (.esd). WinDiskWriter performs this operation automatically.
+        Windows Vista and 7 don&#39;t support EFI booting out of the box.<br>
+        Additional steps are required to get these versions to boot on EFI, such as extracting a EFI-capable bootloader from the installer. <strong>WinDiskWriter does it for you!</strong>
       </sub>
    </li>
   <br>
    <li>
      🗂 <strong>Split Windows Installer Image</strong><br>
       <sub>
-        Some .iso&#39;s contains a large (<strong>&gt;4GB</strong>) <strong>install.wim</strong> file.<br>
-        Since our preferable filesystem is FAT32, we need to <strong>split this file into some parts</strong>.<br>
-        This operation is handled by WinDiskWriter, so you don&#39;t need to participate in this process.
+        Newer Windows ISOs contain a large (<strong>&gt;4GB</strong>) install.wim file.<br>
+        Since FAT32 only supports file sizes up to 4GB, WinDiskWriter <strong>automatically splits it for you!</strong>
       </sub>
    </li>
 </ul>
 
 <h2>Compatibility</h2>
-<h3>💻 Supported Windows Images (.iso)</h3>
+<h3>💻 Supported Windows Images</h3>
 <table>
     <thead>
         <tr>
             <th>Version</th>
             <th>Architecture</th>
             <th>Boot Mode</th>
-            <th>Is Verified</th>
+            <th>Verified?</th>
         </tr>
     </thead>
     <tbody>
@@ -147,7 +144,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
         <tr>
             <th>Version</th>
             <th>Architecture</th>
-            <th>Is Verified</th>
+            <th>Verified?</th>
         </tr>
     </thead>
     <tbody>
@@ -191,7 +188,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
             <td>Mac OS X Mountain Lion 10.8</td>
             <td rowspan="3" align="center">
               Not Yet<br>
-              <sub>(should work)</sub>
+              <sub>(but it should work!)</sub>
             </td>
         </tr>
         <tr>
@@ -206,7 +203,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
 <h2>Planned Changes</h2>
 <ul>
    <li>
-      📁 <strong>Add support for the individual partitions selection</strong><br>
+      📁 <strong>Add support for individually selecting partitions</strong><br>
          <sub>
            This will allow you to choose the destination device not only from the list of ‘whole’ disks, but also the individual partitions of your USB drive or any internal disk.
          </sub>
@@ -215,30 +212,30 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
    <li>
       🔍  <strong>Add toggle to show internal drives</strong><br>
          <sub>
-           Although this operation can cause potential data loss if enabled by mistake, it can still be a very convenient option for some users who want to install Microsoft Windows without using any USB drives.
+           Although this could cause potential data loss if enabled by mistake, it's still a very convenient option for people who want to install Windows without using any USB drives.
          </sub>
    </li>
   <br>
    <li>
       🗜 <strong>Add support for splitting install.esd (compressed system image) files</strong><br>
          <sub>
-           Some Windows .iso’s, (usually repacks) use .esd system images for the best compression.<br>
-           But there can be some situations where even the .esd file is too large to fit into FAT32 partitions.<br>
-           At this moment, only install.wim images can be split. Splitting .esd requires wimlib to be updated.
+           Some Windows ISOs, (usually repacks) use .esd system images for better compression.<br>
+           But sometimes, even a .esd file is too large to fit into FAT32 partitions.<br>
+           Right now, WinDiskWriter can only split install.wim images. Splitting .esd requires wimlib to be updated.
          </sub>
    </li>
   <br>
    <li>
-      💻 <strong>Add support for the 32-bit Macs</strong><br>
+      💻 <strong>Add support for 32-bit Macs</strong><br>
       <sub>
-        At this time, you can only use WinDiskWriter on x86_64 / ARM64 Mac computers.<br>
-        Since this software has the minimum Mac OS X requirements of Snow Leopard 10.6, it is possible to compile a 32-bit build.<br>
+        Right now, you can only use WinDiskWriter on x86_64 / ARM64 Mac computers.<br>
+        Since this software has the minimum Mac OS X requirements of Snow Leopard 10.6, it's possible to compile a 32-bit build.<br>
         But I can’t do it right now, since this kind of build operation isn’t supported on Apple Silicon.
       </sub>
    </li>
   <br>
    <li>
-      📝 <strong>Implement a feature that allows to add a custom ei.cfg</strong><br>
+      📝 <strong>Implement a feature that allows adding a custom ei.cfg</strong><br>
          <sub>
            This feature will allow users to select the Windows edition of their choice, regardless of the ACPI SLIC configuration.
          </sub>
@@ -248,7 +245,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
       🌐 <strong>Implement a feature that allows to skip the online account requirement from Windows 11 22H2+</strong><br>
          <sub>
            This feature will allow users to skip the requirement for signing in to their Microsoft Account on the install stage.<br>
-         For now, since this feature isn't implemented, users can use <strong><em>OOBE</em>\BYPASSNRO</strong>
+           Since this feature isn't implemented, use "OOBE /BYPASSNRO" by pressing Shift+F10 on the OOBE wizard for now.
          </sub>
    </li>
   <br>
@@ -256,7 +253,7 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
       🎨 <strong>Resolve UI drawing issues on Mac OS X Mavericks 10.9 and lower</strong><br>
          <sub>
            There are some UI drawing issues on some older Mac OS X versions due to different behaviour of some system views.<br>
-           It’s not critical at all, and it doesn’t affect anything, except the visuals.
+           It’s not critical at all, and it doesn’t affect functionality.
          </sub>
    </li>
 </ul>
@@ -264,8 +261,8 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
 <h2>Additional Information</h2>
 <p>
    This software is written in <b>Objective-C</b>, a programming language that allows it to run on <b>many versions of macOS</b>, from <b>Snow Leopard 10.6</b> to <b>Sonoma 14.0</b>. Objective-C is a powerful and efficient language that combines object-oriented and dynamic features with the C language.<br><br>
-   <b>WinDiskWriter</b> uses <b>wimlib</b>, a library for manipulating Windows Imaging (WIM) files, to perform operations such as splitting, patching, and extracting. I would like to thank the developers of wimlib for their amazing work and contribution to the open source community.<br><br>
-   <b>WinDiskWriter</b> also uses <b>grub4dos</b>, a bootloader that can boot from various devices and formats, to enable Legacy BIOS booting for Windows images. I would like to thank the developers of grub4dos for their great work and support. Grub4dos is not embedded into the WinDiskWriter binary, but it is included in the app resources. The user is free to modify, remove, or delete the grub4dos binaries at any time.
+   <b>WinDiskWriter</b> uses <b>wimlib</b>, a library for manipulating Windows Image (WIM) files, to perform operations such as splitting, patching, and extracting. I would like to thank the developers of wimlib for their amazing work and contribution to the open source community.<br><br>
+   <b>WinDiskWriter</b> also uses <b>grub4dos</b>, a bootloader that can boot from various devices and formats, to enable Legacy BIOS booting for Windows images. I would like to thank the developers of grub4dos for their great work and support.
 </p>
 
 <h2>❤️ Support Me ❤️ (Donations)</h2>
@@ -297,16 +294,16 @@ UI is designed to be user-friendly and intuitive, so <strong>you can create boot
     </li>
 </ul>
 
-<h2>Used External Software</h2>
+<h2>Software Used</h2>
 <ul>
     <li>
       <a href="https://wimlib.net/">wimlib</a> <sub><sup><a href="https://github.com/TechUnRestricted/windiskwriter/blob/main/libs/wimlib/License.txt">(GNU LESSER GENERAL PUBLIC LICENSE Version 3)</a></sup></sub>
     </li>
   <li>
       <a href="https://github.com/chenall/grub4dos">grub4dos</a> <sub><sup><a href="https://github.com/chenall/grub4dos/blob/0.4.6a/COPYING">(GNU GENERAL PUBLIC LICENSE Version 2)</a><br>
-        (This software isn't built into the WinDiskWriter binary.
-        It's distributed as a separate binary in a Resources folder.
-        <b>The user is free to modify, replace or remove the binaries at any time</b>.)</sup></sub>
+        (grub4dos isn't built into the WinDiskWriter binary.
+        It's distributed as a separate binary in the .app Resources folder.
+        <b>Feel free to modify, replace or remove the binaries at any time</b>!)</sup></sub>
     </li>
 </ul>
 
