@@ -72,7 +72,7 @@ Everything is designed to be user-friendly and intuitive, so you can create boot
      🛠 <strong>Patch Windows 11 Installer</strong><br>
       <sub>
         You can bypass TPM, Minimum RAM, Secure Boot and some other System Requirements set by Microsoft for Windows 11.<br>
-        Just click <strong>Bypass Installer Requirements</strong> before writing.
+        Just click <strong>Patch Installer Requirements</strong> before writing.
       </sub>
    </li>
   <br>
