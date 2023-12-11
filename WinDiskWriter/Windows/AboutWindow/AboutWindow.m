@@ -134,7 +134,7 @@
                  
                  "WinDiskWriter uses the wimlib library, which is licensed under the GNU Lesser General Public License Version 3. The library has been slightly modified to prevent application crashes caused by assertions. This enables the integration of wimlib as a part of the project, instead of as a separate binary file that is invoked through the console." "\n\n"
                  
-                 "The application also uses grub4dos, which is licensed under the GNU General Public License Version 2. grub4dos isn't built into WinDiskImager. Rather, it's a separate binary file in the Resources folder." "\n"
+                 "The application also uses grub4dos, which is licensed under the GNU General Public License Version 2. grub4dos isn't built into WinDiskWriter. Rather, it's a separate binary file in the Resources folder." "\n"
                  "grub4dos is used to enable legacy booting for older systems." "\n\n"
                  "!!! The user is free to modify, replace or remove grub4dos binaries from WinDiskWriter.app !!!" "\n\n"
                  
