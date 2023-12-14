@@ -1,0 +1,153 @@
+// Localizable.strings
+//   windiskwriter
+// 
+//   Created by Macintosh on 14.12.2023.
+//   Copyright © 2023 TechUnRestricted. All rights reserved.
+// 
+// Do not forget to properly remove the device to avoid data corruption.
+"ALERT_SUBTITLE_IMAGE_WRITING_SUCCESS" = "Do not forget to properly remove the device to avoid data corruption.";
+
+// The Path to the Image or Folder you entered does not exist.
+"ALERT_SUBTITLE_PATH_DOES_NOT_EXIST" = "The Path to the Image or Folder you entered does not exist.";
+
+// The path to the Windows Image or Directory was not specified.
+"ALERT_SUBTITLE_PATH_FIELD_IS_EMPTY" = "The path to the Windows Image or Directory was not specified.";
+
+// Connect a compatible USB device and click on the Update button.
+"ALERT_SUBTITLE_PRESS_UPDATE_BUTTON" = "Connect a compatible USB device and click on the Update button.";
+
+// You will need to wait until the last file finish the copying.
+"ALERT_SUBTITLE_STOP_PROCESS" = "You will need to wait until the last file finish the copying.";
+
+// The information about this device is outdated or invalid.
+"ALERT_TITLE_BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID" = "The information about this device is outdated or invalid.";
+
+// Chosen Device is no longer available.
+"ALERT_TITLE_BSD_DEVICE_IS_NO_LONGER_AVAILABLE" = "Chosen Device is no longer available.";
+
+// Cancel
+"BUTTON_TITLE_CANCEL" = "Cancel";
+
+// Schedule the cancellation
+"BUTTON_TITLE_CANCELLATION_SCHEDULE" = "Schedule the cancellation";
+
+// Choose
+"BUTTON_TITLE_CHOOSE" = "Choose";
+
+// Dismiss
+"BUTTON_TITLE_DISMISS" = "Dismiss";
+
+// Start
+"BUTTON_TITLE_START" = "Start";
+
+// Stop
+"BUTTON_TITLE_STOP" = "Stop";
+
+// Stopping
+"BUTTON_TITLE_STOPPING" = "Stopping";
+
+// Check the correctness of the entered data.
+"ALERT_TITLE_CHECK_DATA_CORRECTNESS" = "Check the correctness of the entered data.";
+
+// Can't erase the destination device.
+"ALERT_TITLE_DISK_ERASE_FAILURE" = "Can't erase the destination device.";
+
+// The destination device was successfully erased.
+"PROGRESS_TITLE_DISK_ERASE_SUCCESS" = "The destination device was successfully erased.";
+
+// You forgot something...
+"ALERT_TITLE_FORGOT_SOMETHING" = "You forgot something...";
+
+// Can't verify this Image.
+"ALERT_TITLE_IMAGE_VERIFICATION_ERROR" = "Can't verify this Image.";
+
+// Something went wrong while writing files to the destination device.
+"ALERT_TITLE_IMAGE_WRITING_FAILURE" = "Something went wrong while writing files to the destination device.";
+
+// Image writing completed successfully.
+"ALERT_TITLE_IMAGE_WRITING_SUCCESS" = "Image writing completed successfully.";
+
+// Image File or Directory
+"INPUTVIEW_PLACEHOLDER_IMAGE_FILE_OR_DIRECTORY" = "Image File or Directory";
+
+// Windows Image
+"LABELVIEW_TITLE_WINDOWS_IMAGE" = "Windows Image";
+
+// ❤️ Donate Me ❤️
+"MENU_TITLE_DONATE_ME" = "❤️ Donate Me ❤️";
+
+// Edit
+"MENU_TITLE_EDIT" = "Edit";
+
+// Hide
+"MENU_TITLE_HIDE" = "Hide";
+
+// About
+"MENU_TITLE_ITEM_ABOUT" = "About";
+
+// Copy
+"MENU_TITLE_ITEM_COPY" = "Copy";
+
+// Cut
+"MENU_TITLE_ITEM_CUT" = "Cut";
+
+// Open Donation Web Page
+"MENU_TITLE_ITEM_OPEN_DONATION_WEB_PAGE" = "Open Donation Web Page";
+
+// Paste
+"MENU_TITLE_ITEM_PASTE" = "Paste";
+
+// Quit
+"MENU_TITLE_ITEM_QUIT" = "Quit";
+
+// Select All
+"MENU_TITLE_ITEM_SELECT_ALL" = "Select All";
+
+// Minimize
+"MENU_TITLE_MINIMIZE" = "Minimize";
+
+// Window
+"MENU_TITLE_WINDOW" = "Window";
+
+// No writable devices found.
+"ALERT_TITLE_NO_WRITABLE_DEVICES" = "No writable devices found.";
+
+// You will lose all data on the selected device.
+"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Are you sure you want to start?";
+
+// Ready for action
+"PROGRESS_TITLE_READY_FOR_ACTION" = "Ready for action";
+
+// Do you want to stop the process?
+"ALERT_TITLE_STOP_PROCESS" = "Do you want to stop the process?";
+"LABELVIEW_TITLE_TARGET_DEVICE" = "Target Device";
+"BUTTON_TITLE_UPDATE" = "Update";
+"CHECKBOXVIEW_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Patch Installer Requirements";
+"CHECKBOXVIEW_TOOLTIP_PATCH_INSTALLER_REQUIREMENTS" = "Remove TPM, Secure Boot and RAM requirements from the installer.\n(Windows 11 only)";
+"CHECKBOXVIEW_TITLE_INSTALL_LEGACY_BOOT_SECTOR" = "Install Legacy BIOS Boot Sector";
+"CHECKBOXVIEW_TOOLTIP_INSTALL_LEGACY_BOOT_SECTOR" = "Add support for older firmwares that don't support booting from EFI.";
+"TOOLTIP_FRAMELAYOUT_FORMATTING_SECTION" = "Desired filesystem for the destination device.\n(FAT32 is the best choice for compatibility)";
+"LABELVIEW_TITLE_FILESYSTEM" = "File System";
+"ALERT_TITLE_FAILED_TO_RESTART" = "Failed to restart";
+"ALERT_TITLE_REQUIRE_RESTART_AS_ROOT" = "This option requires the application to be relaunched with Root Permissions";
+"ALERT_SUBTITLE_REQUIRE_RESTART_AS_ROOT" = "All unsaved changes will be lost";
+"BUTTON_TITLE_RELAUNCH" = "Relaunch";
+"PROGRESS_TITLE_FORMATTING_THE_DRIVE" = "Formatting the drive";
+"PROGRESS_TITLE_CREATE_DIRECTORY" = "Create directory";
+"PROGRESS_TITLE_WRITE_FILE" = "Write File";
+"PROGRESS_TITLE_SPLIT_IMAGE" = "Split Image";
+"PROGRESS_TITLE_EXTRACT_BOOTLOADER" = "Extract Bootloader";
+"PROGRESS_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Patch Installer Requirements";
+"PROGRESS_TITLE_INSTALL_LEGACY_BOOTLOADER" = "Install Legacy Bootloader";
+"LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE" = "(Error message: '%@')";
+"LOGVIEW_ROW_TITLE_IMAGE_MOUNT_SUCCESS" = "Image was successfully mounted";
+"LOGVIEW_ROW_TITLE_GENERATED_PARTITION_NAME" = "Generated partition name";
+"LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH" = "Target partition path";
+"LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS" = "Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: '%@', partition_scheme: '%@', filesystem: '%@', patch_security_checks: '%d', install_legacy_boot: '%d').";
+"ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "A problem occurred when writing the file to disk";
+"ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Would you like to skip this file, or stop writing?";
+"PLACEHOLDER_REASON" = "(Reason: %@)";
+"ALERT_BUTTON_TITLE_STOP_WRITING" = "Stop Writing";
+"ALERT_BUTTON_TITLE_SKIP_FILE" = "Skip File";
+"LOGVIEW_ROW_TITLE_CLEARING_DEVICE_PICKER_LIST" = "Clearing the device picker list.";
+"LOGVIEW_ROW_PARTIAL_TITLE_FOUND_DEVICES" = "Found devices";

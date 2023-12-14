@@ -9,6 +9,7 @@
 #import "VibrantTableView.h"
 #import "MiddleAlignedCell.h"
 #import "Constants.h"
+#import "LocalizedStrings.h"
 
 @implementation VibrantTableView {
     NSTableColumn *tableColumn;
@@ -50,7 +51,7 @@ NSString *MAIN_COLUMN = @"MainTableColumn";
     
     // Create a menu object and add a menu item for copy
     NSMenu *menu = [[NSMenu alloc] init];
-    contextMenuCopyItem = [[NSMenuItem alloc] initWithTitle: MENU_ITEM_COPY_TITLE
+    contextMenuCopyItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_COPY]
                                                      action: NULL
                                               keyEquivalent: @"c"];
     

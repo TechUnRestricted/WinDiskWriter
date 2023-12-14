@@ -16,7 +16,7 @@
 }
 
 + (NSError *)errorWithStringValue: (NSString *)stringValue {
-    return [NSError errorWithDomain: PACKAGE_NAME
+    return [NSError errorWithDomain: [Constants bundleIndentifier]
                                code: -1
                            userInfo: @{NSLocalizedDescriptionKey: stringValue}];
 }

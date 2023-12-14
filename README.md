@@ -203,7 +203,7 @@ Everything is designed to be user-friendly and intuitive, so you can create boot
 <h2>Planned Changes</h2>
 <ul>
    <li>
-      📁 <strong>Add support for individually selecting partitions</strong><br>
+      📁 <strong>Add support for selecting individual partitions</strong><br>
          <sub>
            This will allow you to choose the destination device not only from the list of ‘whole’ disks, but also the individual partitions of your USB drive or any internal disk.
          </sub>
@@ -245,7 +245,7 @@ Everything is designed to be user-friendly and intuitive, so you can create boot
       🌐 <strong>Implement a feature that allows to skip the online account requirement from Windows 11 22H2+</strong><br>
          <sub>
            This feature will allow users to skip the requirement for signing in to their Microsoft Account on the install stage.<br>
-           Since this feature isn't implemented, use "OOBE /BYPASSNRO" by pressing Shift+F10 on the OOBE wizard for now.
+           Since this feature isn't implemented, use "<strong>OOBE/BYPASSNRO</strong>" by pressing Shift+F10 on the Microsoft Account login stage.
          </sub>
    </li>
   <br>

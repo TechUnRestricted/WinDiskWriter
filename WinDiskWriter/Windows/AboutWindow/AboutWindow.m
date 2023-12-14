@@ -16,6 +16,7 @@
 #import "AdvancedTextView.h"
 #import "Licenses-Constants.h"
 #import "HelperFunctions.h"
+#import "LocalizedStrings.h"
 
 @implementation AboutWindow
 
@@ -79,7 +80,7 @@
             [textHolderVerticalLayout setSpacing: 2];
             
             LabelView *applicationNameLabelView = [[LabelView alloc] init]; {
-                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: APPLICATION_NAME
+                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [Constants applicationName]
                                                                                                             weight: 4
                                                                                                               size: NSFont.systemFontSize * 1.5];
                 
@@ -92,7 +93,7 @@
             
             LabelView *applicationVersionLabelView = [[LabelView alloc] init]; {
                 
-                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"Version: (%@)", PACKAGE_VERSION]
+                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"Version: (%@)", [Constants applicationVersion]]
                                                                                                             weight: 3
                                                                                                               size: NSFont.systemFontSize];
                 
@@ -173,7 +174,7 @@
         [mainVerticalLayout addView:spacerView width:0 height:8];
         
         ButtonView *openDonationWebPageButtonView = [[ButtonView alloc] init]; {
-            [openDonationWebPageButtonView setTitle: MENU_DONATE_ME_TITLE];
+            [openDonationWebPageButtonView setTitle: [LocalizedStrings MENU_TITLE_DONATE_ME]];
             
             [openDonationWebPageButtonView setTarget: [HelperFunctions class]];
             [openDonationWebPageButtonView setAction: @selector(openDonationsPage)];
@@ -184,7 +185,7 @@
         }
         
         LabelView *developerNameLabelView = [[LabelView alloc] init]; {
-            [developerNameLabelView setStringValue: DEVELOPER_NAME];
+            [developerNameLabelView setStringValue: [Constants developerName]];
             
             [mainVerticalLayout addView: developerNameLabelView
                                   width: developerNameLabelView.cell.cellSize.width

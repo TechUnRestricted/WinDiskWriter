@@ -24,7 +24,9 @@
 		E23298C72A37C31500869736 /* NSWindow+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E23298C42A37C31500869736 /* NSWindow+Common.m */; };
 		E23A953F2A52EF7900C4E869 /* FrameLayoutHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = E23A953D2A52EF7900C4E869 /* FrameLayoutHorizontal.m */; };
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
+		E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E248D8622B2B79BD00ACB361 /* Localizable.strings */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
+		E27879802B28506400206720 /* LocalizedStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = E278797F2B28506400206720 /* LocalizedStrings.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */; };
 		E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */; };
@@ -313,11 +315,15 @@
 		E23A953E2A52EF7900C4E869 /* FrameLayoutHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutHorizontal.h; sourceTree = "<group>"; };
 		E24364E02A72CCE600541719 /* TextInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputView.m; sourceTree = "<group>"; };
 		E24364E12A72CCE600541719 /* TextInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputView.h; sourceTree = "<group>"; };
+		E248D8612B2B79BD00ACB361 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E248D8632B2B79C800ACB361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E249FBA52A5B1A96003B8D24 /* FrameLayoutVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutVertical.h; sourceTree = "<group>"; };
 		E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutVertical.m; sourceTree = "<group>"; };
 		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
+		E278797E2B28506400206720 /* LocalizedStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedStrings.h; sourceTree = "<group>"; };
+		E278797F2B28506400206720 /* LocalizedStrings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalizedStrings.m; sourceTree = "<group>"; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
 		E27FF65E2AAA2C1500C0356F /* DiskInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskInfo.m; sourceTree = "<group>"; };
 		E284256F2B1F3FE600EC4A4D /* SlideShowedLabelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideShowedLabelView.h; sourceTree = "<group>"; };
@@ -996,6 +1002,9 @@
 		E23298A82A37C1FB00869736 /* WinDiskWriter */ = {
 			isa = PBXGroup;
 			children = (
+				E205CC962B121BE300077A28 /* grub4dos */,
+				E22478072985E0A7000B24A1 /* libs */,
+				E248D8622B2B79BD00ACB361 /* Localizable.strings */,
 				E2F7CE382AB353C000BA6FE4 /* Classes */,
 				E2F2D2CE2A941AD100E1B7FF /* Constants */,
 				E23298BE2A37C31500869736 /* Extensions */,
@@ -1006,6 +1015,7 @@
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter.entitlements */,
 				E2F2D2E52A95307A00E1B7FF /* Images.xcassets */,
+				E27879812B28506800206720 /* LocalizedStrings */,
 			);
 			path = WinDiskWriter;
 			sourceTree = "<group>";
@@ -1120,9 +1130,7 @@
 		E25945FA2982A77F000C60A4 = {
 			isa = PBXGroup;
 			children = (
-				E205CC962B121BE300077A28 /* grub4dos */,
 				E2F2D2D32A952CF400E1B7FF /* README.md */,
-				E22478072985E0A7000B24A1 /* libs */,
 				E23298A82A37C1FB00869736 /* WinDiskWriter */,
 				E25946042982A77F000C60A4 /* Products */,
 			);
@@ -1134,6 +1142,15 @@
 				E23298A72A37C1FB00869736 /* WinDiskWriter.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E27879812B28506800206720 /* LocalizedStrings */ = {
+			isa = PBXGroup;
+			children = (
+				E278797E2B28506400206720 /* LocalizedStrings.h */,
+				E278797F2B28506400206720 /* LocalizedStrings.m */,
+			);
+			path = LocalizedStrings;
 			sourceTree = "<group>";
 		};
 		E27FF65C2AA548E900C0356F /* AppDelegate */ = {
@@ -1472,6 +1489,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 				Base,
 			);
 			mainGroup = E25945FA2982A77F000C60A4;
@@ -1490,6 +1508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E205CC972B121BE300077A28 /* grub4dos in Resources */,
+				E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */,
 				E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1531,6 +1550,7 @@
 				E2DF0F6E2A894CAB00339DDB /* lcpit_matchfinder.c in Sources */,
 				E2DF0F6F2A894CAB00339DDB /* xml.c in Sources */,
 				E2DF0F702A894CAB00339DDB /* divsufsort.c in Sources */,
+				E27879802B28506400206720 /* LocalizedStrings.m in Sources */,
 				E2DF0F712A894CAB00339DDB /* win32_common.c in Sources */,
 				E2DF0F722A894CAB00339DDB /* compress_common.c in Sources */,
 				E2DF0F732A894CAB00339DDB /* lzx_common.c in Sources */,
@@ -1625,6 +1645,18 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		E248D8622B2B79BD00ACB361 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E248D8612B2B79BD00ACB361 /* ru */,
+				E248D8632B2B79C800ACB361 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		E23298B52A37C1FC00869736 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1642,6 +1674,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1650,8 +1683,8 @@
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
+				MARKETING_VERSION = 1.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techunrestricted.windiskwriter;
 				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -1673,6 +1706,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3T4SUAKT3L;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 TechUnRestricted. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1681,8 +1715,8 @@
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.techunrestricted.WinDiskWriter-GUI";
+				MARKETING_VERSION = 1.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techunrestricted.windiskwriter;
 				PRODUCT_NAME = WinDiskWriter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
