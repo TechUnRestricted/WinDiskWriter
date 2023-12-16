@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NSFileManager+Common.h"
 #import "DWFilesContainer.h"
+#import "LocalizedStrings.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
@@ -79,25 +80,25 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
     NSString *bsdFullPath = [destinationDiskInfo BSDFullPath];
     
     if (bsdFullPath == NULL) {
-        *error = [NSError errorWithStringValue: @"Can't determine the BSD path for the destination device."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextCantDetermineBsdPath]];
         
         return NO;
     }
     
     if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMBRFilePath]) {
-        *error = [NSError errorWithStringValue: @"Bootloader MBR file doesn't exist."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextBootloaderMbrFileDoesntExist]];
         
         return NO;
     }
     
     if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderGrldrFilePath]) {
-        *error = [NSError errorWithStringValue: @"Bootloader Grldr file doesn't exist."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextBootloaderGrldrFileDoesntExist]];
         
         return NO;
     }
     
     if(![localFileManager fileExistsAtPathAndNotAFolder: bootloaderMenuFilePath]) {
-        *error = [NSError errorWithStringValue: @"Bootloader Menu file doesn't exist."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextBootloaderMenuFileDoesntExist]];
         
         return NO;
     }
@@ -130,7 +131,7 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
                                                                               error: &unmountError];
     
     if (unmountError != NULL) {
-        NSString *errorString = [NSString stringWithFormat: @"Can't unmount the destination device (%@).", unmountError.stringValue];
+        NSString *errorString = [NSString stringWithFormat: @"%@ (%@).", [LocalizedStrings errorTextUnmountDestinationDeviceFailure], unmountError.stringValue];
         
         *error = [NSError errorWithStringValue: errorString];
         
@@ -139,14 +140,14 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
     
     NSFileHandle *inputHandle = [NSFileHandle fileHandleForReadingAtPath: bootloaderMBRFilePath];
     if (inputHandle == NULL) {
-        *error = [NSError errorWithStringValue: @"Can't open the input handle for the MBR file."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextBootloaderMbrOpenFileInputHandleFailure]];
         
         return NO;
     }
     
     NSFileHandle *outputHandle = [NSFileHandle fileHandleForWritingAtPath: bsdFullPath];
     if (outputHandle == NULL) {
-        *error = [NSError errorWithStringValue: @"Can't open the output device."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextOutputDeviceOpenFailure]];
         
         return NO;
     }
@@ -184,7 +185,7 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
     struct statvfs stat;
     
     if (statvfs([path UTF8String], &stat) != 0) {
-        *error = [NSError errorWithStringValue: @"Can't get the available space for the specified path."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextGetAvailableSpaceFailure]];
         return 0;
     }
     
@@ -237,7 +238,7 @@ return NO;                                                                      
     }
     
     if (dwFile.size > availableSpace) {
-        NSError *error = [NSError errorWithStringValue: @"Not enough free disk space."];
+        NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextDiskSpaceNotEnough]];
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
         
@@ -246,7 +247,7 @@ return NO;                                                                      
     
     // Check if we can write a file to the destination filesystem
     if ((self.destinationFilesystem == FilesystemFAT32 && dwFile.size > FAT32_MAX_FILE_SIZE) && !ignoreFilesystemCheck) {
-        NSError *error = [NSError errorWithStringValue: @"Can't copy this file to the FAT32 volume due to filesystem limitations."];
+        NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextFileCopyFailureOverFat32SizeLimit]];
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
         
@@ -256,7 +257,7 @@ return NO;                                                                      
     // Open the source file in read mode
     FILE *source = fopen([sourcePath UTF8String], "rb");
     if (source == NULL) {
-        NSError *error = [NSError errorWithStringValue: @"Couldn't open source file."];
+        NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextOpenSourceFileFailure]];
         
         CallbackHandler(dwFile, 0, DWOperationTypeWriteFile, DWOperationResultFailure, error);
         
@@ -266,7 +267,7 @@ return NO;                                                                      
     // Open the destination file in write mode
     FILE *destination = fopen([destinationFilePath UTF8String], "wb");
     if (destination == NULL) {
-        NSError *error = [NSError errorWithStringValue: @"Couldn't open destination file path."];
+        NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextOpenDestinationPathFailure]];
         
         fclose(source);
         
@@ -278,7 +279,7 @@ return NO;                                                                      
     // Allocate a buffer
     char *buffer = malloc(bufferSize);
     if (buffer == NULL) {
-        NSError *error = [NSError errorWithStringValue: @"Couldn't allocate memory for buffer."];
+        NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextAllocateMemoryBufferFailure]];
         
         fclose(source);
         fclose(destination);
@@ -313,7 +314,7 @@ return NO;                                                                      
         // Write the chunk of data to the destination file
         size_t write_size = fwrite(buffer, 1, read_size, destination);
         if (write_size != read_size) {
-            NSError *error = [NSError errorWithStringValue: @"Can't write data to destination path."];
+            NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextWriteDestinationPathDataFailure]];
             
             free(buffer);
             fclose(source);
@@ -403,7 +404,7 @@ goto cleanup;                                                                   
         
     } else {
         if (![sourcePath.lowercaseString.pathExtension isEqualToString:@"wim"]) {
-            NSError *error = [NSError errorWithStringValue: @"Splitting Windows Install Images with .esd and .swm extensions is currently not supported."];
+            NSError *error = [NSError errorWithStringValue: [LocalizedStrings errorTextSplittingEsdSwmNotSupported]];
             
             CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSplitWindowsImage, DWOperationResultFailure, error);
             
@@ -714,7 +715,7 @@ postLegacyBootloaderInstall:
 
 - (BOOL)commonErrorCheckerWithError: (NSError *_Nonnull *_Nonnull)error {
     if (![localFileManager folderExistsAtPath: _destinationPath]) {
-        *error = [NSError errorWithStringValue: @"Destination Path does not exist."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextDestinationPathDoesNotExist]];
         
         return NO;
     }
@@ -725,13 +726,13 @@ postLegacyBootloaderInstall:
     UInt64 destinationDiskAvailableSpace = [self destinationDiskFreeSpace];
     
     if (destinationDiskAvailableSpace == 0) {
-        *error = [NSError errorWithStringValue: @"Can't get Destination Disk available space."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextGetAvailableDestinationDiskSpaceFailure]];
         
         return NO;
     }
     
     if (sizeOfSourceFiles > destinationDiskAvailableSpace) {
-        *error = [NSError errorWithStringValue: @"Source is too large for the Destination Disk."];
+        *error = [NSError errorWithStringValue: [LocalizedStrings errorTextSourceIsTooLargeForTheDestinationDisk]];
         
         return NO;
     }

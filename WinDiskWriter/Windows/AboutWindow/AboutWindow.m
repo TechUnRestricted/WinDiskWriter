@@ -93,7 +93,7 @@
             
             LabelView *applicationVersionLabelView = [[LabelView alloc] init]; {
                 
-                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"Version: (%@)", [Constants applicationVersion]]
+                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@: (%@)", [LocalizedStrings labelviewTitleVersion], [Constants applicationVersion]]
                                                                                                             weight: 3
                                                                                                               size: NSFont.systemFontSize];
                 
@@ -116,7 +116,7 @@
             [openSourceLicensesVerticalLayout setSpacing: 8];
             
             LabelView *openSourceLicensesLabelView = [[LabelView alloc] init]; {
-                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"Additional Information"]
+                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat: @"%@", [LocalizedStrings labelviewTitleAdditionalInformation]]
                                                                                                             weight: 6
                                                                                                               size: NSFont.systemFontSize];
                 
@@ -174,7 +174,7 @@
         [mainVerticalLayout addView:spacerView width:0 height:8];
         
         ButtonView *openDonationWebPageButtonView = [[ButtonView alloc] init]; {
-            [openDonationWebPageButtonView setTitle: [LocalizedStrings MENU_TITLE_DONATE_ME]];
+            [openDonationWebPageButtonView setTitle: [LocalizedStrings menuTitleDonateMe]];
             
             [openDonationWebPageButtonView setTarget: [HelperFunctions class]];
             [openDonationWebPageButtonView setAction: @selector(openDonationsPage)];

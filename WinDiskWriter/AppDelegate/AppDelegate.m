@@ -35,7 +35,7 @@
         NSMenu *mainItemsMenu = [[NSMenu alloc] init]; {
             [mainMenuBarItem setSubmenu:mainItemsMenu];
             
-            NSMenuItem *aboutMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_ABOUT]
+            NSMenuItem *aboutMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemAbout]
                                                                    action: @selector(showAboutWindow)
                                                             keyEquivalent: @""]; {
                 [mainItemsMenu addItem: aboutMenuItem];
@@ -43,7 +43,7 @@
             
             [mainItemsMenu addItem: NSMenuItem.separatorItem];
             
-            quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", [LocalizedStrings MENU_TITLE_ITEM_QUIT], [Constants applicationName]]
+            quitMenuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ %@", [LocalizedStrings menuTitleItemQuit], [Constants applicationName]]
                                                       action: NULL
                                                keyEquivalent: @"q"]; {
                 [mainItemsMenu addItem:quitMenuItem];
@@ -55,28 +55,28 @@
     NSMenuItem *editMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem:editMenuBarItem];
         
-        NSMenu *editMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings MENU_TITLE_EDIT]]; {
+        NSMenu *editMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings menuTitleEdit]]; {
             [editMenuBarItem setSubmenu: editMenu];
             
-            NSMenuItem *cutMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_CUT]
+            NSMenuItem *cutMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemCut]
                                                                  action: @selector(cut:)
                                                           keyEquivalent: @"x"]; {
                 [editMenu addItem: cutMenuItem];
             }
             
-            NSMenuItem *copyMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_COPY]
+            NSMenuItem *copyMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemCopy]
                                                                   action: @selector(copy:)
                                                            keyEquivalent: @"c"]; {
                 [editMenu addItem: copyMenuItem];
             }
             
-            NSMenuItem *pasteMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_PASTE]
+            NSMenuItem *pasteMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemPaste]
                                                                    action: @selector(paste:)
                                                             keyEquivalent: @"v"]; {
                 [editMenu addItem: pasteMenuItem];
             }
             
-            NSMenuItem *selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_SELECT_ALL]
+            NSMenuItem *selectAllMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemSelectAll]
                                                                        action: @selector(selectAll:)
                                                                 keyEquivalent: @"a"]; {
                 [editMenu addItem: selectAllMenuItem];
@@ -88,22 +88,22 @@
     NSMenuItem *windowMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem: windowMenuBarItem];
         
-        NSMenu *windowMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings MENU_TITLE_WINDOW]]; {
+        NSMenu *windowMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings menuTitleWindow]]; {
             [windowMenuBarItem setSubmenu: windowMenu];
             
-            closeMenuItem = [[NSMenuItem alloc] initWithTitle: @"Close"
+            closeMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemClose]
                                                        action: NULL
                                                 keyEquivalent: @"w"]; {
                 [windowMenu addItem: closeMenuItem];
             }
             
-            NSMenuItem *minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_MINIMIZE]
+            NSMenuItem *minimizeMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleMinimize]
                                                                       action: @selector(miniaturize:)
                                                                keyEquivalent: @"m"]; {
                 [windowMenu addItem: minimizeMenuItem];
             }
             
-            NSMenuItem *hideMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_HIDE]
+            NSMenuItem *hideMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleHide]
                                                                   action: @selector(hide:)
                                                            keyEquivalent: @"h"]; {
                 [windowMenu addItem: hideMenuItem];
@@ -114,10 +114,10 @@
     NSMenuItem *supportMeMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem: supportMeMenuBarItem];
 
-        NSMenu *supportMeMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings MENU_TITLE_DONATE_ME]]; {
+        NSMenu *supportMeMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings menuTitleDonateMe]]; {
             [supportMeMenuBarItem setSubmenu: supportMeMenu];
             
-            NSMenuItem *openDonationURLMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_OPEN_DONATION_WEB_PAGE]
+            NSMenuItem *openDonationURLMenuItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemOpenDonationWebPage]
                                                                              action: @selector(openDonationsPage)
                                                                       keyEquivalent: @"d"]; {
                 [openDonationURLMenuItem setTarget: [HelperFunctions class]];
@@ -135,7 +135,7 @@
         NSSize maxWindowSize = CGSizeMake(360, 560);
         
         aboutWindow = [[AboutWindow alloc] initWithNSRect: CGRectMake(0, 0, minWindowSize.width, minWindowSize.height)
-                                                    title: [NSString stringWithFormat:@"%@ %@", [LocalizedStrings MENU_TITLE_ITEM_ABOUT], [Constants applicationName]]
+                                                    title: [NSString stringWithFormat:@"%@ %@", [LocalizedStrings menuTitleItemAbout], [Constants applicationName]]
                                                   padding: CHILD_CONTENT_SPACING * 2
                                    paddingIsTitleBarAware: YES];
         

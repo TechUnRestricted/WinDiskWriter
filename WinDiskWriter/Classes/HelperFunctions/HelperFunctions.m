@@ -6,15 +6,16 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
-#import <AppKit/AppKit.h>
+#import "LocalizedStrings.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
+#import <AppKit/AppKit.h>
 #import "DiskManager.h"
 #import "Constants.h"
 #import "HDIUtil.h"
 
-NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
 
 @implementation HelperFunctions
 
@@ -33,6 +34,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
     operation();
     CFAbsoluteTime timeElapsed = CFAbsoluteTimeGetCurrent() - startTime;
     
+    // Doesn't need to be translated, since it's only used for debugging purposes
     NSLog(@"Time elapsed for %@: %f s.", title, timeElapsed);
 }
 
@@ -52,7 +54,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
     NSArray<NSString *> *argumentsList = NSProcessInfo.processInfo.arguments;
     if (argumentsList.count == 0) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"Application arguments list is empty."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextApplicationArgumentsListIsEmpty]];
         }
         
         return NO;
@@ -61,7 +63,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
     NSString *executablePath = [argumentsList firstObject];
     if (![[NSFileManager defaultManager] fileExistsAtPath: executablePath]) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"The first object of application arguments list is not a file."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextApplicationArgumentsBadStructure]];
         }
         
         return NO;
@@ -82,46 +84,46 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
             [[NSApplication sharedApplication] terminate:nil];
             break;
         case errAuthorizationInvalidSet:
-            executionErrorString = @"The authorization rights are invalid.";
+            executionErrorString = [LocalizedStrings authorizationErrorInvalidSet];
             break;
         case errAuthorizationInvalidRef:
-            executionErrorString = @"The authorization reference is invalid.";
+            executionErrorString = [LocalizedStrings authorizationErrorInvalidRef];
             break;
         case errAuthorizationInvalidTag:
-            executionErrorString = @"The authorization tag is invalid.";
+            executionErrorString = [LocalizedStrings authorizationErrorInvalidTag];
             break;
         case errAuthorizationInvalidPointer:
-            executionErrorString = @"The returned authorization is invalid.";
+            executionErrorString = [LocalizedStrings authorizationErrorInvalidPointer];
             break;
         case errAuthorizationDenied:
-            executionErrorString = @"The authorization was denied.";
+            executionErrorString = [LocalizedStrings authorizationErrorDenied];
             break;
         case errAuthorizationCanceled:
-            executionErrorString = @"The authorization was canceled by the user.";
+            executionErrorString = [LocalizedStrings authorizationErrorCanceled];
             break;
         case errAuthorizationInteractionNotAllowed:
-            executionErrorString = @"The authorization was denied since no user interaction was possible.";
+            executionErrorString = [LocalizedStrings authorizationErrorInteractionNotAllowed];
             break;
         case errAuthorizationInternal:
-            executionErrorString = @"Unable to obtain authorization for this operation.";
+            executionErrorString = [LocalizedStrings authorizationErrorInternal];
             break;
         case errAuthorizationExternalizeNotAllowed:
-            executionErrorString = @"The authorization is not allowed to be converted to an external format.";
+            executionErrorString = [LocalizedStrings authorizationErrorExternalizeNotAllowed];
             break;
         case errAuthorizationInternalizeNotAllowed:
-            executionErrorString = @"The authorization is not allowed to be created from an external format.";
+            executionErrorString = [LocalizedStrings authorizationErrorInternalizeNotAllowed];
             break;
         case errAuthorizationInvalidFlags:
-            executionErrorString = @"The provided option flag(s) are invalid for this authorization operation.";
+            executionErrorString = [LocalizedStrings authorizationErrorInvalidFlags];
             break;
         case errAuthorizationToolExecuteFailure:
-            executionErrorString = @"The specified program could not be executed.";
+            executionErrorString = [LocalizedStrings authorizationErrorToolExecuteFailure];
             break;
         case errAuthorizationToolEnvironmentError:
-            executionErrorString = @"An invalid status was returned during execution of a privileged tool.";
+            executionErrorString = [LocalizedStrings authorizationErrorToolEnvironmentError];
             break;
         case errAuthorizationBadAddress:
-            executionErrorString = @"The requested socket address is invalid (must be 0-1023 inclusive).";
+            executionErrorString = [LocalizedStrings authorizationErrorBadAddress];
             break;
     }
 
@@ -145,7 +147,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
     
     if (!exists) {
         if (error) {
-            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"File [directory] \"%@\" doesn't exist.", sourcePath]];
+            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"File (directory) '%@' doesn't exist.", sourcePath]];
         }
         
         return NULL;
@@ -157,7 +159,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
     
     if (![[[sourcePath lowercaseString] pathExtension] isEqualToString: @"iso"]) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"This file does not have an .iso extension."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextFileTypeIsNotIso]];
         }
         
         return NULL;
@@ -195,7 +197,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
         
         if (!exists) {
             if (error) {
-                *error = [NSError errorWithStringValue: @"The given Destination path does not exist."];
+                *error = [NSError errorWithStringValue: [LocalizedStrings errorTextDestinationPathDoesNotExist]];
             }
             
             return NULL;
@@ -207,7 +209,7 @@ NSString * const MSDOSCompliantSymbols  = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             if (error) {
-                *error = [NSError errorWithStringValue: @"Can't load Destination device info from Mounted Volume on this Mac OS X version."];
+                *error = [NSError errorWithStringValue: [LocalizedStrings errorTextInitWithVolumePathUnsupported]];
             }
             
             return NULL;
