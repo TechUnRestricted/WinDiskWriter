@@ -12,6 +12,7 @@
   <a href="https://github.com/TechUnRestricted/windiskwriter/releases">
     <img alt="Releases" src="https://img.shields.io/github/downloads/TechUnRestricted/windiskwriter/total">
   </a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2FTechUnRestricted%2Fwindiskwriter?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FTechUnRestricted%2Fwindiskwriter.svg?type=shield"/></a>
   
   <a href="https://github.com/TechUnRestricted/windiskwriter/releases">
     <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/TechUnRestricted/windiskwriter">
@@ -305,3 +306,6 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
     </li>
 </ul>
 
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTechUnRestricted%2Fwindiskwriter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FTechUnRestricted%2Fwindiskwriter?ref=badge_large)
