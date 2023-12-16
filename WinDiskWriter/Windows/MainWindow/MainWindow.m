@@ -133,7 +133,7 @@ WriteExitForce();                     \
         LabelView *isoPickerLabelView = [[LabelView alloc] init]; {
             [isoPickerVerticalLayout addView:isoPickerLabelView width:INFINITY height:isoPickerLabelView.cell.cellSize.height];
             
-            [isoPickerLabelView setStringValue: [LocalizedStrings LABELVIEW_TITLE_WINDOWS_IMAGE]];
+            [isoPickerLabelView setStringValue: [LocalizedStrings labelviewTitleWindowsImage]];
             
             [isoPickerLabelView setWantsLayer: YES];
         }
@@ -151,14 +151,14 @@ WriteExitForce();                     \
                 [isoPickerHorizontalLayout addView:windowsImageInputView width:INFINITY height:windowsImageInputView.cell.cellSize.height];
                 
                 if (@available(macOS 10.10, *)) {
-                    [windowsImageInputView setPlaceholderString: [LocalizedStrings INPUTVIEW_PLACEHOLDER_IMAGE_FILE_OR_DIRECTORY]];
+                    [windowsImageInputView setPlaceholderString: [LocalizedStrings inputviewPlaceholderImageFileOrDirectory]];
                 }
             }
             
             chooseWindowsImageButtonView = [[ButtonView alloc] init]; {
                 [isoPickerHorizontalLayout addView:chooseWindowsImageButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
-                [chooseWindowsImageButtonView setTitle: [LocalizedStrings BUTTON_TITLE_CHOOSE]];
+                [chooseWindowsImageButtonView setTitle: [LocalizedStrings buttonTitleChoose]];
                 [chooseWindowsImageButtonView setTarget: self];
                 [chooseWindowsImageButtonView setAction: @selector(chooseImageAction)];
             }
@@ -176,7 +176,7 @@ WriteExitForce();                     \
         LabelView *devicePickerLabelView = [[LabelView alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerLabelView width:INFINITY height:devicePickerLabelView.cell.cellSize.height];
             
-            [devicePickerLabelView setStringValue: [LocalizedStrings LABELVIEW_TITLE_TARGET_DEVICE]];
+            [devicePickerLabelView setStringValue: [LocalizedStrings labelviewTitleTargetDevice]];
         }
         
         FrameLayoutHorizontal *devicePickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
@@ -193,7 +193,7 @@ WriteExitForce();                     \
             updateDeviceListButtonView = [[ButtonView alloc] init]; {
                 [devicePickerHorizontalLayout addView:updateDeviceListButtonView minWidth:80 maxWidth:100 minHeight:0 maxHeight:INFINITY];
                 
-                [updateDeviceListButtonView setTitle: [LocalizedStrings BUTTON_TITLE_UPDATE]];
+                [updateDeviceListButtonView setTitle: [LocalizedStrings buttonTitleUpdate]];
                 [updateDeviceListButtonView setTarget: self];
                 [updateDeviceListButtonView setAction: @selector(updateDeviceList)];
             }
@@ -205,8 +205,8 @@ WriteExitForce();                     \
     patchInstallerRequirementsCheckboxView = [[CheckBoxView alloc] init]; {
         [mainVerticalLayout addView:patchInstallerRequirementsCheckboxView width:INFINITY height:patchInstallerRequirementsCheckboxView.cell.cellSize.height];
         
-        [patchInstallerRequirementsCheckboxView setTitle: [LocalizedStrings CHECKBOXVIEW_TITLE_PATCH_INSTALLER_REQUIREMENTS]];
-        [patchInstallerRequirementsCheckboxView setToolTip: [LocalizedStrings CHECKBOXVIEW_TOOLTIP_PATCH_INSTALLER_REQUIREMENTS]];
+        [patchInstallerRequirementsCheckboxView setTitle: [LocalizedStrings checkboxviewTitlePatchInstallerRequirements]];
+        [patchInstallerRequirementsCheckboxView setToolTip: [LocalizedStrings checkboxviewTooltipPatchInstallerRequirements]];
         
         [patchInstallerRequirementsCheckboxView setState: NSOffState];
     }
@@ -214,8 +214,8 @@ WriteExitForce();                     \
     installLegacyBootCheckBoxView = [[CheckBoxView alloc] init]; {
         [mainVerticalLayout addView:installLegacyBootCheckBoxView width:INFINITY height:installLegacyBootCheckBoxView.cell.cellSize.height];
         
-        [installLegacyBootCheckBoxView setTitle: [LocalizedStrings CHECKBOXVIEW_TITLE_INSTALL_LEGACY_BOOT_SECTOR]];
-        [installLegacyBootCheckBoxView setToolTip: [LocalizedStrings CHECKBOXVIEW_TOOLTIP_INSTALL_LEGACY_BOOT_SECTOR]];
+        [installLegacyBootCheckBoxView setTitle: [LocalizedStrings checkboxviewTitleInstallLegacyBootSector]];
+        [installLegacyBootCheckBoxView setToolTip: [LocalizedStrings checkboxviewTooltipInstallLegacyBootSector]];
         
         [installLegacyBootCheckBoxView setState: [HelperFunctions hasElevatedRights]];
 
@@ -236,7 +236,7 @@ WriteExitForce();                     \
     FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
         
-        [formattingSectionVerticalLayout setToolTip: [LocalizedStrings TOOLTIP_FRAMELAYOUT_FORMATTING_SECTION]];
+        [formattingSectionVerticalLayout setToolTip: [LocalizedStrings tooltipFramelayoutFormattingSection]];
         
         [formattingSectionVerticalLayout setHugHeightFrame: YES];
         [formattingSectionVerticalLayout setSpacing: CHILD_CONTENT_SPACING];
@@ -250,7 +250,7 @@ WriteExitForce();                     \
             LabelView *filesystemLabelView = [[LabelView alloc] init]; {
                 [fileSystemPickerVerticalLayout addView:filesystemLabelView width:INFINITY height:filesystemLabelView.cell.cellSize.height];
                 
-                [filesystemLabelView setStringValue: [LocalizedStrings LABELVIEW_TITLE_FILESYSTEM]];
+                [filesystemLabelView setStringValue: [LocalizedStrings labelviewTitleFilesystem]];
             }
             
             filesystemPickerSegmentedControl = [[NSSegmentedControl alloc] init]; {
@@ -404,7 +404,7 @@ WriteExitForce();                     \
     
     NSArray *slideShowTextArray = @[
         [NSString stringWithFormat:@"%@ 2023", [Constants developerName]],
-        [LocalizedStrings MENU_TITLE_DONATE_ME]
+        [LocalizedStrings menuTitleDonateMe]
     ];
     
     SlideShowedLabelView *slideShowedLabelView = [[SlideShowedLabelView alloc] initWithStringArray: slideShowTextArray
@@ -451,7 +451,7 @@ WriteExitForce();                     \
                          returnCode: (NSInteger)returnCode
                         contextInfo: (void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
-        [startStopButtonView setTitle: [LocalizedStrings BUTTON_TITLE_STOPPING]];
+        [startStopButtonView setTitle: [LocalizedStrings buttonTitleStopping]];
         
         [startStopButtonView setEnabled: NO];
         
@@ -470,10 +470,10 @@ WriteExitForce();                     \
 
 - (void)stopAction {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: [LocalizedStrings ALERT_TITLE_STOP_PROCESS]];
-    [alert setInformativeText: [LocalizedStrings ALERT_SUBTITLE_STOP_PROCESS]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_DISMISS]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_CANCELLATION_SCHEDULE]];
+    [alert setMessageText: [LocalizedStrings alertTitleStopProcess]];
+    [alert setInformativeText: [LocalizedStrings alertSubtitleStopProcess]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleDismiss]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleCancellationSchedule]];
     
     [alert beginSheetModalForWindow: self
                       modalDelegate: self
@@ -499,7 +499,7 @@ WriteExitForce();                     \
     }
     
     if (restartError != NULL) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_FAILED_TO_RESTART]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleFailedToRestart]
                                   subtitle: [restartError stringValue]
                                       icon: NSImageNameCaution];
     }
@@ -509,10 +509,10 @@ WriteExitForce();                     \
     [installLegacyBootCheckBoxView setState: NSOffState];
 
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: [LocalizedStrings ALERT_TITLE_REQUIRE_RESTART_AS_ROOT]];
-    [alert setInformativeText: [LocalizedStrings ALERT_SUBTITLE_REQUIRE_RESTART_AS_ROOT]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_RELAUNCH]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_DISMISS]];
+    [alert setMessageText: [LocalizedStrings alertTitleRequireRestartAsRoot]];
+    [alert setInformativeText: [LocalizedStrings alertSubtitleRequireRestartAsRoot]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleRelaunch]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleDismiss]];
     
     [alert beginSheetModalForWindow: self
                       modalDelegate: self
@@ -523,11 +523,11 @@ WriteExitForce();                     \
 - (void)startAction {
     NSString *imagePath = [windowsImageInputView.stringValue copy];
     if (imagePath.length == 0) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_FORGOT_SOMETHING]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_PATH_FIELD_IS_EMPTY]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleForgotSomething]
+                                  subtitle: [LocalizedStrings alertSubtitlePathFieldIsEmpty]
                                       icon: NSImageNameCaution];
         
-        [logsView appendRow: [LocalizedStrings ALERT_SUBTITLE_PATH_FIELD_IS_EMPTY]
+        [logsView appendRow: [LocalizedStrings alertSubtitlePathFieldIsEmpty]
                     logType: ASLogTypeAssertionError];
         
         WriteExitForce();
@@ -538,32 +538,32 @@ WriteExitForce();                     \
                                                             isDirectory: &imagePathIsDirectory];
     
     if (!imageExists) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_CHECK_DATA_CORRECTNESS]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_PATH_DOES_NOT_EXIST]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleCheckDataCorrectness]
+                                  subtitle: [LocalizedStrings alertSubtitlePathDoesNotExist]
                                       icon: NSImageNameCaution];
         
-        [logsView appendRow: [LocalizedStrings ALERT_SUBTITLE_PATH_DOES_NOT_EXIST]
+        [logsView appendRow: [LocalizedStrings alertSubtitlePathDoesNotExist]
                     logType: ASLogTypeAssertionError];
         
         WriteExitForce();
     }
     
     if ([devicePickerView numberOfItems] <= 0) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_NO_WRITABLE_DEVICES]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_PRESS_UPDATE_BUTTON]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleNoWritableDevices]
+                                  subtitle: [LocalizedStrings alertSubtitlePressUpdateButton]
                                       icon: NSImageNameCaution];
         
-        [logsView appendRow: [LocalizedStrings ALERT_TITLE_NO_WRITABLE_DEVICES]
+        [logsView appendRow: [LocalizedStrings alertTitleNoWritableDevices]
                     logType: ASLogTypeAssertionError];
         
         WriteExitForce();
     }
     
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: [LocalizedStrings ALERT_SUBTITLE_PROMPT_START_PROCESS]];
-    [alert setInformativeText: [LocalizedStrings ALERT_SUBTITLE_PROMPT_START_PROCESS]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_CANCEL]];
-    [alert addButtonWithTitle: [LocalizedStrings BUTTON_TITLE_START]];
+    [alert setMessageText: [LocalizedStrings alertSubtitlePromptStartProcess]];
+    [alert setInformativeText: [LocalizedStrings alertSubtitlePromptStartProcess]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleCancel]];
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleStart]];
     
     [alert beginSheetModalForWindow: self
                       modalDelegate: self
@@ -613,11 +613,11 @@ WriteExitForce();                     \
     DiskInfo *secondVerifyingStageDiskInfo = [secondVerifyingStageDiskManager diskInfo];
 
     if (secondVerifyingStageDiskManager == NULL || !destinationSavedDiskInfo.isDeviceUnit) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_BSD_DEVICE_IS_NO_LONGER_AVAILABLE]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_PRESS_UPDATE_BUTTON]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleBsdDeviceIsNoLongerAvailable]
+                                  subtitle: [LocalizedStrings alertSubtitlePressUpdateButton]
                                       icon: NSImageNameCaution];
         
-        [logsView appendRow: [LocalizedStrings ALERT_TITLE_BSD_DEVICE_IS_NO_LONGER_AVAILABLE]
+        [logsView appendRow: [LocalizedStrings alertTitleBsdDeviceIsNoLongerAvailable]
                     logType: ASLogTypeFatal];
         
         WriteExitForce();
@@ -629,11 +629,11 @@ WriteExitForce();                     \
     - The most adequate way in this case is to verify the initialization date of the bsd device. */
     
     if (destinationSavedDiskInfo.appearanceTime.doubleValue != secondVerifyingStageDiskInfo.appearanceTime.doubleValue) {
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_PRESS_UPDATE_BUTTON]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleBsdDeviceInfoIsOutdatedOrInvalid]
+                                  subtitle: [LocalizedStrings alertSubtitlePressUpdateButton]
                                       icon: NSImageNameCaution];
         
-        [logsView appendRow: [LocalizedStrings ALERT_TITLE_BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID]
+        [logsView appendRow: [LocalizedStrings alertTitleBsdDeviceInfoIsOutdatedOrInvalid]
                     logType: ASLogTypeFatal];
         
         WriteExitForce();
@@ -644,9 +644,9 @@ WriteExitForce();                     \
                                                                       error: &imageMountError];
     if (imageMountError != NULL) {
         NSString *errorSubtitle = imageMountError.stringValue;
-        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", [LocalizedStrings ALERT_TITLE_IMAGE_VERIFICATION_ERROR], errorSubtitle];
+        NSString *logText = [NSString stringWithFormat:@"%@ (%@)", [LocalizedStrings alertTitleImageVerificationError], errorSubtitle];
         
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_IMAGE_VERIFICATION_ERROR]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleImageVerificationError]
                                   subtitle: errorSubtitle
                                       icon: NSImageNameCaution];
         
@@ -678,35 +678,34 @@ WriteExitForce();                     \
     
     PartitionScheme selectedPartitionScheme = PartitionSchemeMBR;
      
-    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings LOGVIEW_ROW_TITLE_IMAGE_MOUNT_SUCCESS], mountedImagePath]
+    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings logviewRowTitleImageMountSuccess], mountedImagePath]
                                             logType: ASLogTypeSuccess];
     
     NSString *newPartitionName = [NSString stringWithFormat: @"WDW_%@", [HelperFunctions randomStringWithLength: 7]];
-    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings LOGVIEW_ROW_TITLE_GENERATED_PARTITION_NAME], newPartitionName]
+    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings logviewRowTitleGeneratedPartitionName], newPartitionName]
                                             logType: ASLogTypeLog];
     
     NSString *targetPartitionPath = [NSString stringWithFormat: @"/Volumes/%@", newPartitionName];
-    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH], targetPartitionPath]
+    [logsView appendRow: [NSString stringWithFormat: @"%@: %@", [LocalizedStrings logviewRowTitleTargetPartitionPath], targetPartitionPath]
                                             logType: ASLogTypeLog];
     
     BOOL patchInstallerRequirements = patchInstallerRequirementsCheckboxView.state == NSOnState;
     BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
     
-    NSString *diskEraseOperationText = [NSString stringWithFormat: [LocalizedStrings LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS],
-                                        destinationSavedDiskInfo.BSDName,
-                                        destinationSavedDiskInfo.deviceVendor,
-                                        destinationSavedDiskInfo.deviceModel,
-                                        newPartitionName,
-                                        selectedPartitionScheme,
-                                        selectedFileSystem,
-                                        patchInstallerRequirements,
-                                        installLegacyBoot];
+    NSString *diskEraseOperationText = [LocalizedStrings logviewRowTitleDiskEraseOperationOptionsWithArgument1: destinationSavedDiskInfo.BSDName
+                                                                                                     argument2: destinationSavedDiskInfo.deviceVendor
+                                                                                                     argument3: destinationSavedDiskInfo.deviceModel
+                                                                                                     argument4: newPartitionName
+                                                                                                     argument5: selectedPartitionScheme
+                                                                                                     argument6: selectedFileSystem
+                                                                                                     argument7: patchInstallerRequirements
+                                                                                                     argument8: installLegacyBoot];
     
     [logsView appendRow: diskEraseOperationText
                 logType: ASLogTypeLog];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self setCurrentProgressTitle: [LocalizedStrings PROGRESS_TITLE_FORMATTING_THE_DRIVE]];
+        [self setCurrentProgressTitle: [LocalizedStrings progressTitleFormattingTheDrive]];
         
         NSError *diskEraseError = NULL;
         [secondVerifyingStageDiskManager diskUtilEraseDiskWithPartitionScheme: selectedPartitionScheme
@@ -715,20 +714,20 @@ WriteExitForce();                     \
                                                                         error: &diskEraseError];
         
         if (diskEraseError != NULL) {
-            [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_DISK_ERASE_FAILURE]
+            [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleDiskEraseFailure]
                                       subtitle: diskEraseError.stringValue
                                           icon: NSImageNameCaution];
                         
-            [self->logsView appendRow: [[LocalizedStrings ALERT_TITLE_DISK_ERASE_FAILURE] stringByAppendingFormat:
-                                        @" %@", [LocalizedStrings LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE: diskEraseError.stringValue]]
+            [self->logsView appendRow: [[LocalizedStrings alertTitleDiskEraseFailure] stringByAppendingFormat:
+                                        @" %@", [LocalizedStrings logviewRowPartialTitleErrorMessageWithArgument1: diskEraseError.stringValue]]
                               logType: ASLogTypeFatal];
             
             WriteExitForce();
         }
         
-        [self setCurrentProgressTitle: [LocalizedStrings PROGRESS_TITLE_DISK_ERASE_SUCCESS]];
+        [self setCurrentProgressTitle: [LocalizedStrings progressTitleDiskEraseSuccess]];
         
-        [self->logsView appendRow: [LocalizedStrings PROGRESS_TITLE_DISK_ERASE_SUCCESS]
+        [self->logsView appendRow: [LocalizedStrings progressTitleDiskEraseSuccess]
                           logType: ASLogTypeSuccess];
         
         WriteExitConditionally();
@@ -778,22 +777,22 @@ WriteExitForce();                     \
             
             switch (operationType) {
                 case DWOperationTypeCreateDirectory:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_CREATE_DIRECTORY]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleCreateDirectory]];
                     break;
                 case DWOperationTypeWriteFile:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_WRITE_FILE]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleWriteFile]];
                     break;
                 case DWOperationTypeSplitWindowsImage:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_SPLIT_IMAGE]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleSplitImage]];
                     break;
                 case DWOperationTypeExtractWindowsBootloader:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_EXTRACT_BOOTLOADER]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleExtractBootloader]];
                     break;
                 case DWOperationTypePatchWindowsInstallerRequirements:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_PATCH_INSTALLER_REQUIREMENTS]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitlePatchInstallerRequirements]];
                     break;
                 case DWOperationTypeInstallLegacyBootSector:
-                    [onscreenLogText appendString: [LocalizedStrings PROGRESS_TITLE_INSTALL_LEGACY_BOOTLOADER]];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleInstallLegacyBootloader]];
                     break;
             }
             
@@ -814,7 +813,7 @@ WriteExitForce();                     \
                     break;
                 case DWOperationResultFailure:
                     if (error != NULL) {
-                        [onscreenLogText appendString: [NSString stringWithFormat: @" %@", [LocalizedStrings LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE: error.stringValue]]];
+                        [onscreenLogText appendString: [NSString stringWithFormat: @" %@", [LocalizedStrings logviewRowPartialTitleErrorMessageWithArgument1: error.stringValue]]];
                     }
                     
                     [self->logsView appendRow:onscreenLogText logType:ASLogTypeFailure];
@@ -840,20 +839,20 @@ WriteExitForce();                     \
                     [self removeAttachedSheetWithReturnCode: NSAlertFirstButtonReturn];
                     
                     NSAlert *alert = [[NSAlert alloc] init];
-                    [alert setMessageText: [LocalizedStrings ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED]];
+                    [alert setMessageText: [LocalizedStrings alertTitleWriteFileProblemOccurred]];
                     
-                    NSMutableString *alertSubtitleString = [NSMutableString stringWithString: [LocalizedStrings ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED]];
+                    NSMutableString *alertSubtitleString = [NSMutableString stringWithString: [LocalizedStrings alertSubtitleWriteFileProblemOccurred]];
                     
                     if (error != NULL) {
-                        [alertSubtitleString appendFormat: @"\n%@", [LocalizedStrings PLACEHOLDER_REASON: [error stringValue]]];
+                        [alertSubtitleString appendFormat: @"\n%@", [LocalizedStrings placeholderReasonWithArgument1: [error stringValue]]];
                     }
                     
                     [alertSubtitleString appendFormat: @"\n[%@]", destinationCurrentFilePath];
                     
                     [alert setInformativeText: alertSubtitleString];
                     
-                    [alert addButtonWithTitle: [LocalizedStrings ALERT_BUTTON_TITLE_STOP_WRITING]];
-                    [alert addButtonWithTitle: [LocalizedStrings ALERT_BUTTON_TITLE_SKIP_FILE]];
+                    [alert addButtonWithTitle: [LocalizedStrings alertButtonTitleStopWriting]];
+                    [alert addButtonWithTitle: [LocalizedStrings alertButtonTitleSkipFile]];
                     
                     [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
                     
@@ -881,7 +880,7 @@ WriteExitForce();                     \
         WriteExitConditionally();
         
         if (writeError) {
-            [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_IMAGE_WRITING_FAILURE]
+            [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleImageWritingFailure]
                                       subtitle: writeError.stringValue
                                           icon: NSImageNameCaution];
             
@@ -890,11 +889,11 @@ WriteExitForce();                     \
             WriteExitForce();
         }
         
-        [self displayWarningAlertWithTitle: [LocalizedStrings ALERT_TITLE_IMAGE_WRITING_SUCCESS]
-                                  subtitle: [LocalizedStrings ALERT_SUBTITLE_IMAGE_WRITING_SUCCESS]
+        [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleImageWritingSuccess]
+                                  subtitle: [LocalizedStrings alertSubtitleImageWritingSuccess]
                                       icon: NSImageNameStatusAvailable];
         
-        [self->logsView appendRow:[LocalizedStrings ALERT_TITLE_IMAGE_WRITING_SUCCESS] logType:ASLogTypeSuccess];
+        [self->logsView appendRow:[LocalizedStrings alertTitleImageWritingSuccess] logType:ASLogTypeSuccess];
         
         WriteExitForce();
     });
@@ -921,13 +920,13 @@ WriteExitForce();                     \
 }
 
 - (void)updateDeviceList {
-    [logsView appendRow:[LocalizedStrings LOGVIEW_ROW_TITLE_CLEARING_DEVICE_PICKER_LIST] logType:ASLogTypeLog];
+    [logsView appendRow:[LocalizedStrings logviewRowTitleClearingDevicePickerList] logType:ASLogTypeLog];
 
     [devicePickerView removeAllItems];
         
     NSArray<NSString *> *bsdNames = [DiskManager BSDDrivesNames];
     
-    NSString *textLog = [NSString stringWithFormat: @"%@: %@", [LocalizedStrings LOGVIEW_ROW_PARTIAL_TITLE_FOUND_DEVICES], [bsdNames componentsJoinedByString:@", "]];
+    NSString *textLog = [NSString stringWithFormat: @"%@: %@", [LocalizedStrings logviewRowPartialTitleFoundDevices], [bsdNames componentsJoinedByString:@", "]];
     [logsView appendRow:textLog logType:ASLogTypeLog];
     
     for (NSString *bsdName in bsdNames) {
@@ -953,7 +952,7 @@ WriteExitForce();                     \
         
         if (enabledUIState) {
             [self resetProgress];
-            [self->currentOperationLabelView setStringValue: [LocalizedStrings PROGRESS_TITLE_READY_FOR_ACTION]];
+            [self->currentOperationLabelView setStringValue: [LocalizedStrings progressTitleReadyForAction]];
             
             [self->quitMenuItem setAction:@selector(terminate:)];
             [self->closeMenuItem setAction:@selector(close)];
@@ -961,13 +960,13 @@ WriteExitForce();                     \
             [self->bytesWrittenLabelView setStringValue: @""];
             [self->bytesFileSizeLabelView setStringValue: @""];
             
-            [self->startStopButtonView setTitle: [LocalizedStrings BUTTON_TITLE_START]];
+            [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStart]];
             [self->startStopButtonView setAction: @selector(startAction)];
         } else {
             [self->quitMenuItem setAction: NULL];
             [self->closeMenuItem setAction: NULL];
             
-            [self->startStopButtonView setTitle: [LocalizedStrings BUTTON_TITLE_START]];
+            [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStart]];
             [self->startStopButtonView setAction: @selector(stopAction)];
         }
         

@@ -51,7 +51,7 @@ NSString *MAIN_COLUMN = @"MainTableColumn";
     
     // Create a menu object and add a menu item for copy
     NSMenu *menu = [[NSMenu alloc] init];
-    contextMenuCopyItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings MENU_TITLE_ITEM_COPY]
+    contextMenuCopyItem = [[NSMenuItem alloc] initWithTitle: [LocalizedStrings menuTitleItemCopy]
                                                      action: NULL
                                               keyEquivalent: @"c"];
     

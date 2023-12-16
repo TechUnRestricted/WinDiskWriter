@@ -1,5 +1,7 @@
+<h1>WinDiskWriter</h1>
+
 <p align="center">
-  <img src="https://i.postimg.cc/0x7VXSz9/Artboard.png"/>
+  <a href="https://github.com/TechUnRestricted/windiskwriter/releases"><img src="https://i.postimg.cc/X3tS32rs/Artboard.jpg"/></a>
 </p>
 
 <p align="center">
@@ -24,22 +26,18 @@
   </a>
 </p>
 
-<pre>
-  <p align="center">💖 Hey there! If you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially!</a></b> 💖</p></pre>
+<h2 align="center">Windows USB Disk Creator for macOS</h2>
 
-<b>WinDiskWriter</b> — Bootable Disk Creator for macOS<br>
-You can use this app to create a bootable universal USB Windows installers that supports both **UEFI** and **Legacy BIOS** modes.<br>
+<pre align="center">
+  💖 Hey there! If you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially!</a></b> 💖
+</pre>
+
+You can use this app to create bootable universal USB <strong>Windows installers</strong> that supports both <strong>UEFI</strong> and <strong>Legacy BIOS</strong> modes.<br>
 With this USB drive, you can install and enjoy <strong>Windows</strong> on your <strong>PC</strong>, <strong>Intel Mac</strong> or certain <strong>Virtual Machines</strong>.
-
-Simply select the <b>Windows image file</b>, the <b>destination device</b>, the <b>options</b> you want.
-After pressing Start, WinDiskWriter handles everything for you!
 
 <center>
   <img alt="WinDiskWriter Main Window" src="https://i.postimg.cc/CFYbxwkD/Win-Disk-Writer-Main-Wind-w.png">
 </center>
-
-WinDiskWriter shows you the progress and status of your USB being written, and will notify you when it's done.<br>
-Everything is designed to be user-friendly and intuitive, so you can create bootable Windows installers <strong>without any hassle</strong>.
 
 <h2>Table of Contents</h2>
 <b>

@@ -8,6 +8,7 @@
 
 #import <DiskArbitration/DiskArbitration.h>
 #import <Foundation/Foundation.h>
+#import "LocalizedStrings.h"
 #import "DiskManager.h"
 #import "CommandLine.h"
 #import "Constants.h"
@@ -116,43 +117,43 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
         case kDAReturnSuccess:
             return NULL;
         case kDAReturnError:
-            errorMessage = @"An unspecified error occurred.";
+            errorMessage = [LocalizedStrings dadiskErrorTextUnspecified];
             break;
         case kDAReturnBusy:
-            errorMessage = @"The disk is busy and cannot be unmounted.";
+            errorMessage = [LocalizedStrings dadiskErrorTextBusy];
             break;
         case kDAReturnBadArgument:
-            errorMessage = @"An invalid argument was passed to the function.";
+            errorMessage = [LocalizedStrings dadiskErrorTextBadArgument];
             break;
         case kDAReturnExclusiveAccess:
-            errorMessage = @"The disk is locked and cannot be modified.";
+            errorMessage = [LocalizedStrings dadiskErrorTextExclusiveAccess];
             break;
         case kDAReturnNoResources:
-            errorMessage = @"There are not enough resources to complete the operation.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNoResources];
             break;
         case kDAReturnNotFound:
-            errorMessage = @"The disk or the volume was not found.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotFound];
             break;
         case kDAReturnNotMounted:
-            errorMessage = @"The volume is not mounted.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotMounted];
             break;
         case kDAReturnNotPermitted:
-            errorMessage = @"The operation is not permitted.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotPermitted];
             break;
         case kDAReturnNotPrivileged:
-            errorMessage = @"The user does not have the required privileges.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotPrivileged];
             break;
         case kDAReturnNotReady:
-            errorMessage = @"The disk is not ready.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotReady];
             break;
         case kDAReturnNotWritable:
-            errorMessage = @"The disk or the volume is not writable.";
+            errorMessage = [LocalizedStrings dadiskErrorTextNotWritable];
             break;
         case kDAReturnUnsupported:
-            errorMessage = @"The operation is not supported by the disk or the volume.";
+            errorMessage = [LocalizedStrings dadiskErrorTextUnsupported];
             break;
         default:
-            errorMessage = @"An unknown error occurred.";
+            errorMessage = [LocalizedStrings dadiskErrorTextUnspecified];
             break;
     }
     
@@ -179,7 +180,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
 }
 
 - (BOOL)mountDiskWithOptions: (DADiskMountOptions)options
-                           error: (NSError *_Nullable *_Nullable)error {
+                       error: (NSError *_Nullable *_Nullable)error {
     struct CallbackWrapper callbackWrapper;
     callbackWrapper.semaphore = dispatch_semaphore_create(0);
     
@@ -212,7 +213,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"Specified BSD Name does not exist. Can't erase this volume."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextSpecifiedBsdNameDoesntExistCantErase]];
         }
         
         return NO;
@@ -230,7 +231,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     if (eraseVolumeException != NULL) {
         if (error) {
-            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", eraseVolumeException.reason];
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"%@ (%@)", [LocalizedStrings errorTextCommandLineExecuteFailure], eraseVolumeException.reason];
             
             *error = [NSError errorWithStringValue: exceptionErrorString];
         }
@@ -240,19 +241,21 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     if (commandLineData.terminationStatus == EXIT_SUCCESS) {
         return YES;
-    } else {
-        if (error) {
-            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"An Error has occured while erasing the volume. [Filesystem: %@; New Label: %@; BSD Name: %@]",
-                                                    filesystem,
-                                                    newName,
-                                                    diskInfo.BSDName]
-            ];
-        }
-        
-        return NO;
     }
     
+    if (error) {
+        NSString *errorPipeOutput;
+        if (commandLineData.errorData) {
+            errorPipeOutput = [[NSString alloc] initWithData: commandLineData.errorData
+                                                    encoding: NSUTF8StringEncoding];
+        } else {
+            errorPipeOutput = [LocalizedStrings errorTextCantGetErrorOutputPipe];
+        }
+        
+        *error = [NSError errorWithStringValue: [errorPipeOutput strip]];
+    }
     
+    return NO;
 }
 
 - (BOOL)diskUtilEraseDiskWithPartitionScheme: (PartitionScheme _Nonnull)partitionScheme
@@ -269,7 +272,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DiskInfo *diskInfo = [self diskInfo];
     if (diskInfo.BSDName == NULL) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"Specified BSD Name does not exist. Can't erase this volume."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextSpecifiedBsdNameDoesntExistCantErase]];
         }
         
         return NO;
@@ -288,7 +291,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     
     if (eraseVolumeException != NULL) {
         if (error) {
-            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", eraseVolumeException.reason];
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"%@ (%@)", [LocalizedStrings errorTextCommandLineExecuteFailure], eraseVolumeException.reason];
             
             *error = [NSError errorWithStringValue: exceptionErrorString];
         }
@@ -303,9 +306,10 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     if (error) {
         NSString *errorPipeOutput;
         if (commandLineData.errorData) {
-            errorPipeOutput = [[NSString alloc] initWithData:commandLineData.errorData encoding:NSUTF8StringEncoding];
+            errorPipeOutput = [[NSString alloc] initWithData: commandLineData.errorData
+                                                    encoding: NSUTF8StringEncoding];
         } else {
-            errorPipeOutput = @"Can't retrieve the information from the command line error output pipe.";
+            errorPipeOutput = [LocalizedStrings errorTextCantGetErrorOutputPipe];
         }
         
         *error = [NSError errorWithStringValue: [errorPipeOutput strip]];

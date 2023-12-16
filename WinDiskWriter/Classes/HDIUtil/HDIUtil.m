@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LocalizedStrings.h"
+#import "NSString+Common.h"
+#import "NSError+Common.h"
 #import "CommandLine.h"
 #import "Constants.h"
 #import "HDIUtil.h"
-#import "NSString+Common.h"
-#import "NSError+Common.h"
 
 @implementation HDIUtil {
     NSString *mountPoint;
@@ -40,7 +41,7 @@
     
     if (imageMountException != NULL) {
         if (error) {
-            NSString *exceptionErrorString = [NSString stringWithFormat: @"There was an unknown error while executing the command. (%@)", imageMountException.reason];
+            NSString *exceptionErrorString = [NSString stringWithFormat: @"%@ (%@)", [LocalizedStrings errorTextCommandLineExecuteFailure], imageMountException.reason];
             
             *error = [NSError errorWithStringValue: exceptionErrorString];
         }
@@ -52,7 +53,7 @@
         NSString *errorString = [[NSString alloc] initWithData: commandLineData.errorData
                                                       encoding: NSUTF8StringEncoding].strip;
         
-        NSString *finalErrorDescription = [NSString stringWithFormat:@"The exit status of hdiutil was not EXIT_SUCCESS.\n[%@]", errorString];
+        NSString *finalErrorDescription = [NSString stringWithFormat:@"%@\n[%@]", [LocalizedStrings errorTextHdiutilStatusWasNotExitSuccess], errorString];
       
         if (error) {
             *error = [NSError errorWithStringValue: finalErrorDescription];
@@ -70,7 +71,7 @@
     
     if (plist == NULL) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"An error occurred while reading output from hdiutil."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextCantParseHdiutilOutput]];
         }
         
         return NO;
@@ -81,7 +82,7 @@
     NSArray *systemEntities = [plist objectForKey:@"system-entities"];
     if (systemEntities == NULL) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"Can't load \"system-entities\" from parsed plist."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextPlistCantLoadSystemEntities]];
         }
         
         return NO;
@@ -89,7 +90,7 @@
     
     if ([systemEntities count] == 0) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"This image does not contain any System Entity."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextPlistSystemEntitiesIsEmpty]];
         }
         
         return NO;
@@ -97,7 +98,7 @@
     
     if ([systemEntities count] > 1) {
         if (error) {
-            *error = [NSError errorWithStringValue: @"The number of System Entities in this image is >1. The required Entity could not be determined. Try to specify the path to an already mounted image."];
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorTextPlistSystemEntitiesCountMoreThanOne]];
         }
         
         return NO;

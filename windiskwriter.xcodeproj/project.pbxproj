@@ -1004,7 +1004,6 @@
 			children = (
 				E205CC962B121BE300077A28 /* grub4dos */,
 				E22478072985E0A7000B24A1 /* libs */,
-				E248D8622B2B79BD00ACB361 /* Localizable.strings */,
 				E2F7CE382AB353C000BA6FE4 /* Classes */,
 				E2F2D2CE2A941AD100E1B7FF /* Constants */,
 				E23298BE2A37C31500869736 /* Extensions */,
@@ -1012,10 +1011,10 @@
 				E23298BA2A37C31500869736 /* Views */,
 				E2F2D2BA2A93DC8C00E1B7FF /* Windows */,
 				E27FF65C2AA548E900C0356F /* AppDelegate */,
+				E27879812B28506800206720 /* LocalizedStrings */,
 				E23298B12A37C1FC00869736 /* main.m */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter.entitlements */,
 				E2F2D2E52A95307A00E1B7FF /* Images.xcassets */,
-				E27879812B28506800206720 /* LocalizedStrings */,
 			);
 			path = WinDiskWriter;
 			sourceTree = "<group>";
@@ -1147,6 +1146,7 @@
 		E27879812B28506800206720 /* LocalizedStrings */ = {
 			isa = PBXGroup;
 			children = (
+				E248D8622B2B79BD00ACB361 /* Localizable.strings */,
 				E278797E2B28506400206720 /* LocalizedStrings.h */,
 				E278797F2B28506400206720 /* LocalizedStrings.m */,
 			);
