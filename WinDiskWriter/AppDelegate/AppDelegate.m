@@ -23,6 +23,8 @@
     
     NSMenuItem *quitMenuItem;
     NSMenuItem *closeMenuItem;
+    
+    NSMenuItem *scanAllWholeDisksMenuItem;
 }
 
 - (void)setupMenuItems {
@@ -111,9 +113,23 @@
         }
     }
     
+    NSMenuItem *debugMenuBarItem = [[NSMenuItem alloc] init]; {
+        [menuBar addItem: debugMenuBarItem];
+        
+        NSMenu *debugMenu = [[NSMenu alloc] initWithTitle: @"Debug"]; {
+            [debugMenuBarItem setSubmenu: debugMenu];
+            
+            scanAllWholeDisksMenuItem = [[NSMenuItem alloc] init]; {
+                [scanAllWholeDisksMenuItem setTitle: @"Scan All Whole Disks"];
+                                                
+                [debugMenu addItem: scanAllWholeDisksMenuItem];
+            }
+        }
+    }
+    
     NSMenuItem *supportMeMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem: supportMeMenuBarItem];
-
+        
         NSMenu *supportMeMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings menuTitleDonateMe]]; {
             [supportMeMenuBarItem setSubmenu: supportMeMenu];
             
@@ -153,7 +169,8 @@
                                  paddingIsTitleBarAware: YES
                                             aboutWindow: aboutWindow
                                            quitMenuItem: quitMenuItem
-                                          closeMenuItem: closeMenuItem];
+                                          closeMenuItem: closeMenuItem
+                              scanAllWholeDisksMenuItem: scanAllWholeDisksMenuItem];
         
         [mainWindow setMinSize: minWindowSize];
         [mainWindow setMaxSize: maxWindowSize];

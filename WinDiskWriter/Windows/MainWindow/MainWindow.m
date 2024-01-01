@@ -72,9 +72,12 @@ WriteExitForce();                     \
     ProgressBarView *currentOperationProgressBarView;
     ProgressBarView *totalOperationProgressBarView;
     
+    /* Initialized in -init */
     NSMenuItem *quitMenuItem;
     NSMenuItem *closeMenuItem;
 
+    NSMenuItem *scanAllWholeDisksMenuItem;
+    
     ModernWindow *aboutWindow;
 }
 
@@ -84,18 +87,22 @@ WriteExitForce();                     \
         paddingIsTitleBarAware: (BOOL)paddingIsTitleBarAware
                    aboutWindow: (AboutWindow *)aboutWindow
                   quitMenuItem: (NSMenuItem *)quitMenuItem
-                 closeMenuItem: (NSMenuItem *)closeMenuItem {
+                 closeMenuItem: (NSMenuItem *)closeMenuItem
+     scanAllWholeDisksMenuItem: (NSMenuItem *)scanAllWholeDisksMenuItem {
     
     self = [super initWithNSRect: nsRect
                            title: title
                          padding: padding
           paddingIsTitleBarAware: paddingIsTitleBarAware];
     
+    // TODO: Replace with some kind of container
     self->aboutWindow = aboutWindow;
     self->quitMenuItem = quitMenuItem;
     self->closeMenuItem = closeMenuItem;
+    self->scanAllWholeDisksMenuItem = scanAllWholeDisksMenuItem;
+    [scanAllWholeDisksMenuItem setTarget: self];
     
-    NSButton *windowZoomButton = [self standardWindowButton:NSWindowZoomButton];
+    NSButton *windowZoomButton = [self standardWindowButton: NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];
     
     [self setOnCloseSelector: @selector(exitApplication)
@@ -187,7 +194,7 @@ WriteExitForce();                     \
             devicePickerView = [[PickerView alloc] init]; {
                 [devicePickerHorizontalLayout addView:devicePickerView minWidth:0 maxWidth:INFINITY minHeight:0 maxHeight:devicePickerView.cell.cellSize.height];
                 
-                [self updateDeviceList];
+                [self updateDeviceListWithWholeDiskFiltrationEnabled];
             }
             
             updateDeviceListButtonView = [[ButtonView alloc] init]; {
@@ -195,7 +202,7 @@ WriteExitForce();                     \
                 
                 [updateDeviceListButtonView setTitle: [LocalizedStrings buttonTitleUpdate]];
                 [updateDeviceListButtonView setTarget: self];
-                [updateDeviceListButtonView setAction: @selector(updateDeviceList)];
+                [updateDeviceListButtonView setAction: @selector(updateDeviceListWithWholeDiskFiltrationEnabled)];
             }
         }
     }
@@ -229,9 +236,7 @@ WriteExitForce();                     \
         
     }
     
-    
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
-    
     
     FrameLayoutVertical *formattingSectionVerticalLayout = [[FrameLayoutVertical alloc] init]; {
         [mainVerticalLayout addView:formattingSectionVerticalLayout width:INFINITY height:0];
@@ -403,7 +408,7 @@ WriteExitForce();                     \
     }
     
     NSArray *slideShowTextArray = @[
-        [NSString stringWithFormat:@"%@ 2023", [Constants developerName]],
+        [NSString stringWithFormat:@"%@ 2024", [Constants developerName]],
         [LocalizedStrings menuTitleDonateMe]
     ];
     
@@ -423,7 +428,7 @@ WriteExitForce();                     \
 }
 
 - (void)exitApplication {
-    [[NSApplication sharedApplication] terminate:nil];
+    [[NSApplication sharedApplication] terminate: NULL];
 }
 
 - (void)displayWarningAlertWithTitle: (NSString *)title
@@ -918,8 +923,18 @@ WriteExitForce();                     \
     
 }
 
-- (void)updateDeviceList {
-    [logsView appendRow:[LocalizedStrings logviewRowTitleClearingDevicePickerList] logType:ASLogTypeLog];
+// Quick message for selector
+- (void)updateDeviceListWithWholeDiskFiltrationEnabled {
+    [self updateDeviceListWithWholeDiskFiltrationEnabled: YES];
+}
+
+// Quick message for selector
+- (void)updateDeviceListWithWholeDiskFiltrationDisabled {
+    [self updateDeviceListWithWholeDiskFiltrationEnabled: NO];
+}
+
+- (void)updateDeviceListWithWholeDiskFiltrationEnabled: (BOOL)wholeDiskFiltrationEnabled {
+    [logsView appendRow: [LocalizedStrings logviewRowTitleClearingDevicePickerList] logType:ASLogTypeLog];
 
     [devicePickerView removeAllItems];
         
@@ -931,12 +946,18 @@ WriteExitForce();                     \
     for (NSString *bsdName in bsdNames) {
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
         DiskInfo *diskInfo = [diskManager diskInfo];
-        
-        if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
-            !diskInfo.isDeviceUnit || !diskInfo.isWholeDrive || !diskInfo.isWritable) {
+                
+        if (!diskInfo.isWholeDrive) {
             continue;
         }
         
+        if (wholeDiskFiltrationEnabled) {
+            if (diskInfo.isNetworkVolume || diskInfo.isInternal ||
+                !diskInfo.isDeviceUnit || !diskInfo.isWritable) {
+                continue;
+            }
+        }
+                
         IdentifiableMenuItem *identifiableMenuItem = [[IdentifiableMenuItem alloc] initWithDiskInfo:diskInfo];
         
         [devicePickerView.menu addItem:identifiableMenuItem];
@@ -953,20 +974,22 @@ WriteExitForce();                     \
             [self resetProgress];
             [self->currentOperationLabelView setStringValue: [LocalizedStrings progressTitleReadyForAction]];
             
-            [self->quitMenuItem setAction:@selector(terminate:)];
-            [self->closeMenuItem setAction:@selector(close)];
+            [self->quitMenuItem setAction: @selector(terminate:)];
+            [self->closeMenuItem setAction: @selector(close)];
             
             [self->bytesWrittenLabelView setStringValue: @""];
             [self->bytesFileSizeLabelView setStringValue: @""];
             
             [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStart]];
             [self->startStopButtonView setAction: @selector(startAction)];
+            [self->scanAllWholeDisksMenuItem setAction: @selector(updateDeviceListWithWholeDiskFiltrationDisabled)];
         } else {
             [self->quitMenuItem setAction: NULL];
             [self->closeMenuItem setAction: NULL];
             
             [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStop]];
             [self->startStopButtonView setAction: @selector(stopAction)];
+            [self->startStopButtonView setAction: NULL];
         }
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];
