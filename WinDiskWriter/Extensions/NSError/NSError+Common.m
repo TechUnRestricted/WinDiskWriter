@@ -15,7 +15,7 @@
     return [self.userInfo objectForKey: NSLocalizedDescriptionKey];
 }
 
-+ (NSError *)errorWithStringValue: (NSString *)stringValue {
++ (NSError *)errorWithStringValue: (NSString *)stringValue {    
     return [NSError errorWithDomain: [Constants bundleIndentifier]
                                code: -1
                            userInfo: @{NSLocalizedDescriptionKey: stringValue}];

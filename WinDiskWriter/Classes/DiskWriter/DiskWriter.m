@@ -114,8 +114,8 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
         
         if (bootloaderFileCopyError != NULL) {
             NSString *errorString = [
-                NSString stringWithFormat: @"Can't copy %@ to the destination device (%@).",
-                currentFile.lastPathComponent,
+                NSString stringWithFormat: @"%@ (%@).",
+                [LocalizedStrings errorCantCopyFileToDestinationDeviceWithArgument1: currentFile.lastPathComponent],
                 bootloaderFileCopyError.stringValue
             ];
             

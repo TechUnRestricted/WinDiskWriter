@@ -612,5 +612,37 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39BCC3BB-6515-4CDF-A110-AB19C8D95182"
+            shouldBeEnabled = "No"
+            ignoreCount = "100"
+            continueAfterRunningActions = "No"
+            filePath = "WinDiskWriter/Windows/MainWindow/MainWindow.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "800"
+            endingLineNumber = "800"
+            landmarkName = "-writeAction"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6C0FBF4A-FF0F-4A55-8702-41569905F7DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "30"
+            continueAfterRunningActions = "No"
+            filePath = "WinDiskWriter/Windows/MainWindow/MainWindow.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "811"
+            endingLineNumber = "811"
+            landmarkName = "-writeAction"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

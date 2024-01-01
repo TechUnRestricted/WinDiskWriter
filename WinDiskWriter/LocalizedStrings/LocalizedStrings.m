@@ -529,4 +529,14 @@
     return NSLocalizedString(@"ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED", NULL);
 }
 
++ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(NSString *)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(NSString *)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
 @end

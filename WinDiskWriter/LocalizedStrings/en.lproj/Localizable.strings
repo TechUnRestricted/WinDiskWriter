@@ -61,11 +61,11 @@
 "LOGVIEW_ROW_TITLE_GENERATED_PARTITION_NAME" = "Generated partition name";
 "LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH" = "Target partition path";
 "LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS" = "Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: '%@', partition_scheme: '%@', filesystem: '%@', patch_installer_requirements: '%d', install_legacy_boot: '%d').";
-"ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "A problem occurred when writing the file to disk";
+"ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "A problem occurred while writing the file to disk";
 "ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Would you like to skip this file, or stop writing?";
 "PLACEHOLDER_REASON" = "(Reason: %@)";
 "ALERT_BUTTON_TITLE_STOP_WRITING" = "Stop Writing";
-"ALERT_BUTTON_TITLE_SKIP_FILE" = "Can't retrieve the information from the command line error output pipe.";
+"ALERT_BUTTON_TITLE_SKIP_FILE" = "Skip File";
 "LOGVIEW_ROW_TITLE_CLEARING_DEVICE_PICKER_LIST" = "Clearing the device picker list.";
 "LOGVIEW_ROW_PARTIAL_TITLE_FOUND_DEVICES" = "Found devices";
 "MENU_TITLE_ITEM_CLOSE" = "Close";
@@ -127,3 +127,5 @@
 "AUTHORIZATION_ERROR_BAD_ADDRESS" = "The requested socket address is invalid (must be 0-1023 inclusive).";
 "ERROR_TEXT_FILE_TYPE_IS_NOT_ISO" = "This file does not have an .iso extension.";
 "ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "Can't load the destination device info from mounted volume on this Mac OS X version.";
+"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "Can't copy %@ to the destination device.";
+"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "File (directory) '%@' doesn't exist.";

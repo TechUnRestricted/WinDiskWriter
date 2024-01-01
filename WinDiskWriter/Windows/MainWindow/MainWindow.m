@@ -796,16 +796,15 @@ WriteExitForce();                     \
                     break;
             }
             
-            [onscreenLogText stringByAppendingFormat: @"%@: ", destinationCurrentFilePath];
-            
+            [onscreenLogText appendString: [NSString stringWithFormat: @": %@", destinationCurrentFilePath]];
+                        
             switch (operationResult) {
                 case DWOperationResultStart:
                     [self->logsView appendRow:onscreenLogText logType:ASLogTypeStart];
                     break;
-                case DWOperationResultProcess: {
+                case DWOperationResultProcess:
                     // Don't need to do anything ¯\_(ツ)_/¯
                     break;
-                }
                 case DWOperationResultSuccess:
                     [self->logsView appendRow:onscreenLogText logType:ASLogTypeSuccess];
                     
@@ -966,7 +965,7 @@ WriteExitForce();                     \
             [self->quitMenuItem setAction: NULL];
             [self->closeMenuItem setAction: NULL];
             
-            [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStart]];
+            [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStop]];
             [self->startStopButtonView setAction: @selector(stopAction)];
         }
         

@@ -147,7 +147,8 @@ NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
     
     if (!exists) {
         if (error) {
-            *error = [NSError errorWithStringValue: [NSString stringWithFormat: @"File (directory) '%@' doesn't exist.", sourcePath]];
+            // ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST
+            *error = [NSError errorWithStringValue: [LocalizedStrings errorFileOrDirectoryDoesntExistWithArgument1: sourcePath]];
         }
         
         return NULL;

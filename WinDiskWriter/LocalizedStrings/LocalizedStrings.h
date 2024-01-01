@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: '%@', partition_scheme: '%@', filesystem: '%@', patch_installer_requirements: '%d', install_legacy_boot: '%d').
 + (NSString *)logviewRowTitleDiskEraseOperationOptionsWithArgument1:(NSString *)argument1 argument2:(NSString *)argument2 argument3:(NSString *)argument3 argument4:(NSString *)argument4 argument5:(NSString *)argument5 argument6:(NSString *)argument6 argument7:(NSInteger)argument7 argument8:(NSInteger)argument8;
 
-/// @brief A problem occurred when writing the file to disk
+/// @brief A problem occurred while writing the file to disk
 + (NSString *)alertTitleWriteFileProblemOccurred;
 
 /// @brief Would you like to skip this file, or stop writing?
@@ -213,7 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief Stop Writing
 + (NSString *)alertButtonTitleStopWriting;
 
-/// @brief Skip File
+/// @brief Can't retrieve the information from the command line error output pipe.
 + (NSString *)alertButtonTitleSkipFile;
 
 /// @brief Clearing the device picker list.
@@ -360,7 +360,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief The authorization tag is invalid.
 + (NSString *)authorizationErrorInvalidTag;
 
-/// @brief The authorization parameter is invalid.
+/// @brief The authorizedRights parameter is invalid.
 + (NSString *)authorizationErrorInvalidPointer;
 
 /// @brief The authorization was denied.
@@ -398,6 +398,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @brief Can't load the destination device info from mounted volume on this Mac OS X version.
 + (NSString *)errorTextInitWithVolumePathUnsupported;
+
+/// @brief Can't copy %@ to the destination device.
++ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(NSString *)argument1;
+
+/// @brief File (directory) '%@' doesn't exist.
++ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(NSString *)argument1;
 
 @end
 

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E205CC972B121BE300077A28 /* grub4dos in Resources */ = {isa = PBXBuildFile; fileRef = E205CC962B121BE300077A28 /* grub4dos */; };
 		E205CC9E2B1258C600077A28 /* CommandLineData.m in Sources */ = {isa = PBXBuildFile; fileRef = E205CC9D2B1258C600077A28 /* CommandLineData.m */; };
 		E213E77F2A9FBAA3004643C1 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E77E2A9FBAA3004643C1 /* MainWindow.m */; };
 		E213E7872AA0B501004643C1 /* WimlibSplitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E213E7852AA0B501004643C1 /* WimlibSplitInfo.m */; };
@@ -133,7 +132,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E205CC962B121BE300077A28 /* grub4dos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = grub4dos; sourceTree = "<group>"; };
 		E205CC9C2B1258C600077A28 /* CommandLineData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommandLineData.h; sourceTree = "<group>"; };
 		E205CC9D2B1258C600077A28 /* CommandLineData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandLineData.m; sourceTree = "<group>"; };
 		E20ABA6A299986BA007A651F /* WimlibWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WimlibWrapper.h; sourceTree = "<group>"; };
@@ -1002,7 +1000,6 @@
 		E23298A82A37C1FB00869736 /* WinDiskWriter */ = {
 			isa = PBXGroup;
 			children = (
-				E205CC962B121BE300077A28 /* grub4dos */,
 				E22478072985E0A7000B24A1 /* libs */,
 				E2F7CE382AB353C000BA6FE4 /* Classes */,
 				E2F2D2CE2A941AD100E1B7FF /* Constants */,
@@ -1507,7 +1504,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E205CC972B121BE300077A28 /* grub4dos in Resources */,
 				E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */,
 				E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */,
 			);

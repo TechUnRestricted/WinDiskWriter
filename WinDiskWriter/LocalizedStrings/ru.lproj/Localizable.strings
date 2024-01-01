@@ -127,3 +127,5 @@
 "AUTHORIZATION_ERROR_BAD_ADDRESS" = "Запрошенный адрес сокета не является валидным (должен быть в диапазоне 0-1023 включительно).";
 "ERROR_TEXT_FILE_TYPE_IS_NOT_ISO" = "Данный файл не имеет .iso расширения.";
 "ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "На данной версии Mac OS X невозможно получить информацию об устройстве назначения при помощи пути смонтированного раздела.";
+"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать %@ на устройство назначения.";
+"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файл (директория) '%@' не существует.";
