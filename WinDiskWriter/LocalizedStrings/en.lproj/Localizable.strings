@@ -129,3 +129,5 @@
 "ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "Can't load the destination device info from mounted volume on this Mac OS X version.";
 "ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "Can't copy %@ to the destination device.";
 "ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "File (directory) '%@' doesn't exist.";
+"MENU_TITLE_ITEM_DEBUG" = "Debug";
+"MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Scan All Whole Disks";

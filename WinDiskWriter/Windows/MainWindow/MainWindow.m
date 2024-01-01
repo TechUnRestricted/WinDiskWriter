@@ -947,6 +947,7 @@ WriteExitForce();                     \
         DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
         DiskInfo *diskInfo = [diskManager diskInfo];
                 
+        // We only need to show the whole drives. So partitions (volumes / slices) are ignored.
         if (!diskInfo.isWholeDrive) {
             continue;
         }

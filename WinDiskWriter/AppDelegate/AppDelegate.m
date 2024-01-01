@@ -116,11 +116,11 @@
     NSMenuItem *debugMenuBarItem = [[NSMenuItem alloc] init]; {
         [menuBar addItem: debugMenuBarItem];
         
-        NSMenu *debugMenu = [[NSMenu alloc] initWithTitle: @"Debug"]; {
+        NSMenu *debugMenu = [[NSMenu alloc] initWithTitle: [LocalizedStrings menuTitleItemDebug]]; {
             [debugMenuBarItem setSubmenu: debugMenu];
             
             scanAllWholeDisksMenuItem = [[NSMenuItem alloc] init]; {
-                [scanAllWholeDisksMenuItem setTitle: @"Scan All Whole Disks"];
+                [scanAllWholeDisksMenuItem setTitle: [LocalizedStrings menuTitleScanAllWholeDisks]];
                                                 
                 [debugMenu addItem: scanAllWholeDisksMenuItem];
             }

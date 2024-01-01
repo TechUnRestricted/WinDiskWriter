@@ -129,3 +129,5 @@
 "ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "На данной версии Mac OS X невозможно получить информацию об устройстве назначения при помощи пути смонтированного раздела.";
 "ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать %@ на устройство назначения.";
 "ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файл (директория) '%@' не существует.";
+"MENU_TITLE_ITEM_DEBUG" = "Отладка";
+"MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Сканировать все полные диски";

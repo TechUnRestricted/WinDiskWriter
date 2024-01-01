@@ -539,4 +539,12 @@
     return [NSString stringWithFormat: unformattedString, argument1];
 }
 
++ (NSString *)menuTitleItemDebug {
+    return NSLocalizedString(@"MENU_TITLE_ITEM_DEBUG", NULL);
+}
+
++ (NSString *)menuTitleScanAllWholeDisks {
+    return NSLocalizedString(@"MENU_TITLE_SCAN_ALL_WHOLE_DISKS", NULL);
+}
+
 @end

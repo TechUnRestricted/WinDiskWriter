@@ -405,6 +405,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief File (directory) '%@' doesn't exist.
 + (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(NSString *)argument1;
 
+/// @brief Debug
++ (NSString *)menuTitleItemDebug;
+
+/// @brief Scan All Whole Disks
++ (NSString *)menuTitleScanAllWholeDisks;
+
 @end
 
 NS_ASSUME_NONNULL_END
