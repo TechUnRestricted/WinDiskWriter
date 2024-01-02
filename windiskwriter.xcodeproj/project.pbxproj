@@ -25,6 +25,7 @@
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E248D8622B2B79BD00ACB361 /* Localizable.strings */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
+		E274421D2B437D3600616740 /* SimpleDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E274421C2B437D3600616740 /* SimpleDownloadManager.m */; };
 		E27879802B28506400206720 /* LocalizedStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = E278797F2B28506400206720 /* LocalizedStrings.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */; };
@@ -320,6 +321,8 @@
 		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
+		E274421B2B437D3600616740 /* SimpleDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleDownloadManager.h; sourceTree = "<group>"; };
+		E274421C2B437D3600616740 /* SimpleDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleDownloadManager.m; sourceTree = "<group>"; };
 		E278797E2B28506400206720 /* LocalizedStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		E278797F2B28506400206720 /* LocalizedStrings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalizedStrings.m; sourceTree = "<group>"; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
@@ -1140,6 +1143,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E274421A2B437D3600616740 /* SimpleDownloadManager */ = {
+			isa = PBXGroup;
+			children = (
+				E274421B2B437D3600616740 /* SimpleDownloadManager.h */,
+				E274421C2B437D3600616740 /* SimpleDownloadManager.m */,
+			);
+			path = SimpleDownloadManager;
+			sourceTree = "<group>";
+		};
 		E27879812B28506800206720 /* LocalizedStrings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1434,6 +1446,7 @@
 		E2F7CE382AB353C000BA6FE4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E274421A2B437D3600616740 /* SimpleDownloadManager */,
 				E20ABA6D299991E0007A651F /* CChar2DArray */,
 				E20ABA6929998685007A651F /* WimlibWrapper */,
 				E2CCB29229854D91004EE171 /* DiskWriter */,
@@ -1596,6 +1609,7 @@
 				E2DF0F982A894CAB00339DDB /* compress_parallel.c in Sources */,
 				E2DF0F992A894CAB00339DDB /* inode_fixup.c in Sources */,
 				E2DF0F9A2A894CAB00339DDB /* win32_capture.c in Sources */,
+				E274421D2B437D3600616740 /* SimpleDownloadManager.m in Sources */,
 				E2DF0F9B2A894CAB00339DDB /* delete_image.c in Sources */,
 				E2DF0F9C2A894CAB00339DDB /* metadata_resource.c in Sources */,
 				E2DF0F9D2A894CAB00339DDB /* iterate_dir.c in Sources */,
