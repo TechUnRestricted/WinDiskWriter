@@ -19,6 +19,44 @@ NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 
 @implementation HelperFunctions
 
+static NSString *applicationTempFolder;
+static NSString *applicationTempWimlibSplitFolder;
+
+__attribute__((constructor))
+static void initializeStaticVariables() {
+    applicationTempFolder = [NSString pathWithComponents: @[
+        NSTemporaryDirectory(),
+        @"WinDiskWriter"
+    ]];
+    
+    applicationTempWimlibSplitFolder = [applicationTempFolder stringByAppendingPathComponent: @"wimlib-split"];
+    
+    // NSLog(@"[:Runtime Debug:]");
+    // NSLog(@"- Temp Folder \"%@\"", applicationTempFolder);
+}
+
++ (NSString *)applicationTempFolder {
+    return applicationTempFolder;
+}
+
++ (NSString *)applicationTempWimlibSplitFolder {
+    return applicationTempWimlibSplitFolder;
+}
+
++ (void)quitApplication {
+    [[NSApplication sharedApplication] terminate: NULL];
+}
+
++ (void)cleanupTempFolders {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+    BOOL folderExists = [fileManager fileExistsAtPath: applicationTempWimlibSplitFolder];
+    if (folderExists) {
+        [fileManager removeItemAtPath: applicationTempWimlibSplitFolder
+                                error: NULL];
+    }
+}
+
 + (BOOL)hasElevatedRights {
     return geteuid() == 0;
 }

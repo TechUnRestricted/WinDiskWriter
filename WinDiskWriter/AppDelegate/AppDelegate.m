@@ -184,10 +184,12 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupMenuItems];
     [self setupWindows];
+    
+    [HelperFunctions cleanupTempFolders];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    
+    [HelperFunctions cleanupTempFolders];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {

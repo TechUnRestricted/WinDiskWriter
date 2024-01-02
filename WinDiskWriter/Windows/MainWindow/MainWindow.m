@@ -105,8 +105,8 @@ WriteExitForce();                     \
     NSButton *windowZoomButton = [self standardWindowButton: NSWindowZoomButton];
     [windowZoomButton setEnabled: NO];
     
-    [self setOnCloseSelector: @selector(exitApplication)
-                      target: self];
+    [self setOnCloseSelector: @selector(quitApplication)
+                      target: [HelperFunctions class]];
     
     [self setupViews];
     
@@ -425,10 +425,6 @@ WriteExitForce();                     \
     }
     
     [self setEnabledUIState: YES];
-}
-
-- (void)exitApplication {
-    [[NSApplication sharedApplication] terminate: NULL];
 }
 
 - (void)displayWarningAlertWithTitle: (NSString *)title

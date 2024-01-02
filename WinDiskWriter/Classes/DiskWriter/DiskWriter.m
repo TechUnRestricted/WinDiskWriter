@@ -415,7 +415,7 @@ goto cleanup;                                                                   
             NSString *randomFolderName = [NSString stringWithFormat:@"install-image-%@", [HelperFunctions randomStringWithLength:10]];
             
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
-            tempDirectory = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"windiskwriter", randomFolderName]];
+            tempDirectory = [NSString pathWithComponents:@[HelperFunctions.applicationTempWimlibSplitFolder, randomFolderName]];
             
             CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
             
@@ -537,10 +537,7 @@ goto cleanup;                                                                   
     operationWasSuccessful = YES;
     
 cleanup:
-    if (tempDirectory != NULL) {
-        [localFileManager removeItemAtPath: tempDirectory
-                                     error: NULL];
-    }
+    [HelperFunctions cleanupTempFolders];
     
     return operationWasSuccessful;
 }

@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
++ (NSString *)applicationTempFolder;
+
++ (NSString *)applicationTempWimlibSplitFolder;
+
++ (void)cleanupTempFolders;
+
++ (void)quitApplication;
+
 + (BOOL)hasElevatedRights;
 
 + (void)openDonationsPage;
