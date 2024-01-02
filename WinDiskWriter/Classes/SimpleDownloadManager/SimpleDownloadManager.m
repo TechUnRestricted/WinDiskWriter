@@ -46,6 +46,17 @@
     [urlConnection start];
 }
 
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    return [protectionSpace.authenticationMethod isEqualToString: NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    NSURLCredential *urlCredential = [NSURLCredential credentialForTrust: challenge.protectionSpace.serverTrust];
+    
+    [challenge.sender useCredential: urlCredential
+         forAuthenticationChallenge: challenge];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     expectedFileSize = [response expectedContentLength];
     
@@ -71,7 +82,6 @@
         
         return;
     }
-    
     
     BOOL shouldContinue = callback(SDMMessageDownloadDidReceiveResponse, SDMMessageTypeSuccess, 0, expectedFileSize, NULL);
     if (!shouldContinue) {

@@ -6,6 +6,7 @@
 //  Copyright © 2023 TechUnRestricted. All rights reserved.
 //
 
+#import "NSFileManager+Common.h"
 #import "LocalizedStrings.h"
 #import "HelperFunctions.h"
 #import "NSString+Common.h"
@@ -22,6 +23,10 @@ NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 static NSString *applicationTempFolder;
 static NSString *applicationTempWimlibSplitFolder;
 
+static NSString *applicationTempGrub4DosFolder;
+
+static NSArray<NSString *> *grub4dosFileNames;
+
 __attribute__((constructor))
 static void initializeStaticVariables() {
     applicationTempFolder = [NSString pathWithComponents: @[
@@ -31,8 +36,36 @@ static void initializeStaticVariables() {
     
     applicationTempWimlibSplitFolder = [applicationTempFolder stringByAppendingPathComponent: @"wimlib-split"];
     
-    // NSLog(@"[:Runtime Debug:]");
-    // NSLog(@"- Temp Folder \"%@\"", applicationTempFolder);
+    applicationTempGrub4DosFolder = [applicationTempFolder stringByAppendingPathComponent: @"grub4dos"];
+    
+    grub4dosFileNames = @[
+        @"grldr", @"grldr.mbr", @"menu.lst"
+    ];
+}
+
++ (BOOL)requiresLegacySetupWindowToShow {
+    return [self notDownloadedGrub4DosFilesArray].count > 0;
+}
+
++ (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    BOOL baseFolderExists = [fileManager folderExistsAtPath: applicationTempGrub4DosFolder];
+    if (!baseFolderExists) {
+        return grub4dosFileNames;
+    }
+    
+    NSMutableArray *missingBootloaderFiles = [[NSMutableArray alloc] init];
+    for (NSString *fileName in grub4dosFileNames) {
+        NSString *pathToFile = [applicationTempGrub4DosFolder stringByAppendingPathComponent: fileName];
+        
+        BOOL fileExists = [fileManager fileExistsAtPathAndNotAFolder: pathToFile];
+        if (!fileExists) {
+            [missingBootloaderFiles addObject: fileName];
+        }
+    }
+    
+    return missingBootloaderFiles;
 }
 
 + (NSString *)applicationTempFolder {
@@ -41,6 +74,18 @@ static void initializeStaticVariables() {
 
 + (NSString *)applicationTempWimlibSplitFolder {
     return applicationTempWimlibSplitFolder;
+}
+
++ (NSString *)applicationTempGrub4DosFolder {
+    return applicationTempGrub4DosFolder;
+}
+
++ (NSString *)grub4DosDownloadLinkBase {
+    return @"https://github.com/TechUnRestricted/wdw-component-grub4dos/releases/latest/download/";
+}
+
++ (NSArray<NSString *> *)grub4dosFileNames {
+    return grub4dosFileNames;
 }
 
 + (void)quitApplication {

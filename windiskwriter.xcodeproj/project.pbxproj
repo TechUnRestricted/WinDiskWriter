@@ -30,6 +30,7 @@
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */; };
 		E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E29B5B9E2B1CA2EE009A8D0C /* MiddleAlignedCell.m */; };
+		E2B96CE12B446F48005E5FD4 /* LegacySetupWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B96CE02B446F48005E5FD4 /* LegacySetupWindow.m */; };
 		E2BEF1452A9B6FA90083A7AA /* DWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BEF1442A9B6FA90083A7AA /* DWProgress.m */; };
 		E2C73B3B2A855FD5008B9FAC /* AdvancedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B3A2A855FD5008B9FAC /* AdvancedTextView.m */; };
 		E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B412A857C2D008B9FAC /* VibrantTextView.m */; };
@@ -338,6 +339,8 @@
 		E2B52BBC29858D8000DF362B /* Filesystems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Filesystems.m; sourceTree = "<group>"; };
 		E2B52BBF2985925600DF362B /* PartitionSchemes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartitionSchemes.h; sourceTree = "<group>"; };
 		E2B52BC02985925600DF362B /* PartitionSchemes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartitionSchemes.m; sourceTree = "<group>"; };
+		E2B96CDF2B446F48005E5FD4 /* LegacySetupWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacySetupWindow.h; sourceTree = "<group>"; };
+		E2B96CE02B446F48005E5FD4 /* LegacySetupWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LegacySetupWindow.m; sourceTree = "<group>"; };
 		E2BEF1432A9B6FA90083A7AA /* DWProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWProgress.h; sourceTree = "<group>"; };
 		E2BEF1442A9B6FA90083A7AA /* DWProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWProgress.m; sourceTree = "<group>"; };
 		E2C5FFD62994619700B394F4 /* NSArray+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Common.h"; sourceTree = "<group>"; };
@@ -1242,6 +1245,15 @@
 			path = PartitionSchemes;
 			sourceTree = "<group>";
 		};
+		E2B96CDE2B446F2C005E5FD4 /* LegacySetupWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E2B96CDF2B446F48005E5FD4 /* LegacySetupWindow.h */,
+				E2B96CE02B446F48005E5FD4 /* LegacySetupWindow.m */,
+			);
+			path = LegacySetupWindow;
+			sourceTree = "<group>";
+		};
 		E2BEF1462A9B6FAC0083A7AA /* DWProgress */ = {
 			isa = PBXGroup;
 			children = (
@@ -1399,6 +1411,7 @@
 			isa = PBXGroup;
 			children = (
 				E217F47F2A92D85700215AF1 /* ModernWindow (Base) */,
+				E2B96CDE2B446F2C005E5FD4 /* LegacySetupWindow */,
 				E2F2D2B92A93D27800E1B7FF /* AboutWindow */,
 				E213E7802A9FBAA6004643C1 /* MainWindow */,
 			);
@@ -1549,6 +1562,7 @@
 				E2DF0F652A894CAB00339DDB /* x86_cpu_features.c in Sources */,
 				E213E7872AA0B501004643C1 /* WimlibSplitInfo.m in Sources */,
 				E2DF0F662A894CAB00339DDB /* lzms_common.c in Sources */,
+				E2B96CE12B446F48005E5FD4 /* LegacySetupWindow.m in Sources */,
 				E2DF0F672A894CAB00339DDB /* file_io.c in Sources */,
 				E2DF0F682A894CAB00339DDB /* paths.c in Sources */,
 				E2DF0F692A894CAB00339DDB /* inode_table.c in Sources */,

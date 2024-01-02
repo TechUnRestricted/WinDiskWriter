@@ -17,9 +17,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
++ (BOOL)requiresLegacySetupWindowToShow;
+
++ (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray;
+
 + (NSString *)applicationTempFolder;
 
 + (NSString *)applicationTempWimlibSplitFolder;
+
++ (NSString *)applicationTempGrub4DosFolder;
+
++ (NSString *)grub4DosDownloadLinkBase;
+
++ (NSArray<NSString *> *)grub4dosFileNames;
 
 + (void)cleanupTempFolders;
 
