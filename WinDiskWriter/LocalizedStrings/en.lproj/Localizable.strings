@@ -34,7 +34,8 @@
 "MENU_TITLE_MINIMIZE" = "Minimize";
 "MENU_TITLE_WINDOW" = "Window";
 "ALERT_TITLE_NO_WRITABLE_DEVICES" = "No writable devices found.";
-"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Are you sure you want to start?";
+"ALERT_TITLE_PROMPT_START_PROCESS" = "Are you sure you want to start?";
+"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "You will lose all data on the selected device.";
 "PROGRESS_TITLE_READY_FOR_ACTION" = "Ready for action";
 "ALERT_TITLE_STOP_PROCESS" = "Do you want to stop the process?";
 "LABELVIEW_TITLE_TARGET_DEVICE" = "Target Device";

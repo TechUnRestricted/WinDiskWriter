@@ -22,6 +22,8 @@
 #import "LocalizedStrings.h"
 
 #import "SynchronizedAlertData.h"
+#import "NSFileManager+Common.h"
+#import "SimpleDownloadManager.h"
 #import "NSColor+Common.h"
 #import "NSString+Common.h"
 #import "NSError+Common.h"
@@ -30,12 +32,9 @@
 
 #import "DiskManager.h"
 #import "DiskWriter.h"
-#import "HDIUtil.h"
 
 #import "HelperFunctions.h"
 #import "SlideShowedLabelView.h"
-
-#import "ModernWindow.h"
 
 #define WriteExitForce()                \
 [self setEnabledUIState: YES];          \
@@ -482,14 +481,7 @@ WriteExitForce();                     \
                         contextInfo: NULL];
 }
 
-- (void)alertActionStartPromptDidEnd: (NSAlert *)alert
-                          returnCode: (NSInteger)returnCode
-                         contextInfo: (void *)contextInfo {
-    if (returnCode == NSAlertSecondButtonReturn) {
-        [self writeAction];
-    }
-}
-
+// MARK: - Restart as Root -
 - (void)alertActionRestartAsRootDidEnd: (NSAlert *)alert
                             returnCode: (NSInteger)returnCode
                            contextInfo: (void *)contextInfo {
@@ -521,8 +513,51 @@ WriteExitForce();                     \
                         contextInfo: NULL];
 }
 
+// MARK: - Need To Download Grub4Dos -
+- (void)showNeedToDownloadGrub4DosFilesAlert {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Legacy Boot Support"];
+    [alert setInformativeText: @"To enable legacy boot, WinDiskWriter needs to download grub4dos bootloader files.\nGrub4dos is distributed under the GNU General Public License version 2.0."];
+    
+    [alert addButtonWithTitle: @"Continue"];
+    [alert addButtonWithTitle: @"Cancel"];
+    
+    [alert beginSheetModalForWindow: self
+                      modalDelegate: self
+                     didEndSelector: @selector(alertNeedToDownloadGrub4DosFilesDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
+}
+
+- (void)alertNeedToDownloadGrub4DosFilesDidEnd: (NSAlert *)alert
+                                    returnCode: (NSInteger)returnCode
+                                   contextInfo: (void *)contextInfo {
+    if (returnCode == NSAlertSecondButtonReturn) {
+        return;
+    }
+    
+    [self writeAction];
+}
+
+// MARK: - Action Start -
+- (void)alertActionStartPromptDidEnd: (NSAlert *)alert
+                          returnCode: (NSInteger)returnCode
+                         contextInfo: (void *)contextInfo {
+    
+    if (returnCode == NSAlertSecondButtonReturn) {
+        return;
+    }
+    
+    if (installLegacyBootCheckBoxView.state == NSControlStateValueOn && [HelperFunctions requiresLegacyBootloaderFilesDownload]) {
+        [self showNeedToDownloadGrub4DosFilesAlert];
+        return;
+    }
+    
+    [self writeAction];
+}
+
 - (void)startAction {
     NSString *imagePath = [windowsImageInputView.stringValue copy];
+    
     if (imagePath.length == 0) {
         [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleForgotSomething]
                                   subtitle: [LocalizedStrings alertSubtitlePathFieldIsEmpty]
@@ -533,7 +568,7 @@ WriteExitForce();                     \
         
         WriteExitForce();
     }
-    
+
     BOOL imagePathIsDirectory = NO;
     BOOL imageExists = [[NSFileManager defaultManager] fileExistsAtPath: imagePath
                                                             isDirectory: &imagePathIsDirectory];
@@ -548,7 +583,7 @@ WriteExitForce();                     \
         
         WriteExitForce();
     }
-    
+
     if ([devicePickerView numberOfItems] <= 0) {
         [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleNoWritableDevices]
                                   subtitle: [LocalizedStrings alertSubtitlePressUpdateButton]
@@ -561,11 +596,12 @@ WriteExitForce();                     \
     }
     
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: [LocalizedStrings alertSubtitlePromptStartProcess]];
+    [alert setMessageText: [LocalizedStrings alertTitlePromptStartProcess]];
     [alert setInformativeText: [LocalizedStrings alertSubtitlePromptStartProcess]];
-    [alert addButtonWithTitle: [LocalizedStrings buttonTitleCancel]];
+
     [alert addButtonWithTitle: [LocalizedStrings buttonTitleStart]];
-    
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleCancel]];
+
     [alert beginSheetModalForWindow: self
                       modalDelegate: self
                      didEndSelector: @selector(alertActionStartPromptDidEnd:returnCode:contextInfo:)
@@ -600,6 +636,78 @@ WriteExitForce();                     \
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->currentOperationLabelView setStringValue: progressTitle];
     });
+}
+
+- (void)downloadLegacyBootloaderFiles {
+    [self setIsScheduledForStop: NO];
+    [self setEnabledUIState: NO];
+    
+    NSArray<NSString *> *filesNeedToDownload = [HelperFunctions notDownloadedGrub4DosFilesArray];
+    
+    NSString *applicationTempGrub4DosFolder = [HelperFunctions applicationTempGrub4DosFolder];
+    
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    BOOL folderGrub4DosExists = [fileManager folderExistsAtPath: applicationTempGrub4DosFolder];
+    
+    NSString *createTemporaryDirectoryLogString = [NSString stringWithFormat: @"Create grub4dos temporary directory at path: %@", applicationTempGrub4DosFolder];
+    
+    if (!folderGrub4DosExists) {
+        NSError *createFolderError = NULL;
+                
+        [logsView appendRow:createTemporaryDirectoryLogString logType:ASLogTypeStart];
+        
+        [fileManager createDirectoryAtPath: applicationTempGrub4DosFolder
+               withIntermediateDirectories: YES
+                                attributes: NULL
+                                     error: &createFolderError];
+        
+        if (createFolderError != NULL) {
+            NSString *errorString = [NSString stringWithFormat: @"Can't create a temporary directory for grub4dos files. (Error: %@)", createFolderError.stringValue];
+            
+            [logsView appendRow:errorString logType:ASLogTypeFatal];
+            
+            WriteExitForce();
+        }
+        
+        [logsView appendRow:createTemporaryDirectoryLogString logType:ASLogTypeSuccess];
+    }
+    
+    WriteExitConditionally();
+    
+    for (NSString *fileName in filesNeedToDownload) {
+        NSString *sourcePath = [[HelperFunctions grub4DosDownloadLinkBase] stringByAppendingPathComponent: fileName];
+        NSString *destinationPath = [applicationTempGrub4DosFolder stringByAppendingPathComponent: fileName];
+        
+        SimpleDownloadManager *downloadManager = [[SimpleDownloadManager alloc] initWithSourceURL: [NSURL URLWithString: sourcePath]
+                                                                                  destinationPath: destinationPath];
+                
+        [downloadManager downloadFileAsynchronouslyWithCallback: ^BOOL(SDMMessage message, SDMMessageType messageType, UInt64 bytesDownloaded, UInt64 expectedFileSize, NSError * _Nullable error) {
+            
+            if (self.isScheduledForStop) {
+                return NO;
+            }
+            
+            switch (message) {
+                case SDMMessageDownloadDidReceiveResponse:
+                    break;
+                case SDMMessageDownloadDidReceiveData:
+                    break;
+                case SDMMessageDownloadDidFinishLoading:
+                    break;
+                case SDMMessageDownloadDidFailWithError:
+                    break;
+                case SDMMessageFinalAtomicFileWrite:
+                    break;
+            }
+            
+            return YES;
+        }];
+        
+        WriteExitConditionally();
+        
+    }
+    
+    return;
 }
 
 - (void)writeAction {
@@ -642,7 +750,7 @@ WriteExitForce();                     \
     
     NSError *imageMountError = NULL;
     NSString *mountedImagePath = [HelperFunctions windowsSourceMountPath: windowsImageInputView.stringValue
-                                                                      error: &imageMountError];
+                                                                   error: &imageMountError];
     if (imageMountError != NULL) {
         NSString *errorSubtitle = imageMountError.stringValue;
         NSString *logText = [NSString stringWithFormat:@"%@ (%@)", [LocalizedStrings alertTitleImageVerificationError], errorSubtitle];
@@ -692,20 +800,20 @@ WriteExitForce();                     \
     
     BOOL patchInstallerRequirements = patchInstallerRequirementsCheckboxView.state == NSOnState;
     BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
-    
-    NSString *diskEraseOperationText = [LocalizedStrings logviewRowTitleDiskEraseOperationOptionsWithArgument1: destinationSavedDiskInfo.BSDName
-                                                                                                     argument2: destinationSavedDiskInfo.deviceVendor
-                                                                                                     argument3: destinationSavedDiskInfo.deviceModel
-                                                                                                     argument4: newPartitionName
-                                                                                                     argument5: selectedPartitionScheme
-                                                                                                     argument6: selectedFileSystem
-                                                                                                     argument7: patchInstallerRequirements
-                                                                                                     argument8: installLegacyBoot];
-    
-    [logsView appendRow: diskEraseOperationText
-                logType: ASLogTypeLog];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *diskEraseOperationText = [LocalizedStrings logviewRowTitleDiskEraseOperationOptionsWithArgument1: destinationSavedDiskInfo.BSDName
+                                                                                                         argument2: destinationSavedDiskInfo.deviceVendor
+                                                                                                         argument3: destinationSavedDiskInfo.deviceModel
+                                                                                                         argument4: newPartitionName
+                                                                                                         argument5: selectedPartitionScheme
+                                                                                                         argument6: selectedFileSystem
+                                                                                                         argument7: patchInstallerRequirements
+                                                                                                         argument8: installLegacyBoot];
+        
+        [self->logsView appendRow: diskEraseOperationText
+                    logType: ASLogTypeLog];
+        
         [self setCurrentProgressTitle: [LocalizedStrings progressTitleFormattingTheDrive]];
         
         NSError *diskEraseError = NULL;

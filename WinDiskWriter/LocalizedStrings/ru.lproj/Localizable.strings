@@ -34,7 +34,7 @@
 "MENU_TITLE_MINIMIZE" = "Свернуть";
 "MENU_TITLE_WINDOW" = "Окно";
 "ALERT_TITLE_NO_WRITABLE_DEVICES" = "Не найдено доступных для записи устройств.";
-"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Вы уверены, что хотите начать?";
+"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Вы потеряете все данные на выбранном устройстве.";
 "PROGRESS_TITLE_READY_FOR_ACTION" = "Можно начать запись";
 "ALERT_TITLE_STOP_PROCESS" = "Вы хотите остановить процесс?";
 "LABELVIEW_TITLE_TARGET_DEVICE" = "Устройство назначения";
@@ -131,3 +131,4 @@
 "ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файл (директория) '%@' не существует.";
 "MENU_TITLE_ITEM_DEBUG" = "Отладка";
 "MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Сканировать все полные диски";
+"ALERT_TITLE_PROMPT_START_PROCESS" = "Вы уверены, что хотите начать запись?";

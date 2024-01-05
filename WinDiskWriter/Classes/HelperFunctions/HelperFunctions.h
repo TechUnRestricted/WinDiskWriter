@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (BOOL)requiresLegacySetupWindowToShow;
++ (BOOL)requiresLegacyBootloaderFilesDownload;
 
 + (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray;
 

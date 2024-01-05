@@ -121,6 +121,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)alertTitleNoWritableDevices;
 
 /// @brief Are you sure you want to start?
++ (NSString *)alertTitlePromptStartProcess;
+
+/// @brief You will lose all data on the selected device.
 + (NSString *)alertSubtitlePromptStartProcess;
 
 /// @brief Ready for action
@@ -213,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief Stop Writing
 + (NSString *)alertButtonTitleStopWriting;
 
-/// @brief Can't retrieve the information from the command line error output pipe.
+/// @brief Skip File
 + (NSString *)alertButtonTitleSkipFile;
 
 /// @brief Clearing the device picker list.

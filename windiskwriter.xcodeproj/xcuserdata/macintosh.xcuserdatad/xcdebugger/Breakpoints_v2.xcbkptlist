@@ -622,8 +622,8 @@
             filePath = "WinDiskWriter/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "801"
-            endingLineNumber = "801"
+            startingLineNumber = "909"
+            endingLineNumber = "909"
             landmarkName = "-writeAction"
             landmarkType = "7">
          </BreakpointContent>
@@ -638,8 +638,8 @@
             filePath = "WinDiskWriter/Windows/MainWindow/MainWindow.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "812"
-            endingLineNumber = "812"
+            startingLineNumber = "920"
+            endingLineNumber = "920"
             landmarkName = "-writeAction"
             landmarkType = "7">
          </BreakpointContent>

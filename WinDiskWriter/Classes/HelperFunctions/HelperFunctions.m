@@ -43,7 +43,7 @@ static void initializeStaticVariables() {
     ];
 }
 
-+ (BOOL)requiresLegacySetupWindowToShow {
++ (BOOL)requiresLegacyBootloaderFilesDownload {
     return [self notDownloadedGrub4DosFilesArray].count > 0;
 }
 

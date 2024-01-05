@@ -154,6 +154,10 @@
     return NSLocalizedString(@"ALERT_TITLE_NO_WRITABLE_DEVICES", NULL);
 }
 
++ (NSString *)alertTitlePromptStartProcess {
+    return NSLocalizedString(@"ALERT_TITLE_PROMPT_START_PROCESS", NULL);
+}
+
 + (NSString *)alertSubtitlePromptStartProcess {
     return NSLocalizedString(@"ALERT_SUBTITLE_PROMPT_START_PROCESS", NULL);
 }
