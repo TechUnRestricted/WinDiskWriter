@@ -638,13 +638,10 @@ WriteExitForce();                     \
     });
 }
 
-- (void)downloadLegacyBootloaderFiles {
-    [self setIsScheduledForStop: NO];
-    [self setEnabledUIState: NO];
-    
+- (BOOL)downloadLegacyBootloaderFiles {
     NSArray<NSString *> *filesNeedToDownload = [HelperFunctions notDownloadedGrub4DosFilesArray];
     
-    NSString *applicationTempGrub4DosFolder = [HelperFunctions applicationTempGrub4DosFolder];
+    NSString *applicationTempGrub4DosFolder = [HelperFunctions applicationGrub4DosFolder];
     
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     BOOL folderGrub4DosExists = [fileManager folderExistsAtPath: applicationTempGrub4DosFolder];
@@ -662,52 +659,104 @@ WriteExitForce();                     \
                                      error: &createFolderError];
         
         if (createFolderError != NULL) {
-            NSString *errorString = [NSString stringWithFormat: @"Can't create a temporary directory for grub4dos files. (Error: %@)", createFolderError.stringValue];
+            NSString *errorString = [NSString stringWithFormat: @"Can't create a directory for grub4dos files. (Error: %@)", createFolderError.stringValue];
             
             [logsView appendRow:errorString logType:ASLogTypeFatal];
             
-            WriteExitForce();
         }
         
         [logsView appendRow:createTemporaryDirectoryLogString logType:ASLogTypeSuccess];
     }
     
-    WriteExitConditionally();
+    
     
     for (NSString *fileName in filesNeedToDownload) {
         NSString *sourcePath = [[HelperFunctions grub4DosDownloadLinkBase] stringByAppendingPathComponent: fileName];
         NSString *destinationPath = [applicationTempGrub4DosFolder stringByAppendingPathComponent: fileName];
         
         SimpleDownloadManager *downloadManager = [[SimpleDownloadManager alloc] initWithSourceURL: [NSURL URLWithString: sourcePath]
-                                                                                  destinationPath: destinationPath];
-                
-        [downloadManager downloadFileAsynchronouslyWithCallback: ^BOOL(SDMMessage message, SDMMessageType messageType, UInt64 bytesDownloaded, UInt64 expectedFileSize, NSError * _Nullable error) {
-            
-            if (self.isScheduledForStop) {
-                return NO;
-            }
-            
+                                                                                  destinationPath: destinationPath
+                                                                                temporaryFilePath: @""];
+        
+        [downloadManager downloadFileSynchronouslyWithCallback: ^BOOL(SDMMessage message, SDMMessageType messageType, void * _Nonnull SDMCallbackStruct, NSError * _Nullable error) {
+           
             switch (message) {
-                case SDMMessageDownloadDidReceiveResponse:
+                case SDMMessageDidReceiveResponse: {
+                    SDMCallbackStructDidReceiveResponse *castedCallbackStruct = SDMCallbackStruct;
+                    NSURLResponse *urlResponse = castedCallbackStruct->urlResponse;
+                    
+                    NSString *operationName = @"[SDMMessageDownloadDidReceiveResponse]";
+                    
+                    NSString *logString = [NSString stringWithFormat: @"%@ -> [URL: '%@', Expected Content Length: '%@']",
+                                           operationName,
+                                           urlResponse.URL,
+                                           [HelperFunctions unitFormattedSizeFor: urlResponse.expectedContentLength]
+                    ];
+                    
+                    [self->logsView appendRow:logString logType:ASLogTypeLog];
+                    
                     break;
-                case SDMMessageDownloadDidReceiveData:
+                }
+                case SDMMessageDidReceiveData: {
+                    SDMCallbackStructDidReceiveData *castedCallbackStruct = SDMCallbackStruct;
+                    NSData *data = castedCallbackStruct->data;
+                    UInt64 downloadedBytesSize = castedCallbackStruct->downloadedBytesSize;
+                    UInt64 chunkNumber = castedCallbackStruct->chunkNumber;
+                    
+                    NSString *operationName = @"[SDMMessageDownloadDidReceiveData]";
+                    
+                    NSString *logString = [NSString stringWithFormat: @"%@ -> [Chunk Size: '%@', Total Bytes Downloaded: '%@', Chunk Number: '%lld']",
+                                           operationName,
+                                           [HelperFunctions unitFormattedSizeFor: data.length],
+                                           [HelperFunctions unitFormattedSizeFor: downloadedBytesSize],
+                                           chunkNumber
+                    ];
+       
+                    [self->logsView appendRow:logString logType:ASLogTypeLog];
+                    
                     break;
-                case SDMMessageDownloadDidFinishLoading:
+                }
+                case SDMMessageDidFinishLoading: {
+                    SDMCallbackStructDidFinishLoading *castedCallbackStruct = SDMCallbackStruct;
+                    UInt64 downloadedBytesSize = castedCallbackStruct->downloadedBytesSize;
+                    UInt64 expectedFileSize = castedCallbackStruct->expectedFileSize;
+                    
+                    NSString *operationName = @"[SDMMessageDidFinishLoading]";
+
+                    NSString *logString = [NSString stringWithFormat: @"%@ -> [Total Bytes Downloaded: '%@', Expected File Size: '%@']",
+                                           operationName,
+                                           [HelperFunctions unitFormattedSizeFor: downloadedBytesSize],
+                                           [HelperFunctions unitFormattedSizeFor: expectedFileSize]
+                    ];
+                    
+                    [self->logsView appendRow:logString logType:ASLogTypeLog];
+                    
                     break;
-                case SDMMessageDownloadDidFailWithError:
+                }
+                case SDMMessageDidFailWithError: {
+                    SDMCallbackStructDidFailWithError *castedCallbackStruct = SDMCallbackStruct;
+                    NSURLRequest *urlRequest = castedCallbackStruct->urlRequest;
+                    
+                    NSString *operationName = @"[SDMMessageDidFailWithError]";
+                    NSString *logString = [NSString stringWithFormat: @"%@ -> [URL: %@]",
+                                           operationName,
+                                           urlRequest.URL
+                    ];
+                    
+                    [self->logsView appendRow:logString logType:ASLogTypeLog];
+
                     break;
-                case SDMMessageFinalAtomicFileWrite:
-                    break;
+                }
             }
             
             return YES;
         }];
         
-        WriteExitConditionally();
+        
         
     }
     
-    return;
+    return YES;
 }
 
 - (void)writeAction {

@@ -25,7 +25,6 @@
 		E24364E22A72CCE600541719 /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24364E02A72CCE600541719 /* TextInputView.m */; };
 		E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E248D8622B2B79BD00ACB361 /* Localizable.strings */; };
 		E249FBA72A5B1A96003B8D24 /* FrameLayoutVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = E249FBA62A5B1A96003B8D24 /* FrameLayoutVertical.m */; };
-		E274421D2B437D3600616740 /* SimpleDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E274421C2B437D3600616740 /* SimpleDownloadManager.m */; };
 		E27879802B28506400206720 /* LocalizedStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = E278797F2B28506400206720 /* LocalizedStrings.m */; };
 		E27FF6602AAA2C1500C0356F /* DiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E27FF65E2AAA2C1500C0356F /* DiskInfo.m */; };
 		E28425712B1F3FE600EC4A4D /* SlideShowedLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28425702B1F3FE600EC4A4D /* SlideShowedLabelView.m */; };
@@ -35,6 +34,7 @@
 		E2C73B422A857C2D008B9FAC /* VibrantTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C73B412A857C2D008B9FAC /* VibrantTextView.m */; };
 		E2CCCD872A3A11EE00D101DE /* FrameLayoutBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */; };
 		E2CCCD8E2A3A476700D101DE /* FrameLayoutElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */; };
+		E2DC02B52B4958C200642B99 /* SimpleDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DC02B42B4958C200642B99 /* SimpleDownloadManager.m */; };
 		E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28A2983E5F2004EE171 /* NSString+Common.m */; };
 		E2DF0F5A2A894CAB00339DDB /* write.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A662986FA1D000B24A1 /* write.c */; };
 		E2DF0F5B2A894CAB00339DDB /* dentry.c in Sources */ = {isa = PBXBuildFile; fileRef = E2247A6E2986FA1D000B24A1 /* dentry.c */; };
@@ -321,8 +321,6 @@
 		E249FBA92A5B263E003B8D24 /* FrameLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayout.h; sourceTree = "<group>"; };
 		E250F6D129A4F4D0003BBF7D /* DWFilesContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWFilesContainer.h; sourceTree = "<group>"; };
 		E250F6D229A4F4D0003BBF7D /* DWFilesContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWFilesContainer.m; sourceTree = "<group>"; };
-		E274421B2B437D3600616740 /* SimpleDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleDownloadManager.h; sourceTree = "<group>"; };
-		E274421C2B437D3600616740 /* SimpleDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleDownloadManager.m; sourceTree = "<group>"; };
 		E278797E2B28506400206720 /* LocalizedStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		E278797F2B28506400206720 /* LocalizedStrings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalizedStrings.m; sourceTree = "<group>"; };
 		E27FF65D2AAA2C1500C0356F /* DiskInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskInfo.h; sourceTree = "<group>"; };
@@ -362,6 +360,8 @@
 		E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutBase.m; sourceTree = "<group>"; };
 		E2CCCD8C2A3A476700D101DE /* FrameLayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutElement.h; sourceTree = "<group>"; };
 		E2CCCD8D2A3A476700D101DE /* FrameLayoutElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutElement.m; sourceTree = "<group>"; };
+		E2DC02B32B4958C200642B99 /* SimpleDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleDownloadManager.h; sourceTree = "<group>"; };
+		E2DC02B42B4958C200642B99 /* SimpleDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleDownloadManager.m; sourceTree = "<group>"; };
 		E2DF0FB42A8C1F2400339DDB /* ProgressBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
 		E2DF0FB52A8C1F2400339DDB /* ProgressBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
 		E2DF0FB72A8ECA0400339DDB /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
@@ -1146,8 +1146,8 @@
 		E274421A2B437D3600616740 /* SimpleDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
-				E274421B2B437D3600616740 /* SimpleDownloadManager.h */,
-				E274421C2B437D3600616740 /* SimpleDownloadManager.m */,
+				E2DC02B32B4958C200642B99 /* SimpleDownloadManager.h */,
+				E2DC02B42B4958C200642B99 /* SimpleDownloadManager.m */,
 			);
 			path = SimpleDownloadManager;
 			sourceTree = "<group>";
@@ -1609,7 +1609,6 @@
 				E2DF0F982A894CAB00339DDB /* compress_parallel.c in Sources */,
 				E2DF0F992A894CAB00339DDB /* inode_fixup.c in Sources */,
 				E2DF0F9A2A894CAB00339DDB /* win32_capture.c in Sources */,
-				E274421D2B437D3600616740 /* SimpleDownloadManager.m in Sources */,
 				E2DF0F9B2A894CAB00339DDB /* delete_image.c in Sources */,
 				E2DF0F9C2A894CAB00339DDB /* metadata_resource.c in Sources */,
 				E2DF0F9D2A894CAB00339DDB /* iterate_dir.c in Sources */,
@@ -1628,6 +1627,7 @@
 				E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */,
 				E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */,
 				E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */,
+				E2DC02B52B4958C200642B99 /* SimpleDownloadManager.m in Sources */,
 				E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */,
 				E2DF0F592A89263100339DDB /* NSString+Common.m in Sources */,
 				E23298B22A37C1FC00869736 /* main.m in Sources */,

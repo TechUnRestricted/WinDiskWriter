@@ -9,26 +9,48 @@
 #import "NSError+Common.h"
 
 @implementation SimpleDownloadManager {
-    NSURLRequest *urlRequest;
+    NSMutableURLRequest *urlRequest;
     NSURLConnection *urlConnection;
     
     DownloadCompletionHandler callback;
+    NSFileHandle *temporaryStorageFileHandle;
+    NSFileManager *fileManager;
     
     UInt64 expectedFileSize;
+    UInt64 chunkNumber;
+    UInt64 downloadedBytesSize;
     
-    NSMutableData *mutableData;
+    CFRunLoopRef currentRunLoop;
 }
 
 - (instancetype)initWithSourceURL: (NSURL *)sourceURL
-                  destinationPath: (NSString *)destinationPath {
+                  destinationPath: (NSString *)destinationPath
+                temporaryFilePath: (NSString *)temporaryFilePath {
     self = [super init];
     
     _sourceURL = sourceURL;
     _destinationPath = destinationPath;
+    _temporaryFilePath = temporaryFilePath;
     
-    urlRequest = [NSURLRequest requestWithURL: sourceURL
-                                  cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                              timeoutInterval: 30];
+    fileManager = [[NSFileManager alloc] init];
+    
+    _forbidUnknownResponseLength = YES;
+    _forbidIncorrectStatusCode = YES;
+    
+    urlRequest = [[NSMutableURLRequest alloc] init];
+    [urlRequest setURL: sourceURL];
+    [urlRequest setTimeoutInterval: 15];
+    [urlRequest setCachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    [urlRequest setHTTPShouldHandleCookies: NO];
+    
+    if (@available(macOS 10.8, *)) {
+        [urlRequest setAllowsCellularAccess: YES];
+    }
+    
+    if (@available(macOS 10.15, *)) {
+        [urlRequest setAllowsExpensiveNetworkAccess: YES];
+        [urlRequest setAllowsConstrainedNetworkAccess: YES];
+    }
     
     urlConnection = [[NSURLConnection alloc] initWithRequest: urlRequest
                                                     delegate: self
@@ -37,13 +59,68 @@
     return self;
 }
 
-- (void)downloadFileAsynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference {
+- (void)downloadFileSynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference {
     expectedFileSize = 0;
-    mutableData = [[NSMutableData alloc] init];
+    chunkNumber = 0;
+    downloadedBytesSize = 0;
     
     callback = callbackReference;
     
+    currentRunLoop = CFRunLoopGetCurrent();
+    
+    SDMCallbackStructDidFailWithError callbackStruct; {
+        callbackStruct.urlRequest = urlRequest;
+    }
+    
+    for (NSString *outputFilePath in @[self.destinationPath, self.temporaryFilePath]) {
+        BOOL fileExists = [fileManager fileExistsAtPath: outputFilePath];
+        
+        if (!fileExists) {
+            continue;
+        }
+        
+        NSError *fileRemoveError = NULL;
+        
+        [fileManager removeItemAtPath: outputFilePath
+                                error: &fileRemoveError];
+        
+        if (fileRemoveError != NULL) {
+            callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, fileRemoveError);
+            
+            return;
+        }
+    }
+    
+    
+    {
+        BOOL fileCreateSuccess = [fileManager createFileAtPath: self.temporaryFilePath
+                                                      contents: NULL
+                                                    attributes: NULL];
+        
+        
+        if (!fileCreateSuccess) {
+            NSString *fileCreateErrorString = [NSString stringWithFormat: @"Can't create a blank file for storing a file in a temporary directory: %@", self.temporaryFilePath];
+            NSError *fileCreateError = [NSError errorWithStringValue: fileCreateErrorString];
+            
+            callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, fileCreateError);
+            
+            return;
+        }
+    }
+    
+    temporaryStorageFileHandle = [NSFileHandle fileHandleForWritingAtPath: self.temporaryFilePath];
+    if (temporaryStorageFileHandle == NULL) {
+        NSString *errorString = [NSString stringWithFormat: @"Can't open file handle for temporary file path: '%@'.", self.temporaryFilePath];
+        NSError *openFileHandleError = [NSError errorWithStringValue: errorString];
+        
+        callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, openFileHandleError);
+
+        return;
+    }
+    
     [urlConnection start];
+    
+    CFRunLoopRun();
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
@@ -60,10 +137,15 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     expectedFileSize = [response expectedContentLength];
     
-    if (expectedFileSize == NSURLResponseUnknownLength) {
+    SDMCallbackStructDidReceiveResponse callbackStruct; {
+        callbackStruct.urlRequest = urlRequest;
+        callbackStruct.urlResponse = response;
+    }
+    
+    if (self.forbidUnknownResponseLength && expectedFileSize == NSURLResponseUnknownLength) {
         NSError *responseUnknownLengthError = [NSError errorWithStringValue: @"NSURLConnection Response length is unknown."];
         
-        callback(SDMMessageDownloadDidReceiveResponse, SDMMessageTypeFailure, 0, expectedFileSize, responseUnknownLengthError);
+        callback(SDMMessageDidReceiveResponse, SDMMessageTypeFailure, &callbackStruct, responseUnknownLengthError);
         
         [self abortWithCleanup];
         return;
@@ -73,26 +155,45 @@
     NSInteger statusCode = httpResponse.statusCode;
     
     BOOL hasCorrectStatusCode = (statusCode == 200);
-    if (!hasCorrectStatusCode) {
+    if (self.forbidIncorrectStatusCode && !hasCorrectStatusCode) {
         NSError *incorrectStatusCodeError = [NSError errorWithStringValue: [NSString stringWithFormat: @"HTTP Response has incorrect status status code: %ld.", statusCode]];
         
-        callback(SDMMessageDownloadDidReceiveResponse, SDMMessageTypeFailure, 0, expectedFileSize, incorrectStatusCodeError);
+        callback(SDMMessageDidReceiveResponse, SDMMessageTypeFailure, &callbackStruct, incorrectStatusCodeError);
         
         [self abortWithCleanup];
         
         return;
     }
     
-    BOOL shouldContinue = callback(SDMMessageDownloadDidReceiveResponse, SDMMessageTypeSuccess, 0, expectedFileSize, NULL);
+    BOOL shouldContinue = callback(SDMMessageDidReceiveResponse, SDMMessageTypeSuccess, &callbackStruct, NULL);
     if (!shouldContinue) {
         [self abortWithCleanup];
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [mutableData appendData: data];
+    SDMCallbackStructDidReceiveData callbackStruct; {
+        callbackStruct.data = data;
+        callbackStruct.expectedFileSize = expectedFileSize;
+        callbackStruct.chunkNumber = ++chunkNumber;
+        callbackStruct.downloadedBytesSize = (downloadedBytesSize += data.length);
+    }
     
-    if (!callback(SDMMessageDownloadDidReceiveData, SDMMessageTypeSuccess, mutableData.length, expectedFileSize, NULL)) {
+    NSError *fileHandleWriteError = NULL;
+    if (@available(macOS 10.15, *)) {
+        [temporaryStorageFileHandle writeData: data
+                                        error: &fileHandleWriteError];
+    } else {
+        @try {
+            [temporaryStorageFileHandle writeData: data];
+        } @catch (NSException *exception) {
+            fileHandleWriteError = [NSError errorWithStringValue: exception.reason];
+        }
+    }
+    
+    BOOL shouldContinue = callback(SDMMessageDidReceiveData, (fileHandleWriteError == NULL ? SDMMessageTypeSuccess : SDMMessageTypeFailure), &callbackStruct, fileHandleWriteError);
+    
+    if (fileHandleWriteError != NULL || !shouldContinue) {
         [self abortWithCleanup];
         
         return;
@@ -100,42 +201,52 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    callback(SDMMessageDownloadDidFailWithError, SDMMessageTypeFailure, mutableData.length, expectedFileSize, error);
+    SDMCallbackStructDidFailWithError callbackStruct; {
+        callbackStruct.urlRequest = urlRequest;
+    }
+    
+    callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, error);
+    
+    [self stopRunLoop];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSUInteger mutableDataLength = mutableData.length;
-    
-    {
-        BOOL shouldContinue = callback(SDMMessageDownloadDidFinishLoading, SDMMessageTypeSuccess, mutableDataLength, expectedFileSize, NULL);
-        if (!shouldContinue) {
-            return;
-        }
+    SDMCallbackStructDidFinishLoading callbackStruct; {
+        callbackStruct.downloadedBytesSize = downloadedBytesSize;
+        callbackStruct.expectedFileSize = expectedFileSize;
     }
     
-    {
-        BOOL shouldContinue = callback(SDMMessageFinalAtomicFileWrite, SDMMessageTypeProcess, mutableDataLength, expectedFileSize, NULL);
-        if (!shouldContinue) {
-            return;
-        }
-    }
+    NSError *moveFromTemporaryFolderError = NULL;
     
-    NSError *atomicWriteError = NULL;
-    BOOL atomicWriteSuccessful = [mutableData writeToFile: self.destinationPath
-                                                  options: NSDataWritingAtomic
-                                                    error: &atomicWriteError];
+    [fileManager moveItemAtPath: self.temporaryFilePath
+                         toPath: self.destinationPath
+                          error: &moveFromTemporaryFolderError];
     
-    callback(SDMMessageFinalAtomicFileWrite, (atomicWriteSuccessful ? SDMMessageTypeSuccess : SDMMessageTypeFailure), mutableDataLength, expectedFileSize, atomicWriteError);
+    callback(SDMMessageDidFinishLoading, (moveFromTemporaryFolderError == NULL ? SDMMessageTypeSuccess : SDMMessageTypeFailure), &callbackStruct, moveFromTemporaryFolderError);
+    
+    [self stopRunLoop];
 }
 
 - (void)abortWithCleanup {
     [urlConnection cancel];
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath: self.temporaryFilePath]) {
+        [fileManager removeItemAtPath: self.temporaryFilePath
+                                error: NULL];
+    }
+    
     if ([fileManager fileExistsAtPath: self.destinationPath]) {
         [fileManager removeItemAtPath: self.destinationPath
                                 error: NULL];
     }
+    
+    [self stopRunLoop];
+}
+
+- (void)stopRunLoop {
+    CFRunLoopStop(currentRunLoop);
+    
+    printf("Stopping RunLoop\n");
 }
 
 @end

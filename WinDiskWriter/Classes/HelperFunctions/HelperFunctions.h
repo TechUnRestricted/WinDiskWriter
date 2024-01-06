@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)applicationTempFolder;
 
-+ (NSString *)applicationTempWimlibSplitFolder;
++ (NSString *)applicationWimlibSplitFolder;
 
-+ (NSString *)applicationTempGrub4DosFolder;
++ (NSString *)applicationGrub4DosFolder;
 
 + (NSString *)grub4DosDownloadLinkBase;
 

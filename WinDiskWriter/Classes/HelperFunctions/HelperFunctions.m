@@ -72,11 +72,11 @@ static void initializeStaticVariables() {
     return applicationTempFolder;
 }
 
-+ (NSString *)applicationTempWimlibSplitFolder {
++ (NSString *)applicationWimlibSplitFolder {
     return applicationTempWimlibSplitFolder;
 }
 
-+ (NSString *)applicationTempGrub4DosFolder {
++ (NSString *)applicationGrub4DosFolder {
     return applicationTempGrub4DosFolder;
 }
 
