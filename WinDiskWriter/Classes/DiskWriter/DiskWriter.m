@@ -52,29 +52,22 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
     return self;
 }
 
-+ (NSString *)bootloaderMBRFilePath {
-    return [[NSBundle mainBundle] pathForResource: @"grldr"
-                                           ofType: @"mbr"
-                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
-    
++ (NSString *)bootloaderGrldrMBRFilePath {
+    return [[HelperFunctions applicationGrub4DosFolder] stringByAppendingPathComponent: @"grldr.mbr"];
 }
 
 + (NSString *)bootloaderGrldrFilePath {
-    return [[NSBundle mainBundle] pathForResource: @"grldr"
-                                           ofType: NULL
-                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
+    return [[HelperFunctions applicationGrub4DosFolder] stringByAppendingPathComponent: @"grldr"];
 }
 
-+ (NSString *)bootloaderMenuFilePath {
-    return [[NSBundle mainBundle] pathForResource: @"menu"
-                                           ofType: @"lst"
-                                      inDirectory: BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME];
++ (NSString *)bootloaderMenuLstFilePath {
+    return [[HelperFunctions applicationGrub4DosFolder] stringByAppendingPathComponent: @"menu.lst"];
 }
 
 - (BOOL)writeLegacyBootSectorWithError: (NSError **)error {
-    NSString *bootloaderMBRFilePath = [DiskWriter bootloaderMBRFilePath];
+    NSString *bootloaderMBRFilePath = [DiskWriter bootloaderGrldrMBRFilePath];
     NSString *bootloaderGrldrFilePath = [DiskWriter bootloaderGrldrFilePath];
-    NSString *bootloaderMenuFilePath = [DiskWriter bootloaderMenuFilePath];
+    NSString *bootloaderMenuFilePath = [DiskWriter bootloaderMenuLstFilePath];
 
     DiskInfo *destinationDiskInfo = [self.destinationDiskManager diskInfo];
     NSString *bsdFullPath = [destinationDiskInfo BSDFullPath];
@@ -415,7 +408,10 @@ goto cleanup;                                                                   
             NSString *randomFolderName = [NSString stringWithFormat:@"install-image-%@", [HelperFunctions randomStringWithLength:10]];
             
             // Defining the path to the temporary location for the Windows Install Image on the system drive.
-            tempDirectory = [NSString pathWithComponents:@[HelperFunctions.applicationTempWimlibSplitFolder, randomFolderName]];
+            tempDirectory = [NSString pathWithComponents: @[
+                [HelperFunctions applicationTempFolder],
+                randomFolderName
+            ]];
             
             CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeCreateDirectory, DWOperationResultStart, NULL);
             
@@ -536,9 +532,13 @@ goto cleanup;                                                                   
     
     operationWasSuccessful = YES;
     
-cleanup:
-    [HelperFunctions cleanupTempFolders];
-    
+cleanup: {
+    BOOL wimLibTempDirectoryExists = [localFileManager fileExistsAtPath: tempDirectory];
+    if (wimLibTempDirectoryExists) {
+        [localFileManager removeItemAtPath: tempDirectory
+                                     error: NULL];
+    }
+}
     return operationWasSuccessful;
 }
 

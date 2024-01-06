@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray;
 
-+ (NSString *)applicationTempFolder;
++ (NSString *)applicationFilesFolder;
 
-+ (NSString *)applicationWimlibSplitFolder;
++ (NSString *)applicationTempFolder;
 
 + (NSString *)applicationGrub4DosFolder;
 

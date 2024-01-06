@@ -57,7 +57,7 @@ typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DW
 - (BOOL)startWritingWithError: (NSError **)error
              progressCallback: (ChainedCallbackAction)progressCallback;
 
-+ (NSString *)bootloaderMBRFilePath;
++ (NSString *)bootloaderGrldrMBRFilePath;
 + (NSString *)bootloaderGrldrFilePath;
 
 NS_ASSUME_NONNULL_END

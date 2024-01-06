@@ -20,23 +20,29 @@ NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789"
 
 @implementation HelperFunctions
 
+static NSString *applicationFilesFolder;
 static NSString *applicationTempFolder;
-static NSString *applicationTempWimlibSplitFolder;
 
-static NSString *applicationTempGrub4DosFolder;
+static NSString *applicationGrub4DosFolder;
 
 static NSArray<NSString *> *grub4dosFileNames;
 
 __attribute__((constructor))
 static void initializeStaticVariables() {
-    applicationTempFolder = [NSString pathWithComponents: @[
+    applicationFilesFolder = [NSString pathWithComponents: @[
         NSTemporaryDirectory(),
         @"WinDiskWriter"
     ]];
     
-    applicationTempWimlibSplitFolder = [applicationTempFolder stringByAppendingPathComponent: @"wimlib-split"];
+    applicationTempFolder = [NSString pathWithComponents: @[
+        applicationFilesFolder,
+        @"temporary-files"
+    ]];
     
-    applicationTempGrub4DosFolder = [applicationTempFolder stringByAppendingPathComponent: @"grub4dos"];
+    applicationGrub4DosFolder = [NSString pathWithComponents: @[
+        applicationFilesFolder,
+        @"gru4dos"
+    ]];
     
     grub4dosFileNames = @[
         @"grldr", @"grldr.mbr", @"menu.lst"
@@ -50,14 +56,14 @@ static void initializeStaticVariables() {
 + (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
-    BOOL baseFolderExists = [fileManager folderExistsAtPath: applicationTempGrub4DosFolder];
+    BOOL baseFolderExists = [fileManager folderExistsAtPath: applicationGrub4DosFolder];
     if (!baseFolderExists) {
         return grub4dosFileNames;
     }
     
     NSMutableArray *missingBootloaderFiles = [[NSMutableArray alloc] init];
     for (NSString *fileName in grub4dosFileNames) {
-        NSString *pathToFile = [applicationTempGrub4DosFolder stringByAppendingPathComponent: fileName];
+        NSString *pathToFile = [applicationGrub4DosFolder stringByAppendingPathComponent: fileName];
         
         BOOL fileExists = [fileManager fileExistsAtPathAndNotAFolder: pathToFile];
         if (!fileExists) {
@@ -68,16 +74,16 @@ static void initializeStaticVariables() {
     return missingBootloaderFiles;
 }
 
++ (NSString *)applicationFilesFolder {
+    return applicationFilesFolder;
+}
+
 + (NSString *)applicationTempFolder {
     return applicationTempFolder;
 }
 
-+ (NSString *)applicationWimlibSplitFolder {
-    return applicationTempWimlibSplitFolder;
-}
-
 + (NSString *)applicationGrub4DosFolder {
-    return applicationTempGrub4DosFolder;
+    return applicationGrub4DosFolder;
 }
 
 + (NSString *)grub4DosDownloadLinkBase {
@@ -95,9 +101,9 @@ static void initializeStaticVariables() {
 + (void)cleanupTempFolders {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    BOOL folderExists = [fileManager fileExistsAtPath: applicationTempWimlibSplitFolder];
+    BOOL folderExists = [fileManager fileExistsAtPath: applicationTempFolder];
     if (folderExists) {
-        [fileManager removeItemAtPath: applicationTempWimlibSplitFolder
+        [fileManager removeItemAtPath: applicationTempFolder
                                 error: NULL];
     }
 }

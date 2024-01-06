@@ -53,7 +53,7 @@ typedef BOOL (^DownloadCompletionHandler) (SDMMessage message, SDMMessageType me
                   destinationPath: (NSString *)destinationPath
                 temporaryFilePath: (NSString *)temporaryFilePath;
 
-- (void)downloadFileSynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference;
+- (BOOL)downloadFileSynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference;
 
 @property (readonly, copy, nonatomic) NSURL *sourceURL;
 @property (readonly, copy, nonatomic) NSString *destinationPath;

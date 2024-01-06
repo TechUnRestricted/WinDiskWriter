@@ -639,47 +639,57 @@ WriteExitForce();                     \
 }
 
 - (BOOL)downloadLegacyBootloaderFiles {
-    NSArray<NSString *> *filesNeedToDownload = [HelperFunctions notDownloadedGrub4DosFilesArray];
-    
-    NSString *applicationTempGrub4DosFolder = [HelperFunctions applicationGrub4DosFolder];
-    
     NSFileManager *fileManager = [[NSFileManager alloc] init];
-    BOOL folderGrub4DosExists = [fileManager folderExistsAtPath: applicationTempGrub4DosFolder];
     
-    NSString *createTemporaryDirectoryLogString = [NSString stringWithFormat: @"Create grub4dos temporary directory at path: %@", applicationTempGrub4DosFolder];
+    NSArray<NSString *> *filesNeedToDownload = [HelperFunctions notDownloadedGrub4DosFilesArray];
+   
+    NSString *applicationGrub4DosFolder = [HelperFunctions applicationGrub4DosFolder];
     
-    if (!folderGrub4DosExists) {
-        NSError *createFolderError = NULL;
-                
-        [logsView appendRow:createTemporaryDirectoryLogString logType:ASLogTypeStart];
-        
-        [fileManager createDirectoryAtPath: applicationTempGrub4DosFolder
-               withIntermediateDirectories: YES
-                                attributes: NULL
-                                     error: &createFolderError];
-        
-        if (createFolderError != NULL) {
-            NSString *errorString = [NSString stringWithFormat: @"Can't create a directory for grub4dos files. (Error: %@)", createFolderError.stringValue];
-            
-            [logsView appendRow:errorString logType:ASLogTypeFatal];
-            
+    NSString *temporaryDirectoryPathForAtomicMoving = [NSString pathWithComponents: @[
+        [HelperFunctions applicationTempFolder],
+        [NSString stringWithFormat: @"grub4dos-atomic-%@", [HelperFunctions randomStringWithLength: 8]]
+    ]];
+    
+    // Creating directories at Application Folder path in order to store app files
+    for (NSString *currentDirectoryPath in @[temporaryDirectoryPathForAtomicMoving, applicationGrub4DosFolder]) {
+        BOOL currentDirectoryExists = [fileManager folderExistsAtPath: currentDirectoryPath];
+
+        if (currentDirectoryExists) {
+            continue;
         }
         
-        [logsView appendRow:createTemporaryDirectoryLogString logType:ASLogTypeSuccess];
+        NSString *createDirectoryLogString = [NSString stringWithFormat: @"Create directory at Application Folder path: '%@'.", currentDirectoryPath];
+        [logsView appendRow:createDirectoryLogString logType:ASLogTypeStart];
+        
+        NSError *createDirectoryError = NULL;
+        [fileManager createDirectoryAtPath: currentDirectoryPath
+               withIntermediateDirectories: YES
+                                attributes: NULL
+                                     error: &createDirectoryError];
+        
+        if (createDirectoryError != NULL) {
+            NSString *createDirectoryErrorLogString = [createDirectoryLogString stringByAppendingString:
+                                                           [NSString stringWithFormat: @"[Error: '%@']", createDirectoryError.stringValue]
+            ];
+            
+            [logsView appendRow:createDirectoryErrorLogString logType:ASLogTypeFatal];
+            
+            return NO;
+        }
+        
+        [logsView appendRow:createDirectoryLogString logType:ASLogTypeSuccess];
     }
     
-    
-    
+    // Checking which bootloader files we need to download from Web
     for (NSString *fileName in filesNeedToDownload) {
         NSString *sourcePath = [[HelperFunctions grub4DosDownloadLinkBase] stringByAppendingPathComponent: fileName];
-        NSString *destinationPath = [applicationTempGrub4DosFolder stringByAppendingPathComponent: fileName];
+        NSString *destinationPath = [applicationGrub4DosFolder stringByAppendingPathComponent: fileName];
         
         SimpleDownloadManager *downloadManager = [[SimpleDownloadManager alloc] initWithSourceURL: [NSURL URLWithString: sourcePath]
                                                                                   destinationPath: destinationPath
-                                                                                temporaryFilePath: @""];
+                                                                                temporaryFilePath: temporaryDirectoryPathForAtomicMoving];
         
-        [downloadManager downloadFileSynchronouslyWithCallback: ^BOOL(SDMMessage message, SDMMessageType messageType, void * _Nonnull SDMCallbackStruct, NSError * _Nullable error) {
-           
+        BOOL fileDownloadSuccess = [downloadManager downloadFileSynchronouslyWithCallback: ^BOOL(SDMMessage message, SDMMessageType messageType, void * _Nonnull SDMCallbackStruct, NSError * _Nullable error) {
             switch (message) {
                 case SDMMessageDidReceiveResponse: {
                     SDMCallbackStructDidReceiveResponse *castedCallbackStruct = SDMCallbackStruct;
@@ -743,17 +753,26 @@ WriteExitForce();                     \
                                            urlRequest.URL
                     ];
                     
-                    [self->logsView appendRow:logString logType:ASLogTypeLog];
+                    [self->logsView appendRow:logString logType:ASLogTypeFatal];
 
-                    break;
+                    return NO;
                 }
+            }
+            
+            if (error != NULL) {
+                NSString *errorString = [NSString stringWithFormat: @"[File Download Error]: %@", error.stringValue];
+                
+                [self->logsView appendRow:errorString logType:ASLogTypeFatal];
+                
+                return NO;
             }
             
             return YES;
         }];
-        
-        
-        
+                
+        if (!fileDownloadSuccess) {
+            return NO;
+        }
     }
     
     return YES;
@@ -851,6 +870,15 @@ WriteExitForce();                     \
     BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        BOOL bootloaderLegacyFilesDownloaded = [self downloadLegacyBootloaderFiles];
+        if (bootloaderLegacyFilesDownloaded) {
+            [self->logsView appendRow:@"Found Legacy Bootloader files." logType:ASLogTypeSuccess];
+        } else {
+            [self->logsView appendRow:@"Legacy Bootloader files were not found." logType:ASLogTypeFatal];
+            
+            WriteExitForce();
+        }
+        
         NSString *diskEraseOperationText = [LocalizedStrings logviewRowTitleDiskEraseOperationOptionsWithArgument1: destinationSavedDiskInfo.BSDName
                                                                                                          argument2: destinationSavedDiskInfo.deviceVendor
                                                                                                          argument3: destinationSavedDiskInfo.deviceModel

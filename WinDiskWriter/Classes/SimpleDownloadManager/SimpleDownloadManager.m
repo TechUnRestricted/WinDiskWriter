@@ -21,6 +21,8 @@
     UInt64 downloadedBytesSize;
     
     CFRunLoopRef currentRunLoop;
+    
+    BOOL operationSuccessful;
 }
 
 - (instancetype)initWithSourceURL: (NSURL *)sourceURL
@@ -59,7 +61,7 @@
     return self;
 }
 
-- (void)downloadFileSynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference {
+- (BOOL)downloadFileSynchronouslyWithCallback: (DownloadCompletionHandler)callbackReference {
     expectedFileSize = 0;
     chunkNumber = 0;
     downloadedBytesSize = 0;
@@ -67,6 +69,8 @@
     callback = callbackReference;
     
     currentRunLoop = CFRunLoopGetCurrent();
+    
+    operationSuccessful = NO;
     
     SDMCallbackStructDidFailWithError callbackStruct; {
         callbackStruct.urlRequest = urlRequest;
@@ -87,7 +91,7 @@
         if (fileRemoveError != NULL) {
             callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, fileRemoveError);
             
-            return;
+            return NO;
         }
     }
     
@@ -104,7 +108,7 @@
             
             callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, fileCreateError);
             
-            return;
+            return NO;
         }
     }
     
@@ -115,12 +119,14 @@
         
         callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, openFileHandleError);
 
-        return;
+        return NO;
     }
     
     [urlConnection start];
     
     CFRunLoopRun();
+    
+    return operationSuccessful;
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
@@ -224,20 +230,19 @@
     
     callback(SDMMessageDidFinishLoading, (moveFromTemporaryFolderError == NULL ? SDMMessageTypeSuccess : SDMMessageTypeFailure), &callbackStruct, moveFromTemporaryFolderError);
     
+    operationSuccessful = YES;
+    
     [self stopRunLoop];
 }
 
 - (void)abortWithCleanup {
     [urlConnection cancel];
     
-    if ([fileManager fileExistsAtPath: self.temporaryFilePath]) {
-        [fileManager removeItemAtPath: self.temporaryFilePath
-                                error: NULL];
-    }
-    
-    if ([fileManager fileExistsAtPath: self.destinationPath]) {
-        [fileManager removeItemAtPath: self.destinationPath
-                                error: NULL];
+    for (NSString *pathToRemove in @[self.temporaryFilePath, self.destinationPath]) {
+        if ([fileManager fileExistsAtPath: pathToRemove]) {
+            [fileManager removeItemAtPath: pathToRemove
+                                    error: NULL];
+        }
     }
     
     [self stopRunLoop];
