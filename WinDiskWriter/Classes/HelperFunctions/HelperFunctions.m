@@ -13,6 +13,7 @@
 #import "NSError+Common.h"
 #import <AppKit/AppKit.h>
 #import "DiskManager.h"
+#import "CommandLine.h"
 #import "Constants.h"
 #import "HDIUtil.h"
 
@@ -98,14 +99,31 @@ static void initializeStaticVariables() {
     [[NSApplication sharedApplication] terminate: NULL];
 }
 
-+ (void)cleanupTempFolders {
++ (void)threadSafeRemoveFile: (NSString *)filePath {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    BOOL folderExists = [fileManager fileExistsAtPath: applicationTempFolder];
+    BOOL folderExists = [fileManager fileExistsAtPath: filePath];
     if (folderExists) {
-        [fileManager removeItemAtPath: applicationTempFolder
+        [fileManager removeItemAtPath: filePath
                                 error: NULL];
     }
+}
+
++ (void)resetApplicationSettings {
+    [self threadSafeRemoveFile: applicationFilesFolder];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultsDictionary = [userDefaults dictionaryRepresentation];
+    
+    for (NSString *key in [defaultsDictionary allKeys]) {
+      [userDefaults removeObjectForKey:key];
+    }
+    
+    [userDefaults synchronize];
+}
+
++ (void)cleanupTempFolders {
+    [self threadSafeRemoveFile: applicationTempFolder];
 }
 
 + (BOOL)hasElevatedRights {
@@ -139,14 +157,15 @@ static void initializeStaticVariables() {
     return generatedString;
 }
 
-+ (BOOL)restartWithElevatedPermissionsWithError: (NSError *_Nonnull *_Nonnull)error {
++ (void)restartAppWithElevatedPermissions: (BOOL)withElevatedPermissions
+                                    error: (NSError **)error {
     NSArray<NSString *> *argumentsList = NSProcessInfo.processInfo.arguments;
     if (argumentsList.count == 0) {
         if (error) {
             *error = [NSError errorWithStringValue: [LocalizedStrings errorTextApplicationArgumentsListIsEmpty]];
         }
         
-        return NO;
+        return;
     }
     
     NSString *executablePath = [argumentsList firstObject];
@@ -155,76 +174,84 @@ static void initializeStaticVariables() {
             *error = [NSError errorWithStringValue: [LocalizedStrings errorTextApplicationArgumentsBadStructure]];
         }
         
-        return NO;
+        return;
     }
     
-    AuthorizationRef authorizationRef;
-    AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagPreAuthorize, &authorizationRef);
-    
-    char *cExecutablePath = (char *)[executablePath cStringUsingEncoding: NSUTF8StringEncoding];
-    char *args[] = {NULL};
-    
-    OSStatus executionStatus = AuthorizationExecuteWithPrivileges(authorizationRef, cExecutablePath, kAuthorizationFlagDefaults, args, NULL);
-    
-    NSString *executionErrorString = NULL;
-    
-    switch (executionStatus) {
-        case errAuthorizationSuccess:
-            [[NSApplication sharedApplication] terminate:nil];
-            break;
-        case errAuthorizationInvalidSet:
-            executionErrorString = [LocalizedStrings authorizationErrorInvalidSet];
-            break;
-        case errAuthorizationInvalidRef:
-            executionErrorString = [LocalizedStrings authorizationErrorInvalidRef];
-            break;
-        case errAuthorizationInvalidTag:
-            executionErrorString = [LocalizedStrings authorizationErrorInvalidTag];
-            break;
-        case errAuthorizationInvalidPointer:
-            executionErrorString = [LocalizedStrings authorizationErrorInvalidPointer];
-            break;
-        case errAuthorizationDenied:
-            executionErrorString = [LocalizedStrings authorizationErrorDenied];
-            break;
-        case errAuthorizationCanceled:
-            executionErrorString = [LocalizedStrings authorizationErrorCanceled];
-            break;
-        case errAuthorizationInteractionNotAllowed:
-            executionErrorString = [LocalizedStrings authorizationErrorInteractionNotAllowed];
-            break;
-        case errAuthorizationInternal:
-            executionErrorString = [LocalizedStrings authorizationErrorInternal];
-            break;
-        case errAuthorizationExternalizeNotAllowed:
-            executionErrorString = [LocalizedStrings authorizationErrorExternalizeNotAllowed];
-            break;
-        case errAuthorizationInternalizeNotAllowed:
-            executionErrorString = [LocalizedStrings authorizationErrorInternalizeNotAllowed];
-            break;
-        case errAuthorizationInvalidFlags:
-            executionErrorString = [LocalizedStrings authorizationErrorInvalidFlags];
-            break;
-        case errAuthorizationToolExecuteFailure:
-            executionErrorString = [LocalizedStrings authorizationErrorToolExecuteFailure];
-            break;
-        case errAuthorizationToolEnvironmentError:
-            executionErrorString = [LocalizedStrings authorizationErrorToolEnvironmentError];
-            break;
-        case errAuthorizationBadAddress:
-            executionErrorString = [LocalizedStrings authorizationErrorBadAddress];
-            break;
-    }
+    if (!withElevatedPermissions) {
+        [CommandLine execute: @"/usr/bin/open"
+                   arguments: @[@"-n", @"-a", executablePath]
+                   exception: NULL];
+                
+        [[NSApplication sharedApplication] terminate: NULL];
+    } else {
+        AuthorizationRef authorizationRef;
+        AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagPreAuthorize, &authorizationRef);
+        
+        char *cExecutablePath = (char *)[executablePath cStringUsingEncoding: NSUTF8StringEncoding];
+        char *args[] = {NULL};
+        
+        OSStatus executionStatus = AuthorizationExecuteWithPrivileges(authorizationRef, cExecutablePath, kAuthorizationFlagDefaults, args, NULL);
+        
+        NSString *executionErrorString = NULL;
+        
+        switch (executionStatus) {
+            case errAuthorizationSuccess:
+                [[NSApplication sharedApplication] terminate: NULL];
+                break;
+            case errAuthorizationInvalidSet:
+                executionErrorString = [LocalizedStrings authorizationErrorInvalidSet];
+                break;
+            case errAuthorizationInvalidRef:
+                executionErrorString = [LocalizedStrings authorizationErrorInvalidRef];
+                break;
+            case errAuthorizationInvalidTag:
+                executionErrorString = [LocalizedStrings authorizationErrorInvalidTag];
+                break;
+            case errAuthorizationInvalidPointer:
+                executionErrorString = [LocalizedStrings authorizationErrorInvalidPointer];
+                break;
+            case errAuthorizationDenied:
+                executionErrorString = [LocalizedStrings authorizationErrorDenied];
+                break;
+            case errAuthorizationCanceled:
+                executionErrorString = [LocalizedStrings authorizationErrorCanceled];
+                break;
+            case errAuthorizationInteractionNotAllowed:
+                executionErrorString = [LocalizedStrings authorizationErrorInteractionNotAllowed];
+                break;
+            case errAuthorizationInternal:
+                executionErrorString = [LocalizedStrings authorizationErrorInternal];
+                break;
+            case errAuthorizationExternalizeNotAllowed:
+                executionErrorString = [LocalizedStrings authorizationErrorExternalizeNotAllowed];
+                break;
+            case errAuthorizationInternalizeNotAllowed:
+                executionErrorString = [LocalizedStrings authorizationErrorInternalizeNotAllowed];
+                break;
+            case errAuthorizationInvalidFlags:
+                executionErrorString = [LocalizedStrings authorizationErrorInvalidFlags];
+                break;
+            case errAuthorizationToolExecuteFailure:
+                executionErrorString = [LocalizedStrings authorizationErrorToolExecuteFailure];
+                break;
+            case errAuthorizationToolEnvironmentError:
+                executionErrorString = [LocalizedStrings authorizationErrorToolEnvironmentError];
+                break;
+            case errAuthorizationBadAddress:
+                executionErrorString = [LocalizedStrings authorizationErrorBadAddress];
+                break;
+        }
 
-    if (authorizationRef != NULL) {
-        AuthorizationFree(authorizationRef, kAuthorizationFlagPreAuthorize);
+        if (authorizationRef != NULL) {
+            AuthorizationFree(authorizationRef, kAuthorizationFlagPreAuthorize);
+        }
+        
+        if (error) {
+            *error = [NSError errorWithStringValue: executionErrorString];
+        }
     }
     
-    if (error) {
-        *error = [NSError errorWithStringValue: executionErrorString];
-    }
-    
-    return NO;
+    return;
 }
 
 + (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath

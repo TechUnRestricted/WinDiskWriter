@@ -227,12 +227,7 @@ WriteExitForce();                     \
 
         if (![HelperFunctions hasElevatedRights]) {
             [installLegacyBootCheckBoxView setAction: @selector(requireRestartAsRoot)];
-        } else {
-            [NSApp activateIgnoringOtherApps: YES];
-            [self makeKeyAndOrderFront: NULL];
-            [NSApp activateIgnoringOtherApps: NO];
         }
-        
     }
     
     [mainVerticalLayout addView:spacerView width:INFINITY height: 3];
@@ -488,7 +483,8 @@ WriteExitForce();                     \
     NSError *restartError = NULL;
     
     if (returnCode == NSAlertFirstButtonReturn) {
-        [HelperFunctions restartWithElevatedPermissionsWithError: &restartError];
+        [HelperFunctions restartAppWithElevatedPermissions: YES
+                                                     error: &restartError];
     }
     
     if (restartError != NULL) {
@@ -870,15 +866,17 @@ WriteExitForce();                     \
     BOOL installLegacyBoot = installLegacyBootCheckBoxView.state == NSOnState;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        BOOL bootloaderLegacyFilesDownloaded = [self downloadLegacyBootloaderFiles];
-        if (bootloaderLegacyFilesDownloaded) {
-            [self->logsView appendRow:@"Found Legacy Bootloader files." logType:ASLogTypeSuccess];
-        } else {
-            [self->logsView appendRow:@"Legacy Bootloader files were not found." logType:ASLogTypeFatal];
-            
-            WriteExitForce();
+        if (installLegacyBoot) {
+            BOOL bootloaderLegacyFilesDownloaded = [self downloadLegacyBootloaderFiles];
+            if (bootloaderLegacyFilesDownloaded) {
+                [self->logsView appendRow:@"Found Legacy Bootloader files." logType:ASLogTypeSuccess];
+            } else {
+                [self->logsView appendRow:@"Legacy Bootloader files were not found." logType:ASLogTypeFatal];
+                
+                WriteExitForce();
+            }
         }
-        
+
         NSString *diskEraseOperationText = [LocalizedStrings logviewRowTitleDiskEraseOperationOptionsWithArgument1: destinationSavedDiskInfo.BSDName
                                                                                                          argument2: destinationSavedDiskInfo.deviceVendor
                                                                                                          argument3: destinationSavedDiskInfo.deviceModel

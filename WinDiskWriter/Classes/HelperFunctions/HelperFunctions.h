@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)cleanupTempFolders;
 
++ (void)resetApplicationSettings;
+
 + (void)quitApplication;
 
 + (BOOL)hasElevatedRights;
@@ -42,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)printTimeElapsedWhenRunningCode: (NSString *)title
                               operation: (void (^)(void))operation;
 
-+ (BOOL)restartWithElevatedPermissionsWithError: (NSError *_Nonnull *_Nonnull)error;
++ (void)restartAppWithElevatedPermissions: (BOOL)withElevatedPermissions
+                                    error: (NSError **)error;
 
 + (NSString *)randomStringWithLength: (UInt64)requiredLength;
 

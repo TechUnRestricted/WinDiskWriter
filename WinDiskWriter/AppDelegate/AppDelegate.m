@@ -124,6 +124,17 @@
                                                 
                 [debugMenu addItem: scanAllWholeDisksMenuItem];
             }
+            
+            [debugMenu addItem: NSMenuItem.separatorItem];
+            
+            NSMenuItem *resetAppSettingsMenuItem = [[NSMenuItem alloc] init]; {
+                [resetAppSettingsMenuItem setTitle: @"Reset All Settings"];
+                [resetAppSettingsMenuItem setTarget: self];
+                [resetAppSettingsMenuItem setAction: @selector(showResetSettingsAlert)];
+                
+                [debugMenu addItem: resetAppSettingsMenuItem];
+            }
+
         }
     }
     
@@ -181,10 +192,56 @@
     [aboutWindow showWindow];
 }
 
+- (void)showResetSettingsAlert {
+    NSMutableString *informativeText = [NSMutableString stringWithFormat: @"This operation will clear all Application Data for the '%@' user.", NSUserName()];
+    [informativeText appendString: @"\n"];
+
+    
+    BOOL isRoot = [HelperFunctions hasElevatedRights];
+    
+    if (isRoot) {
+        [informativeText appendString: @"After, to complete the settings removal, relaunch the application with a non-root user and perform this action again."];
+    } else {
+        [informativeText appendString: @"After, to complete the settings removal, click on the 'Patch Installer Requirements' button (this will relaunch the application as root) and perform this action again."];
+    }
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Reset All Settings"];
+    [alert setInformativeText: informativeText];
+    [alert addButtonWithTitle: @"No"];
+    [alert addButtonWithTitle: @"Yes"];
+    
+    [alert beginSheetModalForWindow: mainWindow
+                      modalDelegate: self
+                     didEndSelector: @selector(alertResetSettingsPromptDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
+}
+
+- (void)alertResetSettingsPromptDidEnd: (NSAlert *)alert
+                            returnCode: (NSInteger)returnCode
+                           contextInfo: (void *)contextInfo {
+
+    if (returnCode != NSAlertSecondButtonReturn) {
+        return;
+    }
+    
+    [HelperFunctions resetApplicationSettings];
+    [HelperFunctions restartAppWithElevatedPermissions: NO
+                                                 error: NULL];
+
+}
+
+- (void)forceDisplayAppInFront {
+    [NSApp activateIgnoringOtherApps: YES];
+    [mainWindow makeKeyAndOrderFront: NULL];
+    [NSApp activateIgnoringOtherApps: NO];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupMenuItems];
     [self setupWindows];
-    
+    [self forceDisplayAppInFront];
+
     [HelperFunctions cleanupTempFolders];
 }
 

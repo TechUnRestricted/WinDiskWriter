@@ -14,10 +14,9 @@
 + (CommandLineData *_Nullable)execute: (NSString *)executable
                             arguments: (NSArray *_Nullable)arguments
                             exception: (NSException *_Nullable *_Nullable)nsException {
-        
     @try {
         NSTask *task = [[NSTask alloc] init];
-        
+                
         NSPipe *standartPipe = [NSPipe pipe];
         [task setStandardOutput: standartPipe];
         
