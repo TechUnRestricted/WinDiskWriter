@@ -1,136 +1,477 @@
-"ALERT_SUBTITLE_IMAGE_WRITING_SUCCESS" = "Не забудьте правильно извлечь устройство, чтобы избежать повреждения данных.";
-"ALERT_SUBTITLE_PATH_DOES_NOT_EXIST" = "Путь к введенному образу или папке не существует.";
-"ALERT_SUBTITLE_PATH_FIELD_IS_EMPTY" = "Не указан путь к образу или папке Windows.";
-"ALERT_SUBTITLE_PRESS_UPDATE_BUTTON" = "Подключите совместимое USB-устройство и нажмите кнопку Обновить.";
-"ALERT_SUBTITLE_STOP_PROCESS" = "Вам нужно будет подождать, пока последний файл не завершит копирование.";
-"ALERT_TITLE_BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID" = "Информация об этом устройстве устарела или недействительна.";
-"ALERT_TITLE_BSD_DEVICE_IS_NO_LONGER_AVAILABLE" = "Выбранное устройство больше недоступно.";
-"BUTTON_TITLE_CANCEL" = "Отмена";
-"BUTTON_TITLE_CANCELLATION_SCHEDULE" = "Запланировать отмену";
-"BUTTON_TITLE_CHOOSE" = "Выбрать";
-"BUTTON_TITLE_DISMISS" = "Отклонить";
-"BUTTON_TITLE_START" = "Начать";
-"BUTTON_TITLE_STOP" = "Остановить";
-"BUTTON_TITLE_STOPPING" = "Остановка";
-"ALERT_TITLE_CHECK_DATA_CORRECTNESS" = "Проверьте правильность введенных данных.";
-"ALERT_TITLE_DISK_ERASE_FAILURE" = "Не удалось стереть устройство назначения.";
-"PROGRESS_TITLE_DISK_ERASE_SUCCESS" = "Устройство назначения успешно стерто.";
-"ALERT_TITLE_FORGOT_SOMETHING" = "Вы что-то забыли...";
-"ALERT_TITLE_IMAGE_VERIFICATION_ERROR" = "Не удалось проверить этот образ.";
-"ALERT_TITLE_IMAGE_WRITING_FAILURE" = "Что-то пошло не так при записи файлов на устройство назначения.";
-"ALERT_TITLE_IMAGE_WRITING_SUCCESS" = "Запись образа успешно завершена.";
-"INPUTVIEW_PLACEHOLDER_IMAGE_FILE_OR_DIRECTORY" = "Файл образа или директория";
-"LABELVIEW_TITLE_WINDOWS_IMAGE" = "Образ Windows";
-"MENU_TITLE_DONATE_ME" = "❤️ Поддержать разработчика ❤️";
-"MENU_TITLE_EDIT" = "Правка";
-"MENU_TITLE_HIDE" = "Скрыть";
-"MENU_TITLE_ITEM_ABOUT" = "О программе";
-"MENU_TITLE_ITEM_COPY" = "Скопировать";
-"MENU_TITLE_ITEM_CUT" = "Вырезать";
-"MENU_TITLE_ITEM_OPEN_DONATION_WEB_PAGE" = "Открыть страницу пожертвований";
-"MENU_TITLE_ITEM_PASTE" = "Вставить";
-"MENU_TITLE_ITEM_QUIT" = "Закрыть";
-"MENU_TITLE_ITEM_SELECT_ALL" = "Выбрать все";
-"MENU_TITLE_MINIMIZE" = "Свернуть";
-"MENU_TITLE_WINDOW" = "Окно";
-"ALERT_TITLE_NO_WRITABLE_DEVICES" = "Не найдено доступных для записи устройств.";
-"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Вы потеряете все данные на выбранном устройстве.";
-"PROGRESS_TITLE_READY_FOR_ACTION" = "Можно начать запись";
-"ALERT_TITLE_STOP_PROCESS" = "Вы хотите остановить процесс?";
-"LABELVIEW_TITLE_TARGET_DEVICE" = "Устройство назначения";
-"BUTTON_TITLE_UPDATE" = "Обновить";
-"CHECKBOXVIEW_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Пропатчить требования установщика";
-"CHECKBOXVIEW_TOOLTIP_PATCH_INSTALLER_REQUIREMENTS" = "Убрать требования ОЗУ, TPM и Secure Boot из установщика.\n(Только для Windows 11)";
-"CHECKBOXVIEW_TITLE_INSTALL_LEGACY_BOOT_SECTOR" = "Установить загрузный сектор для Legacy BIOS";
-"CHECKBOXVIEW_TOOLTIP_INSTALL_LEGACY_BOOT_SECTOR" = "Добавить поддержку старых BIOS, которые не поддерживают EFI загрузчку.";
-"TOOLTIP_FRAMELAYOUT_FORMATTING_SECTION" = "Желаемая файловая система для устройства назначения.\n(FAT32 является наиболее совместимой файловой системой)";
-"LABELVIEW_TITLE_FILESYSTEM" = "Файловая система";
-"ALERT_TITLE_FAILED_TO_RESTART" = "Ошибка перезапуска";
-"ALERT_TITLE_REQUIRE_RESTART_AS_ROOT" = "Для данной операции требуется перезапустить приложение с правами администратора";
-"ALERT_SUBTITLE_REQUIRE_RESTART_AS_ROOT" = "Все несохранённые изменения будут утеряны";
-"BUTTON_TITLE_RELAUNCH" = "Перезапустить";
-"PROGRESS_TITLE_FORMATTING_THE_DRIVE" = "Форматирование диска";
-"PROGRESS_TITLE_CREATE_DIRECTORY" = "Создание директории";
-"PROGRESS_TITLE_WRITE_FILE" = "Запись файла";
-"PROGRESS_TITLE_SPLIT_IMAGE" = "Разделение образа";
-"PROGRESS_TITLE_EXTRACT_BOOTLOADER" = "Распаковка загрузчика";
-"PROGRESS_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Патчинг требований установщика";
-"PROGRESS_TITLE_INSTALL_LEGACY_BOOTLOADER" = "Установка загрузчика для Legacy BIOS";
-"LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE" = "(Сообщение об ошибке: '%@')";
-"LOGVIEW_ROW_TITLE_IMAGE_MOUNT_SUCCESS" = "Образ успешно смонтирован";
-"LOGVIEW_ROW_TITLE_GENERATED_PARTITION_NAME" = "Сгенерированное название раздела";
-"LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH" = "Путь к разделу назначения";
-"LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS" = "Устройство %@ (%@ %@) готово к форматированию со следующими параметрами: (название_раздела: '%@', схема_разделов: '%@', файловая_система: '%@', патч_системных_требований: '%d', установить_загрузчик_legacy_bios: '%d').";
-"ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Произошла проблема во время записи файла на диск";
-"ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Вы можете пропустить этот файл или остановить запись.";
-"PLACEHOLDER_REASON" = "(Причина: %@)";
-"ALERT_BUTTON_TITLE_STOP_WRITING" = "Остановить запись";
+
+
 "ALERT_BUTTON_TITLE_SKIP_FILE" = "Пропустить файл";
-"LOGVIEW_ROW_TITLE_CLEARING_DEVICE_PICKER_LIST" = "Очистка списка устройств.";
-"LOGVIEW_ROW_PARTIAL_TITLE_FOUND_DEVICES" = "Найдены устройства";
-"MENU_TITLE_ITEM_CLOSE" = "Закрыть";
-"ERROR_TEXT_CANT_DETERMINE_BSD_PATH" = "Не удалось определить BSD имя устройства назначения.";
-"ERROR_TEXT_BOOTLOADER_MBR_FILE_DOESNT_EXIST" = "Файл загрузчика MBR не существует.";
-"ERROR_TEXT_BOOTLOADER_GRLDR_FILE_DOESNT_EXIST" = "Файл загрузчика Grldr не существует.";
-"ERROR_TEXT_BOOTLOADER_MENU_FILE_DOESNT_EXIST" = "Файл загрузчика Menu не существует. ";
-"ERROR_TEXT_BOOTLOADER_MBR_OPEN_FILE_INPUT_HANDLE_FAILURE" = "Не удается открыть входной дескриптор для файла MBR.";
-"ERROR_TEXT_OUTPUT_DEVICE_OPEN_FAILURE" = "Не удалось открыть устройство назначения.";
-"ERROR_TEXT_GET_AVAILABLE_SPACE_FAILURE" = "Ошибка получения доступного пространства для указанного пути.";
-"ERROR_TEXT_DISK_SPACE_NOT_ENOUGH" = "Недостаточно свободного места на диске.";
-"ERROR_TEXT_FILE_COPY_FAILURE_OVER_FAT32_SIZE_LIMIT" = "Не удалось скопировать данный файл на FAT32 из-за ограничений файловой системы.";
-"ERROR_TEXT_OPEN_SOURCE_FILE_FAILURE" = "Не удалось открыть исходный файл.";
-"ERROR_TEXT_OPEN_DESTINATION_PATH_FAILURE" = "Не удалось открыть путь к файлу на диске назначения.";
-"ERROR_TEXT_ALLOCATE_MEMORY_BUFFER_FAILURE" = "Не удалось выделить память для буфера.";
-"ERROR_TEXT_WRITE_DESTINATION_PATH_DATA_FAILURE" = "Не удалось записать данные на устройство назначения.";
-"ERROR_TEXT_SPLITTING_ESD_SWM_NOT_SUPPORTED" = "Разделение установочных файлов Windows с расширениями .esd и .swm на данный момент недоступно.";
-"ERROR_TEXT_DESTINATION_PATH_DOES_NOT_EXIST" = "Путь назначения не существует.";
-"ERROR_TEXT_GET_AVAILABLE_DESTINATION_DISK_SPACE_FAILURE" = "Ошибка получения доступного пространства для диска назначения.";
-"ERROR_TEXT_SOURCE_IS_TOO_LARGE_FOR_THE_DESTINATION_DISK" = "Источник слишком велик для диска назначения.";
-"LABELVIEW_TITLE_VERSION" = "Версия";
-"LABELVIEW_TITLE_ADDITIONAL_INFORMATION" = "Дополнительная информация";
-"DADISK_ERROR_TEXT_UNSPECIFIED" = "Произошла неизвестная ошибка.";
-"DADISK_ERROR_TEXT_BUSY" = "Диск занят.";
-"DADISK_ERROR_TEXT_BAD_ARGUMENT" = "В функцию передан некорректный аргумент.";
-"DADISK_ERROR_TEXT_EXCLUSIVE_ACCESS" = "Диск заблокирован и не может быть модифицирован.";
-"DADISK_ERROR_TEXT_NO_RESOURCES" = "Недостаточно системных ресурсов для выполнения данной операции.";
-"DADISK_ERROR_TEXT_NOT_FOUND" = "Диск или раздел не найден.";
-"DADISK_ERROR_TEXT_NOT_MOUNTED" = "Диск не смонтирован.";
-"DADISK_ERROR_TEXT_NOT_PERMITTED" = "Нет разрешения на выполнение данной операции.";
-"DADISK_ERROR_TEXT_NOT_PRIVILEGED" = "У пользователя недостаточно привилегий для выполнения операции.";
-"DADISK_ERROR_TEXT_NOT_READY" = "Диск не готов.";
-"DADISK_ERROR_TEXT_NOT_WRITABLE" = "Диск или раздел не имеет разрешения на запись.";
-"DADISK_ERROR_TEXT_UNSUPPORTED" = "Операция не поддерживается диском.";
-"ERROR_TEXT_SPECIFIED_BSD_NAME_DOESNT_EXIST_CANT_ERASE" = "Указанное BSD имя не существует. Невозможно стереть данный раздел.";
-"ERROR_TEXT_COMMAND_LINE_EXECUTE_FAILURE" = "Произошла ошибка при выполнении команды.";
-"ERROR_TEXT_CANT_GET_ERROR_OUTPUT_PIPE" = "Не удается получить информацию из канала вывода ошибок командной строки.";
-"ERROR_TEXT_CANT_PARSE_HDIUTIL_OUTPUT" = "Произошла ошибка при чтении вывода из hdiutil.";
-"ERROR_TEXT_PLIST_CANT_LOAD_SYSTEM_ENTITIES" = "Не удалось загрузить \"system-entities\" из полученного plist файла.";
-"ERROR_TEXT_PLIST_SYSTEM_ENTITIES_IS_EMPTY" = "Этот образ не содержит ни одной System Entity.";
-"ERROR_TEXT_PLIST_SYSTEM_ENTITIES_COUNT_MORE_THAN_ONE" = "Количество System Entities в этом образе больше 1. Не удалось определить необходимый System Entity. Попробуйте указать путь к уже смонтированному образу.";
-"ERROR_TEXT_HDIUTIL_STATUS_WAS_NOT_EXIT_SUCCESS" = "Утилита hdiutil была завершена со статусом, отличным от EXIT_SUCCESS.";
-"ERROR_TEXT_UNMOUNT_DESTINATION_DEVICE_FAILURE" = "Не удалось размонтировать устройство назначения.";
-"ERROR_TEXT_APPLICATION_ARGUMENTS_LIST_IS_EMPTY" = "Список аргументов запуска пуст.";
-"ERROR_TEXT_APPLICATION_ARGUMENTS_BAD_STRUCTURE" = "Первый объект из списка аргументов не является файлом.";
-"AUTHORIZATION_ERROR_INVALID_SET" = "Параметр set недействителен.";
-"AUTHORIZATION_ERROR_INVALID_REF" = "Параметр авторизации недействителен.";
-"AUTHORIZATION_ERROR_INVALID_TAG" = "Тег авторизации недействителен.";
-"AUTHORIZATION_ERROR_INVALID_POINTER" = "Параметр authorizedRights недействителен.";
-"AUTHORIZATION_ERROR_DENIED" = "Отказано в авторизации.";
-"AUTHORIZATION_ERROR_CANCELED" = "Авторизация отменена пользователем.";
-"AUTHORIZATION_ERROR_INTERACTION_NOT_ALLOWED" = "Авторизация была отклонена, так как невозможно взаимодействие с пользователем.";
-"AUTHORIZATION_ERROR_INTERNAL" = "Возникла неизвестная внутренняя ошибка.";
-"AUTHORIZATION_ERROR_EXTERNALIZE_NOT_ALLOWED" = "Сервер безопасности отказал во внешнем представлении ссылки на авторизацию.";
-"AUTHORIZATION_ERROR_INTERNALIZE_NOT_ALLOWED" = "Сервер безопасности отказал во внутреннем представлении ссылки на авторизацию.";
-"AUTHORIZATION_ERROR_INVALID_FLAGS" = "Предоставленные флаги опций недействительны для этой операции авторизации.";
-"AUTHORIZATION_ERROR_TOOL_EXECUTE_FAILURE" = "Вспомогательный инструмент не удалось выполнить.";
-"AUTHORIZATION_ERROR_TOOL_ENVIRONMENT_ERROR" = "Попытка запустить вспомогательный инструмент не вернула код успеха или ошибки.";
-"AUTHORIZATION_ERROR_BAD_ADDRESS" = "Запрошенный адрес сокета не является валидным (должен быть в диапазоне 0-1023 включительно).";
-"ERROR_TEXT_FILE_TYPE_IS_NOT_ISO" = "Данный файл не имеет .iso расширения.";
-"ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "На данной версии Mac OS X невозможно получить информацию об устройстве назначения при помощи пути смонтированного раздела.";
-"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать '%@' на устройство назначения.";
-"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файла (директории) '%@' не существует.";
-"MENU_TITLE_ITEM_DEBUG" = "Отладка";
-"MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Сканировать все полные диски";
+
+
+"ALERT_BUTTON_TITLE_STOP_WRITING" = "Остановить запись";
+
+
+"ALERT_SUBTITLE_IMAGE_WRITING_SUCCESS" = "Не забудьте правильно извлечь устройство, чтобы избежать повреждения данных.";
+
+/*  */
+"ALERT_SUBTITLE_LEGACY_BOOT_SUPPORT" = "Для поддержки загрузки в Legacy режиме, приложению необходимо загрузить файлы загрузчика grub4dos из интернета.";
+
+
+"ALERT_SUBTITLE_PATH_DOES_NOT_EXIST" = "Путь к введенному образу или папке не существует.";
+
+
+"ALERT_SUBTITLE_PATH_FIELD_IS_EMPTY" = "Не указан путь к образу или папке Windows.";
+
+
+"ALERT_SUBTITLE_PRESS_UPDATE_BUTTON" = "Подключите совместимое USB-устройство и нажмите кнопку Обновить.";
+
+/*  */
+"ALERT_SUBTITLE_PROMPT_RESET_SETTINGS" = "Данная операция очистит все данные приложения для пользователя '%@'.";
+
+/*  */
+"ALERT_SUBTITLE_PROMPT_START_FAILSAFE_RECOVERY" = "Приложение попытается исправить данные ошибки при помощи запуска от имени администратора.";
+
+
+"ALERT_SUBTITLE_PROMPT_START_PROCESS" = "Вы потеряете все данные на выбранном устройстве.";
+
+
+"ALERT_SUBTITLE_REQUIRE_RESTART_AS_ROOT" = "Все несохранённые изменения будут утеряны";
+
+
+"ALERT_SUBTITLE_STOP_PROCESS" = "Вам нужно будет подождать, пока последний файл не завершит копирование.";
+
+
+"ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Вы можете пропустить этот файл или остановить запись.";
+
+
+"ALERT_TITLE_BSD_DEVICE_INFO_IS_OUTDATED_OR_INVALID" = "Информация об этом устройстве устарела или недействительна.";
+
+
+"ALERT_TITLE_BSD_DEVICE_IS_NO_LONGER_AVAILABLE" = "Выбранное устройство больше недоступно.";
+
+
+"ALERT_TITLE_CHECK_DATA_CORRECTNESS" = "Проверьте правильность введенных данных.";
+
+
+"ALERT_TITLE_DISK_ERASE_FAILURE" = "Не удалось стереть устройство назначения.";
+
+
+"ALERT_TITLE_FAILED_TO_RESTART" = "Ошибка перезапуска";
+
+
+"ALERT_TITLE_FORGOT_SOMETHING" = "Вы что-то забыли...";
+
+
+"ALERT_TITLE_IMAGE_VERIFICATION_ERROR" = "Не удалось проверить этот образ.";
+
+
+"ALERT_TITLE_IMAGE_WRITING_FAILURE" = "Что-то пошло не так при записи файлов на устройство назначения.";
+
+
+"ALERT_TITLE_IMAGE_WRITING_SUCCESS" = "Запись образа успешно завершена.";
+
+/*  */
+"ALERT_TITLE_LEGACY_BOOT_SUPPORT" = "Поддержка Legacy BIOS";
+
+
+"ALERT_TITLE_NO_WRITABLE_DEVICES" = "Не найдено доступных для записи устройств.";
+
+
 "ALERT_TITLE_PROMPT_START_PROCESS" = "Вы уверены, что хотите начать запись?";
-"GENERIC_YES" = "Да";
+
+
+"ALERT_TITLE_REQUIRE_RESTART_AS_ROOT" = "Для данной операции требуется перезапустить приложение с правами администратора";
+
+
+"ALERT_TITLE_STOP_PROCESS" = "Вы хотите остановить процесс?";
+
+
+"ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Произошла проблема во время записи файла на диск";
+
+
+"AUTHORIZATION_ERROR_BAD_ADDRESS" = "Запрошенный адрес сокета не является валидным (должен быть в диапазоне 0-1023 включительно).";
+
+
+"AUTHORIZATION_ERROR_CANCELED" = "Авторизация отменена пользователем.";
+
+
+"AUTHORIZATION_ERROR_DENIED" = "Отказано в авторизации.";
+
+
+"AUTHORIZATION_ERROR_EXTERNALIZE_NOT_ALLOWED" = "Сервер безопасности отказал во внешнем представлении ссылки на авторизацию.";
+
+
+"AUTHORIZATION_ERROR_INTERACTION_NOT_ALLOWED" = "Авторизация была отклонена, так как невозможно взаимодействие с пользователем.";
+
+
+"AUTHORIZATION_ERROR_INTERNAL" = "Возникла неизвестная внутренняя ошибка.";
+
+
+"AUTHORIZATION_ERROR_INTERNALIZE_NOT_ALLOWED" = "Сервер безопасности отказал во внутреннем представлении ссылки на авторизацию.";
+
+
+"AUTHORIZATION_ERROR_INVALID_FLAGS" = "Предоставленные флаги опций недействительны для этой операции авторизации.";
+
+
+"AUTHORIZATION_ERROR_INVALID_POINTER" = "Параметр authorizedRights недействителен.";
+
+
+"AUTHORIZATION_ERROR_INVALID_REF" = "Параметр авторизации недействителен.";
+
+
+"AUTHORIZATION_ERROR_INVALID_SET" = "Параметр set недействителен.";
+
+
+"AUTHORIZATION_ERROR_INVALID_TAG" = "Тег авторизации недействителен.";
+
+
+"AUTHORIZATION_ERROR_TOOL_ENVIRONMENT_ERROR" = "Попытка запустить вспомогательный инструмент не вернула код успеха или ошибки.";
+
+
+"AUTHORIZATION_ERROR_TOOL_EXECUTE_FAILURE" = "Вспомогательный инструмент не удалось выполнить.";
+
+
+"BUTTON_TITLE_CANCEL" = "Отмена";
+
+
+"BUTTON_TITLE_CANCELLATION_SCHEDULE" = "Запланировать отмену";
+
+
+"BUTTON_TITLE_CHOOSE" = "Выбрать";
+
+
+"BUTTON_TITLE_DISMISS" = "Отклонить";
+
+
+"BUTTON_TITLE_RELAUNCH" = "Перезапустить";
+
+
+"BUTTON_TITLE_START" = "Начать";
+
+
+"BUTTON_TITLE_STOP" = "Остановить";
+
+
+"BUTTON_TITLE_STOPPING" = "Остановка";
+
+
+"BUTTON_TITLE_UPDATE" = "Обновить";
+
+
+"CHECKBOXVIEW_TITLE_INSTALL_LEGACY_BOOT_SECTOR" = "Установить загрузный сектор для Legacy BIOS";
+
+
+"CHECKBOXVIEW_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Пропатчить требования установщика";
+
+
+"CHECKBOXVIEW_TOOLTIP_INSTALL_LEGACY_BOOT_SECTOR" = "Добавить поддержку старых BIOS, которые не поддерживают EFI загрузчку.";
+
+
+"CHECKBOXVIEW_TOOLTIP_PATCH_INSTALLER_REQUIREMENTS" = "Убрать требования ОЗУ, TPM и Secure Boot из установщика.\n(Только для Windows 11)";
+
+
+"DADISK_ERROR_TEXT_BAD_ARGUMENT" = "В функцию передан некорректный аргумент.";
+
+
+"DADISK_ERROR_TEXT_BUSY" = "Диск занят.";
+
+
+"DADISK_ERROR_TEXT_EXCLUSIVE_ACCESS" = "Диск заблокирован и не может быть модифицирован.";
+
+
+"DADISK_ERROR_TEXT_NOT_FOUND" = "Диск или раздел не найден.";
+
+
+"DADISK_ERROR_TEXT_NOT_MOUNTED" = "Диск не смонтирован.";
+
+
+"DADISK_ERROR_TEXT_NOT_PERMITTED" = "Нет разрешения на выполнение данной операции.";
+
+
+"DADISK_ERROR_TEXT_NOT_PRIVILEGED" = "У пользователя недостаточно привилегий для выполнения операции.";
+
+
+"DADISK_ERROR_TEXT_NOT_READY" = "Диск не готов.";
+
+
+"DADISK_ERROR_TEXT_NOT_WRITABLE" = "Диск или раздел не имеет разрешения на запись.";
+
+
+"DADISK_ERROR_TEXT_NO_RESOURCES" = "Недостаточно системных ресурсов для выполнения данной операции.";
+
+
+"DADISK_ERROR_TEXT_UNSPECIFIED" = "Произошла неизвестная ошибка.";
+
+
+"DADISK_ERROR_TEXT_UNSUPPORTED" = "Операция не поддерживается диском.";
+
+
+"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать '%@' на устройство назначения.";
+
+
+"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файла (директории) '%@' не существует.";
+
+
+"ERROR_TEXT_ALLOCATE_MEMORY_BUFFER_FAILURE" = "Не удалось выделить память для буфера.";
+
+
+"ERROR_TEXT_APPLICATION_ARGUMENTS_BAD_STRUCTURE" = "Первый объект из списка аргументов не является файлом.";
+
+
+"ERROR_TEXT_APPLICATION_ARGUMENTS_LIST_IS_EMPTY" = "Список аргументов запуска пуст.";
+
+/*  */
+"ERROR_TEXT_BOOTLOADER_FILES_CANT_BE_DOWNLOADED" = "Не удалось загрузить файлы загрузчика.";
+
+
+"ERROR_TEXT_BOOTLOADER_GRLDR_FILE_DOESNT_EXIST" = "Файл загрузчика Grldr не существует.";
+
+
+"ERROR_TEXT_BOOTLOADER_MBR_FILE_DOESNT_EXIST" = "Файл загрузчика MBR не существует.";
+
+
+"ERROR_TEXT_BOOTLOADER_MBR_OPEN_FILE_INPUT_HANDLE_FAILURE" = "Не удается открыть входной дескриптор для файла MBR.";
+
+
+"ERROR_TEXT_BOOTLOADER_MENU_FILE_DOESNT_EXIST" = "Файл загрузчика Menu не существует. ";
+
+/*  */
+"ERROR_TEXT_CANT_CLEANUP_TEMPORARY_DIRECTORIES" = "Не удалось очистить временные директории";
+
+/*  */
+"ERROR_TEXT_CANT_CREATE_BASE_DIRECTORIES" = "Не удалось создать базовые директории";
+
+/*  */
+"ERROR_TEXT_CANT_CREATE_BASE_DIRECTORY_AT_PATH" = "Не удалось создать базовую директорию по пути: '%@' [Ошибка: '%@']";
+
+/*  */
+"ERROR_TEXT_CANT_CREATE_TEMPORARY_BLANK_FILE" = "Не удалось создать пустой файл во временной директории: '%@'.";
+
+
+"ERROR_TEXT_CANT_DETERMINE_BSD_PATH" = "Не удалось определить BSD имя устройства назначения.";
+
+/*  */
+"ERROR_TEXT_CANT_FIX_PERMISSIONS_FOR_BASE_DIRECTORIES" = "Не удалось исправить разрешеня в базовой директории.";
+
+
+"ERROR_TEXT_CANT_GET_ERROR_OUTPUT_PIPE" = "Не удается получить информацию из канала вывода ошибок командной строки.";
+
+/*  */
+"ERROR_TEXT_CANT_OPEN_FILEHANDLE_FOR_TEMP_FILE_PATH" = "Не удалось открыть файл во временной директории по пути: '%@'.";
+
+
+"ERROR_TEXT_CANT_PARSE_HDIUTIL_OUTPUT" = "Произошла ошибка при чтении вывода из hdiutil.";
+
+/*  */
+"ERROR_TEXT_CANT_SET_ALL_PERMISSIONS_FOR_DIRECTORY" = "Не удалось установить разрешения 777 для директории: '%@' [Ошибка: '%@']";
+
+
+"ERROR_TEXT_COMMAND_LINE_EXECUTE_FAILURE" = "Произошла ошибка при выполнении команды.";
+
+
+"ERROR_TEXT_DESTINATION_PATH_DOES_NOT_EXIST" = "Путь назначения не существует.";
+
+
+"ERROR_TEXT_DISK_SPACE_NOT_ENOUGH" = "Недостаточно свободного места на диске.";
+
+
+"ERROR_TEXT_FILE_COPY_FAILURE_OVER_FAT32_SIZE_LIMIT" = "Не удалось скопировать данный файл на FAT32 из-за ограничений файловой системы.";
+
+
+"ERROR_TEXT_FILE_TYPE_IS_NOT_ISO" = "Данный файл не имеет .iso расширения.";
+
+
+"ERROR_TEXT_GET_AVAILABLE_DESTINATION_DISK_SPACE_FAILURE" = "Ошибка получения доступного пространства для диска назначения.";
+
+
+"ERROR_TEXT_GET_AVAILABLE_SPACE_FAILURE" = "Ошибка получения доступного пространства для указанного пути.";
+
+
+"ERROR_TEXT_HDIUTIL_STATUS_WAS_NOT_EXIT_SUCCESS" = "Утилита hdiutil была завершена со статусом, отличным от EXIT_SUCCESS.";
+
+/*  */
+"ERROR_TEXT_HTTP_RESPONSE_INCORRECT_STATUS" = "HTTP ответ имеет некорректный код статуса: %ld.";
+
+
+"ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "На данной версии Mac OS X невозможно получить информацию об устройстве назначения при помощи пути смонтированного раздела.";
+
+
+"ERROR_TEXT_OPEN_DESTINATION_PATH_FAILURE" = "Не удалось открыть путь к файлу на диске назначения.";
+
+
+"ERROR_TEXT_OPEN_SOURCE_FILE_FAILURE" = "Не удалось открыть исходный файл.";
+
+
+"ERROR_TEXT_OUTPUT_DEVICE_OPEN_FAILURE" = "Не удалось открыть устройство назначения.";
+
+
+"ERROR_TEXT_PLIST_CANT_LOAD_SYSTEM_ENTITIES" = "Не удалось загрузить \"system-entities\" из полученного plist файла.";
+
+
+"ERROR_TEXT_PLIST_SYSTEM_ENTITIES_COUNT_MORE_THAN_ONE" = "Количество System Entities в этом образе больше 1. Не удалось определить необходимый System Entity. Попробуйте указать путь к уже смонтированному образу.";
+
+
+"ERROR_TEXT_PLIST_SYSTEM_ENTITIES_IS_EMPTY" = "Этот образ не содержит ни одной System Entity.";
+
+
+"ERROR_TEXT_SOURCE_IS_TOO_LARGE_FOR_THE_DESTINATION_DISK" = "Источник слишком велик для диска назначения.";
+
+
+"ERROR_TEXT_SPECIFIED_BSD_NAME_DOESNT_EXIST_CANT_ERASE" = "Указанное BSD имя не существует. Невозможно стереть данный раздел.";
+
+
+"ERROR_TEXT_SPLITTING_ESD_SWM_NOT_SUPPORTED" = "Разделение установочных файлов Windows с расширениями .esd и .swm на данный момент недоступно.";
+
+
+"ERROR_TEXT_UNMOUNT_DESTINATION_DEVICE_FAILURE" = "Не удалось размонтировать устройство назначения.";
+
+/*  */
+"ERROR_TEXT_URL_CONNECTION_UNKNOWN_RESPONSE_LENGTH" = "Не удалось определить длину ответа NSURLConnection.";
+
+
+"ERROR_TEXT_WRITE_DESTINATION_PATH_DATA_FAILURE" = "Не удалось записать данные на устройство назначения.";
+
+/*  */
+"GENERIC_CANCEL" = "Отмена";
+
+/*  */
+"GENERIC_CONTINUE" = "Продолжить";
+
+
 "GENERIC_NO" = "Нет";
+
+
+"GENERIC_YES" = "Да";
+
+
+"INPUTVIEW_PLACEHOLDER_IMAGE_FILE_OR_DIRECTORY" = "Файл образа или директория";
+
+
+"LABELVIEW_TITLE_ADDITIONAL_INFORMATION" = "Дополнительная информация";
+
+
+"LABELVIEW_TITLE_FILESYSTEM" = "Файловая система";
+
+
+"LABELVIEW_TITLE_TARGET_DEVICE" = "Устройство назначения";
+
+
+"LABELVIEW_TITLE_VERSION" = "Версия";
+
+
+"LABELVIEW_TITLE_WINDOWS_IMAGE" = "Образ Windows";
+
+/*  */
+"LOGVIEW_ROW_CREATE_DIRECTORY_AT_APP_FOLDER_PATH" = "Создание директории в директории приложения: '%@'.";
+
+
+"LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE" = "(Сообщение об ошибке: '%@')";
+
+
+"LOGVIEW_ROW_PARTIAL_TITLE_FOUND_DEVICES" = "Найдены устройства";
+
+
+"LOGVIEW_ROW_TITLE_CLEARING_DEVICE_PICKER_LIST" = "Очистка списка устройств.";
+
+
+"LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS" = "Устройство %@ (%@ %@) готово к форматированию со следующими параметрами: (название_раздела: '%@', схема_разделов: '%@', файловая_система: '%@', патч_системных_требований: '%d', установить_загрузчик_legacy_bios: '%d').";
+
+
+"LOGVIEW_ROW_TITLE_GENERATED_PARTITION_NAME" = "Сгенерированное название раздела";
+
+
+"LOGVIEW_ROW_TITLE_IMAGE_MOUNT_SUCCESS" = "Образ успешно смонтирован";
+
+
+"LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH" = "Путь к разделу назначения";
+
+
+"MENU_TITLE_DONATE_ME" = "❤️ Поддержать разработчика ❤️";
+
+
+"MENU_TITLE_EDIT" = "Правка";
+
+
+"MENU_TITLE_HIDE" = "Скрыть";
+
+
+"MENU_TITLE_ITEM_ABOUT" = "О программе";
+
+
+"MENU_TITLE_ITEM_CLOSE" = "Закрыть";
+
+
+"MENU_TITLE_ITEM_COPY" = "Скопировать";
+
+
+"MENU_TITLE_ITEM_CUT" = "Вырезать";
+
+
+"MENU_TITLE_ITEM_DEBUG" = "Отладка";
+
+
+"MENU_TITLE_ITEM_OPEN_DONATION_WEB_PAGE" = "Открыть страницу пожертвований";
+
+
+"MENU_TITLE_ITEM_PASTE" = "Вставить";
+
+
+"MENU_TITLE_ITEM_QUIT" = "Закрыть";
+
+
+"MENU_TITLE_ITEM_SELECT_ALL" = "Выбрать все";
+
+
+"MENU_TITLE_MINIMIZE" = "Свернуть";
+
+/*  */
+"MENU_TITLE_RESET_ALL_SETTINGS" = "Сбросить все настройки";
+
+
+"MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Сканировать все полные диски";
+
+
+"MENU_TITLE_WINDOW" = "Окно";
+
+/*  */
+"PLACEHOLDER_ERROR" = "[Ошибка: '%@']";
+
+
+"PLACEHOLDER_REASON" = "(Причина: %@)";
+
+
+"PROGRESS_TITLE_CREATE_DIRECTORY" = "Создание директории";
+
+
+"PROGRESS_TITLE_DISK_ERASE_SUCCESS" = "Устройство назначения успешно стерто.";
+
+
+"PROGRESS_TITLE_EXTRACT_BOOTLOADER" = "Распаковка загрузчика";
+
+
+"PROGRESS_TITLE_FORMATTING_THE_DRIVE" = "Форматирование диска";
+
+
+"PROGRESS_TITLE_INSTALL_LEGACY_BOOTLOADER" = "Установка загрузчика для Legacy BIOS";
+
+
+"PROGRESS_TITLE_PATCH_INSTALLER_REQUIREMENTS" = "Патчинг требований установщика";
+
+
+"PROGRESS_TITLE_READY_FOR_ACTION" = "Можно начать запись";
+
+/*  */
+"PROGRESS_TITLE_SET_FILE_PERMISSIONS" = "Установка разрешений файла";
+
+
+"PROGRESS_TITLE_SPLIT_IMAGE" = "Разделение образа";
+
+
+"PROGRESS_TITLE_WRITE_FILE" = "Запись файла";
+
+/*  */
+"SDM_MESSAGE_DID_FINISH_LOADING" = "%@ -> [Загружено: '%@', Ожидаемый размер файла: '%@']";
+
+/*  */
+"SDM_MESSAGE_DOWNLOAD_DID_RECEIVE_DATA" = "%@ -> [Размер части: '%@', Загружено: '%@', Номер части: '%lld']";
+
+/*  */
+"SDM_MESSAGE_DOWNLOAD_DID_RECEIVE_RESPONSE" = "%@ -> [URL: '%@', Ожидаемый размер файла: '%@']";
+
+
+"TOOLTIP_FRAMELAYOUT_FORMATTING_SECTION" = "Желаемая файловая система для устройства назначения.\n(FAT32 является наиболее совместимой файловой системой)";
