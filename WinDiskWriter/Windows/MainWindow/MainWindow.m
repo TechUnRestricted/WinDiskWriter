@@ -866,9 +866,9 @@ WriteExitForce();                     \
         if (installLegacyBoot) {
             BOOL bootloaderLegacyFilesDownloaded = [self downloadLegacyBootloaderFiles];
             if (bootloaderLegacyFilesDownloaded) {
-                [self->logsView appendRow:@"Found Legacy Bootloader files." logType:ASLogTypeSuccess];
+                [self->logsView appendRow:[LocalizedStrings logviewRowFoundLegacyBootloaderFiles] logType:ASLogTypeSuccess];
             } else {
-                [self->logsView appendRow:@"Legacy Bootloader files were not found." logType:ASLogTypeFatal];
+                [self->logsView appendRow:[LocalizedStrings logviewRowLegacyBootloaderFilesNotFound] logType:ASLogTypeFatal];
                 
                 WriteExitForce();
             }

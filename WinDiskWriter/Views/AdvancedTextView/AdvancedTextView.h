@@ -11,8 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ASLogType NS_TYPED_ENUM;
-
 @interface AdvancedTextView : NSScrollView
 
 @property (nonatomic, strong, readonly) VibrantTextView *textViewInstance;
@@ -23,8 +21,6 @@ typedef NSString *ASLogType NS_TYPED_ENUM;
 
 - (void)appendTimestampedLine: (NSString *)message;
 
-- (void)appendTimestampedLine: (NSString *)message
-                      logType: (ASLogType)logType;
 - (void)clear;
 
 @end

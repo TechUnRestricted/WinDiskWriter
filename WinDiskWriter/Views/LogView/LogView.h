@@ -10,17 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ASLogType NS_TYPED_ENUM;
-
-extern ASLogType const ASLogTypeStart;
-extern ASLogType const ASLogTypeSuccess;
-extern ASLogType const ASLogTypeFailure;
-extern ASLogType const ASLogTypeSkipped;
-
-extern ASLogType const ASLogTypeLog;
-extern ASLogType const ASLogTypeWarning;
-extern ASLogType const ASLogTypeFatal;
-extern ASLogType const ASLogTypeAssertionError;
+typedef NS_ENUM(NSUInteger, ASLogType) {
+    ASLogTypeStart,
+    ASLogTypeSuccess,
+    ASLogTypeFailure,
+    ASLogTypeSkipped,
+    
+    ASLogTypeLog,
+    ASLogTypeWarning,
+    ASLogTypeFatal,
+    ASLogTypeAssertionError
+};
 
 @interface LogView : NSScrollView
 

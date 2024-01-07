@@ -10,22 +10,49 @@
 #import "NSColor+Common.h"
 #import "VibrantTableView.h"
 #import "NSMutableAttributedString+Common.h"
+#import "LocalizedStrings.h"
 #import "ContaineredTableView.h"
 #import "MiddleAlignedCell.h"
 
-ASLogType const ASLogTypeStart = @"Start";
-ASLogType const ASLogTypeSuccess = @"Success";
-ASLogType const ASLogTypeFailure = @"Failure";
-ASLogType const ASLogTypeSkipped = @"Skipped";
+/*
+ASLogType ASLogTypeStart = @"Start";
+ASLogType ASLogTypeSuccess = @"Success";
+ASLogType ASLogTypeFailure = @"Failure";
+ASLogType ASLogTypeSkipped = @"Skipped";
 
-ASLogType const ASLogTypeLog = @"Log";
-ASLogType const ASLogTypeWarning = @"Warning";
-ASLogType const ASLogTypeFatal = @"Fatal";
-ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
-
+ASLogType ASLogTypeLog = @"Log";
+ASLogType ASLogTypeWarning = @"Warning";
+ASLogType ASLogTypeFatal = @"Fatal";
+ASLogType ASLogTypeAssertionError = @"AssertionFailure";
+*/
+ 
 @implementation LogView {
     NSDateFormatter *dateFormatter;
     NSTextField *dummyTextField;
+}
+
++ (NSString *)logTypeStringForKey: (ASLogType)logType {
+    switch (logType) {
+        case ASLogTypeStart:
+            return [LocalizedStrings asLogTypeStart];
+        case ASLogTypeSuccess:
+            return [LocalizedStrings asLogTypeSuccess];
+        case ASLogTypeFailure:
+            return [LocalizedStrings asLogTypeFailure];
+        case ASLogTypeSkipped:
+            return [LocalizedStrings asLogTypeSkipped];
+        case ASLogTypeLog:
+            return [LocalizedStrings asLogTypeLog];
+        case ASLogTypeWarning:
+            return [LocalizedStrings asLogTypeWarning];
+        case ASLogTypeFatal:
+            return [LocalizedStrings asLogTypeFatal];
+        case ASLogTypeAssertionError:
+            return [LocalizedStrings asLogTypeAssertionError];
+    }
+    
+    // Fallback value
+    return [LocalizedStrings asLogTypeLog];
 }
 
 - (instancetype)init {
@@ -106,14 +133,14 @@ ASLogType const ASLogTypeAssertionError = @"AssertionFailure";
 
 - (void)appendTimestampedRow: (NSString *)string
                      logType: (ASLogType)logType {
-    NSString *timestampedString = [NSString stringWithFormat: @"[(%@) %@] %@", logType, [self timeString], string];
+    NSString *timestampedString = [NSString stringWithFormat: @"[(%@) %@] %@", [LogView logTypeStringForKey: logType], [self timeString], string];
     
     [self appendRow: timestampedString];
 }
 
 - (void)appendRow: (NSString *)string
           logType: (ASLogType)logType {
-    NSString *logTypedString = [NSString stringWithFormat: @"[%@] %@", logType, string];
+    NSString *logTypedString = [NSString stringWithFormat: @"[%@] %@", [LogView logTypeStringForKey: logType], string];
     
     [self appendRow:logTypedString];
 }

@@ -71,14 +71,6 @@
     return YES;
 }
 
-- (void)appendTimestampedLine: (NSString *)message
-                      logType: (ASLogType)logType {
-    NSString *timeString = [dateFormatter stringFromDate: NSDate.date];
-    NSString *timestampedString = [NSString stringWithFormat:@"[(%@) %@] %@", logType, timeString, message];
-    
-    [self appendLine: timestampedString];
-}
-
 - (void)appendTimestampedLine: (NSString *)message {
     NSString *timeString = [dateFormatter stringFromDate: NSDate.date];
 

@@ -84,6 +84,30 @@
 "ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "A problem occurred while writing the file to disk";
 
 
+"AS_LOG_TYPE_ASSERTION_ERROR" = "AssertionFailure";
+
+
+"AS_LOG_TYPE_FAILURE" = "Failure";
+
+
+"AS_LOG_TYPE_FATAL" = "Fatal";
+
+
+"AS_LOG_TYPE_LOG" = "Log";
+
+
+"AS_LOG_TYPE_SKIPPED" = "Skipped";
+
+
+"AS_LOG_TYPE_START" = "Start";
+
+
+"AS_LOG_TYPE_SUCCESS" = "Success";
+
+
+"AS_LOG_TYPE_WARNING" = "Warning";
+
+
 "AUTHORIZATION_ERROR_BAD_ADDRESS" = "The requested socket address is invalid (must be 0-1023 inclusive).";
 
 
@@ -358,6 +382,12 @@
 
 
 "LOGVIEW_ROW_CREATE_DIRECTORY_AT_APP_FOLDER_PATH" = "Create directory at Application Folder path: '%@'.";
+
+
+"LOGVIEW_ROW_FOUND_LEGACY_BOOTLOADER_FILES" = "Found Legacy Bootloader files.";
+
+
+"LOGVIEW_ROW_LEGACY_BOOTLOADER_FILES_NOT_FOUND" = "Legacy Bootloader files were not found.";
 
 
 "LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE" = "(Error message: '%@')";

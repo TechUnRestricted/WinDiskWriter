@@ -84,6 +84,30 @@
 "ALERT_TITLE_WRITE_FILE_PROBLEM_OCCURRED" = "Произошла проблема во время записи файла на диск";
 
 
+"AS_LOG_TYPE_ASSERTION_ERROR" = "Нарушение условия";
+
+
+"AS_LOG_TYPE_FAILURE" = "Ошибка";
+
+
+"AS_LOG_TYPE_FATAL" = "Фатальная ошибка";
+
+
+"AS_LOG_TYPE_LOG" = "Инфо";
+
+
+"AS_LOG_TYPE_SKIPPED" = "Пропущено";
+
+
+"AS_LOG_TYPE_START" = "Старт";
+
+
+"AS_LOG_TYPE_SUCCESS" = "Успешно";
+
+
+"AS_LOG_TYPE_WARNING" = "Предупреждение";
+
+
 "AUTHORIZATION_ERROR_BAD_ADDRESS" = "Запрошенный адрес сокета не является валидным (должен быть в диапазоне 0-1023 включительно).";
 
 
@@ -358,6 +382,12 @@
 
 /*  */
 "LOGVIEW_ROW_CREATE_DIRECTORY_AT_APP_FOLDER_PATH" = "Создание директории в директории приложения: '%@'.";
+
+
+"LOGVIEW_ROW_FOUND_LEGACY_BOOTLOADER_FILES" = "Найдены файлы загрузчика Legacy BIOS.";
+
+
+"LOGVIEW_ROW_LEGACY_BOOTLOADER_FILES_NOT_FOUND" = "Файла загрузчика Legacy BIOS не были найдены.";
 
 
 "LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE" = "(Сообщение об ошибке: '%@')";
