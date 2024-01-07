@@ -451,7 +451,7 @@ goto cleanup;                                                                   
                 goto cleanup;
             }
             
-            // If we're running as root, we need to 'chmod 666' install.wim/.esd in order to be accepted by wimlib.
+            // If we're running as root, we need to 'chmod 777' install.wim/.esd in order to be accepted by wimlib.
             if ([HelperFunctions hasElevatedRights]) {
                 CallbackHandlerWithCleanup(dwFile, 0, DWOperationTypeSetFilePermissions, DWOperationResultStart, NULL);
 

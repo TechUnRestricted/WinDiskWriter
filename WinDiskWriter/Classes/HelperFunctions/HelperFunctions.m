@@ -64,12 +64,65 @@ static void initializeStaticVariables() {
                            error: (NSError * _Nullable * _Nullable)error {
     const char *filePath = [path fileSystemRepresentation];
     
-    if (chmod(filePath, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) == -1) {
+    if (chmod(filePath, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
         if (error) {
             *error = [NSError errorWithStringValue: [NSString stringWithUTF8String:strerror(errno)]];
         }
         
         return NO;
+    }
+    
+    return YES;
+}
+
++ (BOOL)fixPermissionsForBaseDirectoriesWithError: (NSError *_Nullable *_Nullable)error {
+    // Application is running in normal user rights mode, don't need (and can't) change anything!
+    if (![HelperFunctions hasElevatedRights]) {
+        return YES;
+    }
+        
+    for (NSString *baseDirectoryPath in @[applicationFilesFolder, applicationTempFolder, applicationGrub4DosFolder]) {
+        NSError *setAllPermissionsError = NULL;
+        
+        [HelperFunctions setAllPermissionsForPath: baseDirectoryPath
+                                            error: &setAllPermissionsError];
+        
+        if (setAllPermissionsError != NULL) {
+            NSString *errorString = [NSString stringWithFormat: @"Can't set 777 permissions for directory: '%@' [Error: '%@']",
+                                     baseDirectoryPath,
+                                     setAllPermissionsError.stringValue];
+            if (error) {
+                *error = [NSError errorWithStringValue: errorString];
+            }
+            
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
++ (BOOL)createBaseDirectoriesWithError: (NSError *_Nullable *_Nullable)error {
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    for (NSString *requiredDirectoryPath in @[applicationFilesFolder, applicationTempFolder, applicationGrub4DosFolder]) {
+        NSError *createDirectoryError = NULL;
+        
+        [fileManager createDirectoryAtPath: requiredDirectoryPath
+               withIntermediateDirectories: YES
+                                attributes: NULL
+                                     error: &createDirectoryError];
+        
+        if (createDirectoryError != NULL) {
+            NSString *errorString = [NSString stringWithFormat: @"Can't create a base directory at path: '%@' [Error: '%@']",
+                                     requiredDirectoryPath,
+                                     createDirectoryError.stringValue];
+            if (error) {
+                *error = [NSError errorWithStringValue: errorString];
+            }
+            
+            return NO;
+        }
     }
     
     return YES;
@@ -124,31 +177,58 @@ static void initializeStaticVariables() {
     [[NSApplication sharedApplication] terminate: NULL];
 }
 
-+ (void)threadSafeRemoveFile: (NSString *)filePath {
++ (BOOL)threadSafeRemoveFile: (NSString *)filePath
+                       error: (NSError *_Nullable *_Nullable)error {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
     BOOL folderExists = [fileManager fileExistsAtPath: filePath];
     if (folderExists) {
+        NSError *folderRemoveError = NULL;
+        
         [fileManager removeItemAtPath: filePath
-                                error: NULL];
+                                error: &folderRemoveError];
+        
+        if (folderRemoveError) {
+            if (error) {
+                *error = folderRemoveError;
+            }
+            
+            return NO;
+        }
     }
+    
+    return YES;
 }
 
 + (void)resetApplicationSettings {
-    [self threadSafeRemoveFile: applicationFilesFolder];
-    
+    [self threadSafeRemoveFile: applicationFilesFolder
+                         error: NULL];
+        
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *defaultsDictionary = [userDefaults dictionaryRepresentation];
     
     for (NSString *key in [defaultsDictionary allKeys]) {
-      [userDefaults removeObjectForKey:key];
+        [userDefaults removeObjectForKey:key];
     }
     
     [userDefaults synchronize];
 }
 
-+ (void)cleanupTempFolders {
-    [self threadSafeRemoveFile: applicationTempFolder];
++ (BOOL)cleanupTempFoldersWithError: (NSError *_Nullable *_Nullable)error {
+    NSError *threadSafeRemoveFileError = NULL;
+    
+    [self threadSafeRemoveFile: applicationTempFolder
+                         error: &threadSafeRemoveFileError];
+    
+    if (threadSafeRemoveFileError != NULL) {
+        if (error) {
+            *error = threadSafeRemoveFileError;
+        }
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 + (BOOL)hasElevatedRights {

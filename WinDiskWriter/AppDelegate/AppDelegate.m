@@ -122,7 +122,7 @@
             
             scanAllWholeDisksMenuItem = [[NSMenuItem alloc] init]; {
                 [scanAllWholeDisksMenuItem setTitle: [LocalizedStrings menuTitleScanAllWholeDisks]];
-                                                
+                
                 [debugMenu addItem: scanAllWholeDisksMenuItem];
             }
             
@@ -135,7 +135,7 @@
                 
                 [debugMenu addItem: resetAppSettingsMenuItem];
             }
-
+            
         }
     }
     
@@ -196,7 +196,7 @@
 - (void)showResetSettingsAlert {
     NSMutableString *informativeText = [NSMutableString stringWithFormat: @"This operation will clear all Application Data for the '%@' user.", NSUserName()];
     [informativeText appendString: @"\n"];
-
+    
     
     BOOL isRoot = [HelperFunctions hasElevatedRights];
     
@@ -221,7 +221,7 @@
 - (void)alertResetSettingsPromptDidEnd: (NSAlert *)alert
                             returnCode: (NSInteger)returnCode
                            contextInfo: (void *)contextInfo {
-
+    
     if (returnCode != NSAlertSecondButtonReturn) {
         return;
     }
@@ -229,7 +229,7 @@
     [HelperFunctions resetApplicationSettings];
     [HelperFunctions restartAppWithElevatedPermissions: NO
                                                  error: NULL];
-
+    
 }
 
 - (void)forceDisplayAppInFront {
@@ -238,17 +238,74 @@
     [NSApp activateIgnoringOtherApps: NO];
 }
 
+- (void)alertFatalErrorSuggestRestartAsRootPromptDidEnd: (NSAlert *)alert
+                                             returnCode: (NSInteger)returnCode
+                                            contextInfo: (void *)contextInfo {
+    if (returnCode != NSAlertFirstButtonReturn) {
+        [HelperFunctions quitApplication];
+    }
+    
+    NSError *restartWithElevatedPermissionsError = NULL;
+    [HelperFunctions restartAppWithElevatedPermissions: YES
+                                                 error: &restartWithElevatedPermissionsError];
+    
+    if (restartWithElevatedPermissionsError != NULL) {
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: restartWithElevatedPermissionsError.stringValue];
+    }
+}
+
+- (void)displayFatalErrorSuggestRestartAsRootAlertWithTitle: (NSString *)title {
+    NSAlert *alert = [[NSAlert alloc] init];
+    
+    [alert setMessageText: title];
+    [alert setInformativeText: @"The application can try to fix these errors by relaunching as Root."];
+    
+    [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
+    
+    [alert addButtonWithTitle: [LocalizedStrings buttonTitleRelaunch]];
+    [alert addButtonWithTitle: [LocalizedStrings menuTitleItemQuit]];
+    
+    [alert beginSheetModalForWindow: mainWindow
+                      modalDelegate: self
+                     didEndSelector: @selector(alertFatalErrorSuggestRestartAsRootPromptDidEnd:returnCode:contextInfo:)
+                        contextInfo: NULL];
+}
+
+- (void)setupBaseDirectories {
+    NSError *cleanupTempFoldersError = NULL;
+    [HelperFunctions cleanupTempFoldersWithError: &cleanupTempFoldersError];
+    
+    if (cleanupTempFoldersError != NULL) {
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't cleanup temporary folders"];
+        return;
+    }
+    
+    NSError *createBaseDirectoriesError = NULL;
+    [HelperFunctions createBaseDirectoriesWithError: &createBaseDirectoriesError];
+    
+    if (createBaseDirectoriesError != NULL) {
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't create base directories"];
+        return;
+    }
+    
+    NSError *fixPermissionsError = NULL;
+    [HelperFunctions fixPermissionsForBaseDirectoriesWithError: &fixPermissionsError];
+    
+    if (fixPermissionsError != NULL) {
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't fix permissions for base directories"];
+        return;
+    }
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupMenuItems];
     [self setupWindows];
     [self forceDisplayAppInFront];
-
-    [HelperFunctions cleanupTempFolders];    
+    [self setupBaseDirectories];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [HelperFunctions cleanupTempFolders];
+    [HelperFunctions cleanupTempFoldersWithError: NULL];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {

@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)setAllPermissionsForPath: (NSString *)path
                            error: (NSError * _Nullable * _Nullable)error;
 
++ (BOOL)createBaseDirectoriesWithError: (NSError *_Nullable *_Nullable)error;
+
++ (BOOL)fixPermissionsForBaseDirectoriesWithError: (NSError *_Nullable *_Nullable)error;
+
 + (BOOL)requiresLegacyBootloaderFilesDownload;
 
 + (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray;
@@ -34,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<NSString *> *)grub4dosFileNames;
 
-+ (void)cleanupTempFolders;
++ (BOOL)cleanupTempFoldersWithError: (NSError *_Nullable *_Nullable)error;
 
 + (void)resetApplicationSettings;
 
