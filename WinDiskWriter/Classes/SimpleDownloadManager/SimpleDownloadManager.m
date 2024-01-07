@@ -6,6 +6,7 @@
 //
 
 #import "SimpleDownloadManager.h"
+#import "LocalizedStrings.h"
 #import "NSError+Common.h"
 
 @implementation SimpleDownloadManager {
@@ -103,7 +104,7 @@
         
         
         if (!fileCreateSuccess) {
-            NSString *fileCreateErrorString = [NSString stringWithFormat: @"Can't create a blank file for storing a file in a temporary directory: %@", self.temporaryFilePath];
+            NSString *fileCreateErrorString = [LocalizedStrings errorTextCantCreateTemporaryBlankFileWithArgument1: self.temporaryFilePath];
             NSError *fileCreateError = [NSError errorWithStringValue: fileCreateErrorString];
             
             callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, fileCreateError);
@@ -114,7 +115,7 @@
     
     temporaryStorageFileHandle = [NSFileHandle fileHandleForWritingAtPath: self.temporaryFilePath];
     if (temporaryStorageFileHandle == NULL) {
-        NSString *errorString = [NSString stringWithFormat: @"Can't open file handle for temporary file path: '%@'.", self.temporaryFilePath];
+        NSString *errorString = [LocalizedStrings errorTextCantOpenFilehandleForTempFilePathWithArgument1: self.temporaryFilePath];
         NSError *openFileHandleError = [NSError errorWithStringValue: errorString];
         
         callback(SDMMessageDidFailWithError, SDMMessageTypeFailure, &callbackStruct, openFileHandleError);
@@ -149,7 +150,7 @@
     }
     
     if (self.forbidUnknownResponseLength && expectedFileSize == NSURLResponseUnknownLength) {
-        NSError *responseUnknownLengthError = [NSError errorWithStringValue: @"NSURLConnection Response length is unknown."];
+        NSError *responseUnknownLengthError = [NSError errorWithStringValue: [LocalizedStrings errorTextUrlConnectionUnknownResponseLength]];
         
         callback(SDMMessageDidReceiveResponse, SDMMessageTypeFailure, &callbackStruct, responseUnknownLengthError);
         
@@ -161,8 +162,8 @@
     NSInteger statusCode = httpResponse.statusCode;
     
     BOOL hasCorrectStatusCode = (statusCode == 200);
-    if (self.forbidIncorrectStatusCode && !hasCorrectStatusCode) {
-        NSError *incorrectStatusCodeError = [NSError errorWithStringValue: [NSString stringWithFormat: @"HTTP Response has incorrect status status code: %ld.", statusCode]];
+    if (self.forbidIncorrectStatusCode && !hasCorrectStatusCode) {        
+        NSError *incorrectStatusCodeError = [NSError errorWithStringValue: [LocalizedStrings errorTextHttpResponseIncorrectStatusWithArgument1: statusCode]];
         
         callback(SDMMessageDidReceiveResponse, SDMMessageTypeFailure, &callbackStruct, incorrectStatusCodeError);
         

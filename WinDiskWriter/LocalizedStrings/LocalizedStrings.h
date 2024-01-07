@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)progressTitleInstallLegacyBootloader;
 
 /// @brief (Error message: '%@')
-+ (NSString *)logviewRowPartialTitleErrorMessageWithArgument1:(NSString *)argument1;
++ (NSString *)logviewRowPartialTitleErrorMessageWithArgument1:(id)argument1;
 
 /// @brief Image was successfully mounted
 + (NSString *)logviewRowTitleImageMountSuccess;
@@ -202,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)logviewRowTitleTargetPartitionPath;
 
 /// @brief Device %@ (%@ %@) is ready to be erased with the following properties: (partition_name: '%@', partition_scheme: '%@', filesystem: '%@', patch_installer_requirements: '%d', install_legacy_boot: '%d').
-+ (NSString *)logviewRowTitleDiskEraseOperationOptionsWithArgument1:(NSString *)argument1 argument2:(NSString *)argument2 argument3:(NSString *)argument3 argument4:(NSString *)argument4 argument5:(NSString *)argument5 argument6:(NSString *)argument6 argument7:(NSInteger)argument7 argument8:(NSInteger)argument8;
++ (NSString *)logviewRowTitleDiskEraseOperationOptionsWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 argument4:(id)argument4 argument5:(id)argument5 argument6:(id)argument6 argument7:(NSInteger)argument7 argument8:(NSInteger)argument8;
 
 /// @brief A problem occurred while writing the file to disk
 + (NSString *)alertTitleWriteFileProblemOccurred;
@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)alertSubtitleWriteFileProblemOccurred;
 
 /// @brief (Reason: %@)
-+ (NSString *)placeholderReasonWithArgument1:(NSString *)argument1;
++ (NSString *)placeholderReasonWithArgument1:(id)argument1;
 
 /// @brief Stop Writing
 + (NSString *)alertButtonTitleStopWriting;
@@ -402,17 +402,92 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief Can't load the destination device info from mounted volume on this Mac OS X version.
 + (NSString *)errorTextInitWithVolumePathUnsupported;
 
-/// @brief Can't copy %@ to the destination device.
-+ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(NSString *)argument1;
+/// @brief Can't copy '%@' to the destination device.
++ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(id)argument1;
 
 /// @brief File (directory) '%@' doesn't exist.
-+ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(NSString *)argument1;
++ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(id)argument1;
 
 /// @brief Debug
 + (NSString *)menuTitleItemDebug;
 
 /// @brief Scan All Whole Disks
 + (NSString *)menuTitleScanAllWholeDisks;
+
+/// @brief Can't cleanup temporary directories
++ (NSString *)errorTextCantCleanupTemporaryDirectories;
+
+/// @brief Can't create base directories
++ (NSString *)errorTextCantCreateBaseDirectories;
+
+/// @brief Can't fix permissions for base directories
++ (NSString *)errorTextCantFixPermissionsForBaseDirectories;
+
+/// @brief The application can try to fix these errors by relaunching as Root.
++ (NSString *)alertSubtitlePromptStartFailsafeRecovery;
+
+/// @brief This operation will clear all Application Data for the '%@' user.
++ (NSString *)alertSubtitlePromptResetSettingsWithArgument1:(id)argument1;
+
+/// @brief Yes
++ (NSString *)genericYes;
+
+/// @brief No
++ (NSString *)genericNo;
+
+/// @brief Reset All Settings
++ (NSString *)menuTitleResetAllSettings;
+
+/// @brief Can't create a blank file for storing a file in a temporary directory: '%@'.
++ (NSString *)errorTextCantCreateTemporaryBlankFileWithArgument1:(id)argument1;
+
+/// @brief Can't open file handle for temporary file path: '%@'.
++ (NSString *)errorTextCantOpenFilehandleForTempFilePathWithArgument1:(id)argument1;
+
+/// @brief Set File Permissions
++ (NSString *)progressTitleSetFilePermissions;
+
+/// @brief NSURLConnection Response length is unknown.
++ (NSString *)errorTextUrlConnectionUnknownResponseLength;
+
+/// @brief HTTP Response has incorrect status status code: %ld.
++ (NSString *)errorTextHttpResponseIncorrectStatusWithArgument1:(long)argument1;
+
+/// @brief Can't create a base directory at path: '%@' [Error: '%@']
++ (NSString *)errorTextCantCreateBaseDirectoryAtPathWithArgument1:(id)argument1 argument2:(id)argument2;
+
+/// @brief Can't set 777 permissions for directory: '%@' [Error: '%@']
++ (NSString *)errorTextCantSetAllPermissionsForDirectoryWithArgument1:(id)argument1 argument2:(id)argument2;
+
+/// @brief Legacy Boot Support
++ (NSString *)alertTitleLegacyBootSupport;
+
+/// @brief To enable legacy boot, WinDiskWriter needs to download grub4dos bootloader files.\nGrub4dos is distributed under the GNU General Public License version 2.0.
++ (NSString *)alertSubtitleLegacyBootSupport;
+
+/// @brief Continue
++ (NSString *)genericContinue;
+
+/// @brief Cancel
++ (NSString *)genericCancel;
+
+/// @brief Create directory at Application Folder path: '%@'.
++ (NSString *)logviewRowCreateDirectoryAtAppFolderPathWithArgument1:(id)argument1;
+
+/// @brief [Error: '%@']
++ (NSString *)placeholderErrorWithArgument1:(id)argument1;
+
+/// @brief %@ -> [URL: '%@', Expected Content Length: '%@']
++ (NSString *)sdmMessageDownloadDidReceiveResponseWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3;
+
+/// @brief %@ -> [Chunk Size: '%@', Total Bytes Downloaded: '%@', Chunk Number: '%lld']
++ (NSString *)sdmMessageDownloadDidReceiveDataWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 argument4:(SInt64)argument4;
+
+/// @brief %@ -> [Total Bytes Downloaded: '%@', Expected File Size: '%@']
++ (NSString *)sdmMessageDidFinishLoadingWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3;
+
+/// @brief The bootloader files could not be downloaded.
++ (NSString *)errorTextBootloaderFilesCantBeDownloaded;
 
 @end
 

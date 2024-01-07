@@ -60,9 +60,9 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
 <h2>Features</h2>
 <ul>
    <li>
-     📀 <strong>Create bootable USB Windows installers with ease</strong><br>
+     📀 <strong>Create Bootable USB Windows Installers</strong><br>
       <sub>
-        WinDiskWriter knows how to write a USB for each Windows Image type.
+        WinDiskWriter knows how to make a bootable drive for each Windows Image type.
       </sub>
    </li>
   <br>
@@ -78,12 +78,12 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
      👾 <strong>Legacy BIOS Support</strong><br>
       <sub>
         You can create an all-in-one USB drive that supports both <strong>UEFI</strong> and <strong>Legacy</strong> boot modes.<br>
-        It&#39;s required if you want to install Windows on computers with <strong>older firmware</strong> that doesn&#39;t support EFI booting.
+        It&#39;s required if you want to install Windows on computers with <strong>old firmwares</strong> that don&#39;t support EFI booting.
       </sub>
    </li>
   <br>
    <li>
-     🔐 <strong>Add EFI Support to Legacy Windows Versions</strong><br>
+     🔐 <strong>Add EFI Support to Windows Vista and 7</strong><br>
       <sub>
         Windows Vista and 7 don&#39;t support EFI booting out of the box.<br>
         Additional steps are required to get these versions to boot on EFI, such as extracting a EFI-capable bootloader from the installer. <strong>WinDiskWriter does it for you!</strong>
@@ -91,7 +91,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
    </li>
   <br>
    <li>
-     🗂 <strong>Split Windows Installer Image</strong><br>
+     🗂 <strong>Split Windows Installer Images</strong><br>
       <sub>
         Newer Windows ISOs contain a large (<strong>&gt;4GB</strong>) install.wim file.<br>
         Since FAT32 only supports file sizes up to 4GB, WinDiskWriter <strong>automatically splits it for you!</strong>
@@ -208,13 +208,6 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
    </li>
   <br>
    <li>
-      🔍  <strong>Add toggle to show internal drives</strong><br>
-         <sub>
-           Although this could cause potential data loss if enabled by mistake, it's still a very convenient option for people who want to install Windows without using any USB drives.
-         </sub>
-   </li>
-  <br>
-   <li>
       🗜 <strong>Add support for splitting install.esd (compressed system image) files</strong><br>
          <sub>
            Some Windows ISOs, (usually repacks) use .esd system images for better compression.<br>
@@ -260,7 +253,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
 <p>
    This software is written in <b>Objective-C</b>, a programming language that allows it to run on <b>many versions of macOS</b>, from <b>Snow Leopard 10.6</b> to <b>Sonoma 14.0</b>. Objective-C is a powerful and efficient language that combines object-oriented and dynamic features with the C language.<br><br>
    <b>WinDiskWriter</b> uses <b>wimlib</b>, a library for manipulating Windows Image (WIM) files, to perform operations such as splitting, patching, and extracting. I would like to thank the developers of wimlib for their amazing work and contribution to the open source community.<br><br>
-   <b>WinDiskWriter</b> also uses <b>grub4dos</b>, a bootloader that can boot from various devices and formats, to enable Legacy BIOS booting for Windows images. I would like to thank the developers of grub4dos for their great work and support.
+   <b>WinDiskWriter</b> optionally can use a <b>grub4dos</b> bootloader to enable Legacy BIOS Support. I would like to thank the developers of grub4dos for their great work.
 </p>
 
 <h2>❤️ Support Me ❤️ (Donations)</h2>

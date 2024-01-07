@@ -246,7 +246,7 @@
     return NSLocalizedString(@"PROGRESS_TITLE_INSTALL_LEGACY_BOOTLOADER", NULL);
 }
 
-+ (NSString *)logviewRowPartialTitleErrorMessageWithArgument1:(NSString *)argument1 {
++ (NSString *)logviewRowPartialTitleErrorMessageWithArgument1:(id)argument1 {
     NSString *unformattedString = NSLocalizedString(@"LOGVIEW_ROW_PARTIAL_TITLE_ERROR_MESSAGE", NULL);
     return [NSString stringWithFormat: unformattedString, argument1];
 }
@@ -263,7 +263,7 @@
     return NSLocalizedString(@"LOGVIEW_ROW_TITLE_TARGET_PARTITION_PATH", NULL);
 }
 
-+ (NSString *)logviewRowTitleDiskEraseOperationOptionsWithArgument1:(NSString *)argument1 argument2:(NSString *)argument2 argument3:(NSString *)argument3 argument4:(NSString *)argument4 argument5:(NSString *)argument5 argument6:(NSString *)argument6 argument7:(NSInteger)argument7 argument8:(NSInteger)argument8 {
++ (NSString *)logviewRowTitleDiskEraseOperationOptionsWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 argument4:(id)argument4 argument5:(id)argument5 argument6:(id)argument6 argument7:(NSInteger)argument7 argument8:(NSInteger)argument8 {
     NSString *unformattedString = NSLocalizedString(@"LOGVIEW_ROW_TITLE_DISK_ERASE_OPERATION_OPTIONS", NULL);
     return [NSString stringWithFormat: unformattedString, argument1, argument2, argument3, argument4, argument5, argument6, argument7, argument8];
 }
@@ -276,7 +276,7 @@
     return NSLocalizedString(@"ALERT_SUBTITLE_WRITE_FILE_PROBLEM_OCCURRED", NULL);
 }
 
-+ (NSString *)placeholderReasonWithArgument1:(NSString *)argument1 {
++ (NSString *)placeholderReasonWithArgument1:(id)argument1 {
     NSString *unformattedString = NSLocalizedString(@"PLACEHOLDER_REASON", NULL);
     return [NSString stringWithFormat: unformattedString, argument1];
 }
@@ -533,12 +533,12 @@
     return NSLocalizedString(@"ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED", NULL);
 }
 
-+ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(NSString *)argument1 {
++ (NSString *)errorCantCopyFileToDestinationDeviceWithArgument1:(id)argument1 {
     NSString *unformattedString = NSLocalizedString(@"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE", NULL);
     return [NSString stringWithFormat: unformattedString, argument1];
 }
 
-+ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(NSString *)argument1 {
++ (NSString *)errorFileOrDirectoryDoesntExistWithArgument1:(id)argument1 {
     NSString *unformattedString = NSLocalizedString(@"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST", NULL);
     return [NSString stringWithFormat: unformattedString, argument1];
 }
@@ -549,6 +549,117 @@
 
 + (NSString *)menuTitleScanAllWholeDisks {
     return NSLocalizedString(@"MENU_TITLE_SCAN_ALL_WHOLE_DISKS", NULL);
+}
+
++ (NSString *)errorTextCantCleanupTemporaryDirectories {
+    return NSLocalizedString(@"ERROR_TEXT_CANT_CLEANUP_TEMPORARY_DIRECTORIES", NULL);
+}
+
++ (NSString *)errorTextCantCreateBaseDirectories {
+    return NSLocalizedString(@"ERROR_TEXT_CANT_CREATE_BASE_DIRECTORIES", NULL);
+}
+
++ (NSString *)errorTextCantFixPermissionsForBaseDirectories {
+    return NSLocalizedString(@"ERROR_TEXT_CANT_FIX_PERMISSIONS_FOR_BASE_DIRECTORIES", NULL);
+}
+
++ (NSString *)alertSubtitlePromptStartFailsafeRecovery {
+    return NSLocalizedString(@"ALERT_SUBTITLE_PROMPT_START_FAILSAFE_RECOVERY", NULL);
+}
+
++ (NSString *)alertSubtitlePromptResetSettingsWithArgument1:(id)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ALERT_SUBTITLE_PROMPT_RESET_SETTINGS", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)genericYes {
+    return NSLocalizedString(@"GENERIC_YES", NULL);
+}
+
++ (NSString *)genericNo {
+    return NSLocalizedString(@"GENERIC_NO", NULL);
+}
+
++ (NSString *)menuTitleResetAllSettings {
+    return NSLocalizedString(@"MENU_TITLE_RESET_ALL_SETTINGS", NULL);
+}
+
++ (NSString *)errorTextCantCreateTemporaryBlankFileWithArgument1:(id)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_TEXT_CANT_CREATE_TEMPORARY_BLANK_FILE", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)errorTextCantOpenFilehandleForTempFilePathWithArgument1:(id)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_TEXT_CANT_OPEN_FILEHANDLE_FOR_TEMP_FILE_PATH", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)progressTitleSetFilePermissions {
+    return NSLocalizedString(@"PROGRESS_TITLE_SET_FILE_PERMISSIONS", NULL);
+}
+
++ (NSString *)errorTextUrlConnectionUnknownResponseLength {
+    return NSLocalizedString(@"ERROR_TEXT_URL_CONNECTION_UNKNOWN_RESPONSE_LENGTH", NULL);
+}
+
++ (NSString *)errorTextHttpResponseIncorrectStatusWithArgument1:(long)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_TEXT_HTTP_RESPONSE_INCORRECT_STATUS", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)errorTextCantCreateBaseDirectoryAtPathWithArgument1:(id)argument1 argument2:(id)argument2 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_TEXT_CANT_CREATE_BASE_DIRECTORY_AT_PATH", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1, argument2];
+}
+
++ (NSString *)errorTextCantSetAllPermissionsForDirectoryWithArgument1:(id)argument1 argument2:(id)argument2 {
+    NSString *unformattedString = NSLocalizedString(@"ERROR_TEXT_CANT_SET_ALL_PERMISSIONS_FOR_DIRECTORY", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1, argument2];
+}
+
++ (NSString *)alertTitleLegacyBootSupport {
+    return NSLocalizedString(@"ALERT_TITLE_LEGACY_BOOT_SUPPORT", NULL);
+}
+
++ (NSString *)alertSubtitleLegacyBootSupport {
+    return NSLocalizedString(@"ALERT_SUBTITLE_LEGACY_BOOT_SUPPORT", NULL);
+}
+
++ (NSString *)genericContinue {
+    return NSLocalizedString(@"GENERIC_CONTINUE", NULL);
+}
+
++ (NSString *)genericCancel {
+    return NSLocalizedString(@"GENERIC_CANCEL", NULL);
+}
+
++ (NSString *)logviewRowCreateDirectoryAtAppFolderPathWithArgument1:(id)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"LOGVIEW_ROW_CREATE_DIRECTORY_AT_APP_FOLDER_PATH", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)placeholderErrorWithArgument1:(id)argument1 {
+    NSString *unformattedString = NSLocalizedString(@"PLACEHOLDER_ERROR", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1];
+}
+
++ (NSString *)sdmMessageDownloadDidReceiveResponseWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 {
+    NSString *unformattedString = NSLocalizedString(@"SDM_MESSAGE_DOWNLOAD_DID_RECEIVE_RESPONSE", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1, argument2, argument3];
+}
+
++ (NSString *)sdmMessageDownloadDidReceiveDataWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 argument4:(SInt64)argument4 {
+    NSString *unformattedString = NSLocalizedString(@"SDM_MESSAGE_DOWNLOAD_DID_RECEIVE_DATA", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1, argument2, argument3, argument4];
+}
+
++ (NSString *)sdmMessageDidFinishLoadingWithArgument1:(id)argument1 argument2:(id)argument2 argument3:(id)argument3 {
+    NSString *unformattedString = NSLocalizedString(@"SDM_MESSAGE_DID_FINISH_LOADING", NULL);
+    return [NSString stringWithFormat: unformattedString, argument1, argument2, argument3];
+}
+
++ (NSString *)errorTextBootloaderFilesCantBeDownloaded {
+    return NSLocalizedString(@"ERROR_TEXT_BOOTLOADER_FILES_CANT_BE_DOWNLOADED", NULL);
 }
 
 @end

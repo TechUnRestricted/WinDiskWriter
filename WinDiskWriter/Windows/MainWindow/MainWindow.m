@@ -511,11 +511,11 @@ WriteExitForce();                     \
 // MARK: - Need To Download Grub4Dos -
 - (void)showNeedToDownloadGrub4DosFilesAlert {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: @"Legacy Boot Support"];
-    [alert setInformativeText: @"To enable legacy boot, WinDiskWriter needs to download grub4dos bootloader files.\nGrub4dos is distributed under the GNU General Public License version 2.0."];
+    [alert setMessageText: [LocalizedStrings alertTitleLegacyBootSupport]];
+    [alert setInformativeText: [LocalizedStrings alertSubtitleLegacyBootSupport]];
     
-    [alert addButtonWithTitle: @"Continue"];
-    [alert addButtonWithTitle: @"Cancel"];
+    [alert addButtonWithTitle: [LocalizedStrings genericContinue]];
+    [alert addButtonWithTitle: [LocalizedStrings genericCancel]];
     
     [alert beginSheetModalForWindow: self
                       modalDelegate: self
@@ -656,7 +656,7 @@ WriteExitForce();                     \
             continue;
         }
         
-        NSString *createDirectoryLogString = [NSString stringWithFormat: @"Create directory at Application Folder path: '%@'.", currentDirectoryPath];
+        NSString *createDirectoryLogString = [LocalizedStrings logviewRowCreateDirectoryAtAppFolderPathWithArgument1: currentDirectoryPath];
         [logsView appendRow:createDirectoryLogString logType:ASLogTypeStart];
         
         NSError *createDirectoryError = NULL;
@@ -667,7 +667,7 @@ WriteExitForce();                     \
         
         if (createDirectoryError != NULL) {
             NSString *createDirectoryErrorLogString = [createDirectoryLogString stringByAppendingString:
-                                                           [NSString stringWithFormat: @"[Error: '%@']", createDirectoryError.stringValue]
+                                                       [LocalizedStrings placeholderErrorWithArgument1: createDirectoryError.stringValue]
             ];
             
             [logsView appendRow:createDirectoryErrorLogString logType:ASLogTypeFatal];
@@ -695,11 +695,9 @@ WriteExitForce();                     \
                     
                     NSString *operationName = @"[SDMMessageDownloadDidReceiveResponse]";
                     
-                    NSString *logString = [NSString stringWithFormat: @"%@ -> [URL: '%@', Expected Content Length: '%@']",
-                                           operationName,
-                                           urlResponse.URL,
-                                           [HelperFunctions unitFormattedSizeFor: urlResponse.expectedContentLength]
-                    ];
+                    NSString *logString = [LocalizedStrings sdmMessageDownloadDidReceiveResponseWithArgument1: operationName
+                                                                                                    argument2: urlResponse.URL
+                                                                                                    argument3: [HelperFunctions unitFormattedSizeFor: urlResponse.expectedContentLength]];
                     
                     [self->logsView appendRow:logString logType:ASLogTypeLog];
                     
@@ -713,12 +711,10 @@ WriteExitForce();                     \
                     
                     NSString *operationName = @"[SDMMessageDownloadDidReceiveData]";
                     
-                    NSString *logString = [NSString stringWithFormat: @"%@ -> [Chunk Size: '%@', Total Bytes Downloaded: '%@', Chunk Number: '%lld']",
-                                           operationName,
-                                           [HelperFunctions unitFormattedSizeFor: data.length],
-                                           [HelperFunctions unitFormattedSizeFor: downloadedBytesSize],
-                                           chunkNumber
-                    ];
+                    NSString *logString = [LocalizedStrings sdmMessageDownloadDidReceiveDataWithArgument1: operationName
+                                                                                                argument2: [HelperFunctions unitFormattedSizeFor: data.length]
+                                                                                                argument3: [HelperFunctions unitFormattedSizeFor: downloadedBytesSize]
+                                                                                                argument4: chunkNumber];
        
                     [self->logsView appendRow:logString logType:ASLogTypeLog];
                     
@@ -730,13 +726,10 @@ WriteExitForce();                     \
                     UInt64 expectedFileSize = castedCallbackStruct->expectedFileSize;
                     
                     NSString *operationName = @"[SDMMessageDidFinishLoading]";
-
-                    NSString *logString = [NSString stringWithFormat: @"%@ -> [Total Bytes Downloaded: '%@', Expected File Size: '%@']",
-                                           operationName,
-                                           [HelperFunctions unitFormattedSizeFor: downloadedBytesSize],
-                                           [HelperFunctions unitFormattedSizeFor: expectedFileSize]
-                    ];
                     
+                    NSString *logString = [LocalizedStrings sdmMessageDidFinishLoadingWithArgument1: operationName
+                                                                                          argument2: [HelperFunctions unitFormattedSizeFor: downloadedBytesSize]
+                                                                                          argument3: [HelperFunctions unitFormattedSizeFor: expectedFileSize]];
                     [self->logsView appendRow:logString logType:ASLogTypeLog];
                     
                     break;
@@ -744,7 +737,7 @@ WriteExitForce();                     \
                 case SDMMessageDidFailWithError: {
                     SDMCallbackStructDidFailWithError *castedCallbackStruct = SDMCallbackStruct;
                     NSURLRequest *urlRequest = castedCallbackStruct->urlRequest;
-                    
+                                        
                     NSString *operationName = @"[SDMMessageDidFailWithError]";
                     NSString *logString = [NSString stringWithFormat: @"%@ -> [URL: %@]",
                                            operationName,
@@ -759,8 +752,8 @@ WriteExitForce();                     \
                 NSString *errorString = [NSString stringWithFormat: @"[File Download Error]: %@", error.stringValue];
                 
                 [self->logsView appendRow:errorString logType:ASLogTypeFatal];
-                
-                [self displayWarningAlertWithTitle: @"The bootloader files could not be downloaded."
+
+                [self displayWarningAlertWithTitle: [LocalizedStrings errorTextBootloaderFilesCantBeDownloaded]
                                           subtitle: error.stringValue
                                               icon: NSImageNameCaution];
                 
@@ -980,7 +973,7 @@ WriteExitForce();                     \
                     [onscreenLogText appendString: [LocalizedStrings progressTitlePatchInstallerRequirements]];
                     break;
                 case DWOperationTypeSetFilePermissions:
-                    [onscreenLogText appendString: @"Set File Permissions"];
+                    [onscreenLogText appendString: [LocalizedStrings progressTitleSetFilePermissions]];
                     break;
                 case DWOperationTypeInstallLegacyBootSector:
                     [onscreenLogText appendString: [LocalizedStrings progressTitleInstallLegacyBootloader]];

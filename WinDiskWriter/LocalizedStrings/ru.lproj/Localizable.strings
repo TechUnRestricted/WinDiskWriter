@@ -21,7 +21,7 @@
 "ALERT_TITLE_IMAGE_WRITING_SUCCESS" = "Запись образа успешно завершена.";
 "INPUTVIEW_PLACEHOLDER_IMAGE_FILE_OR_DIRECTORY" = "Файл образа или директория";
 "LABELVIEW_TITLE_WINDOWS_IMAGE" = "Образ Windows";
-"MENU_TITLE_DONATE_ME" = "❤️ Поддержать меня ❤️";
+"MENU_TITLE_DONATE_ME" = "❤️ Поддержать разработчика ❤️";
 "MENU_TITLE_EDIT" = "Правка";
 "MENU_TITLE_HIDE" = "Скрыть";
 "MENU_TITLE_ITEM_ABOUT" = "О программе";
@@ -127,8 +127,10 @@
 "AUTHORIZATION_ERROR_BAD_ADDRESS" = "Запрошенный адрес сокета не является валидным (должен быть в диапазоне 0-1023 включительно).";
 "ERROR_TEXT_FILE_TYPE_IS_NOT_ISO" = "Данный файл не имеет .iso расширения.";
 "ERROR_TEXT_INIT_WITH_VOLUME_PATH_UNSUPPORTED" = "На данной версии Mac OS X невозможно получить информацию об устройстве назначения при помощи пути смонтированного раздела.";
-"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать %@ на устройство назначения.";
-"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файл (директория) '%@' не существует.";
+"ERROR_CANT_COPY_FILE_TO_DESTINATION_DEVICE" = "На удалось скопировать '%@' на устройство назначения.";
+"ERROR_FILE_OR_DIRECTORY_DOESNT_EXIST" = "Файла (директории) '%@' не существует.";
 "MENU_TITLE_ITEM_DEBUG" = "Отладка";
 "MENU_TITLE_SCAN_ALL_WHOLE_DISKS" = "Сканировать все полные диски";
 "ALERT_TITLE_PROMPT_START_PROCESS" = "Вы уверены, что хотите начать запись?";
+"GENERIC_YES" = "Да";
+"GENERIC_NO" = "Нет";

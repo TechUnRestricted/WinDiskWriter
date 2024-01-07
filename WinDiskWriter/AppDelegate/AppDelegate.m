@@ -129,7 +129,7 @@
             [debugMenu addItem: NSMenuItem.separatorItem];
             
             NSMenuItem *resetAppSettingsMenuItem = [[NSMenuItem alloc] init]; {
-                [resetAppSettingsMenuItem setTitle: @"Reset All Settings"];
+                [resetAppSettingsMenuItem setTitle: [LocalizedStrings menuTitleResetAllSettings]];
                 [resetAppSettingsMenuItem setTarget: self];
                 [resetAppSettingsMenuItem setAction: @selector(showResetSettingsAlert)];
                 
@@ -194,23 +194,14 @@
 }
 
 - (void)showResetSettingsAlert {
-    NSMutableString *informativeText = [NSMutableString stringWithFormat: @"This operation will clear all Application Data for the '%@' user.", NSUserName()];
-    [informativeText appendString: @"\n"];
     
-    
-    BOOL isRoot = [HelperFunctions hasElevatedRights];
-    
-    if (isRoot) {
-        [informativeText appendString: @"After, to complete the settings removal, relaunch the application with a non-root user and perform this action again."];
-    } else {
-        [informativeText appendString: @"After, to complete the settings removal, click on the 'Patch Installer Requirements' button (this will relaunch the application as root) and perform this action again."];
-    }
+    NSString *informativeText = [LocalizedStrings alertSubtitlePromptResetSettingsWithArgument1: NSUserName()];
     
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: @"Reset All Settings"];
+    [alert setMessageText: [LocalizedStrings menuTitleResetAllSettings]];
     [alert setInformativeText: informativeText];
-    [alert addButtonWithTitle: @"No"];
-    [alert addButtonWithTitle: @"Yes"];
+    [alert addButtonWithTitle: [LocalizedStrings genericNo]];
+    [alert addButtonWithTitle: [LocalizedStrings genericYes]];
     
     [alert beginSheetModalForWindow: mainWindow
                       modalDelegate: self
@@ -229,7 +220,6 @@
     [HelperFunctions resetApplicationSettings];
     [HelperFunctions restartAppWithElevatedPermissions: NO
                                                  error: NULL];
-    
 }
 
 - (void)forceDisplayAppInFront {
@@ -258,7 +248,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     
     [alert setMessageText: title];
-    [alert setInformativeText: @"The application can try to fix these errors by relaunching as Root."];
+    [alert setInformativeText: [LocalizedStrings alertSubtitlePromptStartFailsafeRecovery]];
     
     [alert setIcon: [NSImage imageNamed: NSImageNameCaution]];
     
@@ -276,7 +266,7 @@
     [HelperFunctions cleanupTempFoldersWithError: &cleanupTempFoldersError];
     
     if (cleanupTempFoldersError != NULL) {
-        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't cleanup temporary folders"];
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: [LocalizedStrings errorTextCantCleanupTemporaryDirectories]];
         return;
     }
     
@@ -284,7 +274,7 @@
     [HelperFunctions createBaseDirectoriesWithError: &createBaseDirectoriesError];
     
     if (createBaseDirectoriesError != NULL) {
-        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't create base directories"];
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: [LocalizedStrings errorTextCantCreateBaseDirectories]];
         return;
     }
     
@@ -292,7 +282,7 @@
     [HelperFunctions fixPermissionsForBaseDirectoriesWithError: &fixPermissionsError];
     
     if (fixPermissionsError != NULL) {
-        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: @"Can't fix permissions for base directories"];
+        [self displayFatalErrorSuggestRestartAsRootAlertWithTitle: [LocalizedStrings errorTextCantFixPermissionsForBaseDirectories]];
         return;
     }
 }

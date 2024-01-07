@@ -88,9 +88,8 @@ static void initializeStaticVariables() {
                                             error: &setAllPermissionsError];
         
         if (setAllPermissionsError != NULL) {
-            NSString *errorString = [NSString stringWithFormat: @"Can't set 777 permissions for directory: '%@' [Error: '%@']",
-                                     baseDirectoryPath,
-                                     setAllPermissionsError.stringValue];
+            NSString *errorString = [LocalizedStrings errorTextCantSetAllPermissionsForDirectoryWithArgument1: baseDirectoryPath
+                                                                                                    argument2: setAllPermissionsError.stringValue];
             if (error) {
                 *error = [NSError errorWithStringValue: errorString];
             }
@@ -112,11 +111,10 @@ static void initializeStaticVariables() {
                withIntermediateDirectories: YES
                                 attributes: NULL
                                      error: &createDirectoryError];
-        
+                
         if (createDirectoryError != NULL) {
-            NSString *errorString = [NSString stringWithFormat: @"Can't create a base directory at path: '%@' [Error: '%@']",
-                                     requiredDirectoryPath,
-                                     createDirectoryError.stringValue];
+            NSString *errorString = [LocalizedStrings errorTextCantCreateBaseDirectoryAtPathWithArgument1: requiredDirectoryPath
+                                                                                                argument2: createDirectoryError.stringValue];
             if (error) {
                 *error = [NSError errorWithStringValue: errorString];
             }
