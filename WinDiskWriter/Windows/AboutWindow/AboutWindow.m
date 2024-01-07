@@ -135,13 +135,12 @@
                  
                  "WinDiskWriter uses the wimlib library, which is licensed under the GNU Lesser General Public License Version 3. The library has been slightly modified to prevent application crashes caused by assertions. This enables the integration of wimlib as a part of the project, instead of as a separate binary file that is invoked through the console." "\n\n"
                  
-                 "The application also uses grub4dos, which is licensed under the GNU General Public License Version 2. grub4dos isn't built into WinDiskWriter. Rather, it's a separate binary file in the Resources folder." "\n"
-                 "grub4dos is used to enable legacy booting for older systems." "\n\n"
-                 "!!! The user is free to modify, replace or remove grub4dos binaries from WinDiskWriter.app !!!" "\n\n"
+                 "The application can optionally download and use grub4dos, which is a GPL v2 licensed software." "\n"
+                 "Grub4dos is used to enable legacy booting for older systems." "\n\n"
                  
-                 "The application is written in the Objective-C programming language to achieve backward compatibility with older operating systems. This is achieved by using legacy code and custom solutions instead of relying on external frameworks. For example, the user interface and the logic of element placement are coded manually, without using xib and storyboards." "\n\n"
+                 "WinDiskWriter is written in the Objective-C programming language to achieve backward compatibility with older operating systems. This is achieved by using legacy code and custom solutions instead of relying on external frameworks. For example, the user interface and the logic of element placement are coded manually, without using xib and storyboards." "\n\n"
                  
-                 "The application has only one version: GUI. It supports writing Windows Vista, 7, 8, 8.1, 10 and 11 in both UEFI and Legacy modes. It also supports 32-bit Windows images. Future updates will include more features and enhancements." "\n\n\n"
+                 "This software supports making bootable USB drives with Windows Vista, 7, 8, 8.1, 10 and 11 in both UEFI and Legacy modes. It also supports 32-bit Windows images. Future updates will include more features and enhancements." "\n\n\n"
 
             
 

@@ -12,7 +12,13 @@
 @implementation NSError (Common)
 
 - (NSString *)stringValue {
-    return [self.userInfo objectForKey: NSLocalizedDescriptionKey];
+    NSString *localizedDescriptionKey = [self.userInfo objectForKey: NSLocalizedDescriptionKey];
+    
+    if (localizedDescriptionKey != NULL) {
+        return localizedDescriptionKey;
+    }
+    
+    return self.localizedDescription;
 }
 
 + (NSError *)errorWithStringValue: (NSString *)stringValue {    

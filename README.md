@@ -299,9 +299,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
     </li>
   <li>
       <a href="https://github.com/chenall/grub4dos">grub4dos</a> <sub><sup><a href="https://github.com/chenall/grub4dos/blob/0.4.6a/COPYING">(GNU GENERAL PUBLIC LICENSE Version 2)</a><br>
-        (grub4dos isn't built into the WinDiskWriter binary.
-        It's distributed as a separate binary in the .app Resources folder.
-        <b>Feel free to modify, replace or remove the binaries at any time</b>!)</sup></sub>
+        (grub4dos is a downloadable option in WinDiskWriter)</sup></sub>
     </li>
 </ul>
 

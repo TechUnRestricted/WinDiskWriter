@@ -249,9 +249,7 @@
 }
 
 - (void)stopRunLoop {
-    CFRunLoopStop(currentRunLoop);
-    
-    printf("Stopping RunLoop\n");
+    CFRunLoopStop(currentRunLoop);    
 }
 
 @end

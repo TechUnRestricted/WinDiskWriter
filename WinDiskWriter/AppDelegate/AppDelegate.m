@@ -16,6 +16,7 @@
 
 #import "AboutWindow.h"
 #import "MainWindow.h"
+#include "WimlibWrapper.h"
 
 @implementation AppDelegate {
     MainWindow *mainWindow;
@@ -237,12 +238,13 @@
     [NSApp activateIgnoringOtherApps: NO];
 }
 
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupMenuItems];
     [self setupWindows];
     [self forceDisplayAppInFront];
 
-    [HelperFunctions cleanupTempFolders];
+    [HelperFunctions cleanupTempFolders];    
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

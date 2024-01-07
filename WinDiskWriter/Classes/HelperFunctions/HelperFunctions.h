@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
++ (BOOL)setAllPermissionsForPath: (NSString *)path
+                           error: (NSError * _Nullable * _Nullable)error;
+
 + (BOOL)requiresLegacyBootloaderFilesDownload;
 
 + (NSArray<NSString *> *)notDownloadedGrub4DosFilesArray;

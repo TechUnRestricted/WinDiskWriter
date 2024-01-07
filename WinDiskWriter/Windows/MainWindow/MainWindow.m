@@ -424,7 +424,6 @@ WriteExitForce();                     \
 - (void)displayWarningAlertWithTitle: (NSString *)title
                             subtitle: (NSString *_Nullable)subtitle
                                 icon: (NSImageName)icon {
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText: title];
@@ -638,7 +637,10 @@ WriteExitForce();                     \
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
     NSArray<NSString *> *filesNeedToDownload = [HelperFunctions notDownloadedGrub4DosFilesArray];
-   
+    if (filesNeedToDownload.count == 0) {
+        return YES;
+    }
+    
     NSString *applicationGrub4DosFolder = [HelperFunctions applicationGrub4DosFolder];
     
     NSString *temporaryDirectoryPathForAtomicMoving = [NSString pathWithComponents: @[
@@ -750,8 +752,6 @@ WriteExitForce();                     \
                     ];
                     
                     [self->logsView appendRow:logString logType:ASLogTypeFatal];
-
-                    return NO;
                 }
             }
             
@@ -759,6 +759,10 @@ WriteExitForce();                     \
                 NSString *errorString = [NSString stringWithFormat: @"[File Download Error]: %@", error.stringValue];
                 
                 [self->logsView appendRow:errorString logType:ASLogTypeFatal];
+                
+                [self displayWarningAlertWithTitle: @"The bootloader files could not be downloaded."
+                                          subtitle: error.stringValue
+                                              icon: NSImageNameCaution];
                 
                 return NO;
             }
@@ -975,6 +979,9 @@ WriteExitForce();                     \
                 case DWOperationTypePatchWindowsInstallerRequirements:
                     [onscreenLogText appendString: [LocalizedStrings progressTitlePatchInstallerRequirements]];
                     break;
+                case DWOperationTypeSetFilePermissions:
+                    [onscreenLogText appendString: @"Set File Permissions"];
+                    break;
                 case DWOperationTypeInstallLegacyBootSector:
                     [onscreenLogText appendString: [LocalizedStrings progressTitleInstallLegacyBootloader]];
                     break;
@@ -1169,7 +1176,7 @@ WriteExitForce();                     \
             
             [self->startStopButtonView setTitle: [LocalizedStrings buttonTitleStop]];
             [self->startStopButtonView setAction: @selector(stopAction)];
-            [self->startStopButtonView setAction: NULL];
+            [self->scanAllWholeDisksMenuItem setAction: NULL];
         }
         
         [self->updateDeviceListButtonView setEnabled: enabledUIState];

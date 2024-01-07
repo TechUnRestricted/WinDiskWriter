@@ -15,6 +15,7 @@
 #import "DiskManager.h"
 #import "CommandLine.h"
 #import "Constants.h"
+#import <sys/stat.h>
 #import "HDIUtil.h"
 
 NSString * const MSDOSCompliantSymbols = @"ABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
@@ -30,8 +31,17 @@ static NSArray<NSString *> *grub4dosFileNames;
 
 __attribute__((constructor))
 static void initializeStaticVariables() {
+    NSString *suggestedApplicationDirectoryPath;
+    
+    NSArray *foundDirectoriesInDomains = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    if (foundDirectoriesInDomains.count > 0) {
+        suggestedApplicationDirectoryPath = [foundDirectoriesInDomains firstObject];
+    } else {
+        suggestedApplicationDirectoryPath = NSTemporaryDirectory();
+    }
+    
     applicationFilesFolder = [NSString pathWithComponents: @[
-        NSTemporaryDirectory(),
+        suggestedApplicationDirectoryPath,
         @"WinDiskWriter"
     ]];
     
@@ -48,6 +58,21 @@ static void initializeStaticVariables() {
     grub4dosFileNames = @[
         @"grldr", @"grldr.mbr", @"menu.lst"
     ];
+}
+
++ (BOOL)setAllPermissionsForPath: (NSString *)path
+                           error: (NSError * _Nullable * _Nullable)error {
+    const char *filePath = [path fileSystemRepresentation];
+    
+    if (chmod(filePath, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) == -1) {
+        if (error) {
+            *error = [NSError errorWithStringValue: [NSString stringWithUTF8String:strerror(errno)]];
+        }
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 + (BOOL)requiresLegacyBootloaderFilesDownload {

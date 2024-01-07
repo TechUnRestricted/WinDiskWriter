@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, DWOperationType) {
      Removes TPM and Secure Boot requirements by setting
      the types of all images inside install(.wim)/(.esd) to "Server" */
     DWOperationTypePatchWindowsInstallerRequirements,
+    DWOperationTypeSetFilePermissions,
+    
     DWOperationTypeInstallLegacyBootSector
 };
 

@@ -245,6 +245,10 @@ destinationDirectory: (NSString *)destinationDirectory
 - (WimlibWrapperResult)extractWindowsEFIBootloaderForDestinationDirectory: (NSString *)destinationDirectory {
     UInt32 imagesCount = [self imagesCount];
     
+    if (imagesCount == 0) {
+        return WimlibWrapperResultSkipped;
+    }
+    
     for (UInt32 currentImageIndex = 1; currentImageIndex <= imagesCount; currentImageIndex++) {
         if ([self CPUArchitectureForImageIndex:currentImageIndex] != WimLibWrapperCPUArchAMD64) {
             continue;
