@@ -36,7 +36,7 @@ You can use this app to create bootable universal USB <strong>Windows installers
 With this USB drive, you can install and enjoy <strong>Windows</strong> on your <strong>PC</strong>, <strong>Intel Mac</strong> or certain <strong>Virtual Machines</strong>.
 
 <center>
-  <img alt="WinDiskWriter Main Window" src="https://i.postimg.cc/CFYbxwkD/Win-Disk-Writer-Main-Wind-w.png">
+  <img alt="WinDiskWriter Main Window" src="https://i.postimg.cc/CYyfZb4Y/Win-Disk-Writer-Screenshot-Pair.png">
 </center>
 
 <h2>Table of Contents</h2>

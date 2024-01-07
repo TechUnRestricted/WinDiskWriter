@@ -1074,7 +1074,7 @@ WriteExitForce();                     \
         
         [self displayWarningAlertWithTitle: [LocalizedStrings alertTitleImageWritingSuccess]
                                   subtitle: [LocalizedStrings alertSubtitleImageWritingSuccess]
-                                      icon: NSImageNameStatusAvailable];
+                                      icon: NULL];
         
         [self->logsView appendRow:[LocalizedStrings alertTitleImageWritingSuccess] logType:ASLogTypeSuccess];
         
