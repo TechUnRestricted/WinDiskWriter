@@ -28,10 +28,16 @@
 
 <h2 align="center">Windows USB Disk Creator for macOS</h2>
 
-<pre align="center">
-  💖 Hey there! If you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially!</a></b> 💖
-</pre>
+<div align="center">
+  <pre style="display: inline-block; text-align: left;">
+    💖 Hey there! If you like my work, please <b><a href="#%EF%B8%8F-support-me-%EF%B8%8F-donations">support me financially!</a></b> 💖</pre></div>
 
+<p align="center">
+  <a href="https://www.buymeacoffee.com/TechUnRestricted">
+    <img src="https://img.buymeacoffee.com/button-api/?text=Donate with Buy Me a Coffee&emoji=☕&slug=TechUnRestricted&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff" />
+  </a>
+<p>
+  
 You can use this app to create bootable universal USB <strong>Windows installers</strong> that supports both <strong>UEFI</strong> and <strong>Legacy BIOS</strong> modes.<br>
 With this USB drive, you can install and enjoy <strong>Windows</strong> on your <strong>PC</strong>, <strong>Intel Mac</strong> or certain <strong>Virtual Machines</strong>.
 
@@ -257,6 +263,11 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
 </p>
 
 <h2>❤️ Support Me ❤️ (Donations)</h2>
+<p align="center">
+  <a href="https://www.buymeacoffee.com/TechUnRestricted" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/arial-red.png" alt="Buy Me A Coffee" style="width: 280px !important;" >
+  </a>
+</p>
 <ul>
   <li>
     Bitcoin (BTC): <b>bc1qe2z68uwgplxfzspdy5pnxhzza2spep0ryk5zeq</b>
