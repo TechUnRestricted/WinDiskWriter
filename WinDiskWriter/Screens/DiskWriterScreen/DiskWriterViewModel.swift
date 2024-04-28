@@ -25,9 +25,12 @@ final class DiskWriterViewModel {
     
     var isInstallLegacyBIOSBootSectorAvailable: Bool {
         get {
-            coordinator.showRestartWithEscalatedPermissionsAlert()
+            guard AppService.hasElevatedRights else {
+                coordinator.showRestartWithEscalatedPermissionsAlert()
+                return false
+            }
             
-            return AppService.hasElevatedRights
+            return true
         }
     }
     
