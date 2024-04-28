@@ -11,6 +11,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var coordinator: MainCoordinator?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSApp.activate(ignoringOtherApps: true)
+
         coordinator = MainCoordinator()
         coordinator?.start()
     }
