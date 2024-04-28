@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "C33A9CB3-AC05-470C-B7E8-0675B9D83908"
+   uuid = "2D5CEFC0-70D7-456D-9E23-3A667E8AC13B"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "07049A75-19D9-4BDB-966D-F0DC78381D75"
+            uuid = "94E712D8-1B59-4C18-B357-5AEC477B9D61"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WinDiskWriter/Classes/WimlibWrapper/WimlibWrapper.m"
+            filePath = "WinDiskWriter/Screens/DiskWriterScreen/DiskWriterViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-applyChanges"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "updateDevices()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
