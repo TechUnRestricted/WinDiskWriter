@@ -385,12 +385,13 @@ extension DiskWriterViewController {
     }
 
     private func setupFilesystemSwitchPickerView() {
-        filesystemSwitchPickerView.addSegment(title: "FAT32", identifier: .FAT32, makeDefault: true) { _ in
-            //print(filesystem)
+        filesystemSwitchPickerView.addSegment(title: "FAT32", identifier: .FAT32, makeDefault: true) { [weak self] _ in
+            self?.optionInstallLegacyBootCheckboxView.isEnabled = true
         }
 
-        filesystemSwitchPickerView.addSegment(title: "ExFAT", identifier: .exFAT) { _ in
-            //print(filesystem.rawValue)
+        filesystemSwitchPickerView.addSegment(title: "ExFAT", identifier: .exFAT) { [weak self] _ in
+            self?.optionInstallLegacyBootCheckboxView.isEnabled = false
+            self?.optionInstallLegacyBootCheckboxView.isChecked = false
         }
     }
 

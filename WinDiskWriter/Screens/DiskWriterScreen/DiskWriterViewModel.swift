@@ -9,7 +9,7 @@ import Foundation
 
 final class DiskWriterViewModel {
     var imagePath: (() -> (String))?
-    var didSelectImagePath: ((String) -> Void)?
+    var didSelectImagePath: ((String) -> (Void))?
     
     var filesystem: (() -> (Filesystem))?
     
