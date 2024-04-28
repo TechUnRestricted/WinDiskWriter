@@ -9,19 +9,20 @@ import AppKit
 
 class AlertBuilder {
     private var alert = NSAlert()
-    private var responseHandlers: [NSApplication.ModalResponse: () -> Void] = [:]
+    private var responseHandlers: [Int: () -> Void] = [:]
 
     @discardableResult
-    func addButton(title: String, prefareDefault: Bool = false, handler: (() -> Void)? = nil) -> Self {
+    func addButton(title: String, preferDefault: Bool = false, handler: (() -> Void)? = nil) -> Self {
         let button = alert.addButton(withTitle: title)
 
-        if prefareDefault {
+        if preferDefault {
             alert.window.defaultButtonCell = button.cell as? NSButtonCell
         }
 
         if let handler = handler {
-            let response = NSApplication.ModalResponse(alert.buttons.count)
-            responseHandlers[response] = handler
+            let uniqueTag = alert.buttons.count - 1
+
+            responseHandlers[uniqueTag] = handler
         }
 
         return self
@@ -41,9 +42,17 @@ class AlertBuilder {
         return self
     }
 
+    @discardableResult
+    func setImage(_ image: NSImage) -> Self {
+        alert.icon = image
+        
+        return self
+    }
+
     func show(in window: NSWindow) {
-        alert.beginSheetModal(for: window) { [weak self] response in
-            self?.responseHandlers[response]?()
+        alert.beginSheetModal(for: window) { result in
+            let buttonKey = NSApplication.ModalResponse.alertFirstButtonReturn.rawValue - result.rawValue
+            self.responseHandlers[buttonKey]?()
         }
     }
 }

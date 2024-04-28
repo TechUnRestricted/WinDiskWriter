@@ -41,4 +41,23 @@ final class DiskWriterCoordinator: Coordinator {
             completion(selectedPath)
         }
     }
+
+    func showRestartWithEscalatedPermissionsAlert() {
+        guard let window = window else {
+            return
+        }
+
+        AlertBuilder()
+            .setMessage(text: "Restart with Administrator Privileges Required")
+            .setInformative(text: "All unsaved changes will be lost")
+            .setImage(NSImage(named: NSImage.cautionName)!)
+            .addButton(
+                title: "Restart",
+                preferDefault: false, handler: {
+                    try? AppRelauncher.restartApp(withElevatedPermissions: true)
+                }
+            )
+            .addButton(title: "Cancel", preferDefault: true)
+            .show(in: window)
+    }
 }
