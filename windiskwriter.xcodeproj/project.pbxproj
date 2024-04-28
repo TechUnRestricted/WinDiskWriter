@@ -40,6 +40,9 @@
 		E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5102BDE6AB50096C605 /* DiskMenuItem.swift */; };
 		E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */; };
 		E27FD5152BDE7F580096C605 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */; };
+		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
+		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
+		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
 		E2F37B612BD5643D003D27BD /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B602BD5643D003D27BD /* BaseWindow.swift */; };
@@ -95,6 +98,10 @@
 		E27FD5102BDE6AB50096C605 /* DiskMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskMenuItem.swift; sourceTree = "<group>"; };
 		E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt64+FormattedSize.swift"; sourceTree = "<group>"; };
 		E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringBuilder.swift; sourceTree = "<group>"; };
+		E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncher.swift; sourceTree = "<group>"; };
+		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
+		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
+		E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ExecuteWithPrivileges.c; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
 		E2F37B602BD5643D003D27BD /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
@@ -220,6 +227,8 @@
 				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
 				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
+				E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */,
+				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -292,8 +301,18 @@
 			children = (
 				E27FD4FC2BDE3B3C0096C605 /* String+Stripped.swift */,
 				E27FD50D2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift */,
+				E2A08CD92BDEC42500E354BB /* String+CChar.swift */,
 			);
 			path = String;
+			sourceTree = "<group>";
+		};
+		E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */ = {
+			isa = PBXGroup;
+			children = (
+				E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */,
+				E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */,
+			);
+			path = ExecuteWithPrivileges;
 			sourceTree = "<group>";
 		};
 		E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */ = {
@@ -422,7 +441,9 @@
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
+				E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */,
 				E2F37B802BD78088003D27BD /* ScrollableLinesView.swift in Sources */,
+				E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */,
 				E27FD5022BDE4E470096C605 /* ImageMountResult.swift in Sources */,
 				E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */,
 				E234FC252BD53E540074C781 /* DiskWriterCoordinator.swift in Sources */,
@@ -462,6 +483,7 @@
 				E2F37B612BD5643D003D27BD /* BaseWindow.swift in Sources */,
 				E2F37B752BD6DBCE003D27BD /* RoundedButtonView.swift in Sources */,
 				E234FC1E2BD53C800074C781 /* DiskWriterViewModel.swift in Sources */,
+				E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

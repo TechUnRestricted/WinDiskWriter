@@ -29,6 +29,7 @@ struct CommandLineResult {
 class CommandLine {
     private init() { }
 
+    @discardableResult
     static func execute(executable: String, arguments: [String]? = nil) throws -> CommandLineResult {
         let task = Process()
 

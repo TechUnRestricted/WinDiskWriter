@@ -63,7 +63,11 @@ final class DiskWriterViewModel {
     }
     
     func startStopProcess() {
-      
+        do {
+            try AppRelauncher.restartApp(withElevatedPermissions: true)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func visitDevelopersPage() {
