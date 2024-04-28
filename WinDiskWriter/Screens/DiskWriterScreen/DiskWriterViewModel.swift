@@ -25,7 +25,7 @@ final class DiskWriterViewModel {
     
     var isInstallLegacyBIOSBootSectorAvailable: Bool {
         get {
-            return false
+            return AppService.hasElevatedRights
         }
     }
     
@@ -39,37 +39,35 @@ final class DiskWriterViewModel {
     init(coordinator: DiskWriterCoordinator) {
         self.coordinator = coordinator
     }
-    
+}
+
+extension DiskWriterViewModel {
     func pickImage() {
         coordinator.showFileSelectionSheet { [weak self] selectedPath in
             self?.didSelectImagePath?(selectedPath)
         }
     }
-    
+
     func updateDevices() {
         let unfilteredDiskInfoList = DiskInspector.getDisksInfoList()
-        
+
         var filteredDiskInfoList: [DiskInfo] = []
-        
+
         for diskInfo in unfilteredDiskInfoList {
             if !diskInfo.isWholeDrive || !diskInfo.isWritable || !diskInfo.isDeviceUnit || diskInfo.isNetworkVolume || diskInfo.isInternal {
                 continue
             }
-            
+
             filteredDiskInfoList.append(diskInfo)
         }
-        
+
         updateDisksList?(filteredDiskInfoList)
     }
-    
+
     func startStopProcess() {
-        do {
-            try AppRelauncher.restartApp(withElevatedPermissions: true)
-        } catch {
-            print(error.localizedDescription)
-        }
+        
     }
-    
+
     func visitDevelopersPage() {
         URL(string: GlobalConstants.developerGitHubLink)?.open()
     }

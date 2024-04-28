@@ -30,7 +30,6 @@ extension AppRelaunchError: LocalizedError {
     }
 }
 
-
 enum AuthorizationError: String {
     case badAddress = "The requested socket address is invalid (must be 0-1023 inclusive)"
     case canceled = "The authorization was canceled by the user"

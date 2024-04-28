@@ -43,6 +43,7 @@
 		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
 		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
+		E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
 		E2F37B612BD5643D003D27BD /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B602BD5643D003D27BD /* BaseWindow.swift */; };
@@ -102,6 +103,7 @@
 		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
 		E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ExecuteWithPrivileges.c; sourceTree = "<group>"; };
+		E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
 		E2F37B602BD5643D003D27BD /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
 				E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */,
 				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
+				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */,
 				E27FD5022BDE4E470096C605 /* ImageMountResult.swift in Sources */,
 				E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */,
+				E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */,
 				E234FC252BD53E540074C781 /* DiskWriterCoordinator.swift in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
