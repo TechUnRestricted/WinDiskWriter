@@ -191,6 +191,10 @@ final class DiskWriterViewController: BaseViewController {
             self?.isInWritingProcess = flag
         }
 
+        viewModel.scanAllWholeDrives = {
+            return true
+        }
+
         optionInstallLegacyBootCheckboxView.clickAction = { [weak self] in
             let allowsStateChange = viewModel.isInstallLegacyBIOSBootSectorAvailable
 
@@ -198,7 +202,6 @@ final class DiskWriterViewController: BaseViewController {
                 self?.optionInstallLegacyBootCheckboxView.isChecked = false
             }
         }
-
 
         imageSelectionChooseRoundedButtonView.clickAction = viewModel.pickImage
         targetDeviceUpdateRoundedButtonView.clickAction = viewModel.updateDevices

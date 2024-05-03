@@ -44,6 +44,7 @@
 		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
 		E2A443B42BE4C3E500701D56 /* ImagePathVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */; };
+		E2A443B72BE4E28400701D56 /* SelectedDeviceVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B62BE4E28400701D56 /* SelectedDeviceVerifyError.swift */; };
 		E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
@@ -105,6 +106,7 @@
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
 		E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ExecuteWithPrivileges.c; sourceTree = "<group>"; };
 		E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePathVerifyError.swift; sourceTree = "<group>"; };
+		E2A443B62BE4E28400701D56 /* SelectedDeviceVerifyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDeviceVerifyError.swift; sourceTree = "<group>"; };
 		E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */,
+				E2A443B62BE4E28400701D56 /* SelectedDeviceVerifyError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
+				E2A443B72BE4E28400701D56 /* SelectedDeviceVerifyError.swift in Sources */,
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
 				E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */,
 				E2F37B802BD78088003D27BD /* ScrollableLinesView.swift in Sources */,
