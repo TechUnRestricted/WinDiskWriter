@@ -11,6 +11,18 @@ class AlertBuilder {
     private var alert = NSAlert()
     private var responseHandlers: [Int: () -> Void] = [:]
 
+    init(title: String, subtitle: String? = nil, image: NSImage? = nil) {
+        alert.messageText = title
+
+        if let subtitle = subtitle {
+            alert.informativeText = subtitle
+        }
+
+        if let image = image {
+            alert.icon = image
+        }
+    }
+
     @discardableResult
     func addButton(title: String, preferDefault: Bool = false, handler: (() -> Void)? = nil) -> Self {
         let button = alert.addButton(withTitle: title)
@@ -25,27 +37,6 @@ class AlertBuilder {
             responseHandlers[uniqueTag] = handler
         }
 
-        return self
-    }
-
-    @discardableResult
-    func setMessage(text: String) -> Self {
-        alert.messageText = text
-
-        return self
-    }
-
-    @discardableResult
-    func setInformative(text: String) -> Self {
-        alert.informativeText = text
-
-        return self
-    }
-
-    @discardableResult
-    func setImage(_ image: NSImage) -> Self {
-        alert.icon = image
-        
         return self
     }
 

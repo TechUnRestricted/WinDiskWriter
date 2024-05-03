@@ -47,10 +47,13 @@ final class DiskWriterCoordinator: Coordinator {
             return
         }
 
-        AlertBuilder()
-            .setMessage(text: "Restart with Administrator Privileges Required")
-            .setInformative(text: "All unsaved changes will be lost")
-            .setImage(NSImage(named: NSImage.cautionName)!)
+        let alertBuilder = AlertBuilder(
+            title: "Restart with Administrator Privileges Required",
+            subtitle: "All unsaved changes will be lost",
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder
             .addButton(
                 title: "Restart",
                 preferDefault: false, handler: {
@@ -58,6 +61,11 @@ final class DiskWriterCoordinator: Coordinator {
                 }
             )
             .addButton(title: "Cancel", preferDefault: true)
-            .show(in: window)
+
+        alertBuilder.show(in: window)
+    }
+
+    func visitDevelopersPage() {
+        URL(string: GlobalConstants.developerGitHubLink)?.open()
     }
 }
