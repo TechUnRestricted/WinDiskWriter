@@ -29,11 +29,6 @@ class DiskMenuItem: NSMenuItem {
         let deviceVendor: String = (diskInfo.deviceVendor ?? "Vendor").stripped()
         let deviceModel: String = (diskInfo.deviceModel ?? "Model").stripped()
 
-        guard let bsdName = diskInfo.BSDName,
-              let storageCapacity = diskInfo.mediaSize else {
-            return false
-        }
-
         let mutableAttributedString = NSMutableAttributedString()
 
         mutableAttributedString.append(
@@ -48,7 +43,7 @@ class DiskMenuItem: NSMenuItem {
         )
 
         mutableAttributedString.append(
-            AttributedStringBuilder(string: "[" + UInt64(storageCapacity).formattedSize + "]")
+            AttributedStringBuilder(string: "[" + UInt64(diskInfo.mediaSize).formattedSize + "]")
                 .build()
         )
 
@@ -58,7 +53,7 @@ class DiskMenuItem: NSMenuItem {
         )
 
         mutableAttributedString.append(
-            AttributedStringBuilder(string: "(" + bsdName + ")")
+            AttributedStringBuilder(string: "(" + diskInfo.BSDName + ")")
                 .weight(3)
                 .fontSize(NSFont.systemFontSize / 1.2)
                 .build()

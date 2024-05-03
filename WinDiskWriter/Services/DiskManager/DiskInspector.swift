@@ -75,7 +75,10 @@ extension DiskInspector {
               let isWritable = diskDescription["DAMediaWritable"] as? Bool,
               let isEncrypted = diskDescription["DAMediaEncrypted"] as? Bool,
               let isNetworkVolume = diskDescription["DAVolumeNetwork"] as? Bool,
-              let isEjectable = diskDescription["DAMediaEjectable"] as? Bool else {
+              let isEjectable = diskDescription["DAMediaEjectable"] as? Bool,
+              let bsdName = diskDescription["DAMediaBSDName"] as? String,
+              let mediaSize = diskDescription["DAMediaSize"] as? Int,
+                let appearanceTime = diskDescription["DAAppearanceTime"] as? TimeInterval else {
                   throw DiskInspectorError.diskCopyDescriptionFailed
               }
         
@@ -89,15 +92,15 @@ extension DiskInspector {
             isEncrypted: isEncrypted,
             isNetworkVolume: isNetworkVolume,
             isEjectable: isEjectable,
+            BSDName: bsdName,
+            mediaSize: mediaSize,
+            appearanceTime: appearanceTime,
             BSDUnit: diskDescription["DAMediaBSDUnit"] as? Int,
-            mediaSize: diskDescription["DAMediaSize"] as? Int,
             mediaBSDMajor: diskDescription["DAMediaBSDMajor"] as? Int,
             mediaBSDMinor: diskDescription["DAMediaBSDMinor"] as? Int,
             blockSize: diskDescription["DAMediaBlockSize"] as? Int,
-            appearanceTime: diskDescription["DAAppearanceTime"] as? TimeInterval,
             devicePath: diskDescription["DADevicePath"] as? String,
             deviceModel: diskDescription["DADeviceModel"] as? String,
-            BSDName: diskDescription["DAMediaBSDName"] as? String,
             mediaKind: diskDescription["DAMediaKind"] as? String,
             volumeKind: diskDescription["DAVolumeKind"] as? String,
             volumeName: diskDescription["DAVolumeName"] as? String,

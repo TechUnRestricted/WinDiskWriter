@@ -71,7 +71,11 @@ extension DiskWriterViewModel {
     }
 
     func startStopProcess() {
-        validateInput()
+        guard inputIsValid() else {
+            return
+        }
+
+
     }
 
     func visitDevelopersPage() {
@@ -80,12 +84,15 @@ extension DiskWriterViewModel {
 }
 
 extension DiskWriterViewModel {
-    private func validateInput() {
+    private func inputIsValid() -> Bool {
         do {
             try verifyImagePath()
         } catch {
             coordinator.showVerificationFailureWarning(subtitle: error.localizedDescription)
+            return false
         }
+
+        return true
     }
 
     private func verifyImagePath() throws {
@@ -109,5 +116,14 @@ extension DiskWriterViewModel {
         guard FileManager.default.isReadableFile(atPath: imagePath) else {
             throw ImagePathVerifyError.fileNotReadable
         }
+    }
+
+    private func verifySelectedDevice() throws {
+        guard let selectedDiskInfo = selectedDiskInfo?() else {
+            return
+        }
+
+        let selectedDeviceAppearanceDate = selectedDiskInfo.appearanceNSDate()
+        
     }
 }

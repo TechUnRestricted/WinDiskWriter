@@ -18,16 +18,16 @@ struct DiskInfo {
     var isNetworkVolume: Bool
     var isEjectable: Bool
 
+    var BSDName: String
+    var mediaSize: Int
+    var appearanceTime: TimeInterval
+
     var BSDUnit: Int?
-    var mediaSize: Int?
     var mediaBSDMajor: Int?
     var mediaBSDMinor: Int?
     var blockSize: Int?
-    var appearanceTime: TimeInterval?
-
     var devicePath: String?
     var deviceModel: String?
-    var BSDName: String?
     var mediaKind: String?
     var volumeKind: String?
     var volumeName: String?
@@ -40,22 +40,13 @@ struct DiskInfo {
     var deviceRevision: String?
     var busName: String?
     var deviceVendor: String?
-    // var volumeUUID: String?
 
-    func appearanceNSDate() -> Date? {
-        guard let time = appearanceTime else {
-            return nil
-        }
-
-        return Date(timeIntervalSinceReferenceDate: time)
+    func appearanceNSDate() -> Date {
+        return Date(timeIntervalSinceReferenceDate: appearanceTime)
     }
 
-    func BSDFullPath() -> String? {
-        guard let BSDName = BSDName else {
-            return nil
-        }
-
-        return "/dev/\(BSDName)"
+    func BSDFullPath() -> String {
+        return "/dev/" + BSDName
     }
 }
 

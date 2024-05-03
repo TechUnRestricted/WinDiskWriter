@@ -18,7 +18,7 @@ enum ImagePathVerifyError: Error, LocalizedError {
         case .pathIsEmpty:
             return "Image path is empty"
         case .notAFile:
-            return "Specified path points to a directory, not a file"
+            return "Specified image path points to a directory, not a file"
         case .fileNotFound:
             return "File not found at specified path"
         case .fileNotReadable:
