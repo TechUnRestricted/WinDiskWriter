@@ -8,16 +8,6 @@
 import Foundation
 
 struct DiskInfo {
-    var isWholeDrive: Bool
-    var isInternal: Bool
-    var isMountable: Bool
-    var isRemovable: Bool
-    var isDeviceUnit: Bool
-    var isWritable: Bool
-    var isEncrypted: Bool
-    var isNetworkVolume: Bool
-    var isEjectable: Bool
-
     var BSDName: String
     var mediaSize: Int
     var appearanceTime: TimeInterval
@@ -26,6 +16,17 @@ struct DiskInfo {
     var mediaBSDMajor: Int?
     var mediaBSDMinor: Int?
     var blockSize: Int?
+
+    var isWholeDrive: Bool?
+    var isInternal: Bool?
+    var isMountable: Bool?
+    var isRemovable: Bool?
+    var isWritable: Bool?
+    var isEncrypted: Bool?
+    var isNetworkVolume: Bool?
+    var isEjectable: Bool?
+    var isDeviceUnit: Bool?
+
     var devicePath: String?
     var deviceModel: String?
     var mediaKind: String?

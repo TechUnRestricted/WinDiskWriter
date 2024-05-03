@@ -66,32 +66,14 @@ extension DiskInspector {
         guard let diskDescription = DADiskCopyDescription(instance.currentDisk) as NSDictionary? else {
             throw DiskInspectorError.diskCopyDescriptionFailed
         }
-
-        guard let isWholeDrive = diskDescription["DAMediaWhole"] as? Bool,
-              let isInternal = diskDescription["DADeviceInternal"] as? Bool,
-              let isMountable = diskDescription["DAVolumeMountable"] as? Bool,
-              let isRemovable = diskDescription["DAMediaRemovable"] as? Bool,
-              let isDeviceUnit = diskDescription["DADeviceUnit"] as? Bool,
-              let isWritable = diskDescription["DAMediaWritable"] as? Bool,
-              let isEncrypted = diskDescription["DAMediaEncrypted"] as? Bool,
-              let isNetworkVolume = diskDescription["DAVolumeNetwork"] as? Bool,
-              let isEjectable = diskDescription["DAMediaEjectable"] as? Bool,
-              let bsdName = diskDescription["DAMediaBSDName"] as? String,
+        
+        guard let bsdName = diskDescription["DAMediaBSDName"] as? String,
               let mediaSize = diskDescription["DAMediaSize"] as? Int,
-                let appearanceTime = diskDescription["DAAppearanceTime"] as? TimeInterval else {
+              let appearanceTime = diskDescription["DAAppearanceTime"] as? TimeInterval else {
                   throw DiskInspectorError.diskCopyDescriptionFailed
               }
         
         let diskInfo = DiskInfo(
-            isWholeDrive: isWholeDrive,
-            isInternal: isInternal,
-            isMountable: isMountable,
-            isRemovable: isRemovable,
-            isDeviceUnit: isDeviceUnit,
-            isWritable: isWritable,
-            isEncrypted: isEncrypted,
-            isNetworkVolume: isNetworkVolume,
-            isEjectable: isEjectable,
             BSDName: bsdName,
             mediaSize: mediaSize,
             appearanceTime: appearanceTime,
@@ -99,6 +81,15 @@ extension DiskInspector {
             mediaBSDMajor: diskDescription["DAMediaBSDMajor"] as? Int,
             mediaBSDMinor: diskDescription["DAMediaBSDMinor"] as? Int,
             blockSize: diskDescription["DAMediaBlockSize"] as? Int,
+            isWholeDrive: diskDescription["DAMediaWhole"] as? Bool,
+            isInternal: diskDescription["DADeviceInternal"] as? Bool,
+            isMountable: diskDescription["DAVolumeMountable"] as? Bool,
+            isRemovable: diskDescription["DAMediaRemovable"] as? Bool,
+            isWritable: diskDescription["DAMediaWritable"] as? Bool,
+            isEncrypted: diskDescription["DAMediaEncrypted"] as? Bool,
+            isNetworkVolume: diskDescription["DAVolumeNetwork"] as? Bool,
+            isEjectable: diskDescription["DAMediaEjectable"] as? Bool,
+            isDeviceUnit: diskDescription["DADeviceUnit"] as? Bool,
             devicePath: diskDescription["DADevicePath"] as? String,
             deviceModel: diskDescription["DADeviceModel"] as? String,
             mediaKind: diskDescription["DAMediaKind"] as? String,

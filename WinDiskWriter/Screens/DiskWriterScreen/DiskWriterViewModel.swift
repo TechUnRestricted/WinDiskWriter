@@ -60,10 +60,6 @@ extension DiskWriterViewModel {
         var filteredDiskInfoList: [DiskInfo] = []
 
         for diskInfo in unfilteredDiskInfoList {
-            if !diskInfo.isWholeDrive || !diskInfo.isWritable || !diskInfo.isDeviceUnit || diskInfo.isNetworkVolume || diskInfo.isInternal {
-                continue
-            }
-
             filteredDiskInfoList.append(diskInfo)
         }
 
@@ -87,6 +83,7 @@ extension DiskWriterViewModel {
     private func inputIsValid() -> Bool {
         do {
             try verifyImagePath()
+            try verifySelectedDevice()
         } catch {
             coordinator.showVerificationFailureWarning(subtitle: error.localizedDescription)
             return false
@@ -123,7 +120,13 @@ extension DiskWriterViewModel {
             return
         }
 
-        let selectedDeviceAppearanceDate = selectedDiskInfo.appearanceNSDate()
+        print(selectedDiskInfo.appearanceTime)
+
+        return
+
+        let selectedDeviceAppearanceTimestamp = selectedDiskInfo.appearanceNSDate().timeIntervalSince1970
+
+        try? DiskInspector.diskInfo(bsdName: selectedDiskInfo.BSDName).appearanceTime
         
     }
 }
