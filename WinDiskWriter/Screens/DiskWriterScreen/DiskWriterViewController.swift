@@ -173,6 +173,12 @@ final class DiskWriterViewController: BaseViewController {
             }
         }
 
+        viewModel.selectedDiskInfo = { [weak self] in
+            let diskMenuItem = self?.targetDevicePickerView.selectedItem as? DiskMenuItem
+
+            return diskMenuItem?.diskInfo
+        }
+
         viewModel.appendLogLine = { [weak self] logLine in
             self?.logsScrollableLinesView.appendRow(withContent: logLine)
         }

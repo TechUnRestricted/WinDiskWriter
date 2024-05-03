@@ -20,7 +20,8 @@ final class DiskWriterViewModel {
     var setInWritingProcess: ((Bool) -> ())?
     
     var updateDisksList: (([DiskInfo]) -> ())?
-    
+    var selectedDiskInfo: (() -> (DiskInfo?))?
+
     var appendLogLine: ((String) -> ())?
     
     var isInstallLegacyBIOSBootSectorAvailable: Bool {
@@ -70,10 +71,43 @@ extension DiskWriterViewModel {
     }
 
     func startStopProcess() {
-        
+        validateInput()
     }
 
     func visitDevelopersPage() {
-        URL(string: GlobalConstants.developerGitHubLink)?.open()
+        coordinator.visitDevelopersPage()
+    }
+}
+
+extension DiskWriterViewModel {
+    private func validateInput() {
+        do {
+            try verifyImagePath()
+        } catch {
+            coordinator.showVerificationFailureWarning(subtitle: error.localizedDescription)
+        }
+    }
+
+    private func verifyImagePath() throws {
+        guard let imagePath = imagePath?() else {
+            throw ImagePathVerifyError.pathIsEmpty
+        }
+
+        if imagePath.isEmpty {
+            throw ImagePathVerifyError.pathIsEmpty
+        }
+
+        var isDirectory: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: imagePath, isDirectory: &isDirectory) else {
+            throw ImagePathVerifyError.fileNotFound
+        }
+
+        if isDirectory.boolValue {
+            throw ImagePathVerifyError.notAFile
+        }
+
+        guard FileManager.default.isReadableFile(atPath: imagePath) else {
+            throw ImagePathVerifyError.fileNotReadable
+        }
     }
 }

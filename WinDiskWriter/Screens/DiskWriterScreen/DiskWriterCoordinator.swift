@@ -65,6 +65,20 @@ final class DiskWriterCoordinator: Coordinator {
         alertBuilder.show(in: window)
     }
 
+    func showVerificationFailureWarning(subtitle: String) {
+        guard let window = window else {
+            return
+        }
+
+        let alertBuilder = AlertBuilder(
+            title: "Verification Error",
+            subtitle: subtitle,
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder.show(in: window)
+    }
+
     func visitDevelopersPage() {
         URL(string: GlobalConstants.developerGitHubLink)?.open()
     }

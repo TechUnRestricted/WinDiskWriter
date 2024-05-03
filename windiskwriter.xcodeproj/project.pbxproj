@@ -43,6 +43,7 @@
 		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
 		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
+		E2A443B42BE4C3E500701D56 /* ImagePathVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */; };
 		E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
@@ -103,6 +104,7 @@
 		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
 		E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ExecuteWithPrivileges.c; sourceTree = "<group>"; };
+		E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePathVerifyError.swift; sourceTree = "<group>"; };
 		E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 		E234FC1F2BD53CE70074C781 /* DiskWriterScreen */ = {
 			isa = PBXGroup;
 			children = (
+				E2A443B52BE4C3E800701D56 /* Errors */,
 				E234FC1D2BD53C800074C781 /* DiskWriterViewModel.swift */,
 				E234FC192BD53B640074C781 /* DiskWriterViewController.swift */,
 				E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */,
@@ -318,6 +321,14 @@
 			path = ExecuteWithPrivileges;
 			sourceTree = "<group>";
 		};
+		E2A443B52BE4C3E800701D56 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2A443B32BE4C3E500701D56 /* ImagePathVerifyError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 		E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,6 +468,7 @@
 				E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
 				E27FD4EA2BDD2C160096C605 /* URL+Open.swift in Sources */,
+				E2A443B42BE4C3E500701D56 /* ImagePathVerifyError.swift in Sources */,
 				E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */,
 				E2F37B712BD69D2A003D27BD /* BaseButtonView.swift in Sources */,
 				E234FC2E2BD543A20074C781 /* Coordinator.swift in Sources */,
