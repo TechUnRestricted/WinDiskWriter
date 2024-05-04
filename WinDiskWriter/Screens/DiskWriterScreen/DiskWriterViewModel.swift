@@ -116,6 +116,7 @@ extension DiskWriterViewModel {
         do {
             try verifyImagePath()
             try verifySelectedDevice()
+            try verifyInputForCollision()
         } catch {
             coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
             return false
@@ -125,33 +126,33 @@ extension DiskWriterViewModel {
     }
 
     private func verifyImagePath() throws {
-        guard let imagePath = imagePath?() else {
-            throw ImagePathVerifyError.pathIsEmpty
-        }
-
-        if imagePath.isEmpty {
-            throw ImagePathVerifyError.pathIsEmpty
+        guard let imagePath = imagePath?(),
+              !imagePath.isEmpty else {
+            throw ConfigurationValidationError.emptyImagePath
         }
 
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: imagePath, isDirectory: &isDirectory) else {
-            throw ImagePathVerifyError.fileNotFound
+            throw ConfigurationValidationError.fileNotFound
         }
 
         if isDirectory.boolValue {
-            throw ImagePathVerifyError.notAFile
+            throw ConfigurationValidationError.notAFile
         }
 
         guard FileManager.default.isReadableFile(atPath: imagePath) else {
-            throw ImagePathVerifyError.fileNotReadable
+            throw ConfigurationValidationError.fileNotReadable
         }
     }
 
     private func verifySelectedDevice() throws {
-        guard let selectedDiskInfo = selectedDiskInfo?(),
-              let selectedDiskBSDName = selectedDiskInfo.media.bsdName,
+        guard let selectedDiskInfo = selectedDiskInfo?() else {
+            throw ConfigurationValidationError.noDeviceSelected
+        }
+
+        guard let selectedDiskBSDName = selectedDiskInfo.media.bsdName,
               let originalDiskAppearanceTime = selectedDiskInfo.media.appearanceTime else {
-            throw SelectedDeviceVerifyError.unableToRetrieveUpdatedDeviceInfo
+                  throw ConfigurationValidationError.deviceInfoUnavailable
         }
 
         var updatedDiskAppearanceTime: TimeInterval = .nan
@@ -160,11 +161,40 @@ extension DiskWriterViewModel {
             let updatedDiskInfo = try DiskInspector.diskInfo(bsdName: selectedDiskBSDName)
             updatedDiskAppearanceTime = updatedDiskInfo.media.appearanceTime ?? .nan
         } catch {
-            throw SelectedDeviceVerifyError.unableToRetrieveUpdatedDeviceInfo
+            throw ConfigurationValidationError.deviceInfoUnavailable
         }
 
         if originalDiskAppearanceTime != updatedDiskAppearanceTime {
-            throw SelectedDeviceVerifyError.appearanceTimestampDiscrepancy
+            throw ConfigurationValidationError.appearanceTimestampDiscrepancy
+        }
+    }
+
+    private func verifyInputForCollision() throws {
+        guard let imagePath = imagePath?() else {
+            throw ConfigurationValidationError.emptyImagePath
+        }
+
+        guard let selectedDiskBSDName = selectedDiskInfo?()?.media.bsdName else {
+            throw ConfigurationValidationError.deviceInfoUnavailable
+        }
+
+        guard let imageFileMountPointURL = URL(fileURLWithPath: imagePath).mountPoint else {
+            throw ConfigurationValidationError.mountPointUnavailable
+        }
+
+        var imageFileMountPointDiskInfo: DiskInfo?
+        do {
+            imageFileMountPointDiskInfo = try DiskInspector.diskInfo(volumeURL: imageFileMountPointURL)
+        } catch {
+            throw ConfigurationValidationError.imageDiskInfoUnavailable
+        }
+
+        guard let imageFileMountPointBSDName = imageFileMountPointDiskInfo?.media.bsdName else {
+            throw ConfigurationValidationError.imageDiskInfoUnavailable
+        }
+
+        if imageFileMountPointBSDName == selectedDiskBSDName {
+            throw ConfigurationValidationError.imagePathCollision
         }
     }
 }

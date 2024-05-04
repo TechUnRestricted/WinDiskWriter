@@ -229,10 +229,10 @@ extension DiskWriterViewController {
 
         if isInWritingProcess {
             startStopRoundedButtonView.title = "Stop"
-            startStopRoundedButtonView.clickAction = viewModel.startProcess
+            startStopRoundedButtonView.clickAction = viewModel.stopProcess
         } else {
             startStopRoundedButtonView.title = "Start"
-            startStopRoundedButtonView.clickAction = viewModel.stopProcess
+            startStopRoundedButtonView.clickAction = viewModel.startProcess
 
             // containerVerticalStackView.setEnabledStateForAllControls(false)
         }
