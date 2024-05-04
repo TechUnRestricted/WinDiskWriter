@@ -7,6 +7,23 @@
 
 import Foundation
 
+enum LogType {
+    case info
+    case warning
+    case error
+
+    var stringRepresentation: String {
+        switch self {
+        case .info:
+            return "Info"
+        case .warning:
+            return "Warning"
+        case .error:
+            return "Error"
+        }
+    }
+}
+
 final class DiskWriterViewModel {
     var imagePath: (() -> (String))?
     var didSelectImagePath: ((String) -> (Void))?
@@ -24,7 +41,7 @@ final class DiskWriterViewModel {
     var updateDisksList: (([DiskInfo]) -> ())?
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
-    var appendLogLine: ((String) -> ())?
+    var appendLogLine: ((LogType, String) -> ())?
     
     var isInstallLegacyBIOSBootSectorAvailable: Bool {
         get {
@@ -38,7 +55,7 @@ final class DiskWriterViewModel {
     }
     
     let slideshowStringArray: [String] = [
-        "\(GlobalConstants.developerName) \(Date.adjustedYear)",
+        "\(AppInfo.developerName) \(Date.adjustedYear)",
         "❤️ Donate Me ❤️"
     ]
     
@@ -102,7 +119,12 @@ extension DiskWriterViewModel {
         do {
             try validateInput()
         } catch {
+            let errorString = "Cant't start the writing process: (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorString)
             coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
+
+            return
         }
 
         coordinator.showStartWritingAlert {

@@ -18,6 +18,7 @@
 		E234FC2E2BD543A20074C781 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC2D2BD543A20074C781 /* Coordinator.swift */; };
 		E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */; };
 		E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */; };
+		E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */; };
 		E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */; };
 		E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */; };
 		E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E32BDD1EE10096C605 /* AppService.swift */; };
@@ -78,6 +79,7 @@
 		E234FC2D2BD543A20074C781 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+MakeCostraints.swift"; sourceTree = "<group>"; };
 		E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextFieldCell.swift; sourceTree = "<group>"; };
+		E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowedButton.swift; sourceTree = "<group>"; };
 		E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProxy.swift; sourceTree = "<group>"; };
 		E27FD4E32BDD1EE10096C605 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				E234FC212BD53D780074C781 /* MainCoordinator.swift */,
 				E234FC172BD531EE0074C781 /* main.swift */,
 				E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */,
+				E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */,
 				E234FC0C2BD530200074C781 /* Assets.xcassets */,
 				E234FC112BD530200074C781 /* WinDiskWriter.entitlements */,
 				E27FD4F72BDE38CF0096C605 /* Objective-C-Bridging-Header.h */,
@@ -177,7 +180,7 @@
 		E234FC1F2BD53CE70074C781 /* DiskWriterScreen */ = {
 			isa = PBXGroup;
 			children = (
-				E2A443B52BE4C3E800701D56 /* Errors */,
+				E256A7DA2BE6AFCB003E24D3 /* Errors */,
 				E234FC1D2BD53C800074C781 /* DiskWriterViewModel.swift */,
 				E234FC192BD53B640074C781 /* DiskWriterViewController.swift */,
 				E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */,
@@ -216,6 +219,14 @@
 				E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E256A7DA2BE6AFCB003E24D3 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		E27FD4DF2BDD0B450096C605 /* Labels */ = {
@@ -332,14 +343,6 @@
 				E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */,
 			);
 			path = ExecuteWithPrivileges;
-			sourceTree = "<group>";
-		};
-		E2A443B52BE4C3E800701D56 /* Errors */ = {
-			isa = PBXGroup;
-			children = (
-				E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */,
-			);
-			path = Errors;
 			sourceTree = "<group>";
 		};
 		E2A443BA2BE5045100701D56 /* NSView */ = {
@@ -506,6 +509,7 @@
 				E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */,
 				E2F37B7C2BD6F0F6003D27BD /* Collection+Safe.swift in Sources */,
 				E27FD4FD2BDE3B3C0096C605 /* String+Stripped.swift in Sources */,
+				E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */,
 				E2F37B732BD6B4BC003D27BD /* PickerView.swift in Sources */,
 				E2F37B662BD58536003D27BD /* LabelView.swift in Sources */,
 				E27FD4EF2BDE239D0096C605 /* FileManager+SetAllPermissions.swift in Sources */,

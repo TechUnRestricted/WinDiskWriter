@@ -179,8 +179,10 @@ final class DiskWriterViewController: BaseViewController {
             return diskMenuItem?.diskInfo
         }
 
-        viewModel.appendLogLine = { [weak self] logLine in
-            self?.logsScrollableLinesView.appendRow(withContent: logLine)
+        viewModel.appendLogLine = { [weak self] (logType, line) in
+            self?.logsScrollableLinesView.appendRow(
+                withContent: "[\(logType.stringRepresentation)] \(line)"
+            )
         }
 
         viewModel.isInWritingProcess = { [weak self] in

@@ -29,6 +29,7 @@ class BaseViewController: NSViewController {
         super.viewDidLoad()
 
         setupViews()
+        title = AppInfo.appName
     }
 
     override func viewWillAppear() {

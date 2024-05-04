@@ -50,7 +50,8 @@ final class VerticallyCenteredTextFieldCell: NSTextFieldCell {
     }
 
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        let titleRect = self.titleRect(forBounds: cellFrame)
+        var titleRect = self.titleRect(forBounds: cellFrame)
+        titleRect.size.width += Constants.horizontalPadding * 2
 
         self.attributedStringValue.draw(in: titleRect)
     }
