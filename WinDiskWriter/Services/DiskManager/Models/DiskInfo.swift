@@ -8,46 +8,59 @@
 import Foundation
 
 struct DiskInfo {
-    var BSDName: String
-    var mediaSize: Int
-    var appearanceTime: TimeInterval
-
-    var BSDUnit: Int?
-    var mediaBSDMajor: Int?
-    var mediaBSDMinor: Int?
-    var blockSize: Int?
-
-    var isWholeDrive: Bool?
-    var isInternal: Bool?
-    var isMountable: Bool?
-    var isRemovable: Bool?
-    var isWritable: Bool?
-    var isEncrypted: Bool?
-    var isNetworkVolume: Bool?
-    var isEjectable: Bool?
-    var isDeviceUnit: Bool?
-
-    var devicePath: String?
-    var deviceModel: String?
-    var mediaKind: String?
-    var volumeKind: String?
-    var volumeName: String?
-    var volumePath: String?
-    var mediaPath: String?
-    var mediaName: String?
-    var mediaContent: String?
-    var busPath: String?
-    var deviceProtocol: String?
-    var deviceRevision: String?
-    var busName: String?
-    var deviceVendor: String?
-
-    func appearanceNSDate() -> Date {
-        return Date(timeIntervalSinceReferenceDate: appearanceTime)
+    struct Volume {
+        var kind: String?
+        var isMountable: Bool?
+        var name: String?
+        var isNetwork: Bool?
+        var path: URL?
+        var type: String?
+        var uuid: UUID?
     }
-
-    func BSDFullPath() -> String {
-        return "/dev/" + BSDName
+    
+    struct Media {
+        var appearanceTime: TimeInterval?
+        var blockSize: Int?
+        var bsdMajor: Int?
+        var bsdMinor: Int?
+        var bsdName: String?
+        var bsdUnit: Int?
+        var content: String?
+        var isEjectable: Bool?
+        var kind: String?
+        var isLeaf: Bool?
+        var name: String?
+        var path: String?
+        var isRemovable: Bool?
+        var size: Int?
+        var type: String?
+        var uuid: UUID?
+        var isWhole: Bool?
+        var isWritable: Bool?
+        var isEncrypted: Bool?
+        var encryptionDetail: Int?
     }
+    
+    struct Device {
+        var guid: Data?
+        var isInternal: Bool?
+        var model: String?
+        var path: String?
+        var `protocol`: String?
+        var revision: String?
+        var unit: Int?
+        var vendor: String?
+        var isTDMLocked: Bool?
+    }
+    
+    struct Bus {
+        var name: String?
+        var path: String?
+    }
+    
+    var volume: Volume
+    var media: Media
+    var device: Device
+    var bus: Bus
 }
 

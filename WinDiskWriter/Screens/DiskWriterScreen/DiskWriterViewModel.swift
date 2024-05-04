@@ -66,8 +66,8 @@ extension DiskWriterViewModel {
         var filteredDiskInfoList: [DiskInfo] = []
 
         for diskInfo in unfilteredDiskInfoList {
-            guard let isWholeDrive = diskInfo.isWholeDrive,
-                  let isWritable = diskInfo.isWritable else {
+            guard let isWholeDrive = diskInfo.media.isWhole,
+                  let isWritable = diskInfo.media.isWritable else {
                       continue
                   }
 
@@ -76,13 +76,12 @@ extension DiskWriterViewModel {
             }
 
             if !scanAllWholeDrives {
-                guard let isDeviceUnit = diskInfo.isDeviceUnit,
-                      let isNetworkVolume = diskInfo.isNetworkVolume,
-                      let isInternal = diskInfo.isInternal else {
-                          continue
-                      }
+                guard let isNetworkVolume = diskInfo.volume.isNetwork,
+                    let isInternal = diskInfo.device.isInternal else {
+                        continue
+                    }
 
-                if !isDeviceUnit || isNetworkVolume || isInternal {
+                if isNetworkVolume || isInternal {
                     continue
                 }
             }
@@ -149,23 +148,22 @@ extension DiskWriterViewModel {
     }
 
     private func verifySelectedDevice() throws {
-        guard let selectedDiskInfo = selectedDiskInfo?() else {
+        guard let selectedDiskInfo = selectedDiskInfo?(),
+              let selectedDiskBSDName = selectedDiskInfo.media.bsdName,
+              let originalDiskAppearanceTime = selectedDiskInfo.media.appearanceTime else {
             throw SelectedDeviceVerifyError.unableToRetrieveUpdatedDeviceInfo
         }
 
-        let bsdName = selectedDiskInfo.BSDName
-
-        let originalDiskInfoAppearanceTimestamp: TimeInterval = selectedDiskInfo.appearanceNSDate().timeIntervalSince1970
-        var updatedDiskInfoAppearanceTimestamp: TimeInterval = .nan
+        var updatedDiskAppearanceTime: TimeInterval = .nan
 
         do {
-            let updatedDiskInfo = try DiskInspector.diskInfo(bsdName: bsdName)
-            updatedDiskInfoAppearanceTimestamp = updatedDiskInfo.appearanceNSDate().timeIntervalSince1970
+            let updatedDiskInfo = try DiskInspector.diskInfo(bsdName: selectedDiskBSDName)
+            updatedDiskAppearanceTime = updatedDiskInfo.media.appearanceTime ?? .nan
         } catch {
             throw SelectedDeviceVerifyError.unableToRetrieveUpdatedDeviceInfo
         }
 
-        if originalDiskInfoAppearanceTimestamp != updatedDiskInfoAppearanceTimestamp {
+        if originalDiskAppearanceTime != updatedDiskAppearanceTime {
             throw SelectedDeviceVerifyError.appearanceTimestampDiscrepancy
         }
     }

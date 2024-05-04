@@ -79,43 +79,79 @@ class DiskInspector {
             throw DiskInspectorError.diskCopyDescriptionFailed
         }
 
-        guard let bsdName = diskDescription["DAMediaBSDName"] as? String,
-              let mediaSize = diskDescription["DAMediaSize"] as? Int,
-              let appearanceTime = diskDescription["DAAppearanceTime"] as? TimeInterval else {
-                  throw DiskInspectorError.diskCopyDescriptionFailed
-              }
+        // Required to handle the Swift compiler Core Foundation casting bug.
+
+        let volumeUUID: UUID? = {
+            guard let genericCoreFounationType = diskDescription[kDADiskDescriptionVolumeUUIDKey] as CFTypeRef? else {
+                return nil
+            }
+
+            let extractedUUID = (genericCoreFounationType as? CFUUID?)
+                    .flatMap { CFUUIDCreateString(nil, $0) as String? }
+                    .flatMap { UUID(uuidString: $0) }
+
+            return extractedUUID
+        }()
+
+        let mediaUUID: UUID? = {
+            guard let genericCoreFounationType = diskDescription[kDADiskDescriptionMediaUUIDKey] as CFTypeRef? else {
+                return nil
+            }
+
+            let extractedUUID = (genericCoreFounationType as? CFUUID?)
+                    .flatMap { CFUUIDCreateString(nil, $0) as String? }
+                    .flatMap { UUID(uuidString: $0) }
+
+            return extractedUUID
+        }()
 
         let diskInfo = DiskInfo(
-            BSDName: bsdName,
-            mediaSize: mediaSize,
-            appearanceTime: appearanceTime,
-            BSDUnit: diskDescription["DAMediaBSDUnit"] as? Int,
-            mediaBSDMajor: diskDescription["DAMediaBSDMajor"] as? Int,
-            mediaBSDMinor: diskDescription["DAMediaBSDMinor"] as? Int,
-            blockSize: diskDescription["DAMediaBlockSize"] as? Int,
-            isWholeDrive: diskDescription["DAMediaWhole"] as? Bool,
-            isInternal: diskDescription["DADeviceInternal"] as? Bool,
-            isMountable: diskDescription["DAVolumeMountable"] as? Bool,
-            isRemovable: diskDescription["DAMediaRemovable"] as? Bool,
-            isWritable: diskDescription["DAMediaWritable"] as? Bool,
-            isEncrypted: diskDescription["DAMediaEncrypted"] as? Bool,
-            isNetworkVolume: diskDescription["DAVolumeNetwork"] as? Bool,
-            isEjectable: diskDescription["DAMediaEjectable"] as? Bool,
-            isDeviceUnit: diskDescription["DADeviceUnit"] as? Bool,
-            devicePath: diskDescription["DADevicePath"] as? String,
-            deviceModel: diskDescription["DADeviceModel"] as? String,
-            mediaKind: diskDescription["DAMediaKind"] as? String,
-            volumeKind: diskDescription["DAVolumeKind"] as? String,
-            volumeName: diskDescription["DAVolumeName"] as? String,
-            volumePath: diskDescription["DAVolumePath"] as? String,
-            mediaPath: diskDescription["DAMediaPath"] as? String,
-            mediaName: diskDescription["DAMediaName"] as? String,
-            mediaContent: diskDescription["DAMediaContent"] as? String,
-            busPath: diskDescription["DABusPath"] as? String,
-            deviceProtocol: diskDescription["DADeviceProtocol"] as? String,
-            deviceRevision: diskDescription["DADeviceRevision"] as? String,
-            busName: diskDescription["DABusName"] as? String,
-            deviceVendor: diskDescription["DADeviceVendor"] as? String
+            volume: .init(
+                kind: diskDescription[kDADiskDescriptionVolumeKindKey] as? String,
+                isMountable: diskDescription[kDADiskDescriptionVolumeMountableKey] as? Bool,
+                name: diskDescription[kDADiskDescriptionVolumeNameKey] as? String,
+                isNetwork: diskDescription[kDADiskDescriptionVolumeNetworkKey] as? Bool,
+                path: diskDescription[kDADiskDescriptionVolumePathKey] as? URL,
+                type: diskDescription[kDADiskDescriptionVolumeTypeKey] as? String,
+                uuid: volumeUUID
+            ),
+            media: .init(
+                appearanceTime: diskDescription["DAAppearanceTime"] as? TimeInterval,
+                blockSize: diskDescription[kDADiskDescriptionMediaBlockSizeKey] as? Int,
+                bsdMajor: diskDescription[kDADiskDescriptionMediaBSDMajorKey] as? Int,
+                bsdMinor: diskDescription[kDADiskDescriptionMediaBSDMinorKey] as? Int,
+                bsdName: diskDescription[kDADiskDescriptionMediaBSDNameKey] as? String,
+                bsdUnit: diskDescription[kDADiskDescriptionMediaBSDUnitKey] as? Int,
+                content: diskDescription[kDADiskDescriptionMediaContentKey] as? String,
+                isEjectable: diskDescription[kDADiskDescriptionMediaEjectableKey] as? Bool,
+                kind: diskDescription[kDADiskDescriptionMediaKindKey] as? String,
+                isLeaf: diskDescription[kDADiskDescriptionMediaLeafKey] as? Bool,
+                name: diskDescription[kDADiskDescriptionMediaNameKey] as? String,
+                path: diskDescription[kDADiskDescriptionMediaPathKey] as? String,
+                isRemovable: diskDescription[kDADiskDescriptionMediaRemovableKey] as? Bool,
+                size: diskDescription[kDADiskDescriptionMediaSizeKey] as? Int,
+                type: diskDescription[kDADiskDescriptionMediaTypeKey] as? String,
+                uuid: mediaUUID,
+                isWhole: diskDescription[kDADiskDescriptionMediaWholeKey] as? Bool,
+                isWritable: diskDescription[kDADiskDescriptionMediaWritableKey] as? Bool,
+                isEncrypted: diskDescription[kDADiskDescriptionMediaEncryptedKey] as? Bool,
+                encryptionDetail: diskDescription[kDADiskDescriptionMediaEncryptionDetailKey] as? Int
+            ),
+            device: .init(
+                guid: diskDescription[kDADiskDescriptionDeviceGUIDKey] as? Data,
+                isInternal: diskDescription[kDADiskDescriptionDeviceInternalKey] as? Bool,
+                model: diskDescription[kDADiskDescriptionDeviceModelKey] as? String,
+                path: diskDescription[kDADiskDescriptionDevicePathKey] as? String,
+                protocol: diskDescription[kDADiskDescriptionDeviceProtocolKey] as? String,
+                revision: diskDescription[kDADiskDescriptionDeviceRevisionKey] as? String,
+                unit: diskDescription[kDADiskDescriptionDeviceUnitKey] as? Int,
+                vendor: diskDescription[kDADiskDescriptionDeviceVendorKey] as? String,
+                isTDMLocked: diskDescription[kDADiskDescriptionDeviceTDMLockedKey] as? Bool
+            ),
+            bus: .init(
+                name: diskDescription[kDADiskDescriptionBusNameKey] as? String,
+                path: diskDescription[kDADiskDescriptionBusPathKey] as? String
+            )
         )
 
         return diskInfo
