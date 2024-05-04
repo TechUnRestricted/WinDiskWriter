@@ -7,13 +7,11 @@
 
 import Foundation
 
-enum HDIUtilError: Error {
+enum HDIUtilError: LocalizedError {
     case systemEntitiesNotFound
     case systemEntitiesIsEmpty
     case systemEntitiesCountMoreThanOne
-}
 
-extension HDIUtilError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .systemEntitiesNotFound:

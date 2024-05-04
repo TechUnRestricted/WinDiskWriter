@@ -7,11 +7,9 @@
 
 import Foundation
 
-enum CommandLineError: Error {
+enum CommandLineError: LocalizedError {
     case objectiveCException(errorString: String?)
-}
 
-extension CommandLineError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .objectiveCException(let errorString):

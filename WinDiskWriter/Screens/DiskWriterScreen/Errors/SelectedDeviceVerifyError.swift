@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SelectedDeviceVerifyError: Error, LocalizedError {
+enum SelectedDeviceVerifyError: LocalizedError {
     case unableToRetrieveUpdatedDeviceInfo
     case appearanceTimestampDiscrepancy
     case imagePathCollidesWithDestination

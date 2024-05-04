@@ -7,12 +7,10 @@
 
 import Foundation
 
-enum DiskEraserError: Error {
+enum DiskEraserError: LocalizedError {
     case badBSDName
     case eraseFailedWithMessage(errorMessage: String, terminationStatus: Int32)
-}
 
-extension DiskEraserError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .badBSDName:

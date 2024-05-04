@@ -8,15 +8,13 @@
 import Foundation
 import DiskArbitration
 
-enum DiskInspectorError: Error {
+enum DiskInspectorError: LocalizedError {
     case sessionCreationFailed
     case diskReferenceCreationFailed
     case diskCopyDescriptionFailed
     case unableToRetrieveServices
     case invalidFAT32Name(reason: String)
-}
 
-extension DiskInspectorError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .sessionCreationFailed:

@@ -8,14 +8,12 @@
 import Foundation
 import AppKit
 
-enum AppRelaunchError: Error {
+enum AppRelaunchError: LocalizedError {
     case argumentsListIsEmpty
     case badStructureInArguments
     case cantCreateAuthorizationReference
     case authorizationError(AuthorizationError)
-}
 
-extension AppRelaunchError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .argumentsListIsEmpty:

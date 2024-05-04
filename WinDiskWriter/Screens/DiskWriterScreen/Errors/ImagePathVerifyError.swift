@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ImagePathVerifyError: Error, LocalizedError {
+enum ImagePathVerifyError: LocalizedError {
     case pathIsEmpty
     case notAFile
     case fileNotFound

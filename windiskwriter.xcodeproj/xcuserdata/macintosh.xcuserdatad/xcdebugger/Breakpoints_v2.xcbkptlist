@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "94E712D8-1B59-4C18-B357-5AEC477B9D61"
-            shouldBeEnabled = "Yes"
+            uuid = "9B6142A4-4A20-438F-9882-F846FF7E01ED"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WinDiskWriter/Screens/DiskWriterScreen/DiskWriterViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "updateDevices()"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "verifySelectedDevice()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
