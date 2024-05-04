@@ -49,6 +49,7 @@ final class DiskWriterViewModel {
     }
 }
 
+// MARK: - Assigned Actions
 extension DiskWriterViewModel {
     func pickImage() {
         coordinator.showFileSelectionSheet { [weak self] selectedPath in
@@ -93,8 +94,15 @@ extension DiskWriterViewModel {
     }
 
     func startProcess() {
-        guard inputIsValid() else {
+        guard let isInWritingProcess = isInWritingProcess?(),
+            !isInWritingProcess else {
             return
+        }
+
+        do {
+            try validateInput()
+        } catch {
+            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
         }
 
         coordinator.showStartWritingAlert {
@@ -103,7 +111,11 @@ extension DiskWriterViewModel {
     }
 
     func stopProcess() {
-        
+        guard let isInWritingProcess = isInWritingProcess?(),
+            isInWritingProcess else {
+            return
+        }
+
     }
 
     func visitDevelopersPage() {
@@ -111,18 +123,12 @@ extension DiskWriterViewModel {
     }
 }
 
+// MARK: - Input Verification
 extension DiskWriterViewModel {
-    private func inputIsValid() -> Bool {
-        do {
-            try verifyImagePath()
-            try verifySelectedDevice()
-            try verifyInputForCollision()
-        } catch {
-            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
-            return false
-        }
-
-        return true
+    private func validateInput() throws {
+        try verifyImagePath()
+        try verifySelectedDevice()
+        try verifyInputForCollision()
     }
 
     private func verifyImagePath() throws {
