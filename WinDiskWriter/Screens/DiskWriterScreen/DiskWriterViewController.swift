@@ -206,9 +206,6 @@ final class DiskWriterViewController: BaseViewController {
         imageSelectionChooseRoundedButtonView.clickAction = viewModel.pickImage
         targetDeviceUpdateRoundedButtonView.clickAction = viewModel.updateDevices
 
-        startStopRoundedButtonView.clickAction = viewModel.startStopProcess
-
-
         animatedSlideShowedButton.stringArray = viewModel.slideshowStringArray
         animatedSlideShowedButton.clickAction = viewModel.visitDevelopersPage
     }
@@ -226,7 +223,19 @@ final class DiskWriterViewController: BaseViewController {
 
 extension DiskWriterViewController {
     private func setInWritingProcess(_ isInWritingProcess: Bool) {
+        guard let viewModel = viewModel else {
+            return
+        }
 
+        if isInWritingProcess {
+            startStopRoundedButtonView.title = "Stop"
+            startStopRoundedButtonView.clickAction = viewModel.startProcess
+        } else {
+            startStopRoundedButtonView.title = "Start"
+            startStopRoundedButtonView.clickAction = viewModel.stopProcess
+
+            // containerVerticalStackView.setEnabledStateForAllControls(false)
+        }
     }
 }
 
@@ -439,7 +448,7 @@ extension DiskWriterViewController {
     }
 
     private func setupStartStopRoundedButtonView() {
-        startStopRoundedButtonView.title = "Start"
+
     }
 
     private func setupAnimatedSlideShowedButton() {

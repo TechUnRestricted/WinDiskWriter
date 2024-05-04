@@ -93,11 +93,17 @@ extension DiskWriterViewModel {
         updateDisksList?(filteredDiskInfoList)
     }
 
-    func startStopProcess() {
+    func startProcess() {
         guard inputIsValid() else {
             return
         }
 
+        coordinator.showStartWritingAlert {
+
+        }
+    }
+
+    func stopProcess() {
         
     }
 
@@ -112,7 +118,7 @@ extension DiskWriterViewModel {
             try verifyImagePath()
             try verifySelectedDevice()
         } catch {
-            coordinator.showVerificationFailureWarning(subtitle: error.localizedDescription)
+            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
             return false
         }
 
@@ -153,8 +159,8 @@ extension DiskWriterViewModel {
         var updatedDiskInfoAppearanceTimestamp: TimeInterval = .nan
 
         do {
-           let updatedDiskInfo = try DiskInspector.diskInfo(bsdName: bsdName)
-           updatedDiskInfoAppearanceTimestamp = updatedDiskInfo.appearanceNSDate().timeIntervalSince1970
+            let updatedDiskInfo = try DiskInspector.diskInfo(bsdName: bsdName)
+            updatedDiskInfoAppearanceTimestamp = updatedDiskInfo.appearanceNSDate().timeIntervalSince1970
         } catch {
             throw SelectedDeviceVerifyError.unableToRetrieveUpdatedDeviceInfo
         }

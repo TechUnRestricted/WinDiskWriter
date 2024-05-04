@@ -65,7 +65,7 @@ final class DiskWriterCoordinator: Coordinator {
         alertBuilder.show(in: window)
     }
 
-    func showVerificationFailureWarning(subtitle: String) {
+    func showVerificationFailureWarningAlert(subtitle: String) {
         guard let window = window else {
             return
         }
@@ -75,6 +75,26 @@ final class DiskWriterCoordinator: Coordinator {
             subtitle: subtitle,
             image: NSImage(named: NSImage.cautionName)
         )
+
+        alertBuilder.show(in: window)
+    }
+
+    func showStartWritingAlert(startAction: @escaping () -> ()) {
+        guard let window = window else {
+            return
+        }
+
+        let alertBuilder = AlertBuilder(
+            title: "Start the writing process?",
+            subtitle: "Proceeding will erase the disk and start the writing process",
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder.addButton(title: "Start", preferDefault: true) {
+            startAction()
+        }
+
+        alertBuilder.addButton(title: "Cancel")
 
         alertBuilder.show(in: window)
     }

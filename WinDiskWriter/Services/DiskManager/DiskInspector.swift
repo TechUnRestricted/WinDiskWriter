@@ -44,35 +44,47 @@ class DiskInspector {
     
     private let diskSession: DASession
     private let currentDisk: DADisk
-    
-    private init(bsdName: String) throws {
+
+    private init(disk: DADisk, session: DASession) {
+        self.diskSession = session
+        self.currentDisk = disk
+    }
+
+    convenience private init(volumeURL: URL) throws {
         guard let allocatedSession = DASessionCreate(kCFAllocatorDefault) else {
             throw DiskInspectorError.sessionCreationFailed
         }
-        
+
+        guard let createdDiskReference = DADiskCreateFromVolumePath(kCFAllocatorDefault, allocatedSession, volumeURL as CFURL) else {
+            throw DiskInspectorError.diskReferenceCreationFailed
+        }
+
+        self.init(disk: createdDiskReference, session: allocatedSession)
+    }
+
+    convenience private init(bsdName: String) throws {
+        guard let allocatedSession = DASessionCreate(kCFAllocatorDefault) else {
+            throw DiskInspectorError.sessionCreationFailed
+        }
+
         guard let createdDiskReference = DADiskCreateFromBSDName(kCFAllocatorDefault, allocatedSession, bsdName) else {
             throw DiskInspectorError.diskReferenceCreationFailed
         }
-        
-        diskSession = allocatedSession
-        currentDisk = createdDiskReference
-    }
-}
 
-extension DiskInspector {
-    static func diskInfo(bsdName: String) throws -> DiskInfo {
-        let instance = try DiskInspector(bsdName: bsdName)
-        
-        guard let diskDescription = DADiskCopyDescription(instance.currentDisk) as NSDictionary? else {
+        self.init(disk: createdDiskReference, session: allocatedSession)
+    }
+
+    private func createDiskInfo() throws -> DiskInfo {
+        guard let diskDescription = DADiskCopyDescription(currentDisk) as NSDictionary? else {
             throw DiskInspectorError.diskCopyDescriptionFailed
         }
-        
+
         guard let bsdName = diskDescription["DAMediaBSDName"] as? String,
               let mediaSize = diskDescription["DAMediaSize"] as? Int,
               let appearanceTime = diskDescription["DAAppearanceTime"] as? TimeInterval else {
                   throw DiskInspectorError.diskCopyDescriptionFailed
               }
-        
+
         let diskInfo = DiskInfo(
             BSDName: bsdName,
             mediaSize: mediaSize,
@@ -105,8 +117,22 @@ extension DiskInspector {
             busName: diskDescription["DABusName"] as? String,
             deviceVendor: diskDescription["DADeviceVendor"] as? String
         )
-        
+
         return diskInfo
+    }
+}
+
+extension DiskInspector {
+    static func diskInfo(volumeURL: URL) throws -> DiskInfo {
+        let instance = try DiskInspector(volumeURL: volumeURL)
+
+        return try instance.createDiskInfo()
+    }
+
+    static func diskInfo(bsdName: String) throws -> DiskInfo {
+        let instance = try DiskInspector(bsdName: bsdName)
+        
+        return try instance.createDiskInfo()
     }
     
     static func getBSDDrivesNames() throws -> [String] {
