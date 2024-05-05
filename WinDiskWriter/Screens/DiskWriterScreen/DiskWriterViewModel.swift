@@ -119,7 +119,7 @@ extension DiskWriterViewModel {
         do {
             try validateInput()
         } catch {
-            let errorString = "Cant't start the writing process: (\(error.localizedDescription))"
+            let errorString = "Can't start the writing process: (\(error.localizedDescription))"
 
             appendLogLine?(.error, errorString)
             coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)

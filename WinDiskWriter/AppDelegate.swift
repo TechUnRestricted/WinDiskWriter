@@ -9,9 +9,12 @@ import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var coordinator: MainCoordinator?
+    let menuBuilder = MenuBuilder()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.activate(ignoringOtherApps: true)
+
+        NSApp.mainMenu = AppMenu.menuBuilder.build()
 
         coordinator = MainCoordinator()
         coordinator?.start()

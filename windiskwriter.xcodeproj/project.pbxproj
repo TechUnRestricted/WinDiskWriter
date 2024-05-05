@@ -19,6 +19,9 @@
 		E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */; };
 		E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */; };
 		E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */; };
+		E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */; };
+		E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DF2BE77298003E24D3 /* MenuSection.swift */; };
+		E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7E22BE77393003E24D3 /* AppMenu.swift */; };
 		E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */; };
 		E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */; };
 		E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E32BDD1EE10096C605 /* AppService.swift */; };
@@ -80,6 +83,9 @@
 		E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+MakeCostraints.swift"; sourceTree = "<group>"; };
 		E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
+		E256A7DF2BE77298003E24D3 /* MenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSection.swift; sourceTree = "<group>"; };
+		E256A7E22BE77393003E24D3 /* AppMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenu.swift; sourceTree = "<group>"; };
 		E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowedButton.swift; sourceTree = "<group>"; };
 		E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProxy.swift; sourceTree = "<group>"; };
 		E27FD4E32BDD1EE10096C605 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
@@ -167,9 +173,10 @@
 				E2F37B642BD5852A003D27BD /* Views */,
 				E234FC082BD5301F0074C781 /* AppDelegate.swift */,
 				E234FC212BD53D780074C781 /* MainCoordinator.swift */,
-				E234FC172BD531EE0074C781 /* main.swift */,
 				E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */,
+				E256A7E22BE77393003E24D3 /* AppMenu.swift */,
 				E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */,
+				E234FC172BD531EE0074C781 /* main.swift */,
 				E234FC0C2BD530200074C781 /* Assets.xcassets */,
 				E234FC112BD530200074C781 /* WinDiskWriter.entitlements */,
 				E27FD4F72BDE38CF0096C605 /* Objective-C-Bridging-Header.h */,
@@ -229,6 +236,15 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
+		E256A7E12BE7729D003E24D3 /* MenuBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				E256A7DF2BE77298003E24D3 /* MenuSection.swift */,
+				E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */,
+			);
+			path = MenuBuilder;
+			sourceTree = "<group>";
+		};
 		E27FD4DF2BDD0B450096C605 /* Labels */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +256,7 @@
 		E27FD4E22BDD1DA80096C605 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E256A7E12BE7729D003E24D3 /* MenuBuilder */,
 				E27FD4FE2BDE47490096C605 /* DiskManager */,
 				E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */,
 				E27FD4FB2BDE38D30096C605 /* LegacyExceptionHandler */,
@@ -368,12 +385,12 @@
 			children = (
 				E2F37B762BD6DC13003D27BD /* Buttons */,
 				E27FD4DF2BDD0B450096C605 /* Labels */,
+				E2F37B692BD59E8B003D27BD /* StackView */,
 				E2F37B722BD6B4BC003D27BD /* PickerView.swift */,
 				E27FD5102BDE6AB50096C605 /* DiskMenuItem.swift */,
 				E2F37B7D2BD6F1C2003D27BD /* SwitchPickerView.swift */,
 				E2F37B6E2BD69C2D003D27BD /* TextInputView.swift */,
 				E2F37B7F2BD78088003D27BD /* ScrollableLinesView.swift */,
-				E2F37B692BD59E8B003D27BD /* StackView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -479,6 +496,7 @@
 				E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
 				E28BBEBD2BE683C5008A7750 /* URL+MountPoint.swift in Sources */,
+				E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
 				E2A443B72BE4E28400701D56 /* ConfigurationValidationError.swift in Sources */,
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
@@ -489,6 +507,7 @@
 				E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */,
 				E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */,
 				E234FC252BD53E540074C781 /* DiskWriterCoordinator.swift in Sources */,
+				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
@@ -501,6 +520,7 @@
 				E2F37B782BD6DCFE003D27BD /* CheckboxView.swift in Sources */,
 				E27FD5042BDE4EDB0096C605 /* HDIUtilSystemEntity.swift in Sources */,
 				E234FC1A2BD53B640074C781 /* DiskWriterViewController.swift in Sources */,
+				E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */,
 				E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */,
 				E27FD4EC2BDD63790096C605 /* Filesystem.swift in Sources */,
 				E27FD4F62BDE35910096C605 /* CommandLine.swift in Sources */,
