@@ -225,7 +225,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
    <li>
       💻 <strong>Add support for 32-bit Macs</strong><br>
       <sub>
-        Right now, you can only use WinDiskWriter on x86_64 / ARM64 Mac computers.<br>
+        Right now, you can only use WinDiskWriter on Intel x64 / Apple silicon Mac computers.<br>
         Since this software has the minimum Mac OS X requirements of Snow Leopard 10.6, it's possible to compile a 32-bit build.<br>
         But I can’t do it right now, since this kind of build operation isn’t supported on Apple Silicon.
       </sub>
