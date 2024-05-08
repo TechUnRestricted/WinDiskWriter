@@ -18,7 +18,10 @@ class AppMenu {
             .addSeparator()
             .addItem(
                 title: "Quit \(AppInfo.appName)",
-                shortcut: "q"
+                shortcut: "q",
+                action: {
+                    NotificationCenter.default.post(name: .menuBarQuitTriggered, object: nil)
+                }
             )
 
         menuBuilder.addSection(title: "Edit")

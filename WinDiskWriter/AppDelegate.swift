@@ -24,6 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
 
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        return AppState.isQuitAvailable ? .terminateNow : .terminateCancel
+    }
+
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }

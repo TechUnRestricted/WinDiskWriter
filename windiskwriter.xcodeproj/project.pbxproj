@@ -45,6 +45,8 @@
 		E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */; };
 		E27FD5152BDE7F580096C605 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */; };
 		E28BBEBD2BE683C5008A7750 /* URL+MountPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */; };
+		E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */; };
+		E29C8ACB2BEB7100006A50D9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8ACA2BEB7100006A50D9 /* AppState.swift */; };
 		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
 		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
@@ -111,6 +113,8 @@
 		E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt64+FormattedSize.swift"; sourceTree = "<group>"; };
 		E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringBuilder.swift; sourceTree = "<group>"; };
 		E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+MountPoint.swift"; sourceTree = "<group>"; };
+		E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Names.swift"; sourceTree = "<group>"; };
+		E29C8ACA2BEB7100006A50D9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncher.swift; sourceTree = "<group>"; };
 		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */,
 				E256A7E22BE77393003E24D3 /* AppMenu.swift */,
 				E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */,
+				E29C8ACA2BEB7100006A50D9 /* AppState.swift */,
 				E234FC172BD531EE0074C781 /* main.swift */,
 				E234FC0C2BD530200074C781 /* Assets.xcassets */,
 				E234FC112BD530200074C781 /* WinDiskWriter.entitlements */,
@@ -209,13 +214,14 @@
 			isa = PBXGroup;
 			children = (
 				E27FD50F2BDE5CC40096C605 /* String */,
+				E2A443BA2BE5045100701D56 /* NSView */,
+				E28BBEBB2BE68378008A7750 /* FileManager */,
 				E2F37B7B2BD6F0F6003D27BD /* Collection+Safe.swift */,
 				E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */,
-				E2A443BA2BE5045100701D56 /* NSView */,
 				E27FD4E92BDD2C160096C605 /* URL+Open.swift */,
-				E28BBEBB2BE68378008A7750 /* FileManager */,
 				E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */,
 				E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */,
+				E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -510,6 +516,7 @@
 				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
+				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
 				E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
@@ -540,6 +547,7 @@
 				E27FD4F42BDE264C0096C605 /* DiskInspector.swift in Sources */,
 				E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */,
 				E2F37B682BD59DEE003D27BD /* HorizontalStackView.swift in Sources */,
+				E29C8ACB2BEB7100006A50D9 /* AppState.swift in Sources */,
 				E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */,
 				E27FD5002BDE47A20096C605 /* HDIUtil.swift in Sources */,
 				E2F37B6D2BD59F30003D27BD /* VerticalStackView.swift in Sources */,

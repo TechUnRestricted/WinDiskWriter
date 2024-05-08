@@ -143,3 +143,4 @@ extension ScrollableLinesView: NSTableViewDelegate {
         return VerticallyCenteredTextFieldCell()
     }
 }
+

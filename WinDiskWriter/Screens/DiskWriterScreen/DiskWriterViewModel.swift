@@ -63,6 +63,25 @@ final class DiskWriterViewModel {
     
     init(coordinator: DiskWriterCoordinator) {
         self.coordinator = coordinator
+
+        setupNotificationCenterObserver()
+    }
+
+    deinit {
+        removeNotificationCenterObserver()
+    }
+
+    private func setupNotificationCenterObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(respondOnQuit),
+            name: .menuBarQuitTriggered,
+            object: nil
+        )
+    }
+
+    private func removeNotificationCenterObserver() {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -95,9 +114,9 @@ extension DiskWriterViewModel {
 
             if !scanAllWholeDrives {
                 guard let isNetworkVolume = diskInfo.volume.isNetwork,
-                    let isInternal = diskInfo.device.isInternal else {
-                        continue
-                    }
+                      let isInternal = diskInfo.device.isInternal else {
+                          continue
+                      }
 
                 if isNetworkVolume || isInternal {
                     continue
@@ -112,9 +131,9 @@ extension DiskWriterViewModel {
 
     func startProcess() {
         guard let isInWritingProcess = isInWritingProcess?(),
-            !isInWritingProcess else {
-            return
-        }
+              !isInWritingProcess else {
+                  return
+              }
 
         do {
             try validateInput()
@@ -134,14 +153,18 @@ extension DiskWriterViewModel {
 
     func stopProcess() {
         guard let isInWritingProcess = isInWritingProcess?(),
-            isInWritingProcess else {
-            return
-        }
+              isInWritingProcess else {
+                  return
+              }
 
     }
 
     func visitDevelopersPage() {
         coordinator.visitDevelopersPage()
+    }
+
+    @objc private func respondOnQuit() {
+
     }
 }
 
@@ -156,8 +179,8 @@ extension DiskWriterViewModel {
     private func verifyImagePath() throws {
         guard let imagePath = imagePath?(),
               !imagePath.isEmpty else {
-            throw ConfigurationValidationError.emptyImagePath
-        }
+                  throw ConfigurationValidationError.emptyImagePath
+              }
 
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: imagePath, isDirectory: &isDirectory) else {
@@ -181,7 +204,7 @@ extension DiskWriterViewModel {
         guard let selectedDiskBSDName = selectedDiskInfo.media.bsdName,
               let originalDiskAppearanceTime = selectedDiskInfo.media.appearanceTime else {
                   throw ConfigurationValidationError.deviceInfoUnavailable
-        }
+              }
 
         var updatedDiskAppearanceTime: TimeInterval = .nan
 
