@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */; };
+		E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF52BEC18D200BE2E59 /* LogType.swift */; };
 		E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC082BD5301F0074C781 /* AppDelegate.swift */; };
 		E234FC0B2BD5301F0074C781 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC0A2BD5301F0074C781 /* BaseViewController.swift */; };
 		E234FC0D2BD530200074C781 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E234FC0C2BD530200074C781 /* Assets.xcassets */; };
@@ -24,7 +26,6 @@
 		E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7E22BE77393003E24D3 /* AppMenu.swift */; };
 		E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */; };
 		E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */; };
-		E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E32BDD1EE10096C605 /* AppService.swift */; };
 		E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */; };
 		E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */; };
 		E27FD4EA2BDD2C160096C605 /* URL+Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E92BDD2C160096C605 /* URL+Open.swift */; };
@@ -71,6 +72,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonTitleTransformer.swift; sourceTree = "<group>"; };
+		E2245EF52BEC18D200BE2E59 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		E234FC052BD5301F0074C781 /* WinDiskWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinDiskWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E234FC082BD5301F0074C781 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E234FC0A2BD5301F0074C781 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +93,6 @@
 		E256A7E22BE77393003E24D3 /* AppMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenu.swift; sourceTree = "<group>"; };
 		E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowedButton.swift; sourceTree = "<group>"; };
 		E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProxy.swift; sourceTree = "<group>"; };
-		E27FD4E32BDD1EE10096C605 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+AdjustedYear.swift"; sourceTree = "<group>"; };
 		E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		E27FD4E92BDD2C160096C605 /* URL+Open.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Open.swift"; sourceTree = "<group>"; };
@@ -150,6 +152,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E2245EF42BEC0DA700BE2E59 /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
 		E234FBFC2BD5301F0074C781 = {
 			isa = PBXGroup;
 			children = (
@@ -193,9 +203,11 @@
 			isa = PBXGroup;
 			children = (
 				E256A7DA2BE6AFCB003E24D3 /* Errors */,
+				E2245EF42BEC0DA700BE2E59 /* Transformers */,
 				E234FC1D2BD53C800074C781 /* DiskWriterViewModel.swift */,
 				E234FC192BD53B640074C781 /* DiskWriterViewController.swift */,
 				E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */,
+				E2245EF52BEC18D200BE2E59 /* LogType.swift */,
 			);
 			path = DiskWriterScreen;
 			sourceTree = "<group>";
@@ -267,7 +279,6 @@
 				E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */,
 				E27FD4FB2BDE38D30096C605 /* LegacyExceptionHandler */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
-				E27FD4E32BDD1EE10096C605 /* AppService.swift */,
 				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
 				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
@@ -518,7 +529,6 @@
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
 				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
-				E27FD4E42BDD1EE10096C605 /* AppService.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
 				E27FD4EA2BDD2C160096C605 /* URL+Open.swift in Sources */,
 				E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */,
@@ -546,8 +556,10 @@
 				E27FD4F12BDE256C0096C605 /* DiskInfo.swift in Sources */,
 				E27FD4F42BDE264C0096C605 /* DiskInspector.swift in Sources */,
 				E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */,
+				E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */,
 				E2F37B682BD59DEE003D27BD /* HorizontalStackView.swift in Sources */,
 				E29C8ACB2BEB7100006A50D9 /* AppState.swift in Sources */,
+				E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */,
 				E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */,
 				E27FD5002BDE47A20096C605 /* HDIUtil.swift in Sources */,
 				E2F37B6D2BD59F30003D27BD /* VerticalStackView.swift in Sources */,

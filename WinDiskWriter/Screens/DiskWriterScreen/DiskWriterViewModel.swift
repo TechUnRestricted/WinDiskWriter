@@ -7,53 +7,26 @@
 
 import Foundation
 
-enum LogType {
-    case info
-    case warning
-    case error
+final class DiskWriterViewModel: NSObject {
+    @objc dynamic var imagePath: String = ""
+    @objc dynamic var filesystem: Filesystem = .FAT32
+    @objc dynamic var patchInstallerRequirements: Bool = false
+    @objc dynamic var installLegacyBIOSBootSector: Bool = AppState.hasElevatedRights
 
-    var stringRepresentation: String {
-        switch self {
-        case .info:
-            return "Info"
-        case .warning:
-            return "Warning"
-        case .error:
-            return "Error"
-        }
-    }
-}
+    @objc dynamic var isIdle: Bool = true
 
-final class DiskWriterViewModel {
-    var imagePath: (() -> (String))?
-    var didSelectImagePath: ((String) -> (Void))?
-    
-    var filesystem: (() -> (Filesystem))?
-    
-    var patchInstallerRequirements: (() -> (Bool))?
-    var installLegacyBIOSBootSector: (() -> (Bool))?
-    
-    var isInWritingProcess: (() -> (Bool))?
-    var setInWritingProcess: ((Bool) -> ())?
+    @objc dynamic var scanAllWholeDrives: Bool = true
 
-    var scanAllWholeDrives: (() -> (Bool))?
+    var appendLogLine: ((LogType, String) -> ())?
+
+    @objc dynamic var disksInfoList: [DiskInfo] = []
+    @objc dynamic var chosenDiskInfo: DiskInfo?
 
     var updateDisksList: (([DiskInfo]) -> ())?
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
-    var appendLogLine: ((LogType, String) -> ())?
-    
-    var isInstallLegacyBIOSBootSectorAvailable: Bool {
-        get {
-            guard AppService.hasElevatedRights else {
-                coordinator.showRestartWithEscalatedPermissionsAlert()
-                return false
-            }
-            
-            return true
-        }
-    }
-    
+    let isInstallLegacyBIOSBootSectorAvailable: Bool = AppState.hasElevatedRights
+
     let slideshowStringArray: [String] = [
         "\(AppInfo.developerName) \(Date.adjustedYear)",
         "❤️ Donate Me ❤️"
@@ -63,6 +36,8 @@ final class DiskWriterViewModel {
     
     init(coordinator: DiskWriterCoordinator) {
         self.coordinator = coordinator
+
+        super.init()
 
         setupNotificationCenterObserver()
     }
@@ -89,15 +64,11 @@ final class DiskWriterViewModel {
 extension DiskWriterViewModel {
     func pickImage() {
         coordinator.showFileSelectionSheet { [weak self] selectedPath in
-            self?.didSelectImagePath?(selectedPath)
+            self?.imagePath = selectedPath
         }
     }
 
     func updateDevices() {
-        guard let scanAllWholeDrives = scanAllWholeDrives?() else {
-            return
-        }
-
         let unfilteredDiskInfoList = DiskInspector.getDisksInfoList()
 
         var filteredDiskInfoList: [DiskInfo] = []
@@ -129,20 +100,22 @@ extension DiskWriterViewModel {
         updateDisksList?(filteredDiskInfoList)
     }
 
-    func startProcess() {
-        guard let isInWritingProcess = isInWritingProcess?(),
-              !isInWritingProcess else {
-                  return
-              }
+    func triggerAction() {
+        if isIdle {
+            startProcess()
+        } else {
+            stopProcess()
+        }
+    }
 
+    private func startProcess() {
         do {
             try validateInput()
         } catch {
             let errorString = "Can't start the writing process: (\(error.localizedDescription))"
-
             appendLogLine?(.error, errorString)
-            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
 
+            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
             return
         }
 
@@ -151,16 +124,16 @@ extension DiskWriterViewModel {
         }
     }
 
-    func stopProcess() {
-        guard let isInWritingProcess = isInWritingProcess?(),
-              isInWritingProcess else {
-                  return
-              }
+    private func stopProcess() {
 
     }
 
     func visitDevelopersPage() {
         coordinator.visitDevelopersPage()
+    }
+
+    func showRestartWithEscalatedPermissionsAlert() {
+        coordinator.showRestartWithEscalatedPermissionsAlert()
     }
 
     @objc private func respondOnQuit() {
@@ -177,10 +150,9 @@ extension DiskWriterViewModel {
     }
 
     private func verifyImagePath() throws {
-        guard let imagePath = imagePath?(),
-              !imagePath.isEmpty else {
-                  throw ConfigurationValidationError.emptyImagePath
-              }
+        guard !imagePath.isEmpty else {
+            throw ConfigurationValidationError.emptyImagePath
+        }
 
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: imagePath, isDirectory: &isDirectory) else {
@@ -221,10 +193,6 @@ extension DiskWriterViewModel {
     }
 
     private func verifyInputForCollision() throws {
-        guard let imagePath = imagePath?() else {
-            throw ConfigurationValidationError.emptyImagePath
-        }
-
         guard let selectedDiskBSDName = selectedDiskInfo?()?.media.bsdName else {
             throw ConfigurationValidationError.deviceInfoUnavailable
         }

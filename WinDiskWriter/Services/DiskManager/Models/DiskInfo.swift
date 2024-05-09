@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DiskInfo {
+class DiskInfo: NSObject {
     struct Volume {
         var kind: String?
         var isMountable: Bool?
@@ -62,5 +62,14 @@ struct DiskInfo {
     var media: Media
     var device: Device
     var bus: Bus
+
+    init(volume: Volume, media: Media, device: Device, bus: Bus) {
+        self.volume = volume
+        self.media = media
+        self.device = device
+        self.bus = bus
+
+        super.init()
+    }
 }
 

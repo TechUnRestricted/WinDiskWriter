@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Filesystem: Int, Hashable {
+@objc enum Filesystem: Int, Hashable {
     case FAT32 = 0
     case exFAT = 1
 }
