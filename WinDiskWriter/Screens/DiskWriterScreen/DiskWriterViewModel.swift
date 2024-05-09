@@ -98,6 +98,7 @@ extension DiskWriterViewModel {
         }
 
         updateDisksList?(filteredDiskInfoList)
+        disksInfoList = filteredDiskInfoList
     }
 
     func triggerAction() {
