@@ -8,21 +8,19 @@
 import Foundation
 
 final class DiskWriterViewModel: NSObject {
+    @objc dynamic var isIdle: Bool = true
+
     @objc dynamic var imagePath: String = ""
     @objc dynamic var filesystem: Filesystem = .FAT32
     @objc dynamic var patchInstallerRequirements: Bool = false
     @objc dynamic var installLegacyBIOSBootSector: Bool = AppState.hasElevatedRights
 
-    @objc dynamic var isIdle: Bool = true
-
     @objc dynamic var scanAllWholeDrives: Bool = true
 
-    var appendLogLine: ((LogType, String) -> ())?
-
     @objc dynamic var disksInfoList: [DiskInfo] = []
-    @objc dynamic var chosenDiskInfo: DiskInfo?
-
     var selectedDiskInfo: (() -> (DiskInfo?))?
+
+    var appendLogLine: ((LogType, String) -> ())?
 
     let isInstallLegacyBIOSBootSectorAvailable: Bool = AppState.hasElevatedRights
 

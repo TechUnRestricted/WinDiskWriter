@@ -1,5 +1,5 @@
 //
-//  DevicePickerTransformer.swift
+//  DevicePickerMenuItemsTransformer.swift
 //  WinDiskWriter
 //
 //  Created by Macintosh on 10.05.2024.
@@ -8,10 +8,10 @@
 import Foundation
 
 extension NSValueTransformerName {
-    static let devicePickerTransformerName = NSValueTransformerName(rawValue: DevicePickerTransformer.className())
+    static let devicePickerMenuItemsTransformerName = NSValueTransformerName(rawValue: DevicePickerMenuItemsTransformer.className())
 }
 
-class DevicePickerTransformer: ValueTransformer {
+class DevicePickerMenuItemsTransformer: ValueTransformer {
     override class func transformedValueClass() -> AnyClass {
         return NSArray.self
     }

@@ -54,7 +54,7 @@
 		E2A443B72BE4E28400701D56 /* ConfigurationValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */; };
 		E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B82BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift */; };
 		E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */; };
-		E2E1474B2BEEB98B002BD807 /* DevicePickerTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E1474A2BEEB98B002BD807 /* DevicePickerTransformer.swift */; };
+		E2E1474B2BEEB98B002BD807 /* DevicePickerMenuItemsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E1474A2BEEB98B002BD807 /* DevicePickerMenuItemsTransformer.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
 		E2F37B612BD5643D003D27BD /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B602BD5643D003D27BD /* BaseWindow.swift */; };
@@ -125,7 +125,7 @@
 		E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidationError.swift; sourceTree = "<group>"; };
 		E2A443B82BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+SetEnabledStateForAllControls.swift"; sourceTree = "<group>"; };
 		E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
-		E2E1474A2BEEB98B002BD807 /* DevicePickerTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePickerTransformer.swift; sourceTree = "<group>"; };
+		E2E1474A2BEEB98B002BD807 /* DevicePickerMenuItemsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePickerMenuItemsTransformer.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
 		E2F37B602BD5643D003D27BD /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */,
-				E2E1474A2BEEB98B002BD807 /* DevicePickerTransformer.swift */,
+				E2E1474A2BEEB98B002BD807 /* DevicePickerMenuItemsTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -557,7 +557,7 @@
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
 				E27FD5082BDE59250096C605 /* PartitionScheme.swift in Sources */,
 				E27FD4F12BDE256C0096C605 /* DiskInfo.swift in Sources */,
-				E2E1474B2BEEB98B002BD807 /* DevicePickerTransformer.swift in Sources */,
+				E2E1474B2BEEB98B002BD807 /* DevicePickerMenuItemsTransformer.swift in Sources */,
 				E27FD4F42BDE264C0096C605 /* DiskInspector.swift in Sources */,
 				E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */,
 				E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */,

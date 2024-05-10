@@ -129,18 +129,6 @@ final class DiskWriterViewController: BaseViewController {
             return
         }
 
-        // print(targetDevicePickerView.exposedBindings)
-
-        targetDevicePickerView.bind(
-            .menuItems,
-            to: viewModel,
-            withKeyPath: #keyPath(DiskWriterViewModel.disksInfoList),
-            options: [
-                .continuouslyUpdatesValue: true,
-                .valueTransformerName: NSValueTransformerName.devicePickerTransformerName
-            ]
-        )
-
         imageSelectionTextInputView.bind(
             .value,
             to: viewModel,
@@ -150,7 +138,25 @@ final class DiskWriterViewController: BaseViewController {
                 .nullPlaceholder: "Image File or Directory"
             ]
         )
-        
+
+        targetDevicePickerView.bind(
+            .menuItems,
+            to: viewModel,
+            withKeyPath: #keyPath(DiskWriterViewModel.disksInfoList),
+            options: [
+                .continuouslyUpdatesValue: true,
+                .valueTransformerName: NSValueTransformerName.devicePickerMenuItemsTransformerName
+            ]
+        )
+
+        viewModel.selectedDiskInfo = { [weak self] in
+            guard let diskMenuItem = self?.targetDevicePickerView.selectedItem as? DiskMenuItem else {
+                return nil
+            }
+
+            return diskMenuItem.diskInfo
+        }
+
         filesystemSwitchPickerView.bind(
             .selectedIndex,
             to: viewModel,
