@@ -76,6 +76,8 @@ final class DiskWriterViewController: BaseViewController {
         arrangeViews()
         setupViews()
         bindModel()
+
+        viewModel?.updateDevices()
     }
     
     private func arrangeViews() {
@@ -205,8 +207,13 @@ final class DiskWriterViewController: BaseViewController {
             )
         }
         
-        imageSelectionChooseRoundedButtonView.clickAction = viewModel.pickImage
-        targetDeviceUpdateRoundedButtonView.clickAction = viewModel.updateDevices
+        imageSelectionChooseRoundedButtonView.clickAction = { [weak self] in
+            self?.viewModel?.pickImage()
+        }
+
+        targetDeviceUpdateRoundedButtonView.clickAction = { [weak self] in
+            self?.viewModel?.updateDevices()
+        }
         
         viewModel.appendLogLine = { [weak self] (logType, line) in
             self?.logsScrollableLinesView.appendRow(
@@ -214,7 +221,9 @@ final class DiskWriterViewController: BaseViewController {
             )
         }
         
-        startStopRoundedButtonView.clickAction = viewModel.triggerAction
+        startStopRoundedButtonView.clickAction = { [weak self] in
+            self?.viewModel?.triggerAction()
+        }
         
         animatedSlideShowedButton.stringArray = viewModel.slideshowStringArray
     }

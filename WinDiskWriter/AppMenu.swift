@@ -76,7 +76,9 @@ class AppMenu {
         menuBuilder.addSection(title: "Debug")
             .addItem(
                 title: "Scan All Whole Disks",
-                action: { }
+                action: {
+                    NotificationCenter.default.post(name: .scanAllWholeDisksTriggered, object: nil)
+                }
             )
             .addSeparator()
             .addItem(

@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let menuBarQuitTriggered = Notification.Name("menuBarQuitTriggered")
+    static let scanAllWholeDisksTriggered = Notification.Name("scanAllWholeDisksTriggered")
 }

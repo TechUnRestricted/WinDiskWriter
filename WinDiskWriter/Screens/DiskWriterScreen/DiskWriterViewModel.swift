@@ -16,8 +16,6 @@ final class DiskWriterViewModel: NSObject {
     @objc dynamic var patchInstallerRequirements: Bool = false
     @objc dynamic var installLegacyBIOSBootSector: Bool = AppState.hasElevatedRights
 
-    @objc dynamic var scanAllWholeDrives: Bool = true
-
     @objc dynamic var disksInfoList: [DiskInfo] = []
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
@@ -37,20 +35,27 @@ final class DiskWriterViewModel: NSObject {
 
         super.init()
 
-        setupNotificationCenterObserver()
+        setupNotificationCenterObservers()
     }
 
     deinit {
         removeNotificationCenterObserver()
     }
 
-    private func setupNotificationCenterObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(respondOnQuit),
-            name: .menuBarQuitTriggered,
-            object: nil
-        )
+    private func setupNotificationCenterObservers() {
+        let notificationCenterDictionary: [Notification.Name: Selector] = [
+            .menuBarQuitTriggered: #selector(respondOnQuit),
+            .scanAllWholeDisksTriggered: #selector(respondOnScanAllWholeDisks)
+        ]
+
+        for (name, selector) in notificationCenterDictionary {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: selector,
+                name: name,
+                object: nil
+            )
+        }
     }
 
     private func removeNotificationCenterObserver() {
@@ -66,7 +71,7 @@ extension DiskWriterViewModel {
         }
     }
 
-    func updateDevices() {
+    func updateDevices(enableFiltering: Bool = true) {
         let unfilteredDiskInfoList = DiskInspector.getDisksInfoList()
 
         var filteredDiskInfoList: [DiskInfo] = []
@@ -81,7 +86,7 @@ extension DiskWriterViewModel {
                 continue
             }
 
-            if !scanAllWholeDrives {
+            if !enableFiltering {
                 guard let isNetworkVolume = diskInfo.volume.isNetwork,
                       let isInternal = diskInfo.device.isInternal else {
                           continue
@@ -135,6 +140,10 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnQuit() {
+
+    }
+
+    @objc private func respondOnScanAllWholeDisks() {
 
     }
 }
