@@ -8,20 +8,24 @@
 import Foundation
 
 final class DiskWriterViewModel: NSObject {
-    @objc dynamic var isIdle: Bool = true
+    @objc dynamic var isIdle: Bool = true {
+        didSet {
+            coordinator.windowCloseButtonEnabled = isIdle
+        }
+    }
 
     @objc dynamic var imagePath: String = ""
     @objc dynamic var filesystem: Filesystem = .FAT32
 
     @objc dynamic var patchInstallerRequirements: Bool = false
-    @objc dynamic var installLegacyBIOSBootSector: Bool = AppState.hasElevatedRights
+    @objc dynamic var installLegacyBIOSBootSector: Bool = AppService.hasElevatedRights
 
     @objc dynamic var disksInfoList: [DiskInfo] = []
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
     var appendLogLine: ((LogType, String) -> ())?
 
-    let isInstallLegacyBIOSBootSectorAvailable: Bool = AppState.hasElevatedRights
+    let isInstallLegacyBIOSBootSectorAvailable: Bool = AppService.hasElevatedRights
 
     let slideshowStringArray: [String] = [
         "\(AppInfo.developerName) \(Date.adjustedYear)",
@@ -140,7 +144,13 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnQuit() {
+        if isIdle {
+            AppService.terminate(self)
+        }
 
+        coordinator.showUnsafeTerminateAlert {
+            AppService.terminate(self)
+        }
     }
 
     @objc private func respondOnScanAllWholeDisks() {

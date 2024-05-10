@@ -396,7 +396,7 @@ extension DiskWriterViewController {
     
     private func setupOptionInstallLegacyBootCheckboxView() {
         optionInstallLegacyBootCheckboxView.title = "Install Legacy BIOS Boot Sector"
-        optionInstallLegacyBootCheckboxView.isChecked = AppState.hasElevatedRights
+        optionInstallLegacyBootCheckboxView.isChecked = AppService.hasElevatedRights
 
         optionInstallLegacyBootCheckboxView.clickAction = { [weak self] in
             guard let viewModel = self?.viewModel else {

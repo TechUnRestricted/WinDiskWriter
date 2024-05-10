@@ -47,7 +47,7 @@
 		E27FD5152BDE7F580096C605 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */; };
 		E28BBEBD2BE683C5008A7750 /* URL+MountPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */; };
 		E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */; };
-		E29C8ACB2BEB7100006A50D9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8ACA2BEB7100006A50D9 /* AppState.swift */; };
+		E29C8ACB2BEB7100006A50D9 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8ACA2BEB7100006A50D9 /* AppService.swift */; };
 		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
 		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
@@ -117,7 +117,7 @@
 		E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringBuilder.swift; sourceTree = "<group>"; };
 		E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+MountPoint.swift"; sourceTree = "<group>"; };
 		E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Names.swift"; sourceTree = "<group>"; };
-		E29C8ACA2BEB7100006A50D9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E29C8ACA2BEB7100006A50D9 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncher.swift; sourceTree = "<group>"; };
 		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
@@ -193,7 +193,6 @@
 				E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */,
 				E256A7E22BE77393003E24D3 /* AppMenu.swift */,
 				E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */,
-				E29C8ACA2BEB7100006A50D9 /* AppState.swift */,
 				E234FC172BD531EE0074C781 /* main.swift */,
 				E234FC0C2BD530200074C781 /* Assets.xcassets */,
 				E234FC112BD530200074C781 /* WinDiskWriter.entitlements */,
@@ -281,13 +280,14 @@
 				E27FD4FE2BDE47490096C605 /* DiskManager */,
 				E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */,
 				E27FD4FB2BDE38D30096C605 /* LegacyExceptionHandler */,
+				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
+				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
 				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
-				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
 				E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */,
-				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
+				E29C8ACA2BEB7100006A50D9 /* AppService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -562,7 +562,7 @@
 				E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */,
 				E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */,
 				E2F37B682BD59DEE003D27BD /* HorizontalStackView.swift in Sources */,
-				E29C8ACB2BEB7100006A50D9 /* AppState.swift in Sources */,
+				E29C8ACB2BEB7100006A50D9 /* AppService.swift in Sources */,
 				E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */,
 				E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */,
 				E27FD5002BDE47A20096C605 /* HDIUtil.swift in Sources */,

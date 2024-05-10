@@ -9,7 +9,23 @@ import Cocoa
 
 final class DiskWriterCoordinator: Coordinator {
     private var window: BaseWindow?
+    private var windowCloseButton: NSButton? {
+        get {
+            window?.standardWindowButton(.closeButton)
+        }
+    }
+
     private var viewController: DiskWriterViewController?
+
+    var windowCloseButtonEnabled: Bool? {
+        get {
+            windowCloseButton?.isEnabled
+        } set {
+            if let flag = newValue {
+                windowCloseButton?.isEnabled = flag
+            }
+        }
+    }
 
     func start() {
         let viewModel = DiskWriterViewModel(coordinator: self)
@@ -91,6 +107,26 @@ final class DiskWriterCoordinator: Coordinator {
         )
 
         alertBuilder.addButton(title: "Start", preferDefault: true) {
+            startAction()
+        }
+
+        alertBuilder.addButton(title: "Cancel")
+
+        alertBuilder.show(in: window)
+    }
+
+    func showUnsafeTerminateAlert(startAction: @escaping () -> ()) {
+        guard let window = window else {
+            return
+        }
+
+        let alertBuilder = AlertBuilder(
+            title: "Quit \(AppInfo.appName)?",
+            subtitle: "Quitting now will interrupt the ongoing operation and may leave the disk in an unusable state",
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder.addButton(title: "Quit", preferDefault: true) {
             startAction()
         }
 
