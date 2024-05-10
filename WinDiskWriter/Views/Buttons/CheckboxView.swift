@@ -7,8 +7,12 @@
 
 import AppKit
 
+extension NSBindingName {
+    static let isChecked = NSBindingName(rawValue: #keyPath(CheckboxView.isChecked))
+}
+
 class CheckboxView: BaseButtonView {
-    var isChecked: Bool {
+    @objc dynamic var isChecked: Bool {
         get {
             return state == .on
         } set {
@@ -20,8 +24,14 @@ class CheckboxView: BaseButtonView {
         }
     }
 
+    private static let initBindings: () = {
+        CheckboxView.exposeBinding(.isChecked)
+    }()
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
+
+        Self.initBindings
 
         setButtonType(.switch)
     }

@@ -8,11 +8,11 @@
 import AppKit
 
 extension NSBindingName {
-    static let menuItems = NSBindingName(rawValue: "menuItems")
+    static let menuItems = NSBindingName(rawValue: #keyPath(PickerView.menuItems))
 }
 
 class PickerView: NSPopUpButton {
-    @objc dynamic private var menuItems: [NSMenuItem] {
+    @objc dynamic fileprivate var menuItems: [NSMenuItem] {
         get {
             return menu?.items ?? []
         } set {

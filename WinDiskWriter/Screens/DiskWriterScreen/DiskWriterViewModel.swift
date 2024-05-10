@@ -12,6 +12,7 @@ final class DiskWriterViewModel: NSObject {
 
     @objc dynamic var imagePath: String = ""
     @objc dynamic var filesystem: Filesystem = .FAT32
+
     @objc dynamic var patchInstallerRequirements: Bool = false
     @objc dynamic var installLegacyBIOSBootSector: Bool = AppState.hasElevatedRights
 
@@ -95,8 +96,6 @@ extension DiskWriterViewModel {
         }
 
         disksInfoList = filteredDiskInfoList
-
-       // print(disksInfoList)
     }
 
     func triggerAction() {

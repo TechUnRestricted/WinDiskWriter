@@ -31,13 +31,15 @@ class SwitchPickerView<T: RawRepresentable & Hashable>: NSSegmentedControl where
         fatalError("init(coder:) has not been implemented")
     }
 
-    func addSegment(title: String, identifier: T, makeDefault: Bool = false, handler: @escaping SelectionHandler) {
+    func addSegment(title: String, identifier: T, makeDefault: Bool = false, handler: SelectionHandler? = nil) {
         let index = segmentCount
         segmentCount += 1
 
         setLabel(title, forSegment: index)
 
-        selectionHandlers[identifier] = handler
+        if let handler = handler {
+            selectionHandlers[identifier] = handler
+        }
 
         if makeDefault {
             setSelected(true, forSegment: index)
