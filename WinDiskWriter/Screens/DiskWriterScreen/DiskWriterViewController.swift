@@ -128,7 +128,19 @@ final class DiskWriterViewController: BaseViewController {
         guard let viewModel = viewModel else {
             return
         }
-        
+
+        // print(targetDevicePickerView.exposedBindings)
+
+        targetDevicePickerView.bind(
+            .menuItems,
+            to: viewModel,
+            withKeyPath: #keyPath(DiskWriterViewModel.disksInfoList),
+            options: [
+                .continuouslyUpdatesValue: true,
+                .valueTransformerName: NSValueTransformerName.devicePickerTransformerName
+            ]
+        )
+
         imageSelectionTextInputView.bind(
             .value,
             to: viewModel,

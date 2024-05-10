@@ -7,9 +7,27 @@
 
 import AppKit
 
+extension NSBindingName {
+    static let menuItems = NSBindingName(rawValue: "menuItems")
+}
+
 class PickerView: NSPopUpButton {
+    @objc dynamic private var menuItems: [NSMenuItem] {
+        get {
+            return menu?.items ?? []
+        } set {
+            menu?.items = newValue
+        }
+    }
+
+    private static let initBindings: () = {
+        PickerView.exposeBinding(.menuItems)
+    }()
+
     override init(frame buttonFrame: NSRect, pullsDown flag: Bool) {
         super.init(frame: buttonFrame, pullsDown: flag)
+
+        Self.initBindings
 
         bezelStyle = .texturedRounded
     }

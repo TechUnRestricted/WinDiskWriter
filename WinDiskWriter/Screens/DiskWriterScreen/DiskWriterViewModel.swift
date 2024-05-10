@@ -22,7 +22,6 @@ final class DiskWriterViewModel: NSObject {
     @objc dynamic var disksInfoList: [DiskInfo] = []
     @objc dynamic var chosenDiskInfo: DiskInfo?
 
-    var updateDisksList: (([DiskInfo]) -> ())?
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
     let isInstallLegacyBIOSBootSectorAvailable: Bool = AppState.hasElevatedRights
@@ -97,8 +96,9 @@ extension DiskWriterViewModel {
             filteredDiskInfoList.append(diskInfo)
         }
 
-        updateDisksList?(filteredDiskInfoList)
         disksInfoList = filteredDiskInfoList
+
+       // print(disksInfoList)
     }
 
     func triggerAction() {
