@@ -15,7 +15,7 @@ class BaseViewController: NSViewController {
     let safeZoneView = NSView()
     let containerVerticalStackView = VerticalStackView()
 
-    var didAppearBefore: Bool = false
+    private var didAppearBefore: Bool = false
 
     override func loadView() {
         let visualEffectView = NSVisualEffectView()

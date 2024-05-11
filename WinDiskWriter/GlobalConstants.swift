@@ -8,5 +8,5 @@
 import Foundation
 
 enum GlobalConstants {
-    static let developerGitHubLink: String = "https://github.com/TechUnRestricted/WinDiskWriter"
+    static let developersGitHubLink: String = "https://github.com/TechUnRestricted/WinDiskWriter"
 }

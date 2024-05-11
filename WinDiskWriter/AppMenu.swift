@@ -99,7 +99,7 @@ class AppMenu {
                 title: "Open Donation Web Page",
                 shortcut: "d",
                 action: {
-                    URL(string: GlobalConstants.developerGitHubLink)?.open()
+                    URL(string: GlobalConstants.developersGitHubLink)?.open()
                 }
             )
 

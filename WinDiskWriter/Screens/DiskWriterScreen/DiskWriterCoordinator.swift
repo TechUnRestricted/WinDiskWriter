@@ -9,12 +9,6 @@ import Cocoa
 
 final class DiskWriterCoordinator: Coordinator {
     private var window: BaseWindow?
-    private var windowCloseButton: NSButton? {
-        get {
-            window?.standardWindowButton(.closeButton)
-        }
-    }
-
     private var viewController: DiskWriterViewController?
 
     func start() {
@@ -32,7 +26,17 @@ final class DiskWriterCoordinator: Coordinator {
         bindWindow()
     }
 
+    func openAbout() {
+   
+    }
+
+    func visitDevelopersPage() {
+        URL(string: GlobalConstants.developersGitHubLink)?.open()
+    }
+
     private func bindWindow() {
+        let windowCloseButton = window?.standardWindowButton(.closeButton)
+
         windowCloseButton?.bind(
             .enabled,
             to: AppService.shared,
@@ -41,10 +45,6 @@ final class DiskWriterCoordinator: Coordinator {
                 .validatesImmediately: true
             ]
         )
-    }
-
-    func visitDevelopersPage() {
-        URL(string: GlobalConstants.developerGitHubLink)?.open()
     }
 }
 
