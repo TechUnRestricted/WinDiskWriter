@@ -103,9 +103,10 @@ extension DiskWriterViewModel {
 
     func triggerAction() {
         print("switching idle state")
-        AppService.isIdle = false
+        AppService.shared.isIdle.toggle()
 
-        if AppService.isIdle {
+        return
+        if AppService.shared.isIdle {
             startProcess()
         } else {
             stopProcess()
@@ -135,7 +136,7 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnQuit() {
-        if AppService.isIdle {
+        if AppService.shared.isIdle {
             AppService.terminate(self)
         }
 

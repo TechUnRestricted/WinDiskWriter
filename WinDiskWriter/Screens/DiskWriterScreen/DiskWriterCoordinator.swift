@@ -35,7 +35,7 @@ final class DiskWriterCoordinator: Coordinator {
     private func bindWindow() {
         windowCloseButton?.bind(
             .enabled,
-            to: AppService.self,
+            to: AppService.shared,
             withKeyPath: #keyPath(AppService.isIdle),
             options: [
                 .validatesImmediately: true

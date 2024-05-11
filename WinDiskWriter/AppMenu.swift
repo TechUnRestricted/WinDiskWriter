@@ -12,7 +12,7 @@ class AppMenu {
         let menuBuilder = MenuBuilder()
 
         let busyStateBinding = StateBinding(
-            object: AppService.self,
+            object: AppService.shared,
             keyPath: #keyPath(AppService.isIdle),
             negateBoolean: false
         )

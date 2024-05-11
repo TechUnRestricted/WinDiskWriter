@@ -182,7 +182,7 @@ final class DiskWriterViewController: BaseViewController {
         
         startStopRoundedButtonView.bind(
             .title,
-            to: AppService.self,
+            to: AppService.shared,
             withKeyPath: #keyPath(AppService.isIdle),
             options: [.valueTransformerName: NSValueTransformerName.actionButtonTitleTransformerName]
         )
@@ -201,7 +201,7 @@ final class DiskWriterViewController: BaseViewController {
         ] {
             conditionallyEnabledView.bind(
                 .enabled,
-                to: AppService.self,
+                to: AppService.shared,
                 withKeyPath: #keyPath(AppService.isIdle),
                 options: [.continuouslyUpdatesValue: true]
             )
