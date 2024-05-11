@@ -19,7 +19,11 @@ class AppMenu {
 
         menuBuilder.addSection(title: "")
             .addItem(
-                title: "About \(AppInfo.appName)"
+                title: "About \(AppInfo.appName)",
+                action: {
+                    let aboutCoordinator = AboutCoordinator()
+                    aboutCoordinator.start()
+                }
             )
             .addSeparator()
             .addItem(

@@ -5,22 +5,24 @@
 //  Created by Macintosh on 11.05.2024.
 //
 
-import Foundation
+import Cocoa
 
 final class AboutCoordinator: Coordinator {
     private var window: BaseWindow?
     private var viewController: AboutViewController?
 
     func start() {
-        let viewModel = AboutViewModel(coordinator: self)
-        viewController = AboutViewController(viewModel: viewModel)
+        let aboutViewModel = AboutViewModel(coordinator: self)
 
-        let baseWindow = BaseWindow(contentViewController: viewController!)
+        let aboutViewController = AboutViewController(viewModel: aboutViewModel)
+        viewController = aboutViewController
+
+        let baseWindow = BaseWindow(contentViewController: aboutViewController)
+        window = baseWindow
+
         baseWindow.isMovableByWindowBackground = true
 
         baseWindow.center()
         baseWindow.makeKeyAndOrderFront(nil)
-
-        window = baseWindow
     }
 }

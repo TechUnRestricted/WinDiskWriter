@@ -15,16 +15,16 @@ final class AboutViewController: BaseViewController {
 
         arrangeViews()
         setupViews()
+
+        title = "About " + AppInfo.appName
     }
 
     init(viewModel: AboutViewModel) {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
-
-        title = "About " + AppInfo.appName
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

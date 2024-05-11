@@ -12,22 +12,20 @@ final class DiskWriterCoordinator: Coordinator {
     private var viewController: DiskWriterViewController?
 
     func start() {
-        let viewModel = DiskWriterViewModel(coordinator: self)
-        viewController = DiskWriterViewController(viewModel: viewModel)
+        let diskWriterViewModel = DiskWriterViewModel(coordinator: self)
 
-        let baseWindow = BaseWindow(contentViewController: viewController!)
+        let diskWriterViewController = DiskWriterViewController(viewModel: diskWriterViewModel)
+        viewController = diskWriterViewController
+
+        let baseWindow = BaseWindow(contentViewController: diskWriterViewController)
+        window = baseWindow
+
         baseWindow.isMovableByWindowBackground = true
 
         baseWindow.center()
         baseWindow.makeKeyAndOrderFront(nil)
 
-        window = baseWindow
-
         bindWindow()
-    }
-
-    func openAbout() {
-   
     }
 
     func visitDevelopersPage() {
