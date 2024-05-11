@@ -84,7 +84,7 @@ extension DiskWriterViewModel {
                 continue
             }
 
-            if !enableFiltering {
+            if enableFiltering {
                 guard let isNetworkVolume = diskInfo.volume.isNetwork,
                       let isInternal = diskInfo.device.isInternal else {
                           continue
@@ -142,7 +142,7 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnScanAllWholeDisks() {
-        
+        updateDevices(enableFiltering: false)
     }
 }
 

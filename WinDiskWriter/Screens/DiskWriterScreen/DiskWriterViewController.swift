@@ -137,7 +137,7 @@ final class DiskWriterViewController: BaseViewController {
             withKeyPath: #keyPath(DiskWriterViewModel.imagePath),
             options: [
                 .continuouslyUpdatesValue: true,
-                .nullPlaceholder: "Image File or Directory"
+                .nullPlaceholder: "Disk Image File"
             ]
         )
 
