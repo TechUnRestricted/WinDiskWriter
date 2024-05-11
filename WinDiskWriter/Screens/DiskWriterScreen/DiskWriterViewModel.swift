@@ -102,29 +102,27 @@ extension DiskWriterViewModel {
     }
 
     func triggerAction() {
-        print("switching idle state")
-        AppService.shared.isIdle.toggle()
-
-        return
         if AppService.shared.isIdle {
-            startProcess()
+            guard validateInput() else {
+                return
+            }
+
+            coordinator.showStartWritingAlert { [weak self] in
+                self?.startProcess()
+            }
         } else {
-            stopProcess()
+            coordinator.showStopWritingAlert { [weak self] in
+                self?.stopProcess()
+            }
         }
     }
 
     private func startProcess() {
-        guard validateInput() else {
-            return
-        }
-
-        coordinator.showStartWritingAlert {
-
-        }
+        AppService.shared.isIdle = false
     }
 
     private func stopProcess() {
-
+        AppService.shared.isIdle = true
     }
 
     func visitDevelopersPage() {
@@ -140,9 +138,7 @@ extension DiskWriterViewModel {
             AppService.terminate(self)
         }
 
-        coordinator.showUnsafeTerminateAlert {
-            AppService.terminate(self)
-        }
+        coordinator.showUnsafeTerminateAlert()
     }
 
     @objc private func respondOnScanAllWholeDisks() {

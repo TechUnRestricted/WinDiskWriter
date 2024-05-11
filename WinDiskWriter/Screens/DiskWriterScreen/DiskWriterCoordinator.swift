@@ -98,7 +98,7 @@ final class DiskWriterCoordinator: Coordinator {
         alertBuilder.show(in: window)
     }
 
-    func showStartWritingAlert(startAction: @escaping () -> ()) {
+    func showStartWritingAlert(action: @escaping () -> ()) {
         guard let window = window else {
             return
         }
@@ -109,16 +109,36 @@ final class DiskWriterCoordinator: Coordinator {
             image: NSImage(named: NSImage.cautionName)
         )
 
-        alertBuilder.addButton(title: "Start", preferDefault: true) {
-            startAction()
+        alertBuilder.addButton(title: "Yes", preferDefault: true) {
+            action()
         }
 
-        alertBuilder.addButton(title: "Cancel")
+        alertBuilder.addButton(title: "No")
 
         alertBuilder.show(in: window)
     }
 
-    func showUnsafeTerminateAlert(startAction: @escaping () -> ()) {
+    func showStopWritingAlert(action: @escaping () -> ()) {
+        guard let window = window else {
+            return
+        }
+
+        let alertBuilder = AlertBuilder(
+            title: "Stop the writing process?",
+            subtitle: "Proceeding will stop the writing process and may leave the disk in an unusable state",
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder.addButton(title: "Yes") {
+            action()
+        }
+
+        alertBuilder.addButton(title: "No", preferDefault: true)
+
+        alertBuilder.show(in: window)
+    }
+
+    func showUnsafeTerminateAlert() {
         guard let window = window else {
             return
         }
@@ -130,7 +150,7 @@ final class DiskWriterCoordinator: Coordinator {
         )
 
         alertBuilder.addButton(title: "Quit", preferDefault: true) {
-            startAction()
+            AppService.terminate(self)
         }
 
         alertBuilder.addButton(title: "Cancel")
