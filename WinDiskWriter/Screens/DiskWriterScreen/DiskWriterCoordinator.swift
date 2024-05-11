@@ -43,6 +43,12 @@ final class DiskWriterCoordinator: Coordinator {
         )
     }
 
+    func visitDevelopersPage() {
+        URL(string: GlobalConstants.developerGitHubLink)?.open()
+    }
+}
+
+extension DiskWriterCoordinator {
     func showFileSelectionSheet(completion: @escaping (String) -> (Void)) {
         guard let window = window else {
             return
@@ -156,9 +162,5 @@ final class DiskWriterCoordinator: Coordinator {
         alertBuilder.addButton(title: "Cancel")
 
         alertBuilder.show(in: window)
-    }
-
-    func visitDevelopersPage() {
-        URL(string: GlobalConstants.developerGitHubLink)?.open()
     }
 }
