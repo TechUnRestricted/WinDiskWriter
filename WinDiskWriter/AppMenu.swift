@@ -11,6 +11,12 @@ class AppMenu {
     static let menuBuilder: MenuBuilder = {
         let menuBuilder = MenuBuilder()
 
+        let busyStateBinding = StateBinding(
+            object: AppService.self,
+            keyPath: #keyPath(AppService.isIdle),
+            negateBoolean: false
+        )
+
         menuBuilder.addSection(title: "")
             .addItem(
                 title: "About \(AppInfo.appName)"
@@ -76,6 +82,7 @@ class AppMenu {
         menuBuilder.addSection(title: "Debug")
             .addItem(
                 title: "Scan All Whole Disks",
+                stateBinding: busyStateBinding,
                 action: {
                     NotificationCenter.default.post(name: .scanAllWholeDisksTriggered, object: nil)
                 }
@@ -83,6 +90,7 @@ class AppMenu {
             .addSeparator()
             .addItem(
                 title: "Reset All Settings",
+                stateBinding: busyStateBinding,
                 action: { }
             )
 

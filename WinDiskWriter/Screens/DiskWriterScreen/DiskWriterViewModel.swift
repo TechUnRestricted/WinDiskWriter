@@ -8,12 +8,6 @@
 import Foundation
 
 final class DiskWriterViewModel: NSObject {
-    @objc dynamic var isIdle: Bool = true {
-        didSet {
-            coordinator.windowCloseButtonEnabled = isIdle
-        }
-    }
-
     @objc dynamic var imagePath: String = ""
     @objc dynamic var filesystem: Filesystem = .FAT32
 
@@ -108,7 +102,10 @@ extension DiskWriterViewModel {
     }
 
     func triggerAction() {
-        if isIdle {
+        print("switching idle state")
+        AppService.isIdle = false
+
+        if AppService.isIdle {
             startProcess()
         } else {
             stopProcess()
@@ -116,13 +113,7 @@ extension DiskWriterViewModel {
     }
 
     private func startProcess() {
-        do {
-            try validateInput()
-        } catch {
-            let errorString = "Can't start the writing process: (\(error.localizedDescription))"
-            appendLogLine?(.error, errorString)
-
-            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
+        guard validateInput() else {
             return
         }
 
@@ -144,7 +135,7 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnQuit() {
-        if isIdle {
+        if AppService.isIdle {
             AppService.terminate(self)
         }
 
@@ -154,16 +145,27 @@ extension DiskWriterViewModel {
     }
 
     @objc private func respondOnScanAllWholeDisks() {
-
+        
     }
 }
 
 // MARK: - Input Verification
 extension DiskWriterViewModel {
-    private func validateInput() throws {
-        try verifyImagePath()
-        try verifySelectedDevice()
-        try verifyInputForCollision()
+    private func validateInput() -> Bool {
+        do {
+            try verifyImagePath()
+            try verifySelectedDevice()
+            try verifyInputForCollision()
+        } catch {
+            let errorString = "Can't start the writing process: (\(error.localizedDescription))"
+            appendLogLine?(.error, errorString)
+
+            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
+
+            return false
+        }
+
+        return true
     }
 
     private func verifyImagePath() throws {

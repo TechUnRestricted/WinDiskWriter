@@ -8,8 +8,11 @@
 import Foundation
 import AppKit
 
-class AppService {
-    private init() { }
+class AppService: NSObject {
+    @available(*, unavailable)
+    private override init() { }
+
+    @objc static dynamic var isIdle: Bool = true
 
     static var hasElevatedRights: Bool {
         return geteuid() == 0;

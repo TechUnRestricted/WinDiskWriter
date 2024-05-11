@@ -17,16 +17,6 @@ final class DiskWriterCoordinator: Coordinator {
 
     private var viewController: DiskWriterViewController?
 
-    var windowCloseButtonEnabled: Bool? {
-        get {
-            windowCloseButton?.isEnabled
-        } set {
-            if let flag = newValue {
-                windowCloseButton?.isEnabled = flag
-            }
-        }
-    }
-
     func start() {
         let viewModel = DiskWriterViewModel(coordinator: self)
         viewController = DiskWriterViewController(viewModel: viewModel)
@@ -38,6 +28,19 @@ final class DiskWriterCoordinator: Coordinator {
         baseWindow.makeKeyAndOrderFront(nil)
 
         window = baseWindow
+
+        bindWindow()
+    }
+
+    private func bindWindow() {
+        windowCloseButton?.bind(
+            .enabled,
+            to: AppService.self,
+            withKeyPath: #keyPath(AppService.isIdle),
+            options: [
+                .validatesImmediately: true
+            ]
+        )
     }
 
     func showFileSelectionSheet(completion: @escaping (String) -> (Void)) {
