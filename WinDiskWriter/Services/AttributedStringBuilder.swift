@@ -17,18 +17,26 @@ class AttributedStringBuilder {
 
     private func updateFont(with traits: NSFontTraitMask? = nil, weight: Int? = nil, size: CGFloat? = nil) {
         let fontManager = NSFontManager.shared
-        var font = attributes[.font] as? NSFont ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        var font = (attributes[.font] as? NSFont) ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
 
         if let traits = traits {
             font = fontManager.convert(font, toHaveTrait: traits)
         }
 
-        if let weight = weight, let newFont = fontManager.font(withFamily: font.familyName ?? "", traits: fontManager.traits(of: font), weight: weight, size: font.pointSize) {
-            font = newFont
+        if let weight = weight {
+            font = fontManager.font(
+                withFamily: font.familyName ?? "",
+                traits: fontManager.traits(of: font),
+                weight: weight,
+                size: font.pointSize
+            ) ?? font
         }
 
-        if let size = size, let newFont = NSFont(descriptor: font.fontDescriptor, size: size) {
-            font = newFont
+        if let size = size {
+            font = NSFont(
+                descriptor: font.fontDescriptor,
+                size: size
+            ) ?? font
         }
 
         attributes[.font] = font
