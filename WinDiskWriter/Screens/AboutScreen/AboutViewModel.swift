@@ -7,12 +7,10 @@
 
 import Foundation
 
-final class AboutViewModel: NSObject {
+final class AboutViewModel {
     private let coordinator: AboutCoordinator
 
     init(coordinator: AboutCoordinator) {
         self.coordinator = coordinator
-
-        super.init()
     }
 }

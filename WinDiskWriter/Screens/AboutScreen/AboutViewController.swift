@@ -10,11 +10,20 @@ import Cocoa
 final class AboutViewController: BaseViewController {
     private var viewModel: AboutViewModel?
 
+    private let appInfoVerticalStackView = VerticalStackView()
     private let appIconDraggableImageView = DraggableImageView()
 
     private let appNameVersionVerticalStackView = VerticalStackView()
     private let appNameLabelView = LabelView()
     private let appVersionLabelView = LabelView()
+
+    private let additionInfoVerticalStackView = VerticalStackView()
+    private let additionalInfoLabelView = LabelView()
+    private let additionalInfoScrollableTextField = ScrollableTextField()
+
+    private let donateDeveloperVerticalStackView = VerticalStackView()
+    private let donateMeRoundedButtonView = RoundedButtonView()
+    private let developerLabelView = LabelView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +37,7 @@ final class AboutViewController: BaseViewController {
     init(viewModel: AboutViewModel) {
         self.viewModel = viewModel
 
-        super.init(nibName: nil, bundle: nil)
+        super.init(safeZoneViewPadding: 12)
     }
 
     required init?(coder: NSCoder) {
@@ -36,29 +45,55 @@ final class AboutViewController: BaseViewController {
     }
     
     private func arrangeViews() {
-        containerVerticalStackView.appendView(appIconDraggableImageView)
+        containerVerticalStackView.appendView(appInfoVerticalStackView)
+
+        appInfoVerticalStackView.appendView(appIconDraggableImageView)
         appIconDraggableImageView.makeConstraints { make in
             let size: CGFloat = 120
 
             make.size(.equal, width: size, height: size)
         }
 
-        containerVerticalStackView.appendView(appNameVersionVerticalStackView)
+        appInfoVerticalStackView.appendView(appNameVersionVerticalStackView)
         appNameVersionVerticalStackView.appendView(appNameLabelView)
         appNameVersionVerticalStackView.appendView(appVersionLabelView)
+
+        containerVerticalStackView.appendView(additionInfoVerticalStackView)
+        additionInfoVerticalStackView.appendView(additionalInfoLabelView)
+        additionInfoVerticalStackView.appendView(additionalInfoScrollableTextField)
+        additionalInfoScrollableTextField.makeConstraints { make in
+            make.size(.greaterThanOrEqual, width: 270, height: 140)
+        }
+
+        containerVerticalStackView.appendView(donateDeveloperVerticalStackView)
+        donateDeveloperVerticalStackView.appendView(donateMeRoundedButtonView, allowsWidthExpansion: false)
+        donateDeveloperVerticalStackView.appendView(developerLabelView)
     }
 
     private func setupViews() {
+        setupAppInfoVerticalStackView()
         setupContainerVerticalStackView()
         setupAppIconDraggableImageView()
 
         setupAppNameVersionVerticalStackView()
         setupAppNameLabelView()
         setupVersionLabelView()
+
+        setupAdditionInfoVerticalStackView()
+        setupAdditionalInfoLabelView()
+        setupAdditionalInfoScrollableTextField()
+
+        setupDonateDeveloperVerticalStackView()
+        setupDonateMeRoundedButtonView()
+        setupDeveloperLabelView()
     }
 
     private func setupContainerVerticalStackView() {
-        containerVerticalStackView.spacing = 8
+        containerVerticalStackView.spacing = 14
+    }
+
+    private func setupAppInfoVerticalStackView() {
+
     }
 
     private func setupAppIconDraggableImageView() {
@@ -68,9 +103,6 @@ final class AboutViewController: BaseViewController {
 
     private func setupAppNameVersionVerticalStackView() {
         appNameVersionVerticalStackView.spacing = 2
-
-        appNameVersionVerticalStackView.wantsLayer = true
-        //appNameVersionVerticalStackView.layer?.backgroundColor = NSColor.red.cgColor
     }
 
     private func setupAppNameLabelView() {
@@ -93,5 +125,36 @@ final class AboutViewController: BaseViewController {
             .build()
 
         appVersionLabelView.attributedStringValue = attributedString
+    }
+
+    private func setupAdditionInfoVerticalStackView() {
+
+    }
+
+    private func setupAdditionalInfoLabelView() {
+        let string = "Additional Information"
+
+        let attributedString = AttributedStringBuilder(string: string)
+            .weight(6)
+            .build()
+
+        additionalInfoLabelView.attributedStringValue = attributedString
+    }
+
+    private func setupAdditionalInfoScrollableTextField() {
+
+    }
+
+    private func setupDonateDeveloperVerticalStackView() {
+
+    }
+
+    private func setupDonateMeRoundedButtonView() {
+        donateMeRoundedButtonView.title = "❤️ Donate Me ❤️"
+    }
+
+    private func setupDeveloperLabelView() {
+        developerLabelView.stringValue = AppInfo.developerName
+        developerLabelView.alignment = .center
     }
 }

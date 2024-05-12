@@ -8,14 +8,22 @@
 import Cocoa
 
 class BaseViewController: NSViewController {
-    private enum Constants {
-        static let safeZoneViewPadding: CGFloat = 12
-    }
+    let safeZoneViewPadding: CGFloat
 
     let safeZoneView = NSView()
     let containerVerticalStackView = VerticalStackView()
 
     private var didAppearBefore: Bool = false
+
+    init(safeZoneViewPadding: CGFloat = 0) {
+        self.safeZoneViewPadding = safeZoneViewPadding
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         let visualEffectView = NSVisualEffectView()
@@ -72,11 +80,12 @@ extension BaseViewController {
         let baseWindow = view.window as? BaseWindow
         let titlebarHeight = baseWindow?.titleBarHeight ?? 0
 
+        let doubledSafeZoneViewPadding: CGFloat = safeZoneViewPadding * 2
         safeZoneView.makeConstraints { make in
-            make.constraint(with: .width, to: .width, of: view, constant: -Constants.safeZoneViewPadding)
+            make.constraint(with: .width, to: .width, of: view, constant: -doubledSafeZoneViewPadding)
 
             make.constraint(with: .top, to: .top, of: view, constant: titlebarHeight)
-            make.constraint(with: .bottom, to: .bottom, of: view, constant: -Constants.safeZoneViewPadding / 2)
+            make.constraint(with: .bottom, to: .bottom, of: view, constant: -doubledSafeZoneViewPadding / 2)
 
             make.constraint(with: .centerX, to: .centerX, of: view)
         }

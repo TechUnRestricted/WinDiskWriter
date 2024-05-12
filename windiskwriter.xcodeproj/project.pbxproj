@@ -24,6 +24,7 @@
 		E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */; };
 		E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DF2BE77298003E24D3 /* MenuSection.swift */; };
 		E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7E22BE77393003E24D3 /* AppMenu.swift */; };
+		E25A2AF12BF122EA00E515B7 /* ScrollableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2AF02BF122EA00E515B7 /* ScrollableTextField.swift */; };
 		E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C671F2BEF940500D7F692 /* AboutViewModel.swift */; };
 		E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67212BEF941100D7F692 /* AboutViewController.swift */; };
 		E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67232BEF942900D7F692 /* AboutCoordinator.swift */; };
@@ -97,6 +98,7 @@
 		E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
 		E256A7DF2BE77298003E24D3 /* MenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSection.swift; sourceTree = "<group>"; };
 		E256A7E22BE77393003E24D3 /* AppMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenu.swift; sourceTree = "<group>"; };
+		E25A2AF02BF122EA00E515B7 /* ScrollableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableTextField.swift; sourceTree = "<group>"; };
 		E27C671F2BEF940500D7F692 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		E27C67212BEF941100D7F692 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E27C67232BEF942900D7F692 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				E2F37B6E2BD69C2D003D27BD /* TextInputView.swift */,
 				E2F37B7F2BD78088003D27BD /* ScrollableLinesView.swift */,
 				E27C67382BEFC34B00D7F692 /* DraggableImageView.swift */,
+				E25A2AF02BF122EA00E515B7 /* ScrollableTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				E27FD4EF2BDE239D0096C605 /* FileManager+SetAllPermissions.swift in Sources */,
 				E2F37B7A2BD6E650003D27BD /* BaseStackView.swift in Sources */,
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
+				E25A2AF12BF122EA00E515B7 /* ScrollableTextField.swift in Sources */,
 				E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */,
 				E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */,
 				E27FD5082BDE59250096C605 /* PartitionScheme.swift in Sources */,

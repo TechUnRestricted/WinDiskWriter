@@ -231,7 +231,7 @@ final class DiskWriterViewController: BaseViewController {
     init(viewModel: DiskWriterViewModel) {
         self.viewModel = viewModel
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(safeZoneViewPadding: 8)
     }
     
     required init?(coder: NSCoder) {
