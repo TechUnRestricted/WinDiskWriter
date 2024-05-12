@@ -75,29 +75,23 @@ final class AboutViewController: BaseViewController {
 
     private func setupAppNameLabelView() {
         let attributedString = AttributedStringBuilder(string: AppInfo.appName)
-            .weight(4)
             .fontSize(NSFont.systemFontSize * 1.5)
+            .horizontalAlignment(.center)
+            .weight(4)
             .build()
 
         appNameLabelView.attributedStringValue = attributedString
-        appNameLabelView.alignment = .center
-        appNameLabelView.cell!.alignment = .center
 
-        appNameLabelView.wantsLayer = true
-        appNameLabelView.layer?.backgroundColor = NSColor.orange.cgColor
     }
 
     private func setupVersionLabelView() {
         let string = "Version" + ": " + AppInfo.appVersion
 
         let attributedString = AttributedStringBuilder(string: string)
+            .horizontalAlignment(.center)
             .weight(3)
             .build()
 
         appVersionLabelView.attributedStringValue = attributedString
-        appVersionLabelView.alignment = .center
-
-        appVersionLabelView.wantsLayer = true
-        appVersionLabelView.layer?.backgroundColor = NSColor.purple.cgColor
     }
 }
