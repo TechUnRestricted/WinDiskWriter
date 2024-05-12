@@ -5,7 +5,7 @@
 //  Created by Macintosh on 13.05.2024.
 //
 
-import Foundation
+import Cocoa
 
 extension NSValueTransformerName {
     static let licenseListTextFieldValueTransformerName = NSValueTransformerName(rawValue: LicenseListTextFieldValueTransformer.className())
@@ -43,7 +43,7 @@ class LicenseListTextFieldValueTransformer: ValueTransformer {
                     .build()
 
                 let licenseFileNameAttributedString = AttributedStringBuilder(
-                    string: licenseFileName
+                    string: licenseFileName + "\n"
                 )
                     .weight(4)
                     .italic()
@@ -52,6 +52,20 @@ class LicenseListTextFieldValueTransformer: ValueTransformer {
                 let briefInfoAttributedString = NSMutableAttributedString()
                 briefInfoAttributedString.append(baseTextAttributedString)
                 briefInfoAttributedString.append(licenseFileNameAttributedString)
+
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .center
+                paragraphStyle.headIndent = 10 // Left padding
+                paragraphStyle.firstLineHeadIndent = 10 // First line left padding
+                paragraphStyle.tailIndent = -10 // Right padding
+                paragraphStyle.paragraphSpacingBefore = 10 // Top padding
+                paragraphStyle.paragraphSpacing = 10 // Bottom padding
+
+                let fullRange = NSRange(location: 0, length: briefInfoAttributedString.length)
+                briefInfoAttributedString.addAttributes(
+                    [.paragraphStyle: paragraphStyle],
+                    range: fullRange
+                )
 
                 return briefInfoAttributedString
             }()
