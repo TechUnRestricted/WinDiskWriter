@@ -19,7 +19,7 @@ final class AboutViewController: BaseViewController {
 
     private let additionInfoVerticalStackView = VerticalStackView()
     private let additionalInfoLabelView = LabelView()
-    private let additionalInfoScrollableTextField = ScrollableTextField()
+    private let additionalInfoScrollableTextView = ScrollableTextView()
 
     private let donateDeveloperVerticalStackView = VerticalStackView()
     private let donateMeRoundedButtonView = RoundedButtonView()
@@ -30,6 +30,7 @@ final class AboutViewController: BaseViewController {
 
         arrangeViews()
         setupViews()
+        bindModel()
 
         title = "About " + AppInfo.appName
     }
@@ -43,7 +44,20 @@ final class AboutViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func bindModel() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        additionalInfoScrollableTextView.bind(
+            .attributedString,
+            to: viewModel,
+            withKeyPath: #keyPath(AboutViewModel.licenses),
+            options: [.valueTransformerName: NSValueTransformerName.licenseListTextFieldValueTransformerName]
+        )
+    }
+
     private func arrangeViews() {
         containerVerticalStackView.appendView(appInfoVerticalStackView)
 
@@ -60,8 +74,8 @@ final class AboutViewController: BaseViewController {
 
         containerVerticalStackView.appendView(additionInfoVerticalStackView)
         additionInfoVerticalStackView.appendView(additionalInfoLabelView)
-        additionInfoVerticalStackView.appendView(additionalInfoScrollableTextField)
-        additionalInfoScrollableTextField.makeConstraints { make in
+        additionInfoVerticalStackView.appendView(additionalInfoScrollableTextView)
+        additionalInfoScrollableTextView.makeConstraints { make in
             make.size(.greaterThanOrEqual, width: 270, height: 140)
         }
 
@@ -81,7 +95,7 @@ final class AboutViewController: BaseViewController {
 
         setupAdditionInfoVerticalStackView()
         setupAdditionalInfoLabelView()
-        setupAdditionalInfoScrollableTextField()
+        setupAdditionalInfoScrollableTextView()
 
         setupDonateDeveloperVerticalStackView()
         setupDonateMeRoundedButtonView()
@@ -113,7 +127,6 @@ final class AboutViewController: BaseViewController {
             .build()
 
         appNameLabelView.attributedStringValue = attributedString
-
     }
 
     private func setupVersionLabelView() {
@@ -141,7 +154,7 @@ final class AboutViewController: BaseViewController {
         additionalInfoLabelView.attributedStringValue = attributedString
     }
 
-    private func setupAdditionalInfoScrollableTextField() {
+    private func setupAdditionalInfoScrollableTextView() {
 
     }
 
@@ -151,6 +164,10 @@ final class AboutViewController: BaseViewController {
 
     private func setupDonateMeRoundedButtonView() {
         donateMeRoundedButtonView.title = "❤️ Donate Me ❤️"
+
+        donateMeRoundedButtonView.clickAction = { [weak self] in
+            self?.viewModel?.openDevelopersGitHubPage()
+        }
     }
 
     private func setupDeveloperLabelView() {

@@ -1,5 +1,5 @@
 //
-//  ScrollableTextField.swift
+//  ScrollableTextView.swift
 //  WinDiskWriter
 //
 //  Created by Macintosh on 12.05.2024.
@@ -7,7 +7,7 @@
 
 import AppKit
 
-class ScrollableTextField: NSScrollView {
+class ScrollableTextView: NSScrollView {
     private enum Constants {
         static let cornderRadius: CGFloat = 10.0
         static let borderWidth: CGFloat = 1.5
@@ -49,6 +49,20 @@ class ScrollableTextField: NSScrollView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func bind(_ binding: NSBindingName, to observable: Any, withKeyPath keyPath: String, options: [NSBindingOption : Any]? = nil) {
+        textView.bind(binding, to: observable, withKeyPath: keyPath, options: options)
+    }
+
+    override func unbind(_ binding: NSBindingName) {
+        textView.unbind(binding)
+    }
+
+    override var exposedBindings: [NSBindingName] {
+        get {
+            return textView.exposedBindings
+        }
     }
 
     override var allowsVibrancy: Bool {

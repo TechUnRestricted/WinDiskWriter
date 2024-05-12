@@ -126,7 +126,7 @@ extension DiskWriterViewModel {
     }
 
     func visitDevelopersPage() {
-        coordinator.visitDevelopersPage()
+        AppService.openDevelopersGitHubPage()
     }
 
     func showRestartWithEscalatedPermissionsAlert() {

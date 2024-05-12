@@ -22,4 +22,8 @@ class AppService: NSObject {
     static func terminate(_ sender: Any? = nil) {
         NSApplication.shared.terminate(sender)
     }
+
+    static func openDevelopersGitHubPage() {
+        URL(string: GlobalConstants.developersGitHubLink)?.open()
+    }
 }

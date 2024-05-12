@@ -28,10 +28,6 @@ final class DiskWriterCoordinator: Coordinator {
         bindWindow()
     }
 
-    func visitDevelopersPage() {
-        URL(string: GlobalConstants.developersGitHubLink)?.open()
-    }
-
     private func bindWindow() {
         let windowCloseButton = window?.standardWindowButton(.closeButton)
 
