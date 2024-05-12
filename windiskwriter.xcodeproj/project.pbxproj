@@ -27,6 +27,8 @@
 		E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C671F2BEF940500D7F692 /* AboutViewModel.swift */; };
 		E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67212BEF941100D7F692 /* AboutViewController.swift */; };
 		E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67232BEF942900D7F692 /* AboutCoordinator.swift */; };
+		E27C67392BEFC34B00D7F692 /* DraggableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67382BEFC34B00D7F692 /* DraggableImageView.swift */; };
+		E27C673B2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C673A2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift */; };
 		E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */; };
 		E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */; };
 		E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */; };
@@ -98,6 +100,8 @@
 		E27C671F2BEF940500D7F692 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		E27C67212BEF941100D7F692 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E27C67232BEF942900D7F692 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
+		E27C67382BEFC34B00D7F692 /* DraggableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableImageView.swift; sourceTree = "<group>"; };
+		E27C673A2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+ApplicationIcon.swift"; sourceTree = "<group>"; };
 		E27FD4DD2BDD0B3C0096C605 /* SlideShowedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowedButton.swift; sourceTree = "<group>"; };
 		E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProxy.swift; sourceTree = "<group>"; };
 		E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+AdjustedYear.swift"; sourceTree = "<group>"; };
@@ -237,12 +241,12 @@
 				E27FD50F2BDE5CC40096C605 /* String */,
 				E2A443BA2BE5045100701D56 /* NSView */,
 				E28BBEBB2BE68378008A7750 /* FileManager */,
+				E27C673C2BEFD67800D7F692 /* URL */,
 				E2F37B7B2BD6F0F6003D27BD /* Collection+Safe.swift */,
 				E27FD4E52BDD1F800096C605 /* Date+AdjustedYear.swift */,
-				E27FD4E92BDD2C160096C605 /* URL+Open.swift */,
 				E27FD5122BDE6E5F0096C605 /* UInt64+FormattedSize.swift */,
-				E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */,
 				E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */,
+				E27C673A2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -280,6 +284,15 @@
 				E27C67232BEF942900D7F692 /* AboutCoordinator.swift */,
 			);
 			path = AboutScreen;
+			sourceTree = "<group>";
+		};
+		E27C673C2BEFD67800D7F692 /* URL */ = {
+			isa = PBXGroup;
+			children = (
+				E27FD4E92BDD2C160096C605 /* URL+Open.swift */,
+				E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */,
+			);
+			path = URL;
 			sourceTree = "<group>";
 		};
 		E27FD4DF2BDD0B450096C605 /* Labels */ = {
@@ -428,6 +441,7 @@
 				E2F37B7D2BD6F1C2003D27BD /* SwitchPickerView.swift */,
 				E2F37B6E2BD69C2D003D27BD /* TextInputView.swift */,
 				E2F37B7F2BD78088003D27BD /* ScrollableLinesView.swift */,
+				E27C67382BEFC34B00D7F692 /* DraggableImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -548,6 +562,7 @@
 				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
+				E27C67392BEFC34B00D7F692 /* DraggableImageView.swift in Sources */,
 				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
@@ -560,6 +575,7 @@
 				E234FC1A2BD53B640074C781 /* DiskWriterViewController.swift in Sources */,
 				E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */,
 				E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */,
+				E27C673B2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift in Sources */,
 				E27FD4EC2BDD63790096C605 /* Filesystem.swift in Sources */,
 				E27FD4F62BDE35910096C605 /* CommandLine.swift in Sources */,
 				E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */,

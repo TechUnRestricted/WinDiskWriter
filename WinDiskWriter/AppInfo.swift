@@ -7,12 +7,11 @@
 
 import Foundation
 
-struct AppInfo {
+enum AppInfo {
     static var developerName: String = "TechUnRestricted"
-
     static var appName: String = "WinDiskWriter"
 
     static var appVersion: String {
-        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown Version"
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
     }
 }
