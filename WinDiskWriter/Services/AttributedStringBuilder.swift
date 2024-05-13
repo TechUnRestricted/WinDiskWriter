@@ -11,6 +11,10 @@ class AttributedStringBuilder {
     private let originalMutableAttributedString: NSMutableAttributedString
     private var newAttributes: [NSAttributedString.Key: Any] = [:]
 
+    init() {
+        originalMutableAttributedString = NSMutableAttributedString()
+    }
+
     init(string: String) {
         originalMutableAttributedString = NSMutableAttributedString(string: string)
     }
@@ -168,5 +172,15 @@ extension AttributedStringBuilder {
         )
 
         return AttributedStringBuilder(attributedString: combinedAttributedString)
+    }
+
+    static func += (left: inout AttributedStringBuilder, right: AttributedStringBuilder) {
+        let combinedAttributedString = left.build()
+
+        combinedAttributedString.append(
+            right.build()
+        )
+        
+        left = AttributedStringBuilder(attributedString: combinedAttributedString)
     }
 }

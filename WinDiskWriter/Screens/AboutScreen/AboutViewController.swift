@@ -17,6 +17,8 @@ final class AboutViewController: BaseViewController {
     private let appNameLabelView = LabelView()
     private let appVersionLabelView = LabelView()
 
+    private let appDescriptionLabelView = LabelView()
+
     private let additionInfoVerticalStackView = VerticalStackView()
     private let additionalInfoLabelView = LabelView()
     private let additionalInfoScrollableTextView = ScrollableTextView()
@@ -72,6 +74,8 @@ final class AboutViewController: BaseViewController {
         appNameVersionVerticalStackView.appendView(appNameLabelView)
         appNameVersionVerticalStackView.appendView(appVersionLabelView)
 
+        containerVerticalStackView.appendView(appDescriptionLabelView)
+
         containerVerticalStackView.appendView(additionInfoVerticalStackView)
         additionInfoVerticalStackView.appendView(additionalInfoLabelView)
         additionInfoVerticalStackView.appendView(additionalInfoScrollableTextView)
@@ -92,6 +96,8 @@ final class AboutViewController: BaseViewController {
         setupAppNameVersionVerticalStackView()
         setupAppNameLabelView()
         setupVersionLabelView()
+
+        setupAppDescriptionLabelView()
 
         setupAdditionInfoVerticalStackView()
         setupAdditionalInfoLabelView()
@@ -140,12 +146,16 @@ final class AboutViewController: BaseViewController {
         appVersionLabelView.attributedStringValue = attributedString
     }
 
+    private func setupAppDescriptionLabelView() {
+        appDescriptionLabelView.stringValue = AppInfo.appDescription 
+    }
+
     private func setupAdditionInfoVerticalStackView() {
 
     }
 
     private func setupAdditionalInfoLabelView() {
-        let string = "Additional Information"
+        let string = "Open Source Licenses"
 
         let attributedString = AttributedStringBuilder(string: string)
             .weight(6)

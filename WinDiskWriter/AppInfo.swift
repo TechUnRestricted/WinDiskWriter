@@ -8,8 +8,9 @@
 import Foundation
 
 enum AppInfo {
-    static var developerName: String = "TechUnRestricted"
-    static var appName: String = "WinDiskWriter"
+    static let developerName: String = "TechUnRestricted"
+    static let appName: String = "WinDiskWriter"
+    static let appDescription: String = "Windows Bootable Disk Creator for macOS"
 
     static var appVersion: String {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"

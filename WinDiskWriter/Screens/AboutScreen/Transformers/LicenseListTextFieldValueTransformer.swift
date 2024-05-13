@@ -25,7 +25,7 @@ class LicenseListTextFieldValueTransformer: ValueTransformer {
             return nil
         }
 
-        let documentAttributedString = NSMutableAttributedString()
+        var documentAttributedStringBuilder = AttributedStringBuilder()
 
         let briefInfoPadding: CGFloat = 10
 
@@ -66,11 +66,12 @@ class LicenseListTextFieldValueTransformer: ValueTransformer {
                 .weight(5)
 
             let singleLicenseAttributedStringBuilder = (briefInfoAttributedStringBuilder + licenceFileTextAttributedStringBuilder)
-                
 
-            documentAttributedString.append(singleLicenseAttributedStringBuilder.build())
+            documentAttributedStringBuilder += singleLicenseAttributedStringBuilder
         }
 
-        return documentAttributedString
+        documentAttributedStringBuilder.color(.labelColor)
+
+        return documentAttributedStringBuilder.build()
     }
 }
