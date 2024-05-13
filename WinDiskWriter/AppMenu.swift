@@ -24,7 +24,6 @@ class AppMenu {
                 title: "About \(AppInfo.appName)",
                 action: {
                     guard aboutCoordinator == nil else {
-                        print("Ще працює")
                         return
                     }
 

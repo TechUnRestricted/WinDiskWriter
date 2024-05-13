@@ -30,6 +30,8 @@
 		E25A2AFA2BF15E0A00E515B7 /* Licenses in Resources */ = {isa = PBXBuildFile; fileRef = E25A2AF92BF15E0A00E515B7 /* Licenses */; };
 		E25A2AFC2BF15FAE00E515B7 /* Bundle+ListFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2AFB2BF15FAE00E515B7 /* Bundle+ListFiles.swift */; };
 		E25A2AFF2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2AFE2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift */; };
+		E25A2B032BF29FB400E515B7 /* AppRelauncherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */; };
+		E25A2B052BF29FC200E515B7 /* AuthorizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */; };
 		E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C671F2BEF940500D7F692 /* AboutViewModel.swift */; };
 		E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67212BEF941100D7F692 /* AboutViewController.swift */; };
 		E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67232BEF942900D7F692 /* AboutCoordinator.swift */; };
@@ -109,6 +111,8 @@
 		E25A2AF92BF15E0A00E515B7 /* Licenses */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Licenses; sourceTree = "<group>"; };
 		E25A2AFB2BF15FAE00E515B7 /* Bundle+ListFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+ListFiles.swift"; sourceTree = "<group>"; };
 		E25A2AFE2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseListTextFieldValueTransformer.swift; sourceTree = "<group>"; };
+		E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncherError.swift; sourceTree = "<group>"; };
+		E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationError.swift; sourceTree = "<group>"; };
 		E27C671F2BEF940500D7F692 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		E27C67212BEF941100D7F692 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E27C67232BEF942900D7F692 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
@@ -298,6 +302,24 @@
 			path = Transformers;
 			sourceTree = "<group>";
 		};
+		E25A2B062BF2A02500E515B7 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */,
+				E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E25A2B072BF2A02B00E515B7 /* AppRelauncher */ = {
+			isa = PBXGroup;
+			children = (
+				E25A2B062BF2A02500E515B7 /* Errors */,
+				E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */,
+			);
+			path = AppRelauncher;
+			sourceTree = "<group>";
+		};
 		E27C671E2BEF93CB00D7F692 /* AboutScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,13 +356,13 @@
 				E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */,
 				E27FD4FB2BDE38D30096C605 /* LegacyExceptionHandler */,
 				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
+				E25A2B072BF2A02B00E515B7 /* AppRelauncher */,
 				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
 				E25A2AF22BF14B0500E515B7 /* FileReader.swift */,
 				E25A2AF42BF14B9A00E515B7 /* FileReaderError.swift */,
 				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
-				E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */,
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
 				E29C8ACA2BEB7100006A50D9 /* AppService.swift */,
 			);
@@ -578,6 +600,7 @@
 				E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
 				E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */,
+				E25A2B052BF29FC200E515B7 /* AuthorizationError.swift in Sources */,
 				E2A443B72BE4E28400701D56 /* ConfigurationValidationError.swift in Sources */,
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
 				E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */,
@@ -616,6 +639,7 @@
 				E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */,
 				E2F37B732BD6B4BC003D27BD /* PickerView.swift in Sources */,
 				E2F37B662BD58536003D27BD /* LabelView.swift in Sources */,
+				E25A2B032BF29FB400E515B7 /* AppRelauncherError.swift in Sources */,
 				E27FD4EF2BDE239D0096C605 /* FileManager+SetAllPermissions.swift in Sources */,
 				E2F37B7A2BD6E650003D27BD /* BaseStackView.swift in Sources */,
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
