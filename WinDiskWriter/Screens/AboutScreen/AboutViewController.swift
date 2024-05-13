@@ -147,7 +147,12 @@ final class AboutViewController: BaseViewController {
     }
 
     private func setupAppDescriptionLabelView() {
-        appDescriptionLabelView.stringValue = AppInfo.appDescription 
+        let attributedString = AttributedStringBuilder(string: AppInfo.appDescription )
+            .weight(3)
+            .horizontalAlignment(.center)
+            .build()
+
+        appDescriptionLabelView.attributedStringValue = attributedString
     }
 
     private func setupAdditionInfoVerticalStackView() {
