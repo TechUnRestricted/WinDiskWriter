@@ -27,59 +27,48 @@ class LicenseListTextFieldValueTransformer: ValueTransformer {
 
         let documentAttributedString = NSMutableAttributedString()
 
+        let briefInfoPadding: CGFloat = 10
+
         for (licenseFileName, licenseFileText) in licensePairs {
             guard let licenseFileName = licenseFileName as? String,
                   let licenseFileText = licenseFileText as? String else {
                       continue
                   }
 
-            let builtSingleLicenseAttributedString = NSMutableAttributedString()
-
-            let briefInfoAttributedString: NSAttributedString = {
-                let baseTextAttributedString = AttributedStringBuilder(
+            let briefInfoAttributedStringBuilder: AttributedStringBuilder = {
+                let baseTextAttributedStringBuilder = AttributedStringBuilder(
                     string: "License File: "
                 )
                     .weight(6)
-                    .build()
 
-                let licenseFileNameAttributedString = AttributedStringBuilder(
+
+                let licenseFileNameAttributedStringBuilder = AttributedStringBuilder(
                     string: licenseFileName + "\n"
                 )
                     .weight(4)
                     .italic()
-                    .build()
 
-                let briefInfoAttributedString = NSMutableAttributedString()
-                briefInfoAttributedString.append(baseTextAttributedString)
-                briefInfoAttributedString.append(licenseFileNameAttributedString)
+                let briefInfoAttributedStringBuilder = (baseTextAttributedStringBuilder + licenseFileNameAttributedStringBuilder)
+                    .horizontalAlignment(.center)
+                    .padding(
+                        left: briefInfoPadding,
+                        right: briefInfoPadding,
+                        top: briefInfoPadding,
+                        bottom: briefInfoPadding
+                    )
 
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .center
-                paragraphStyle.headIndent = 10 // Left padding
-                paragraphStyle.firstLineHeadIndent = 10 // First line left padding
-                paragraphStyle.tailIndent = -10 // Right padding
-                paragraphStyle.paragraphSpacingBefore = 10 // Top padding
-                paragraphStyle.paragraphSpacing = 10 // Bottom padding
-
-                let fullRange = NSRange(location: 0, length: briefInfoAttributedString.length)
-                briefInfoAttributedString.addAttributes(
-                    [.paragraphStyle: paragraphStyle],
-                    range: fullRange
-                )
-
-                return briefInfoAttributedString
+                return briefInfoAttributedStringBuilder
             }()
 
-            let licenceFileTextAttributedString = AttributedStringBuilder(
+            let licenceFileTextAttributedStringBuilder = AttributedStringBuilder(
                 string: licenseFileText + "\n"
             )
                 .weight(5)
-                .build()
 
-            builtSingleLicenseAttributedString.append(briefInfoAttributedString)
-            builtSingleLicenseAttributedString.append(licenceFileTextAttributedString)
+            let singleLicenseAttributedStringBuilder = (briefInfoAttributedStringBuilder + licenceFileTextAttributedStringBuilder)
+                
 
-            documentAttributedString.append(builtSingleLicenseAttributedString)
+            documentAttributedString.append(singleLicenseAttributedStringBuilder.build())
         }
 
         return documentAttributedString

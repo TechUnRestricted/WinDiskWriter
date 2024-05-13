@@ -8,16 +8,20 @@
 import Cocoa
 
 class AttributedStringBuilder {
-    private var attributes: [NSAttributedString.Key: Any] = [:]
-    private var string: String
+    private let originalMutableAttributedString: NSMutableAttributedString
+    private var newAttributes: [NSAttributedString.Key: Any] = [:]
 
     init(string: String) {
-        self.string = string
+        originalMutableAttributedString = NSMutableAttributedString(string: string)
+    }
+
+    init(attributedString: NSAttributedString) {
+        originalMutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
     }
 
     private func updateFont(with traits: NSFontTraitMask? = nil, weight: Int? = nil, size: CGFloat? = nil) {
         let fontManager = NSFontManager.shared
-        var font = (attributes[.font] as? NSFont) ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        var font = (newAttributes[.font] as? NSFont) ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
 
         if let traits = traits {
             font = fontManager.convert(font, toHaveTrait: traits)
@@ -39,7 +43,7 @@ class AttributedStringBuilder {
             ) ?? font
         }
 
-        attributes[.font] = font
+        newAttributes[.font] = font
     }
 
     @discardableResult
@@ -58,7 +62,7 @@ class AttributedStringBuilder {
 
     @discardableResult
     func strikethrough(_ style: NSUnderlineStyle) -> AttributedStringBuilder {
-        attributes[.strikethroughStyle] = style.rawValue
+        newAttributes[.strikethroughStyle] = style.rawValue
 
         return self
     }
@@ -72,43 +76,90 @@ class AttributedStringBuilder {
 
     @discardableResult
     func color(_ color: NSColor) -> AttributedStringBuilder {
-        attributes[.foregroundColor] = color
+        newAttributes[.foregroundColor] = color
 
         return self
     }
 
     @discardableResult
     func backgroundColor(_ color: NSColor) -> AttributedStringBuilder {
-        attributes[.backgroundColor] = color
+        newAttributes[.backgroundColor] = color
 
         return self
     }
 
     @discardableResult
     func underline(_ style: NSUnderlineStyle) -> AttributedStringBuilder {
-        attributes[.underlineStyle] = style.rawValue
+        newAttributes[.underlineStyle] = style.rawValue
 
         return self
     }
 
     @discardableResult
     func horizontalAlignment(_ alignment: NSTextAlignment) -> AttributedStringBuilder {
-        let paragraphStyle = attributes[.paragraphStyle] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
+        let paragraphStyle = newAttributes[.paragraphStyle] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
 
         paragraphStyle.alignment = alignment
-        attributes[.paragraphStyle] = paragraphStyle
+        newAttributes[.paragraphStyle] = paragraphStyle
+
+        return self
+    }
+
+    @discardableResult
+    func padding(left: CGFloat? = nil, right: CGFloat? = nil, top: CGFloat? = nil, bottom: CGFloat? = nil) -> AttributedStringBuilder {
+        let paragraphStyle = (newAttributes[.paragraphStyle] as? NSMutableParagraphStyle) ?? NSMutableParagraphStyle()
+
+        if let left = left {
+            paragraphStyle.headIndent = left
+            paragraphStyle.firstLineHeadIndent = left
+        }
+
+        if let right = right {
+            paragraphStyle.tailIndent = -right
+        }
+
+        if let top = top {
+            paragraphStyle.paragraphSpacingBefore = top
+        }
+
+        if let bottom = bottom {
+            paragraphStyle.paragraphSpacing = bottom
+        }
+
+        newAttributes[.paragraphStyle] = paragraphStyle
 
         return self
     }
 
     @discardableResult
     func link(_ url: URL) -> AttributedStringBuilder {
-        attributes[.link] = url
+        newAttributes[.link] = url
 
         return self
     }
 
-    func build() -> NSAttributedString {
-        return NSAttributedString(string: string, attributes: attributes)
+    func build() -> NSMutableAttributedString {
+        let newAttributedString = originalMutableAttributedString.mutableCopy() as! NSMutableAttributedString
+
+        let range = NSRange(location: 0, length: newAttributedString.length)
+        newAttributedString.addAttributes(newAttributes, range: range)
+
+        return newAttributedString
+    }
+}
+
+extension AttributedStringBuilder {
+    static func + (left: AttributedStringBuilder, right: AttributedStringBuilder) -> AttributedStringBuilder {
+        let combinedAttributedString = NSMutableAttributedString()
+        
+        combinedAttributedString.append(
+            left.build()
+        )
+
+        combinedAttributedString.append(
+            right.build()
+        )
+
+        return AttributedStringBuilder(attributedString: combinedAttributedString)
     }
 }
