@@ -96,6 +96,13 @@ class AttributedStringBuilder {
     }
 
     @discardableResult
+    func baselineOffset(_ offset: CGFloat) -> AttributedStringBuilder {
+        newAttributes[.baselineOffset] = offset
+        
+        return self
+    }
+
+    @discardableResult
     func horizontalAlignment(_ alignment: NSTextAlignment) -> AttributedStringBuilder {
         let paragraphStyle = newAttributes[.paragraphStyle] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
 

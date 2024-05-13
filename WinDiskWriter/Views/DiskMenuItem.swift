@@ -9,6 +9,10 @@ import Foundation
 import AppKit
 
 class DiskMenuItem: NSMenuItem {
+    private enum Constants {
+        static let bsdFontSize: CGFloat = NSFont.systemFontSize / 1.2
+    }
+
     let diskInfo: DiskInfo
 
     init?(diskInfo: DiskInfo) {
@@ -57,10 +61,15 @@ class DiskMenuItem: NSMenuItem {
                 .build()
         )
 
+
+        let sizeDifference: CGFloat = NSFont.systemFontSize - Constants.bsdFontSize
+        let baselineOffset: CGFloat = sizeDifference / 2
+
         mutableAttributedString.append(
             AttributedStringBuilder(string: "(" + bsdName + ")")
                 .weight(3)
                 .fontSize(NSFont.systemFontSize / 1.2)
+                .baselineOffset(baselineOffset)
                 .build()
         )
 
