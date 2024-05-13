@@ -14,7 +14,6 @@ class AppService: NSObject {
     static let shared = AppService()
 
     @objc dynamic var isIdle: Bool = true
-    var isAboutScreenDisplaying: Bool = false
 
     static var hasElevatedRights: Bool {
         return geteuid() == 0;

@@ -8,6 +8,8 @@
 import Cocoa
 
 class AppMenu {
+    private static weak var aboutCoordinator: AboutCoordinator?
+
     static let menuBuilder: MenuBuilder = {
         let menuBuilder = MenuBuilder()
 
@@ -21,8 +23,14 @@ class AppMenu {
             .addItem(
                 title: "About \(AppInfo.appName)",
                 action: {
-                    let aboutCoordinator = AboutCoordinator()
-                    aboutCoordinator.start()
+                    guard aboutCoordinator == nil else {
+                        print("Ще працює")
+                        return
+                    }
+
+                    let coordinator = AboutCoordinator()
+                    coordinator.start()
+                    aboutCoordinator = coordinator
                 }
             )
             .addSeparator()
