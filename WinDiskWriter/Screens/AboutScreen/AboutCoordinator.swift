@@ -8,8 +8,8 @@
 import Cocoa
 
 final class AboutCoordinator: Coordinator {
-    private var window: BaseWindow?
-    private var viewController: AboutViewController?
+    private weak var window: BaseWindow?
+    private weak var viewController: AboutViewController?
 
     func start() {
         let aboutViewModel = AboutViewModel(coordinator: self)

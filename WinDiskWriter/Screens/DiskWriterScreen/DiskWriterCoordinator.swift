@@ -8,8 +8,8 @@
 import Cocoa
 
 final class DiskWriterCoordinator: Coordinator {
-    private var window: BaseWindow?
-    private var viewController: DiskWriterViewController?
+    private weak var window: BaseWindow?
+    private weak var viewController: DiskWriterViewController?
 
     func start() {
         let diskWriterViewModel = DiskWriterViewModel(coordinator: self)

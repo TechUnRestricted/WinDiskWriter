@@ -147,7 +147,7 @@ final class AboutViewController: BaseViewController {
     }
 
     private func setupAppDescriptionLabelView() {
-        let attributedString = AttributedStringBuilder(string: AppInfo.appDescription )
+        let attributedString = AttributedStringBuilder(string: AppInfo.appDescription)
             .weight(3)
             .horizontalAlignment(.center)
             .build()
