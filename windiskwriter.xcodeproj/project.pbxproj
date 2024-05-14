@@ -83,6 +83,11 @@
 		E2F37B7C2BD6F0F6003D27BD /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B7B2BD6F0F6003D27BD /* Collection+Safe.swift */; };
 		E2F37B7E2BD6F1C2003D27BD /* SwitchPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B7D2BD6F1C2003D27BD /* SwitchPickerView.swift */; };
 		E2F37B802BD78088003D27BD /* ScrollableLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B7F2BD78088003D27BD /* ScrollableLinesView.swift */; };
+		E2F4FB0A2BF36DF600BFC59A /* DiskInspectorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB092BF36DF600BFC59A /* DiskInspectorError.swift */; };
+		E2F4FB0E2BF36E4D00BFC59A /* DiskEraserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB0D2BF36E4D00BFC59A /* DiskEraserError.swift */; };
+		E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB102BF36E7500BFC59A /* HDIUtilError.swift */; };
+		E2F4FB162BF36EB700BFC59A /* CommandLineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB152BF36EB700BFC59A /* CommandLineError.swift */; };
+		E2F4FB1A2BF36F1400BFC59A /* CommandLineResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB192BF36F1400BFC59A /* CommandLineResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +172,11 @@
 		E2F37B7B2BD6F0F6003D27BD /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		E2F37B7D2BD6F1C2003D27BD /* SwitchPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchPickerView.swift; sourceTree = "<group>"; };
 		E2F37B7F2BD78088003D27BD /* ScrollableLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableLinesView.swift; sourceTree = "<group>"; };
+		E2F4FB092BF36DF600BFC59A /* DiskInspectorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskInspectorError.swift; sourceTree = "<group>"; };
+		E2F4FB0D2BF36E4D00BFC59A /* DiskEraserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskEraserError.swift; sourceTree = "<group>"; };
+		E2F4FB102BF36E7500BFC59A /* HDIUtilError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDIUtilError.swift; sourceTree = "<group>"; };
+		E2F4FB152BF36EB700BFC59A /* CommandLineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineError.swift; sourceTree = "<group>"; };
+		E2F4FB192BF36F1400BFC59A /* CommandLineResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,19 +361,19 @@
 		E27FD4E22BDD1DA80096C605 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E2F4FB082BF36DE400BFC59A /* DiskInspector */,
+				E27FD4FE2BDE47490096C605 /* DiskEraser */,
 				E256A7E12BE7729D003E24D3 /* MenuBuilder */,
-				E27FD4FE2BDE47490096C605 /* DiskManager */,
 				E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */,
 				E27FD4FB2BDE38D30096C605 /* LegacyExceptionHandler */,
 				E27FD5062BDE4EEC0096C605 /* HDIUtil */,
 				E25A2B072BF2A02B00E515B7 /* AppRelauncher */,
 				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
-				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
-				E25A2AF22BF14B0500E515B7 /* FileReader.swift */,
-				E25A2AF42BF14B9A00E515B7 /* FileReaderError.swift */,
-				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
+				E2F4FB122BF36E8B00BFC59A /* FileReader */,
+				E2F4FB142BF36EAC00BFC59A /* CommandLine */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
+				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
 				E29C8ACA2BEB7100006A50D9 /* AppService.swift */,
 			);
 			path = Services;
@@ -386,15 +396,14 @@
 			path = LegacyExceptionHandler;
 			sourceTree = "<group>";
 		};
-		E27FD4FE2BDE47490096C605 /* DiskManager */ = {
+		E27FD4FE2BDE47490096C605 /* DiskEraser */ = {
 			isa = PBXGroup;
 			children = (
+				E2F4FB0C2BF36E4200BFC59A /* Errors */,
 				E27FD5092BDE59440096C605 /* Enums */,
-				E27FD50A2BDE594B0096C605 /* Models */,
-				E27FD4F32BDE264C0096C605 /* DiskInspector.swift */,
 				E27FD50B2BDE5A480096C605 /* DiskEraser.swift */,
 			);
-			path = DiskManager;
+			path = DiskEraser;
 			sourceTree = "<group>";
 		};
 		E27FD5052BDE4EE60096C605 /* Models */ = {
@@ -409,6 +418,7 @@
 		E27FD5062BDE4EEC0096C605 /* HDIUtil */ = {
 			isa = PBXGroup;
 			children = (
+				E2F4FB0F2BF36E6A00BFC59A /* Errors */,
 				E27FD5052BDE4EE60096C605 /* Models */,
 				E27FD4FF2BDE47A20096C605 /* HDIUtil.swift */,
 			);
@@ -515,6 +525,83 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
+		E2F4FB082BF36DE400BFC59A /* DiskInspector */ = {
+			isa = PBXGroup;
+			children = (
+				E27FD50A2BDE594B0096C605 /* Models */,
+				E2F4FB0B2BF36E1C00BFC59A /* Errors */,
+				E27FD4F32BDE264C0096C605 /* DiskInspector.swift */,
+			);
+			path = DiskInspector;
+			sourceTree = "<group>";
+		};
+		E2F4FB0B2BF36E1C00BFC59A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB092BF36DF600BFC59A /* DiskInspectorError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E2F4FB0C2BF36E4200BFC59A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB0D2BF36E4D00BFC59A /* DiskEraserError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E2F4FB0F2BF36E6A00BFC59A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB102BF36E7500BFC59A /* HDIUtilError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E2F4FB122BF36E8B00BFC59A /* FileReader */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB132BF36E9300BFC59A /* Errors */,
+				E25A2AF22BF14B0500E515B7 /* FileReader.swift */,
+			);
+			path = FileReader;
+			sourceTree = "<group>";
+		};
+		E2F4FB132BF36E9300BFC59A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E25A2AF42BF14B9A00E515B7 /* FileReaderError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E2F4FB142BF36EAC00BFC59A /* CommandLine */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB182BF36F0000BFC59A /* Models */,
+				E2F4FB172BF36ECA00BFC59A /* Errors */,
+				E27FD4F52BDE35910096C605 /* CommandLine.swift */,
+			);
+			path = CommandLine;
+			sourceTree = "<group>";
+		};
+		E2F4FB172BF36ECA00BFC59A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB152BF36EB700BFC59A /* CommandLineError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E2F4FB182BF36F0000BFC59A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4FB192BF36F1400BFC59A /* CommandLineResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -593,6 +680,7 @@
 				E234FC0B2BD5301F0074C781 /* BaseViewController.swift in Sources */,
 				E27FD50C2BDE5A480096C605 /* DiskEraser.swift in Sources */,
 				E27FD50E2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift in Sources */,
+				E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */,
 				E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */,
 				E25A2AFC2BF15FAE00E515B7 /* Bundle+ListFiles.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
@@ -609,10 +697,12 @@
 				E27FD5022BDE4E470096C605 /* ImageMountResult.swift in Sources */,
 				E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */,
 				E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */,
+				E2F4FB1A2BF36F1400BFC59A /* CommandLineResult.swift in Sources */,
 				E234FC252BD53E540074C781 /* DiskWriterCoordinator.swift in Sources */,
 				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
+				E2F4FB0A2BF36DF600BFC59A /* DiskInspectorError.swift in Sources */,
 				E27C67392BEFC34B00D7F692 /* DraggableImageView.swift in Sources */,
 				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
@@ -628,6 +718,7 @@
 				E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */,
 				E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */,
 				E27C673B2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift in Sources */,
+				E2F4FB0E2BF36E4D00BFC59A /* DiskEraserError.swift in Sources */,
 				E27FD4EC2BDD63790096C605 /* Filesystem.swift in Sources */,
 				E27FD4F62BDE35910096C605 /* CommandLine.swift in Sources */,
 				E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */,
@@ -645,6 +736,7 @@
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
 				E25A2AF32BF14B0500E515B7 /* FileReader.swift in Sources */,
 				E25A2AF12BF122EA00E515B7 /* ScrollableTextView.swift in Sources */,
+				E2F4FB162BF36EB700BFC59A /* CommandLineError.swift in Sources */,
 				E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */,
 				E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */,
 				E27FD5082BDE59250096C605 /* PartitionScheme.swift in Sources */,

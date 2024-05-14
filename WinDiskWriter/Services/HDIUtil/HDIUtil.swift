@@ -7,32 +7,17 @@
 
 import Foundation
 
-enum HDIUtilError: LocalizedError {
-    case systemEntitiesNotFound
-    case systemEntitiesIsEmpty
-    case systemEntitiesCountMoreThanOne
-
-    var errorDescription: String? {
-        switch self {
-        case .systemEntitiesNotFound:
-            return "System entities could not be found in the decoded property list"
-        case .systemEntitiesIsEmpty:
-            return "The 'system-entities' array is empty"
-        case .systemEntitiesCountMoreThanOne:
-            return "The 'system-entities' array contains more than one entry"
-        }
-    }
-}
-
 class HDIUtil {
     private enum Constants {
         static let executablePath: String = "/usr/bin/hdiutil"
     }
 
-    static func attachImage(imagePath: String, additionalArguments: [String]? = nil) throws -> HDIUtilSystemEntity {
+    private init() { }
+
+    static func attachImage(imageURL: URL, additionalArguments: [String]? = nil) throws -> HDIUtilSystemEntity {
         var localArgumentsArray = [
             "attach",
-            imagePath,
+            imageURL.path,
             "-plist"
         ]
 

@@ -119,6 +119,7 @@ extension DiskWriterViewModel {
 
     private func startProcess() {
         AppService.shared.isIdle = false
+
     }
 
     private func stopProcess() {
@@ -228,6 +229,7 @@ extension DiskWriterViewModel {
             throw ConfigurationValidationError.imageDiskInfoUnavailable
         }
 
+        // TODO: Fix this logic
         if imageFileMountPointBSDName == selectedDiskBSDName {
             throw ConfigurationValidationError.imagePathCollision
         }

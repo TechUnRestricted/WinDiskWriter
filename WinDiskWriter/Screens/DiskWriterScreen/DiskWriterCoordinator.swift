@@ -149,11 +149,11 @@ extension DiskWriterCoordinator {
             image: NSImage(named: NSImage.cautionName)
         )
 
-        alertBuilder.addButton(title: "Quit", preferDefault: true) {
+        alertBuilder.addButton(title: "Quit") {
             AppService.terminate(self)
         }
 
-        alertBuilder.addButton(title: "Cancel")
+        alertBuilder.addButton(title: "Cancel", preferDefault: true)
 
         alertBuilder.show(in: window)
     }
