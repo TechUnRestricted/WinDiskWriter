@@ -104,7 +104,7 @@ class DiskInspector {
                 name: diskDescription[kDADiskDescriptionMediaNameKey] as? String,
                 path: diskDescription[kDADiskDescriptionMediaPathKey] as? String,
                 isRemovable: diskDescription[kDADiskDescriptionMediaRemovableKey] as? Bool,
-                size: diskDescription[kDADiskDescriptionMediaSizeKey] as? Int,
+                size: diskDescription[kDADiskDescriptionMediaSizeKey] as? UInt64,
                 type: diskDescription[kDADiskDescriptionMediaTypeKey] as? String,
                 uuid: mediaUUID,
                 isWhole: diskDescription[kDADiskDescriptionMediaWholeKey] as? Bool,

@@ -16,6 +16,7 @@ enum ConfigurationValidationError: LocalizedError {
     case fileNotFound
     case fileNotReadable
     case noDeviceSelected
+    case imageMountSystemEntityUnavailable
     
     var errorDescription: String? {
         switch self {
@@ -39,6 +40,8 @@ enum ConfigurationValidationError: LocalizedError {
             return "Image file is not readable"
         case .noDeviceSelected:
             return "No device has been selected"
+        case .imageMountSystemEntityUnavailable:
+            return "Mount system entity for the image is unavailable"
         }
     }
 }

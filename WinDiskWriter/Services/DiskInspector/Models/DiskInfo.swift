@@ -32,7 +32,7 @@ class DiskInfo: NSObject {
         var name: String?
         var path: String?
         var isRemovable: Bool?
-        var size: Int?
+        var size: UInt64?
         var type: String?
         var uuid: UUID?
         var isWhole: Bool?
