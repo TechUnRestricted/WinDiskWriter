@@ -278,6 +278,16 @@ extension DiskWriterViewModel {
 
         let imageMountDiskInfo = try DiskInspector.diskInfo(bsdName: imageMountSystemEntity.BSDMountPoint)
 
-        print(imageMountDiskInfo.media.size)
+        guard let selectedDiskSize = selectedDiskInfo?()?.media.size else {
+            throw ConfigurationValidationError.deviceInfoUnavailable
+        }
+
+        guard let imageMountSize = imageMountDiskInfo.media.size else {
+            throw ConfigurationValidationError.imageInfoUnavailable
+        }
+
+        guard selectedDiskSize >= imageMountSize else {
+            throw ConfigurationValidationError.insufficientDestinationCapacity(imageSize: imageMountSize, destinationCapacity: selectedDiskSize)
+        }
     }
 }

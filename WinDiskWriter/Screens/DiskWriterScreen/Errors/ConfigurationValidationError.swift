@@ -7,6 +7,7 @@
 
 enum ConfigurationValidationError: LocalizedError {
     case deviceInfoUnavailable
+    case imageInfoUnavailable
     case mountPointUnavailable
     case imageDiskInfoUnavailable
     case appearanceTimestampDiscrepancy
@@ -17,11 +18,14 @@ enum ConfigurationValidationError: LocalizedError {
     case fileNotReadable
     case noDeviceSelected
     case imageMountSystemEntityUnavailable
+    case insufficientDestinationCapacity(imageSize: UInt64, destinationCapacity: UInt64)
     
     var errorDescription: String? {
         switch self {
         case .deviceInfoUnavailable:
             return "Device information could not be retrieved"
+        case .imageInfoUnavailable:
+            return "Image information could not be retrieved"
         case .mountPointUnavailable:
             return "Mount point for the selected image is unavailable"
         case .imageDiskInfoUnavailable:
@@ -42,6 +46,8 @@ enum ConfigurationValidationError: LocalizedError {
             return "No device has been selected"
         case .imageMountSystemEntityUnavailable:
             return "Mount system entity for the image is unavailable"
+        case .insufficientDestinationCapacity(let imageSize, let destinationCapacity):
+            return "The destination device capacity (\(destinationCapacity.formattedSize)) is insufficient for the selected image size (\(imageSize.formattedSize))"
         }
     }
 }
