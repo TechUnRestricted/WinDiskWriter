@@ -84,13 +84,13 @@ extension DiskWriterCoordinator {
         alertBuilder.show(in: window)
     }
 
-    func showVerificationFailureWarningAlert(subtitle: String) {
+    func showFailureWarningAlert(title: String, subtitle: String) {
         guard let window = window else {
             return
         }
 
         let alertBuilder = AlertBuilder(
-            title: "Verification Error",
+            title: title,
             subtitle: subtitle,
             image: NSImage(named: NSImage.cautionName)
         )

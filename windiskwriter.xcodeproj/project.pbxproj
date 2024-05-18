@@ -88,7 +88,6 @@
 		E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB102BF36E7500BFC59A /* HDIUtilError.swift */; };
 		E2F4FB162BF36EB700BFC59A /* CommandLineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB152BF36EB700BFC59A /* CommandLineError.swift */; };
 		E2F4FB1A2BF36F1400BFC59A /* CommandLineResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB192BF36F1400BFC59A /* CommandLineResult.swift */; };
-		E2F4FB1C2BF3728F00BFC59A /* DiskSetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4FB1B2BF3728F00BFC59A /* DiskSetupManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,7 +177,6 @@
 		E2F4FB102BF36E7500BFC59A /* HDIUtilError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDIUtilError.swift; sourceTree = "<group>"; };
 		E2F4FB152BF36EB700BFC59A /* CommandLineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineError.swift; sourceTree = "<group>"; };
 		E2F4FB192BF36F1400BFC59A /* CommandLineResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineResult.swift; sourceTree = "<group>"; };
-		E2F4FB1B2BF3728F00BFC59A /* DiskSetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSetupManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,7 +375,6 @@
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
 				E29C8ACA2BEB7100006A50D9 /* AppService.swift */,
-				E2F4FB1B2BF3728F00BFC59A /* DiskSetupManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -690,7 +687,6 @@
 			files = (
 				E234FC0B2BD5301F0074C781 /* BaseViewController.swift in Sources */,
 				E27FD50C2BDE5A480096C605 /* DiskEraser.swift in Sources */,
-				E2F4FB1C2BF3728F00BFC59A /* DiskSetupManager.swift in Sources */,
 				E27FD50E2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift in Sources */,
 				E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */,
 				E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */,

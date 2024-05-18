@@ -15,6 +15,14 @@ final class DiskWriterViewModel: NSObject {
     @objc dynamic var installLegacyBIOSBootSector: Bool = AppService.hasElevatedRights
 
     @objc dynamic var disksInfoList: [DiskInfo] = []
+    @objc dynamic var isIdle: Bool {
+        get {
+            return AppService.shared.isIdle
+        } set {
+            AppService.shared.isIdle = newValue
+        }
+    }
+
     var selectedDiskInfo: (() -> (DiskInfo?))?
 
     var appendLogLine: ((LogType, String) -> ())?
@@ -25,7 +33,8 @@ final class DiskWriterViewModel: NSObject {
         "\(AppInfo.developerName) \(Date.adjustedYear)",
         "❤️ Donate Me ❤️"
     ]
-    
+
+    private var mountedImageURL: URL?
     private let coordinator: DiskWriterCoordinator
     
     init(coordinator: DiskWriterCoordinator) {
@@ -101,6 +110,14 @@ extension DiskWriterViewModel {
         disksInfoList = filteredDiskInfoList
     }
 
+    func visitDevelopersPage() {
+        AppService.openDevelopersGitHubPage()
+    }
+
+    func showRestartWithEscalatedPermissionsAlert() {
+        coordinator.showRestartWithEscalatedPermissionsAlert()
+    }
+
     func triggerAction() {
         if AppService.shared.isIdle {
             guard validateInput() else {
@@ -120,18 +137,21 @@ extension DiskWriterViewModel {
     private func startProcess() {
         AppService.shared.isIdle = false
 
+        do {
+            try mountImage()
+        } catch {
+            coordinator.showFailureWarningAlert(
+                title: "Windows Image Mount Failure",
+                subtitle: error.localizedDescription
+            )
+
+
+            return
+        }
     }
 
     private func stopProcess() {
         AppService.shared.isIdle = true
-    }
-
-    func visitDevelopersPage() {
-        AppService.openDevelopersGitHubPage()
-    }
-
-    func showRestartWithEscalatedPermissionsAlert() {
-        coordinator.showRestartWithEscalatedPermissionsAlert()
     }
 
     @objc private func respondOnQuit() {
@@ -147,6 +167,17 @@ extension DiskWriterViewModel {
     }
 }
 
+extension DiskWriterViewModel {
+    private func mountImage() throws {
+        let imageFileURL = URL(fileURLWithPath: imagePath)
+        mountedImageURL = nil
+
+        let pathMountPoint = try HDIUtil.attachImage(imageURL: imageFileURL).mountPoint
+        mountedImageURL = URL(fileURLWithPath: pathMountPoint)
+    }
+}
+
+
 // MARK: - Input Verification
 extension DiskWriterViewModel {
     private func validateInput() -> Bool {
@@ -158,7 +189,10 @@ extension DiskWriterViewModel {
             let errorString = "Can't start the writing process: (\(error.localizedDescription))"
             appendLogLine?(.error, errorString)
 
-            coordinator.showVerificationFailureWarningAlert(subtitle: error.localizedDescription)
+            coordinator.showFailureWarningAlert(
+                title: "Verification Error",
+                subtitle: error.localizedDescription
+            )
 
             return false
         }
@@ -229,9 +263,13 @@ extension DiskWriterViewModel {
             throw ConfigurationValidationError.imageDiskInfoUnavailable
         }
 
-        // TODO: Fix this logic
+        // TODO: Fix this logic for APFS containers
         if imageFileMountPointBSDName == selectedDiskBSDName {
             throw ConfigurationValidationError.imagePathCollision
         }
+    }
+
+    private func validateImage() throws {
+
     }
 }
