@@ -139,11 +139,13 @@ extension DiskWriterViewModel {
             try DiskValidator.verifySelectedDevice(selectedDiskInfo?())
             try DiskValidator.verifyInputForCollision(imagePath, selectedDiskInfo?())
         } catch {
-            let errorString = "Can't start the writing process: (\(error.localizedDescription))"
-            appendLogLine?(.error, errorString)
+            let errorTypeMessage = "Invalid Input"
+            let errorDescription = "\(errorTypeMessage): (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorDescription)
 
             coordinator.showFailureWarningAlert(
-                title: "Verification Failure",
+                title: errorTypeMessage,
                 subtitle: error.localizedDescription
             )
 
@@ -156,11 +158,13 @@ extension DiskWriterViewModel {
         do {
             try mountImage()
         } catch {
-            let errorString = "Can't mount the Image: \(error.localizedDescription)"
-            appendLogLine?(.error, errorString)
+            let errorTypeMessage = "Image Mount Failure"
+            let errorDescription = "\(errorTypeMessage): (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorDescription)
 
             coordinator.showFailureWarningAlert(
-                title: "Image Mount Failure",
+                title: errorTypeMessage,
                 subtitle: error.localizedDescription
             )
 
@@ -170,18 +174,18 @@ extension DiskWriterViewModel {
 
         // MARK: Disk Space Validation
         do {
-            try DiskValidator.verifyDiskCapacity(
-                imageMountSystemEntity: imageMountSystemEntity,
+            try DiskValidator.verifyRawDiskCapacity(
                 selectedDiskInfo: selectedDiskInfo?(),
-                erasedDiskVolumeURL: erasedDiskVolumeURL,
-                for: .rawDisk
+                imageMountSystemEntity: imageMountSystemEntity
             )
         } catch {
-            let errorString = "Disk capacity verification failure: (\(error.localizedDescription))"
-            appendLogLine?(.error, errorString)
+            let errorTypeMessage = "Disk Capacity Verification Failure"
+            let errorDescription = "\(errorTypeMessage): (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorDescription)
 
             coordinator.showFailureWarningAlert(
-                title: "Disk capacity verification failure",
+                title: errorTypeMessage,
                 subtitle: error.localizedDescription
             )
 
@@ -193,11 +197,13 @@ extension DiskWriterViewModel {
         do {
             try eraseDisk()
         } catch {
-            let errorString = "Can't erase the Destination Device: \(error.localizedDescription)"
-            appendLogLine?(.error, errorString)
+            let errorTypeMessage = "Disk Erase Failure"
+            let errorDescription = "\(errorTypeMessage): (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorDescription)
 
             coordinator.showFailureWarningAlert(
-                title: "Disk Erase Error",
+                title: errorTypeMessage,
                 subtitle: error.localizedDescription
             )
 
@@ -207,18 +213,18 @@ extension DiskWriterViewModel {
 
         // MARK: Volume Space Validation
         do {
-            try DiskValidator.verifyDiskCapacity(
-                imageMountSystemEntity: imageMountSystemEntity,
-                selectedDiskInfo: selectedDiskInfo?(),
+            try DiskValidator.verifyFormattedVolumeCapacity(
                 erasedDiskVolumeURL: erasedDiskVolumeURL,
-                for: .formattedVolume
+                imageMountSystemEntity: imageMountSystemEntity
             )
         } catch {
-            let errorString = "Disk capacity verification failure: (\(error.localizedDescription))"
-            appendLogLine?(.error, errorString)
+            let errorTypeMessage = "Disk Capacity Verification Failure"
+            let errorDescription = "\(errorTypeMessage): (\(error.localizedDescription))"
+
+            appendLogLine?(.error, errorDescription)
 
             coordinator.showFailureWarningAlert(
-                title: "Disk capacity verification failure",
+                title: errorTypeMessage,
                 subtitle: error.localizedDescription
             )
 

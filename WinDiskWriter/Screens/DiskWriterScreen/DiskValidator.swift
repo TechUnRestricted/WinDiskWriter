@@ -62,51 +62,55 @@ struct DiskValidator {
               }
     }
     
-    static func verifyDiskCapacity(imageMountSystemEntity: HDIUtilSystemEntity?, selectedDiskInfo: DiskInfo?, erasedDiskVolumeURL: URL?, for checkType: CapacityCheckType) throws {
-        
+    static func verifyRawDiskCapacity(selectedDiskInfo: DiskInfo?, imageMountSystemEntity: HDIUtilSystemEntity?) throws {
         guard let imageMountSystemEntity = imageMountSystemEntity else {
             throw ConfigurationValidationError.imageMountSystemEntityUnavailable
         }
-        
+
         let imageMountDiskInfo = try DiskInspector.diskInfo(bsdName: imageMountSystemEntity.BSDMountPoint)
-        
-        let diskSize: UInt64 = try {
-            switch checkType {
-            case .rawDisk:
-                guard let size = selectedDiskInfo?.media.size else {
-                    throw ConfigurationValidationError.deviceInfoUnavailable
-                }
-                
-                return size
-            case .formattedVolume:
-                guard let volumeURL = erasedDiskVolumeURL else {
-                    throw ConfigurationValidationError.volumeInfoUnavailable
-                }
-                
-                let attrs = try FileManager.default.attributesOfFileSystem(forPath: volumeURL.path)
-                
-                guard let volumeSize = attrs[.systemFreeSize] as? UInt64 else {
-                    throw ConfigurationValidationError.volumeInfoUnavailable
-                }
-                
-                return volumeSize
-            }
-        }()
-        
+
+        guard let selectedDiskSize = selectedDiskInfo?.media.size else {
+            throw ConfigurationValidationError.deviceInfoUnavailable
+        }
+
         guard let imageMountSize = imageMountDiskInfo.media.size else {
             throw ConfigurationValidationError.imageInfoUnavailable
         }
-        
-        guard diskSize >= imageMountSize else {
+
+        guard selectedDiskSize >= imageMountSize else {
             throw ConfigurationValidationError.insufficientDestinationCapacity(
                 imageSize: imageMountSize,
-                destinationCapacity: diskSize
+                destinationCapacity: selectedDiskSize
             )
         }
     }
-    
-    enum CapacityCheckType {
-        case rawDisk
-        case formattedVolume
+
+    static func verifyFormattedVolumeCapacity(erasedDiskVolumeURL: URL?, imageMountSystemEntity: HDIUtilSystemEntity?) throws {
+        guard let imageMountSystemEntity = imageMountSystemEntity else {
+            throw ConfigurationValidationError.imageMountSystemEntityUnavailable
+        }
+
+        let imageMountDiskInfo = try DiskInspector.diskInfo(bsdName: imageMountSystemEntity.BSDMountPoint)
+
+        guard let volumeURL = erasedDiskVolumeURL else {
+            throw ConfigurationValidationError.volumeInfoUnavailable
+        }
+
+        let attrs = try FileManager.default.attributesOfFileSystem(forPath: volumeURL.path)
+
+        guard let volumeSize = attrs[.systemFreeSize] as? UInt64 else {
+            throw ConfigurationValidationError.volumeInfoUnavailable
+        }
+
+        guard let imageMountSize = imageMountDiskInfo.media.size else {
+            throw ConfigurationValidationError.imageInfoUnavailable
+        }
+
+        guard volumeSize >= imageMountSize else {
+            throw ConfigurationValidationError.insufficientDestinationCapacity(
+                imageSize: imageMountSize,
+                destinationCapacity: volumeSize
+            )
+        }
     }
 }
