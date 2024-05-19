@@ -28,6 +28,8 @@ final class DiskWriterViewModel: NSObject {
     ]
     
     private var imageMountSystemEntity: HDIUtilSystemEntity?
+    private var erasedDiskVolumeURL: URL?
+
     private let coordinator: DiskWriterCoordinator
     
     init(coordinator: DiskWriterCoordinator) {
@@ -41,7 +43,12 @@ final class DiskWriterViewModel: NSObject {
     deinit {
         removeNotificationCenterObserver()
     }
-    
+
+    private func resetProcessProperties() {
+        imageMountSystemEntity = nil
+        erasedDiskVolumeURL = nil
+    }
+
     private func setupNotificationCenterObservers() {
         let notificationCenterDictionary: [Notification.Name: Selector] = [
             .menuBarQuitTriggered: #selector(respondOnQuit),
@@ -124,7 +131,9 @@ extension DiskWriterViewModel {
     }
     
     private func startProcess() {
-        // MARK: Basic Input Verification
+        resetProcessProperties()
+
+        // MARK: Pre-Write Checks
         do {
             try verifyImagePath()
             try verifySelectedDevice()
@@ -143,7 +152,7 @@ extension DiskWriterViewModel {
         
         AppService.shared.isIdle = false
         
-        // MARK: Mounting Windows Image
+        // MARK: Image Preparation
         do {
             try mountImage()
         } catch {
@@ -159,9 +168,9 @@ extension DiskWriterViewModel {
             return
         }
         
-        // MARK: Validate Mounted Image
+        // MARK: Disk Space Validation
         do {
-            try validateImage()
+            try verifyDiskCapacity(for: .rawDisk)
         } catch {
             let errorString = "Can't verify the Image: \(error.localizedDescription)"
             appendLogLine?(.error, errorString)
@@ -170,6 +179,41 @@ extension DiskWriterViewModel {
                 title: "Image Verification Error",
                 subtitle: error.localizedDescription
             )
+
+            AppService.shared.isIdle = true
+            return
+        }
+
+        // MARK: Attempt to erase the disk
+        do {
+            try eraseDisk()
+        } catch {
+            let errorString = "Can't erase the Destination Device: \(error.localizedDescription)"
+            appendLogLine?(.error, errorString)
+
+            coordinator.showFailureWarningAlert(
+                title: "Disk Erase Error",
+                subtitle: error.localizedDescription
+            )
+
+            AppService.shared.isIdle = true
+            return
+        }
+
+        // MARK: Volume Space Validation
+        do {
+            try verifyDiskCapacity(for: .formattedVolume)
+        } catch {
+            let errorString = "Volume space validation failed: \(error.localizedDescription)"
+            appendLogLine?(.error, errorString)
+
+            coordinator.showFailureWarningAlert(
+                title: "Volume Space Validation Error",
+                subtitle: error.localizedDescription
+            )
+
+            AppService.shared.isIdle = true
+            return
         }
     }
     
@@ -193,9 +237,23 @@ extension DiskWriterViewModel {
 extension DiskWriterViewModel {
     private func mountImage() throws {
         let imageFileURL = URL(fileURLWithPath: imagePath)
-        imageMountSystemEntity = nil
-        
+
         imageMountSystemEntity = try HDIUtil.attachImage(imageURL: imageFileURL)
+    }
+
+    private func eraseDisk() throws {
+        guard let selectedDiskBSDName = selectedDiskInfo?()?.media.bsdName else {
+            throw ConfigurationValidationError.deviceInfoUnavailable
+        }
+
+        let generatedVolumeName = DiskEraser.generateFAT32Name(prefix: "WDW_", randomCharLimit: 7)
+
+        try DiskEraser.eraseWholeDisk(
+            bsdName: selectedDiskBSDName,
+            filesystem: .FAT32,
+            partitionScheme: .MBR,
+            partitionName: generatedVolumeName
+        )
     }
 }
 
@@ -270,24 +328,52 @@ extension DiskWriterViewModel {
             throw ConfigurationValidationError.imagePathCollision
         }
     }
-    
-    private func validateImage() throws {
+
+    private enum CapacityCheckType {
+        case rawDisk
+        case formattedVolume
+    }
+
+    private func verifyDiskCapacity(for checkType: CapacityCheckType) throws {
         guard let imageMountSystemEntity = imageMountSystemEntity else {
             throw ConfigurationValidationError.imageMountSystemEntityUnavailable
         }
 
         let imageMountDiskInfo = try DiskInspector.diskInfo(bsdName: imageMountSystemEntity.BSDMountPoint)
 
-        guard let selectedDiskSize = selectedDiskInfo?()?.media.size else {
-            throw ConfigurationValidationError.deviceInfoUnavailable
-        }
+        let diskSize: UInt64 = try {
+            switch checkType {
+            case .rawDisk:
+                guard let size = selectedDiskInfo?()?.media.size else {
+                    throw ConfigurationValidationError.deviceInfoUnavailable
+                }
+
+                return size
+            case .formattedVolume:
+                guard let volumeURL = erasedDiskVolumeURL else {
+                    throw ConfigurationValidationError.volumeInfoUnavailable
+                }
+
+                do {
+                    let attrs = try FileManager.default.attributesOfFileSystem(forPath: volumeURL.path)
+
+                    guard let volumeSize = attrs[.systemFreeSize] as? UInt64 else {
+                        throw ConfigurationValidationError.volumeInfoUnavailable
+                    }
+
+                    return volumeSize
+                } catch {
+                    throw ConfigurationValidationError.volumeInfoUnavailable
+                }
+            }
+        }()
 
         guard let imageMountSize = imageMountDiskInfo.media.size else {
             throw ConfigurationValidationError.imageInfoUnavailable
         }
 
-        guard selectedDiskSize >= imageMountSize else {
-            throw ConfigurationValidationError.insufficientDestinationCapacity(imageSize: imageMountSize, destinationCapacity: selectedDiskSize)
+        guard diskSize >= imageMountSize else {
+            throw ConfigurationValidationError.insufficientDestinationCapacity(imageSize: imageMountSize, destinationCapacity: diskSize)
         }
     }
 }

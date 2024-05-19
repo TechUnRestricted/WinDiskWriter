@@ -7,6 +7,7 @@
 
 enum ConfigurationValidationError: LocalizedError {
     case deviceInfoUnavailable
+    case volumeInfoUnavailable
     case imageInfoUnavailable
     case mountPointUnavailable
     case imageDiskInfoUnavailable
@@ -24,6 +25,8 @@ enum ConfigurationValidationError: LocalizedError {
         switch self {
         case .deviceInfoUnavailable:
             return "Device information could not be retrieved"
+        case .volumeInfoUnavailable:
+            return "Volume information could not be retrieved"
         case .imageInfoUnavailable:
             return "Image information could not be retrieved"
         case .mountPointUnavailable:

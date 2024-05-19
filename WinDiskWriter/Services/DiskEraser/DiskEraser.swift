@@ -14,6 +14,24 @@ class DiskEraser {
 
     private init() { }
 
+    static func generateFAT32Name(prefix: String? = nil, suffix: String? = nil, randomCharLimit: Int) -> String {
+        let characters = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+        let maxLength = 11
+
+        let prefixCount = prefix?.count ?? 0
+        let suffixCount = suffix?.count ?? 0
+
+        let randomCharsCount = min(randomCharLimit, maxLength - prefixCount - suffixCount)
+
+        let randomChars = (0..<randomCharsCount).compactMap { _ in
+            characters.randomElement()
+        }
+
+        let name = (prefix ?? "") + randomChars + (suffix ?? "")
+
+        return String(name.prefix(maxLength)).uppercased()
+    }
+
     static func eraseWholeDisk(bsdName: String, filesystem: Filesystem, partitionScheme: PartitonScheme, partitionName: String) throws {
         guard DiskInspector.isBSDPath(path: bsdName) else {
             throw DiskEraserError.badBSDName
