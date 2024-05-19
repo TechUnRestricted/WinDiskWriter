@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E217A9522BFA6237003AEF03 /* DiskValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9512BFA6237003AEF03 /* DiskValidator.swift */; };
 		E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */; };
 		E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF52BEC18D200BE2E59 /* LogType.swift */; };
 		E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC082BD5301F0074C781 /* AppDelegate.swift */; };
@@ -91,6 +92,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E217A9512BFA6237003AEF03 /* DiskValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskValidator.swift; sourceTree = "<group>"; };
 		E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonTitleTransformer.swift; sourceTree = "<group>"; };
 		E2245EF52BEC18D200BE2E59 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		E234FC052BD5301F0074C781 /* WinDiskWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinDiskWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +247,7 @@
 				E2F4FB1D2BF3776100BFC59A /* Enums */,
 				E2245EF42BEC0DA700BE2E59 /* Transformers */,
 				E234FC1D2BD53C800074C781 /* DiskWriterViewModel.swift */,
+				E217A9512BFA6237003AEF03 /* DiskValidator.swift */,
 				E234FC192BD53B640074C781 /* DiskWriterViewController.swift */,
 				E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */,
 			);
@@ -700,6 +703,7 @@
 				E2A443B72BE4E28400701D56 /* ConfigurationValidationError.swift in Sources */,
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
 				E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */,
+				E217A9522BFA6237003AEF03 /* DiskValidator.swift in Sources */,
 				E2F37B802BD78088003D27BD /* ScrollableLinesView.swift in Sources */,
 				E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */,
 				E27FD5022BDE4E470096C605 /* ImageMountResult.swift in Sources */,
