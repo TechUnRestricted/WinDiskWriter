@@ -7,8 +7,8 @@
 
 import Foundation
 
-class DiskInfo: NSObject {
-    struct Volume {
+class DiskInfo: NSObject, Encodable {
+    struct Volume: Encodable {
         var kind: String?
         var isMountable: Bool?
         var name: String?
@@ -18,7 +18,7 @@ class DiskInfo: NSObject {
         var uuid: UUID?
     }
     
-    struct Media {
+    struct Media: Encodable {
         var appearanceTime: TimeInterval?
         var blockSize: Int?
         var bsdMajor: Int?
@@ -41,7 +41,7 @@ class DiskInfo: NSObject {
         var encryptionDetail: Int?
     }
     
-    struct Device {
+    struct Device: Encodable {
         var guid: Data?
         var isInternal: Bool?
         var model: String?
@@ -53,7 +53,7 @@ class DiskInfo: NSObject {
         var isTDMLocked: Bool?
     }
     
-    struct Bus {
+    struct Bus: Encodable {
         var name: String?
         var path: String?
     }
@@ -72,4 +72,3 @@ class DiskInfo: NSObject {
         super.init()
     }
 }
-

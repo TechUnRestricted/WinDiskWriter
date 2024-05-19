@@ -82,13 +82,13 @@ extension DiskWriterViewModel {
         let unfilteredDiskInfoList = DiskInspector.getDisksInfoList()
         
         var filteredDiskInfoList: [DiskInfo] = []
-        
+
         for diskInfo in unfilteredDiskInfoList {
             guard let isWholeDrive = diskInfo.media.isWhole,
                   let isWritable = diskInfo.media.isWritable else {
                       continue
                   }
-            
+
             if !isWholeDrive || !isWritable {
                 continue
             }
