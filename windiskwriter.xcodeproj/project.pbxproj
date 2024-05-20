@@ -11,6 +11,7 @@
 		E217A9542BFA7448003AEF03 /* Encodable+AsJSONString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9532BFA7448003AEF03 /* Encodable+AsJSONString.swift */; };
 		E217A9562BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */; };
 		E217A9582BFBB284003AEF03 /* FileManager+ApplicationStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */; };
+		E217A95A2BFBB946003AEF03 /* StorageSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9592BFBB946003AEF03 /* StorageSize.swift */; };
 		E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */; };
 		E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF52BEC18D200BE2E59 /* LogType.swift */; };
 		E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC082BD5301F0074C781 /* AppDelegate.swift */; };
@@ -99,6 +100,7 @@
 		E217A9532BFA7448003AEF03 /* Encodable+AsJSONString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+AsJSONString.swift"; sourceTree = "<group>"; };
 		E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+RequiredAdditionalSpace.swift"; sourceTree = "<group>"; };
 		E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+ApplicationStorage.swift"; sourceTree = "<group>"; };
+		E217A9592BFBB946003AEF03 /* StorageSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSize.swift; sourceTree = "<group>"; };
 		E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonTitleTransformer.swift; sourceTree = "<group>"; };
 		E2245EF52BEC18D200BE2E59 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		E234FC052BD5301F0074C781 /* WinDiskWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinDiskWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,6 +238,7 @@
 				E234FC082BD5301F0074C781 /* AppDelegate.swift */,
 				E234FC212BD53D780074C781 /* MainCoordinator.swift */,
 				E27FD4E72BDD2B450096C605 /* GlobalConstants.swift */,
+				E217A9592BFBB946003AEF03 /* StorageSize.swift */,
 				E256A7E22BE77393003E24D3 /* AppMenu.swift */,
 				E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */,
 				E234FC172BD531EE0074C781 /* main.swift */,
@@ -701,6 +704,7 @@
 				E27FD50C2BDE5A480096C605 /* DiskEraser.swift in Sources */,
 				E27FD50E2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift in Sources */,
 				E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */,
+				E217A95A2BFBB946003AEF03 /* StorageSize.swift in Sources */,
 				E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */,
 				E25A2AFC2BF15FAE00E515B7 /* Bundle+ListFiles.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,

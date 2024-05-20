@@ -7,6 +7,10 @@
 
 import Foundation
 
+fileprivate enum Constants {
+    static let requiredMacStorageSpace = StorageSize.gigabytes(count: 8)
+}
+
 final class DiskWriterViewModel: NSObject {
     @objc dynamic var imagePath: String = ""
     @objc dynamic var filesystem: Filesystem = .FAT32
@@ -38,8 +42,6 @@ final class DiskWriterViewModel: NSObject {
         super.init()
         
         setupNotificationCenterObservers()
-
-        checkMacStorage()
     }
     
     deinit {
@@ -71,13 +73,12 @@ final class DiskWriterViewModel: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
 
-    private func checkMacStorage() {
+    func checkMacStorage() {
         let applicationStorageURL = FileManager.applicationStorage
-        let requiredMinimumSpace: UInt64 = 8 * 1024 * 1024 * 1024
 
         guard let requiredAdditionalSpace = try? FileManager.requiredAdditionalSpace(
             for: applicationStorageURL,
-            size: requiredMinimumSpace
+               size: Constants.requiredMacStorageSpace
         ) else {
             return
         }

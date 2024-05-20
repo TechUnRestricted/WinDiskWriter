@@ -79,7 +79,13 @@ final class DiskWriterViewController: BaseViewController {
 
         viewModel?.updateDevices()
     }
-    
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+        viewModel?.checkMacStorage()
+    }
+
     private func arrangeViews() {
         addImageTargetGroupSelectionControls()
         addOptionControls()
