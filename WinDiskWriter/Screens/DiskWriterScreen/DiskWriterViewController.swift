@@ -7,16 +7,17 @@
 
 import Cocoa
 
+fileprivate enum Constants {
+    static let groupSpacing: CGFloat = 19.0
+    static let verticalSpacing: CGFloat = 6.0
+    static let horizontalSpacing: CGFloat = 12.0
+}
+
 final class DiskWriterViewController: BaseViewController {
-    private enum Constants {
-        static let groupSpacing: CGFloat = 19.0
-        
-        static let verticalSpacing: CGFloat = 6.0
-        static let horizontalSpacing: CGFloat = 12.0
-    }
-    
     private var viewModel: DiskWriterViewModel?
-    
+
+    private var viewAppearedBefore: Bool = false
+
     // MARK: - Image + Target Picker
     private let groupImageTargetSelectionVerticalStackView = VerticalStackView()
     
@@ -82,6 +83,12 @@ final class DiskWriterViewController: BaseViewController {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+
+        if viewAppearedBefore {
+            return
+        }
+
+        viewAppearedBefore = true
 
         viewModel?.checkMacStorage()
     }

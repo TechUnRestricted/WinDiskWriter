@@ -7,18 +7,18 @@
 
 import Cocoa
 
+fileprivate enum Constants {
+    static let tableViewAdditionalHeight: CGFloat = 12
+
+    static let tableColumnIdentifier: String = "Column"
+    static let cornerRadius: CGFloat = 10.0
+    static let borderColor: NSColor = .textColor.withAlphaComponent(0.25)
+    static let borderWidth: CGFloat = 1.5
+
+    static let yAxisPadding: CGFloat = 4.0
+}
+
 class ScrollableLinesView: NSScrollView {
-    private enum Constants {
-        static let tableViewAdditionalHeight: CGFloat = 12
-
-        static let tableColumnIdentifier: String = "Column"
-        static let cornerRadius: CGFloat = 10.0
-        static let borderColor: NSColor = .textColor.withAlphaComponent(0.25)
-        static let borderWidth: CGFloat = 1.5
-
-        static let yAxisPadding: CGFloat = 4.0
-    }
-
     override var allowsVibrancy: Bool {
         return true
     }
@@ -39,6 +39,47 @@ class ScrollableLinesView: NSScrollView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let menu = NSMenu(title: "Context Menu")
+        menu.autoenablesItems = false
+
+        let mousePoint = tableView.convert(event.locationInWindow, from: nil)
+        let row = tableView.row(at: mousePoint)
+
+        if row >= 0 && !tableView.selectedRowIndexes.contains(row) {
+            tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+        }
+
+        let copyItem = NSMenuItem(
+            title: "Copy",
+            action: #selector(copy(_:)),
+            keyEquivalent: ""
+        )
+
+        copyItem.target = self
+        menu.addItem(copyItem)
+
+        let selectedRows = tableView.selectedRowIndexes.count
+        if selectedRows == 0 {
+            copyItem.isEnabled = false
+        }
+
+        return menu
+    }
+
+    @objc func copy(_ sender: Any?) {
+        let selectedRows = tableView.selectedRowIndexes
+
+        let selectedStrings = selectedRows.compactMap {
+            items[safe: $0]
+        }
+
+        let clipboardString = selectedStrings.joined(separator: "\n")
+
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(clipboardString, forType: .string)
     }
 
     func appendRow(withContent content: String) {

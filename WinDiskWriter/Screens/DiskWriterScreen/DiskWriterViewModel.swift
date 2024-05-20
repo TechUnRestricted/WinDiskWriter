@@ -48,6 +48,21 @@ final class DiskWriterViewModel: NSObject {
         removeNotificationCenterObserver()
     }
 
+    func checkMacStorage() {
+        let applicationStorageURL = FileManager.applicationStorage
+
+        guard let requiredAdditionalSpace = try? FileManager.requiredAdditionalSpace(
+            for: applicationStorageURL,
+               size: Constants.requiredMacStorageSpace
+        ) else {
+            return
+        }
+
+        if requiredAdditionalSpace > 0 {
+            coordinator.showMacIsLowOnStorage(requiredAdditionalSpace: requiredAdditionalSpace)
+        }
+    }
+
     private func resetProcessProperties() {
         imageMountSystemEntity = nil
         erasedDiskVolumeURL = nil
@@ -71,21 +86,6 @@ final class DiskWriterViewModel: NSObject {
     
     private func removeNotificationCenterObserver() {
         NotificationCenter.default.removeObserver(self)
-    }
-
-    func checkMacStorage() {
-        let applicationStorageURL = FileManager.applicationStorage
-
-        guard let requiredAdditionalSpace = try? FileManager.requiredAdditionalSpace(
-            for: applicationStorageURL,
-               size: Constants.requiredMacStorageSpace
-        ) else {
-            return
-        }
-
-        if requiredAdditionalSpace > 0 {
-            coordinator.showMacIsLowOnStorage(requiredAdditionalSpace: requiredAdditionalSpace)
-        }
     }
 }
 
