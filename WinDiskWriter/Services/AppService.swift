@@ -26,4 +26,13 @@ class AppService: NSObject {
     static func openDevelopersGitHubPage() {
         URL(string: GlobalConstants.developersGitHubLink)?.open()
     }
+
+    static func hasEnoughStorage(for requiredSpace: UInt64) {
+        let fileURL = URL(fileURLWithPath: NSHomeDirectory())
+
+        let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityKey])
+        guard let availableSpace = values?.volumeAvailableCapacity, availableSpace < requiredSpace else {
+            return
+        }
+    }
 }

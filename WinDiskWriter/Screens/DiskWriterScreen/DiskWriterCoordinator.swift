@@ -157,4 +157,25 @@ extension DiskWriterCoordinator {
 
         alertBuilder.show(in: window)
     }
+
+    func showMacIsLowOnStorage(requiredAdditionalSpace: UInt64) {
+        guard let window = window else {
+            return
+        }
+
+        let formattedSize = requiredAdditionalSpace.formattedSize
+        let alertBuilder = AlertBuilder(
+            title: "Low Storage Warning",
+            subtitle: "Free additional \(formattedSize) to maintain optimal app performance",
+            image: NSImage(named: NSImage.cautionName)
+        )
+
+        alertBuilder.addButton(title: "Ignore")
+
+        alertBuilder.addButton(title: "Quit", preferDefault: true) {
+            AppService.terminate(self)
+        }
+
+        alertBuilder.show(in: window)
+    }
 }

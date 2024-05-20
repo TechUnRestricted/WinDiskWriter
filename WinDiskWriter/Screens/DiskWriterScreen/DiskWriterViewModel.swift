@@ -38,6 +38,8 @@ final class DiskWriterViewModel: NSObject {
         super.init()
         
         setupNotificationCenterObservers()
+
+        checkMacStorage()
     }
     
     deinit {
@@ -68,6 +70,22 @@ final class DiskWriterViewModel: NSObject {
     private func removeNotificationCenterObserver() {
         NotificationCenter.default.removeObserver(self)
     }
+
+    private func checkMacStorage() {
+        let applicationStorageURL = FileManager.applicationStorage
+        let requiredMinimumSpace: UInt64 = 8 * 1024 * 1024 * 1024
+
+        guard let requiredAdditionalSpace = try? FileManager.requiredAdditionalSpace(
+            for: applicationStorageURL,
+            size: requiredMinimumSpace
+        ) else {
+            return
+        }
+
+        if requiredAdditionalSpace > 0 {
+            coordinator.showMacIsLowOnStorage(requiredAdditionalSpace: requiredAdditionalSpace)
+        }
+    }
 }
 
 // MARK: - Assigned Actions
@@ -82,6 +100,8 @@ extension DiskWriterViewModel {
         let unfilteredDiskInfoList = DiskInspector.getDisksInfoList()
         
         var filteredDiskInfoList: [DiskInfo] = []
+
+        let foundDiskString = "Found disk"
 
         for diskInfo in unfilteredDiskInfoList {
             guard let isWholeDrive = diskInfo.media.isWhole,
@@ -103,7 +123,8 @@ extension DiskWriterViewModel {
                     continue
                 }
             }
-            
+
+            appendLogLine?(.info, "\(foundDiskString): \(diskInfo.shortDescription())")
             filteredDiskInfoList.append(diskInfo)
         }
         

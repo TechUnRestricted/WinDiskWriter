@@ -72,3 +72,14 @@ class DiskInfo: NSObject, Encodable {
         super.init()
     }
 }
+
+extension DiskInfo {
+    func shortDescription() -> String {
+        let vendor = (device.vendor ?? "Unknown Vendor").stripped()
+        let model = (device.model ?? "Unknown Model").stripped()
+        let size = media.size?.formattedSize ?? "??.?? MB"
+        let bsdName = media.bsdName ?? "BSDDrive"
+
+        return "\(vendor) \(model) [\(size)] (\(bsdName))"
+    }
+}

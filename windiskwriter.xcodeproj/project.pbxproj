@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E217A9522BFA6237003AEF03 /* DiskValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9512BFA6237003AEF03 /* DiskValidator.swift */; };
 		E217A9542BFA7448003AEF03 /* Encodable+AsJSONString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9532BFA7448003AEF03 /* Encodable+AsJSONString.swift */; };
+		E217A9562BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */; };
+		E217A9582BFBB284003AEF03 /* FileManager+ApplicationStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */; };
 		E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */; };
 		E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2245EF52BEC18D200BE2E59 /* LogType.swift */; };
 		E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC082BD5301F0074C781 /* AppDelegate.swift */; };
@@ -95,6 +97,8 @@
 /* Begin PBXFileReference section */
 		E217A9512BFA6237003AEF03 /* DiskValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskValidator.swift; sourceTree = "<group>"; };
 		E217A9532BFA7448003AEF03 /* Encodable+AsJSONString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+AsJSONString.swift"; sourceTree = "<group>"; };
+		E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+RequiredAdditionalSpace.swift"; sourceTree = "<group>"; };
+		E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+ApplicationStorage.swift"; sourceTree = "<group>"; };
 		E2245EF22BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonTitleTransformer.swift; sourceTree = "<group>"; };
 		E2245EF52BEC18D200BE2E59 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		E234FC052BD5301F0074C781 /* WinDiskWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinDiskWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -462,6 +466,8 @@
 			isa = PBXGroup;
 			children = (
 				E27FD4EE2BDE239D0096C605 /* FileManager+SetAllPermissions.swift */,
+				E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */,
+				E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */,
 			);
 			path = FileManager;
 			sourceTree = "<group>";
@@ -743,6 +749,7 @@
 				E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */,
 				E2F37B7C2BD6F0F6003D27BD /* Collection+Safe.swift in Sources */,
 				E27FD4FD2BDE3B3C0096C605 /* String+Stripped.swift in Sources */,
+				E217A9562BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift in Sources */,
 				E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */,
 				E2F37B732BD6B4BC003D27BD /* PickerView.swift in Sources */,
 				E2F37B662BD58536003D27BD /* LabelView.swift in Sources */,
@@ -750,6 +757,7 @@
 				E27FD4EF2BDE239D0096C605 /* FileManager+SetAllPermissions.swift in Sources */,
 				E2F37B7A2BD6E650003D27BD /* BaseStackView.swift in Sources */,
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
+				E217A9582BFBB284003AEF03 /* FileManager+ApplicationStorage.swift in Sources */,
 				E25A2AF32BF14B0500E515B7 /* FileReader.swift in Sources */,
 				E25A2AF12BF122EA00E515B7 /* ScrollableTextView.swift in Sources */,
 				E2F4FB162BF36EB700BFC59A /* CommandLineError.swift in Sources */,
