@@ -192,7 +192,14 @@ final class DiskWriterViewController: BaseViewController {
             withKeyPath: #keyPath(DiskWriterViewModel.installLegacyBIOSBootSector),
             options: [.continuouslyUpdatesValue: true]
         )
-        
+
+        currentProgressHorizontalStackView.bind(
+            .hidden,
+            to: AppService.shared,
+            withKeyPath: #keyPath(AppService.isIdle),
+            options: [.continuouslyUpdatesValue: true]
+        )
+
         startStopRoundedButtonView.bind(
             .title,
             to: AppService.shared,
