@@ -24,6 +24,12 @@
 		E234FC252BD53E540074C781 /* DiskWriterCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */; };
 		E234FC2E2BD543A20074C781 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC2D2BD543A20074C781 /* Coordinator.swift */; };
 		E234FC302BD543D90074C781 /* NSView+MakeCostraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */; };
+		E236E2442C0348D600E83056 /* DiskWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2432C0348D600E83056 /* DiskWriter.swift */; };
+		E236E2472C034A5C00E83056 /* WriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2462C034A5C00E83056 /* WriteOperation.swift */; };
+		E236E2492C03596A00E83056 /* URL+PathType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2482C03596A00E83056 /* URL+PathType.swift */; };
+		E236E24C2C03609D00E83056 /* DiskWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E24B2C03609D00E83056 /* DiskWriterError.swift */; };
+		E236E24F2C0360C400E83056 /* WriteActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E24E2C0360C400E83056 /* WriteActionType.swift */; };
+		E236E2512C0360E600E83056 /* DiskWriterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */; };
 		E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */; };
 		E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */; };
 		E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */; };
@@ -115,6 +121,12 @@
 		E234FC242BD53E540074C781 /* DiskWriterCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterCoordinator.swift; sourceTree = "<group>"; };
 		E234FC2D2BD543A20074C781 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		E234FC2F2BD543D90074C781 /* NSView+MakeCostraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+MakeCostraints.swift"; sourceTree = "<group>"; };
+		E236E2432C0348D600E83056 /* DiskWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriter.swift; sourceTree = "<group>"; };
+		E236E2462C034A5C00E83056 /* WriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteOperation.swift; sourceTree = "<group>"; };
+		E236E2482C03596A00E83056 /* URL+PathType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+PathType.swift"; sourceTree = "<group>"; };
+		E236E24B2C03609D00E83056 /* DiskWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterError.swift; sourceTree = "<group>"; };
+		E236E24E2C0360C400E83056 /* WriteActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteActionType.swift; sourceTree = "<group>"; };
+		E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterDelegate.swift; sourceTree = "<group>"; };
 		E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
@@ -292,6 +304,42 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		E236E2452C0348D900E83056 /* DiskWriter */ = {
+			isa = PBXGroup;
+			children = (
+				E236E24A2C03609300E83056 /* Errors */,
+				E236E24D2C0360B700E83056 /* Enums */,
+				E236E2522C0360EE00E83056 /* Protocols */,
+				E236E2432C0348D600E83056 /* DiskWriter.swift */,
+			);
+			path = DiskWriter;
+			sourceTree = "<group>";
+		};
+		E236E24A2C03609300E83056 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				E236E24B2C03609D00E83056 /* DiskWriterError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		E236E24D2C0360B700E83056 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				E236E24E2C0360C400E83056 /* WriteActionType.swift */,
+				E236E2462C034A5C00E83056 /* WriteOperation.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		E236E2522C0360EE00E83056 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		E23E6E262BDB980800362574 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				E27FD4E92BDD2C160096C605 /* URL+Open.swift */,
+				E236E2482C03596A00E83056 /* URL+PathType.swift */,
 				E28BBEBC2BE683C5008A7750 /* URL+MountPoint.swift */,
 			);
 			path = URL;
@@ -384,6 +433,7 @@
 				E2A08CDE2BDED21A00E354BB /* ExecuteWithPrivileges */,
 				E2F4FB122BF36E8B00BFC59A /* FileReader */,
 				E2F4FB142BF36EAC00BFC59A /* CommandLine */,
+				E236E2452C0348D900E83056 /* DiskWriter */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
@@ -702,6 +752,7 @@
 			files = (
 				E234FC0B2BD5301F0074C781 /* BaseViewController.swift in Sources */,
 				E27FD50C2BDE5A480096C605 /* DiskEraser.swift in Sources */,
+				E236E24C2C03609D00E83056 /* DiskWriterError.swift in Sources */,
 				E27FD50E2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift in Sources */,
 				E2F4FB112BF36E7500BFC59A /* HDIUtilError.swift in Sources */,
 				E217A95A2BFBB946003AEF03 /* StorageSize.swift in Sources */,
@@ -709,6 +760,7 @@
 				E25A2AFC2BF15FAE00E515B7 /* Bundle+ListFiles.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
 				E28BBEBD2BE683C5008A7750 /* URL+MountPoint.swift in Sources */,
+				E236E24F2C0360C400E83056 /* WriteActionType.swift in Sources */,
 				E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
 				E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */,
@@ -733,6 +785,7 @@
 				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
+				E236E2442C0348D600E83056 /* DiskWriter.swift in Sources */,
 				E27FD4EA2BDD2C160096C605 /* URL+Open.swift in Sources */,
 				E27FD4E12BDD1D3C0096C605 /* WeakProxy.swift in Sources */,
 				E2F37B712BD69D2A003D27BD /* BaseButtonView.swift in Sources */,
@@ -742,12 +795,14 @@
 				E27FD5042BDE4EDB0096C605 /* HDIUtilSystemEntity.swift in Sources */,
 				E234FC1A2BD53B640074C781 /* DiskWriterViewController.swift in Sources */,
 				E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */,
+				E236E2492C03596A00E83056 /* URL+PathType.swift in Sources */,
 				E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */,
 				E27C673B2BEFD67300D7F692 /* NSImage+ApplicationIcon.swift in Sources */,
 				E2F4FB0E2BF36E4D00BFC59A /* DiskEraserError.swift in Sources */,
 				E27FD4EC2BDD63790096C605 /* Filesystem.swift in Sources */,
 				E27FD4F62BDE35910096C605 /* CommandLine.swift in Sources */,
 				E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */,
+				E236E2512C0360E600E83056 /* DiskWriterDelegate.swift in Sources */,
 				E2F37B7E2BD6F1C2003D27BD /* SwitchPickerView.swift in Sources */,
 				E25A2AF52BF14B9A00E515B7 /* FileReaderError.swift in Sources */,
 				E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */,
@@ -760,6 +815,7 @@
 				E25A2B032BF29FB400E515B7 /* AppRelauncherError.swift in Sources */,
 				E27FD4EF2BDE239D0096C605 /* FileManager+SetAllPermissions.swift in Sources */,
 				E2F37B7A2BD6E650003D27BD /* BaseStackView.swift in Sources */,
+				E236E2472C034A5C00E83056 /* WriteOperation.swift in Sources */,
 				E27FD4E82BDD2B450096C605 /* GlobalConstants.swift in Sources */,
 				E217A9582BFBB284003AEF03 /* FileManager+ApplicationStorage.swift in Sources */,
 				E25A2AF32BF14B0500E515B7 /* FileReader.swift in Sources */,
