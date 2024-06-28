@@ -10,12 +10,12 @@ import Foundation
 indirect enum WriteOperation {
     case createFolder(
         destination: URL,
-        children: [WriteOperation]?
+        children: [WriteOperation]? = nil
     )
 
     case copyFile(
         source: URL,
         destination: URL,
-        children: [WriteOperation]?
+        children: [WriteOperation]? = nil
     )
 }

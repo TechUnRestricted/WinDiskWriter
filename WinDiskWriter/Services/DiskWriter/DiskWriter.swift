@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DiskWriter {
+struct DiskWriterConfiguration {
     let sourceURL: URL
     let destinationURL: URL
 
@@ -15,62 +15,64 @@ class DiskWriter {
 
     let patchInstallerRequirements: Bool
     let installLegacyBootSector: Bool
+}
 
-    weak var delegate: DiskWriterDelegate?
-
-    private(set) var isProcessRunning = false {
-        didSet {
-            if !isProcessRunning {
-                isCancellationScheduled = false
-            }
-        }
+class DiskWriter {
+    enum ActionHandler {
+        case shouldContinue
+        case shouldStop
+        case shouldSkip
     }
 
-    private(set) var isCancellationScheduled = false
+    let configuration: DiskWriterConfiguration
 
-    private(set) var writeOperations: [WriteOperation] = []
-
-    private let dispatchQueue = DispatchQueue(label: "DiskWriter Queue")
-
-    init(sourceURL: URL, destinationURL: URL, is64BitFilesystem: Bool, patchInstallerRequirements: Bool, installLegacyBootSector: Bool) {
-        self.sourceURL = sourceURL
-        self.destinationURL = destinationURL
-
-        self.is64BitFilesystem = is64BitFilesystem
-
-        self.patchInstallerRequirements = patchInstallerRequirements
-        self.installLegacyBootSector = installLegacyBootSector
+    private init(configuration: DiskWriterConfiguration) {
+        self.configuration = configuration
     }
 
-    func start() throws {
-        guard !isProcessRunning else {
-            throw DiskWriterError.processAlreadyRunning
-        }
+    static func write(
+        with configuration: DiskWriterConfiguration,
+        async: Bool = true,
+        actionHandler: @escaping (DiskWriterActionType) -> ActionHandler,
+        onCompletion: @escaping () -> (Void)
+    ) {
+        // let instance = DiskWriter(configuration: configuration)
 
-        isProcessRunning = true
-
-        dispatchQueue.async { [weak self] in
-            guard let self = self else { return }
-
-            defer { self.isProcessRunning = false }
-
-            self.initializeQueue()
-        }
-    }
-
-    func stop() {
 
     }
 }
 
 extension DiskWriter {
-    private func initializeQueue() {
-        writeOperations = []
+    func processDirectory(at url: URL) throws -> [WriteOperation]? {
+        var operations: [WriteOperation] = []
 
-        // ...
-    }
+        let directoryContents = try FileManager.default.contentsOfDirectory(
+            at: url,
+            includingPropertiesForKeys: nil,
+            options: [.skipsHiddenFiles]
+        )
 
-    private func executeQueue() {
-        // ...
+        for directoryContent in directoryContents {
+            switch directoryContent.pathType {
+            case .directory:
+                let children = try processDirectory(at: directoryContent)
+
+                operations.append(.createFolder(
+                    destination: configuration.destinationURL.appendingPathComponent(directoryContent.lastPathComponent),
+                    children: children
+                ))
+            case .file:
+                operations.append(
+                    .copyFile(
+                        source: directoryContent,
+                        destination: configuration.destinationURL.appendingPathComponent(directoryContent.lastPathComponent)
+                    )
+                )
+            case .unknown, .symbolicLink:
+                continue
+            }
+        }
+
+        return operations.isEmpty ? nil : operations
     }
 }

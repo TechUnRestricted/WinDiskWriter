@@ -32,9 +32,9 @@ class AlertBuilder {
         }
 
         if let handler = handler {
-            let uniqueTag = alert.buttons.count - 1
+            let uniqueID = button.hashValue
 
-            responseHandlers[uniqueTag] = handler
+            responseHandlers[uniqueID] = handler
         }
 
         return self
@@ -42,8 +42,14 @@ class AlertBuilder {
 
     func show(in window: NSWindow) {
         alert.beginSheetModal(for: window) { result in
-            let buttonKey = NSApplication.ModalResponse.alertFirstButtonReturn.rawValue - result.rawValue
-            self.responseHandlers[buttonKey]?()
+            let buttonIndex = (result.rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue)
+
+            guard let clickedButton = self.alert.buttons[safe: buttonIndex] else {
+                return
+            }
+
+            let uniqueID = clickedButton.hashValue
+            self.responseHandlers[uniqueID]?()
         }
     }
 }

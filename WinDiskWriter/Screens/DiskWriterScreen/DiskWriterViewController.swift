@@ -16,8 +16,6 @@ fileprivate enum Constants {
 final class DiskWriterViewController: BaseViewController {
     private var viewModel: DiskWriterViewModel?
 
-    private var viewAppearedBefore: Bool = false
-
     // MARK: - Image + Target Picker
     private let groupImageTargetSelectionVerticalStackView = VerticalStackView()
     
@@ -81,15 +79,7 @@ final class DiskWriterViewController: BaseViewController {
         viewModel?.updateDevices()
     }
 
-    override func viewDidAppear() {
-        super.viewDidAppear()
-
-        if viewAppearedBefore {
-            return
-        }
-
-        viewAppearedBefore = true
-
+    override func viewWillAppearFirstTime() {
         viewModel?.checkMacStorage()
     }
 

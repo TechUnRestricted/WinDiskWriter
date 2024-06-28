@@ -48,6 +48,11 @@ class BaseViewController: NSViewController {
         }
 
         arrangeSubviews()
+        viewWillAppearFirstTime()
+    }
+
+    func viewWillAppearFirstTime() {
+
     }
 
     private func arrangeSubviews() {

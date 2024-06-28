@@ -28,8 +28,7 @@
 		E236E2472C034A5C00E83056 /* WriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2462C034A5C00E83056 /* WriteOperation.swift */; };
 		E236E2492C03596A00E83056 /* URL+PathType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2482C03596A00E83056 /* URL+PathType.swift */; };
 		E236E24C2C03609D00E83056 /* DiskWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E24B2C03609D00E83056 /* DiskWriterError.swift */; };
-		E236E24F2C0360C400E83056 /* WriteActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E24E2C0360C400E83056 /* WriteActionType.swift */; };
-		E236E2512C0360E600E83056 /* DiskWriterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */; };
+		E236E24F2C0360C400E83056 /* DiskWriterActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236E24E2C0360C400E83056 /* DiskWriterActionType.swift */; };
 		E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */; };
 		E256A7D62BE6AB9A003E24D3 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */; };
 		E256A7DE2BE77286003E24D3 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */; };
@@ -125,8 +124,7 @@
 		E236E2462C034A5C00E83056 /* WriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteOperation.swift; sourceTree = "<group>"; };
 		E236E2482C03596A00E83056 /* URL+PathType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+PathType.swift"; sourceTree = "<group>"; };
 		E236E24B2C03609D00E83056 /* DiskWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterError.swift; sourceTree = "<group>"; };
-		E236E24E2C0360C400E83056 /* WriteActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteActionType.swift; sourceTree = "<group>"; };
-		E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterDelegate.swift; sourceTree = "<group>"; };
+		E236E24E2C0360C400E83056 /* DiskWriterActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterActionType.swift; sourceTree = "<group>"; };
 		E23E6E242BDB980400362574 /* VerticallyCenteredTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		E256A7D52BE6AB9A003E24D3 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		E256A7DD2BE77286003E24D3 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			children = (
 				E236E24A2C03609300E83056 /* Errors */,
 				E236E24D2C0360B700E83056 /* Enums */,
-				E236E2522C0360EE00E83056 /* Protocols */,
 				E236E2432C0348D600E83056 /* DiskWriter.swift */,
 			);
 			path = DiskWriter;
@@ -326,18 +323,10 @@
 		E236E24D2C0360B700E83056 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				E236E24E2C0360C400E83056 /* WriteActionType.swift */,
+				E236E24E2C0360C400E83056 /* DiskWriterActionType.swift */,
 				E236E2462C034A5C00E83056 /* WriteOperation.swift */,
 			);
 			path = Enums;
-			sourceTree = "<group>";
-		};
-		E236E2522C0360EE00E83056 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				E236E2502C0360E600E83056 /* DiskWriterDelegate.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		E23E6E262BDB980800362574 /* Cells */ = {
@@ -760,7 +749,7 @@
 				E25A2AFC2BF15FAE00E515B7 /* Bundle+ListFiles.swift in Sources */,
 				E2F37B6F2BD69C2D003D27BD /* TextInputView.swift in Sources */,
 				E28BBEBD2BE683C5008A7750 /* URL+MountPoint.swift in Sources */,
-				E236E24F2C0360C400E83056 /* WriteActionType.swift in Sources */,
+				E236E24F2C0360C400E83056 /* DiskWriterActionType.swift in Sources */,
 				E256A7E32BE77393003E24D3 /* AppMenu.swift in Sources */,
 				E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */,
 				E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */,
@@ -802,7 +791,6 @@
 				E27FD4EC2BDD63790096C605 /* Filesystem.swift in Sources */,
 				E27FD4F62BDE35910096C605 /* CommandLine.swift in Sources */,
 				E23E6E252BDB980400362574 /* VerticallyCenteredTextFieldCell.swift in Sources */,
-				E236E2512C0360E600E83056 /* DiskWriterDelegate.swift in Sources */,
 				E2F37B7E2BD6F1C2003D27BD /* SwitchPickerView.swift in Sources */,
 				E25A2AF52BF14B9A00E515B7 /* FileReaderError.swift in Sources */,
 				E27FD4DE2BDD0B3C0096C605 /* SlideShowedButton.swift in Sources */,
