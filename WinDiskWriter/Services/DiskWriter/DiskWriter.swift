@@ -26,9 +26,23 @@ class DiskWriter {
     private let process: OperationHandler
     private let completion: CompletionHandler
     private let progressUpdate: ProgressHandler
-    private let error: ErrorHandler
+    private let errorHandler: ErrorHandler
 
     private var shouldStop: Bool = false
+
+    private let fileManager = FileManager()
+
+    private init(
+        progressUpdate: @escaping ProgressHandler,
+        process: @escaping OperationHandler,
+        error: @escaping ErrorHandler,
+        completion: @escaping CompletionHandler
+    ) {
+        self.progressUpdate = progressUpdate
+        self.process = process
+        self.errorHandler = error
+        self.completion = completion
+    }
 
     static func start(
         with queue: [DiskOperation],
@@ -51,33 +65,23 @@ class DiskWriter {
         completion()
     }
 
-    private init(
-        progressUpdate: @escaping ProgressHandler,
-        process: @escaping OperationHandler,
-        error: @escaping ErrorHandler,
-        completion: @escaping CompletionHandler
-    ) {
-        self.progressUpdate = progressUpdate
-        self.process = process
-        self.error = error
-        self.completion = completion
-    }
-}
-
-private extension DiskWriter {
-    func processOperations(_ operations: [DiskOperation]) {
+    private func processOperations(_ operations: [DiskOperation]) {
         for operation in operations {
             if shouldStop { break }
 
+            process(operation)
+
             switch operation {
-            case .createDirectory(let origin, let destination):
-                handleCreateDirectory(origin: origin, destination: destination)
+            case .createDirectory(let path):
+                handleCreateDirectory(path: path)
             case .writeFile(let origin, let destination):
                 handleWriteFile(origin: origin, destination: destination)
             case .removeFile(let path):
                 handleRemoveFile(path: path)
             case .writeBytes(let origin, let range):
                 handleWriteBytes(origin: origin, range: range)
+            case .wimSplit(origin: let origin, destination: let destination):
+                handleWimSplit(origin: origin, destination: destination)
             case .wimExtract(let origin, let file, let destination):
                 handleWimExtract(origin: origin, file: file, destination: destination)
             case .wimUpdateProperty(let path, let key, let value):
@@ -86,37 +90,64 @@ private extension DiskWriter {
                 handleWimConvertToWim(origin: origin, destination: destination)
             case .subQueue(let operations):
                 processOperations(operations)
+
             }
         }
 
         stop()
     }
 
-    func handleCreateDirectory(origin: URL, destination: URL) {
-        print("Creating directory from \(origin) to \(destination)")
+    private func handleOperationError(_ error: Error) {
+        let shouldStop = (errorHandler(error) == .stop)
+
+        if shouldStop {
+            requestStop()
+        }
+    }
+}
+
+private extension DiskWriter {
+    func handleCreateDirectory(path: URL) {
+        do {
+            try fileManager.createDirectory(
+                at: path,
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
+        } catch {
+            handleOperationError(error)
+        }
     }
 
     func handleWriteFile(origin: URL, destination: URL) {
-        print("Writing file from \(origin) to \(destination)")
+        
     }
 
     func handleRemoveFile(path: URL) {
-        print("Removing file at \(path)")
+        do {
+            try fileManager.removeItem(at: path)
+        } catch {
+            handleOperationError(error)
+        }
     }
 
     func handleWriteBytes(origin: URL, range: ClosedRange<Int>) {
-        print("Writing bytes from \(origin) with range \(range)")
+
+    }
+
+    func handleWimSplit(origin: URL, destination: URL) {
+        
     }
 
     func handleWimExtract(origin: URL, file: URL, destination: URL) {
-        print("Extracting file \(file) from \(origin) to \(destination)")
+
     }
 
     func handleWimUpdateProperty(path: URL, key: String, value: String) {
-        print("Updating property \(key) with value \(value) at \(path)")
+
     }
 
     func handleWimConvertToWim(origin: URL, destination: URL) {
-        print("Converting \(origin) to WIM at \(destination)")
+
     }
 }
