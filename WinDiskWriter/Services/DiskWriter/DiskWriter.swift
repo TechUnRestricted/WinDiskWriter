@@ -7,72 +7,124 @@
 
 import Foundation
 
-struct DiskWriterConfiguration {
-    let sourceURL: URL
-    let destinationURL: URL
+enum ErrorHandling {
+    case skip
+    case stop
+}
 
-    let is64BitFilesystem: Bool
+enum DiskOperation {
+    case createDirectory(origin: URL, destination: URL)
+    case writeFile(origin: URL, destination: URL)
+    case removeFile(path: URL)
+    case writeBytes(origin: URL, range: ClosedRange<Int>)
+    case wimExtract(origin: URL, file: URL, destination: URL)
+    case wimUpdateProperty(path: URL, key: String, value: String)
+    case wimConvertToWim(origin: URL, destination: URL)
+    case subQueue(operations: [DiskOperation])
 
-    let patchInstallerRequirements: Bool
-    let installLegacyBootSector: Bool
+    static func createQueue(with url: URL) -> [DiskOperation] {
+        return [
+            .createDirectory(origin: url, destination: url.appendingPathComponent("NewDirectory")),
+            .writeFile(origin: url.appendingPathComponent("source.txt"), destination: url.appendingPathComponent("destination.txt")),
+            .subQueue(operations: [
+                .removeFile(path: url.appendingPathComponent("oldFile.txt")),
+                .writeBytes(origin: url.appendingPathComponent("data.bin"), range: 0...100)
+            ])
+        ]
+    }
+}
+
+struct ProgressUpdate {
+    let size: UInt64
+    let written: UInt64
 }
 
 class DiskWriter {
-    enum ActionHandler {
-        case shouldContinue
-        case shouldStop
-        case shouldSkip
+    typealias OperationHandler = ((DiskOperation) -> Void)
+    typealias ProgressHandler = ((ProgressUpdate) -> Void)
+    typealias ErrorHandler = ((Error) -> ErrorHandling)
+    typealias CompletionHandler = (() -> Void)
+
+    private let process: OperationHandler
+    private let completion: CompletionHandler
+    private let progressUpdate: ProgressHandler
+    private let error: ErrorHandler
+
+    private var shouldStop: Bool = false
+
+    static func start(
+        with queue: [DiskOperation],
+        progressUpdate: @escaping ProgressHandler,
+        process: @escaping OperationHandler,
+        error: @escaping ErrorHandler,
+        completion: @escaping CompletionHandler
+    ) -> DiskWriter {
+        let instance = DiskWriter(progressUpdate: progressUpdate, process: process, error: error, completion: completion)
+        instance.processOperations(queue)
+
+        return instance
     }
 
-    let configuration: DiskWriterConfiguration
-
-    private init(configuration: DiskWriterConfiguration) {
-        self.configuration = configuration
-    }
-
-    static func write(
-        with configuration: DiskWriterConfiguration,
-        async: Bool = true,
-        actionHandler: @escaping (DiskWriterActionType) -> ActionHandler,
-        onCompletion: @escaping () -> (Void)
+    private init(
+        progressUpdate: @escaping ProgressHandler,
+        process: @escaping OperationHandler,
+        error: @escaping ErrorHandler,
+        completion: @escaping CompletionHandler
     ) {
-        // let instance = DiskWriter(configuration: configuration)
-
-
+        self.progressUpdate = progressUpdate
+        self.process = process
+        self.error = error
+        self.completion = completion
     }
-}
 
-extension DiskWriter {
-    func processDirectory(at url: URL) throws -> [WriteOperation]? {
-        var operations: [WriteOperation] = []
-
-        let directoryContents = try FileManager.default.contentsOfDirectory(
-            at: url,
-            includingPropertiesForKeys: nil,
-            options: [.skipsHiddenFiles]
-        )
-
-        for directoryContent in directoryContents {
-            switch directoryContent.pathType {
-            case .directory:
-                let children = try processDirectory(at: directoryContent)
-
-                operations.append(.createFolder(
-                    destination: configuration.destinationURL.appendingPathComponent(directoryContent.lastPathComponent),
-                    children: children
-                ))
-            case .file:
-                operations.append(
-                    .copyFile(
-                        source: directoryContent,
-                        destination: configuration.destinationURL.appendingPathComponent(directoryContent.lastPathComponent)
-                    )
-                )
-            case .unknown, .symbolicLink:
-                continue
+    private func processOperations(_ operations: [DiskOperation]) {
+        for operation in operations {
+            switch operation {
+            case .createDirectory(let origin, let destination):
+                handleCreateDirectory(origin: origin, destination: destination)
+            case .writeFile(let origin, let destination):
+                handleWriteFile(origin: origin, destination: destination)
+            case .removeFile(let path):
+                handleRemoveFile(path: path)
+            case .writeBytes(let origin, let range):
+                handleWriteBytes(origin: origin, range: range)
+            case .wimExtract(let origin, let file, let destination):
+                handleWimExtract(origin: origin, file: file, destination: destination)
+            case .wimUpdateProperty(let path, let key, let value):
+                handleWimUpdateProperty(path: path, key: key, value: value)
+            case .wimConvertToWim(let origin, let destination):
+                handleWimConvertToWim(origin: origin, destination: destination)
+            case .subQueue(let operations):
+                processOperations(operations)
             }
         }
+    }
 
-        return operations.isEmpty ? nil : operations
+    private func handleCreateDirectory(origin: URL, destination: URL) {
+        print("Creating directory from \(origin) to \(destination)")
+    }
+
+    private func handleWriteFile(origin: URL, destination: URL) {
+        print("Writing file from \(origin) to \(destination)")
+    }
+
+    private func handleRemoveFile(path: URL) {
+        print("Removing file at \(path)")
+    }
+
+    private func handleWriteBytes(origin: URL, range: ClosedRange<Int>) {
+        print("Writing bytes from \(origin) with range \(range)")
+    }
+
+    private func handleWimExtract(origin: URL, file: URL, destination: URL) {
+        print("Extracting file \(file) from \(origin) to \(destination)")
+    }
+
+    private func handleWimUpdateProperty(path: URL, key: String, value: String) {
+        print("Updating property \(key) with value \(value) at \(path)")
+    }
+
+    private func handleWimConvertToWim(origin: URL, destination: URL) {
+        print("Converting \(origin) to WIM at \(destination)")
     }
 }
