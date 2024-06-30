@@ -8,11 +8,11 @@
 import Foundation
 
 struct StorageSize {
-    static func bytes(count: UInt64 = 1) -> UInt64 { count * 1 }
-    static func kilobytes(count: UInt64 = 1) -> UInt64 { count * 1_024 }
-    static func megabytes(count: UInt64 = 1) -> UInt64 { count * 1_024 * 1_024 }
-    static func gigabytes(count: UInt64 = 1) -> UInt64 { count * 1_024 * 1_024 * 1_024 }
-    static func terabytes(count: UInt64 = 1) -> UInt64 { count * 1_024 * 1_024 * 1_024 * 1_024 }
-    static func petabytes(count: UInt64 = 1) -> UInt64 { count * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 }
-    static func exabytes(count: UInt64 = 1) -> UInt64 { count * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 }
+    static func bytes(count: Int64) -> Int64 { count * 1 }
+    static func kilobytes(count: Int64) -> Int64 { count * 1_024 }
+    static func megabytes(count: Int64) -> Int64 { count * 1_024 * 1_024 }
+    static func gigabytes(count: Int64) -> Int64 { count * 1_024 * 1_024 * 1_024 }
+    static func terabytes(count: Int64) -> Int64 { count * 1_024 * 1_024 * 1_024 * 1_024 }
+    static func petabytes(count: Int64) -> Int64 { count * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 }
+    static func exabytes(count: Int64) -> Int64 { count * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 * 1_024 }
 }

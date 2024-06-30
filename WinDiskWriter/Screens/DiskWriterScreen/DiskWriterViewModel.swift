@@ -8,7 +8,7 @@
 import Foundation
 
 fileprivate enum Constants {
-    static let requiredMacStorageSpace = StorageSize.gigabytes(count: 8)
+    static let requiredMacStorageSpace = UInt64(StorageSize.gigabytes(count: 8))
 }
 
 final class DiskWriterViewModel: NSObject {

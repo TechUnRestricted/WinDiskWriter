@@ -40,6 +40,8 @@
 		E25A2B032BF29FB400E515B7 /* AppRelauncherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */; };
 		E25A2B052BF29FC200E515B7 /* AuthorizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */; };
 		E269F7E02C31B76F00F96444 /* DiskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E269F7DF2C31B76F00F96444 /* DiskOperation.swift */; };
+		E269F7E22C31D2D500F96444 /* FileManager+FileSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E269F7E12C31D2D500F96444 /* FileManager+FileSize.swift */; };
+		E269F7E42C31DAF200F96444 /* DiskWriterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E269F7E32C31DAF200F96444 /* DiskWriterError.swift */; };
 		E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C671F2BEF940500D7F692 /* AboutViewModel.swift */; };
 		E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67212BEF941100D7F692 /* AboutViewController.swift */; };
 		E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67232BEF942900D7F692 /* AboutCoordinator.swift */; };
@@ -134,6 +136,8 @@
 		E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncherError.swift; sourceTree = "<group>"; };
 		E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationError.swift; sourceTree = "<group>"; };
 		E269F7DF2C31B76F00F96444 /* DiskOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOperation.swift; sourceTree = "<group>"; };
+		E269F7E12C31D2D500F96444 /* FileManager+FileSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+FileSize.swift"; sourceTree = "<group>"; };
+		E269F7E32C31DAF200F96444 /* DiskWriterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWriterError.swift; sourceTree = "<group>"; };
 		E27C671F2BEF940500D7F692 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		E27C67212BEF941100D7F692 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E27C67232BEF942900D7F692 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 		E236E24A2C03609300E83056 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
+				E269F7E32C31DAF200F96444 /* DiskWriterError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 				E27FD4EE2BDE239D0096C605 /* FileManager+SetAllPermissions.swift */,
 				E217A9552BFBB133003AEF03 /* FileManager+RequiredAdditionalSpace.swift */,
 				E217A9572BFBB284003AEF03 /* FileManager+ApplicationStorage.swift */,
+				E269F7E12C31D2D500F96444 /* FileManager+FileSize.swift */,
 			);
 			path = FileManager;
 			sourceTree = "<group>";
@@ -765,6 +771,7 @@
 				E2F4FB0A2BF36DF600BFC59A /* DiskInspectorError.swift in Sources */,
 				E27C67392BEFC34B00D7F692 /* DraggableImageView.swift in Sources */,
 				E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */,
+				E269F7E42C31DAF200F96444 /* DiskWriterError.swift in Sources */,
 				E27FD5112BDE6AB50096C605 /* DiskMenuItem.swift in Sources */,
 				E27FD4FA2BDE38D00096C605 /* LegacyExceptionHandler.m in Sources */,
 				E236E2442C0348D600E83056 /* DiskWriter.swift in Sources */,
@@ -811,6 +818,7 @@
 				E2245EF62BEC18D200BE2E59 /* LogType.swift in Sources */,
 				E2F37B682BD59DEE003D27BD /* HorizontalStackView.swift in Sources */,
 				E29C8ACB2BEB7100006A50D9 /* AppService.swift in Sources */,
+				E269F7E22C31D2D500F96444 /* FileManager+FileSize.swift in Sources */,
 				E2245EF32BEC0D4100BE2E59 /* ActionButtonTitleTransformer.swift in Sources */,
 				E27FD4E62BDD1F800096C605 /* Date+AdjustedYear.swift in Sources */,
 				E27FD5002BDE47A20096C605 /* HDIUtil.swift in Sources */,

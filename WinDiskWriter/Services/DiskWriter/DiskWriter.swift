@@ -28,9 +28,10 @@ class DiskWriter {
     private let progressUpdate: ProgressHandler
     private let errorHandler: ErrorHandler
 
-    private var shouldStop: Bool = false
-
     private let fileManager = FileManager()
+    private let bufferSize = Int(StorageSize.megabytes(count: 4))
+
+    private var shouldStop: Bool = false
 
     private init(
         progressUpdate: @escaping ProgressHandler,
@@ -90,7 +91,6 @@ class DiskWriter {
                 handleWimConvertToWim(origin: origin, destination: destination)
             case .subQueue(let operations):
                 processOperations(operations)
-
             }
         }
 
@@ -120,7 +120,58 @@ private extension DiskWriter {
     }
 
     func handleWriteFile(origin: URL, destination: URL) {
-        
+        guard let inputStream = InputStream(url: origin) else {
+            handleOperationError(DiskWriterError.cannotOpenInputFile)
+            return
+        }
+
+        guard let outputStream = OutputStream(url: destination, append: false) else {
+            handleOperationError(DiskWriterError.cannotOpenOutputFile)
+            return
+        }
+
+        inputStream.open()
+        defer { inputStream.close() }
+
+        outputStream.open()
+        defer { outputStream.close() }
+
+        guard let fileSize = fileManager.fileSize(at: origin.path) else {
+            handleOperationError(DiskWriterError.cannotDetermineFileSize)
+            return
+        }
+
+        var buffer = [UInt8](repeating: 0, count: bufferSize)
+        var totalBytesWritten: UInt64 = 0
+
+        if shouldStop { return }
+
+        while inputStream.hasBytesAvailable {
+            if shouldStop { return }
+
+            let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
+            if bytesRead < 0 {
+                handleOperationError(DiskWriterError.errorReadingFile(inputStream.streamError?.localizedDescription))
+                break
+            }
+
+            if bytesRead == 0 {
+                break
+            }
+
+            let bytesWritten = outputStream.write(buffer, maxLength: bytesRead)
+            if bytesWritten < 0 {
+                handleOperationError(DiskWriterError.errorWritingFile(outputStream.streamError?.localizedDescription))
+                break
+            }
+
+            totalBytesWritten += UInt64(bytesWritten)
+
+            let progress = ProgressUpdate(size: fileSize, written: totalBytesWritten)
+            progressUpdate(progress)
+
+            if shouldStop { return }
+        }
     }
 
     func handleRemoveFile(path: URL) {
@@ -136,7 +187,7 @@ private extension DiskWriter {
     }
 
     func handleWimSplit(origin: URL, destination: URL) {
-        
+
     }
 
     func handleWimExtract(origin: URL, file: URL, destination: URL) {
