@@ -39,6 +39,7 @@
 		E25A2AFF2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2AFE2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift */; };
 		E25A2B032BF29FB400E515B7 /* AppRelauncherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */; };
 		E25A2B052BF29FC200E515B7 /* AuthorizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */; };
+		E269F7E02C31B76F00F96444 /* DiskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E269F7DF2C31B76F00F96444 /* DiskOperation.swift */; };
 		E27C67202BEF940500D7F692 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C671F2BEF940500D7F692 /* AboutViewModel.swift */; };
 		E27C67222BEF941100D7F692 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67212BEF941100D7F692 /* AboutViewController.swift */; };
 		E27C67242BEF942900D7F692 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C67232BEF942900D7F692 /* AboutCoordinator.swift */; };
@@ -132,6 +133,7 @@
 		E25A2AFE2BF1687500E515B7 /* LicenseListTextFieldValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseListTextFieldValueTransformer.swift; sourceTree = "<group>"; };
 		E25A2B022BF29FB400E515B7 /* AppRelauncherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncherError.swift; sourceTree = "<group>"; };
 		E25A2B042BF29FC200E515B7 /* AuthorizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationError.swift; sourceTree = "<group>"; };
+		E269F7DF2C31B76F00F96444 /* DiskOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOperation.swift; sourceTree = "<group>"; };
 		E27C671F2BEF940500D7F692 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		E27C67212BEF941100D7F692 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E27C67232BEF942900D7F692 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 		E236E24D2C0360B700E83056 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				E269F7DF2C31B76F00F96444 /* DiskOperation.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				E2F37B802BD78088003D27BD /* ScrollableLinesView.swift in Sources */,
 				E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */,
 				E27FD5022BDE4E470096C605 /* ImageMountResult.swift in Sources */,
+				E269F7E02C31B76F00F96444 /* DiskOperation.swift in Sources */,
 				E27FD5132BDE6E5F0096C605 /* UInt64+FormattedSize.swift in Sources */,
 				E2CF8FE02BDEDB7400F7394E /* AlertBuilder.swift in Sources */,
 				E2F4FB1A2BF36F1400BFC59A /* CommandLineResult.swift in Sources */,
