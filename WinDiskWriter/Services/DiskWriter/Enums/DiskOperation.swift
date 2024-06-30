@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias DiskOperationQueue = [DiskOperation]
+
 enum DiskOperation {
     case createDirectory(path: URL)
     case writeFile(origin: URL, destination: URL)
@@ -18,7 +20,7 @@ enum DiskOperation {
     case wimConvertToWim(origin: URL, destination: URL)
     case subQueue(operations: [DiskOperation])
 
-    static func createQueue(with url: URL) -> [DiskOperation] {
+    static func createQueue(with url: URL) -> DiskOperationQueue {
         return [
             .createDirectory(path: url.appendingPathComponent("NewDirectory")),
             .writeFile(origin: url.appendingPathComponent("source.txt"), destination: url.appendingPathComponent("destination.txt")),

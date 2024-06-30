@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Main
 class DiskWriter {
     struct ProgressUpdate {
         let size: UInt64
@@ -23,15 +24,24 @@ class DiskWriter {
     typealias ErrorHandler = ((Error) -> ErrorHandling)
     typealias CompletionHandler = (() -> Void)
 
-    private let process: OperationHandler
-    private let completion: CompletionHandler
-    private let progressUpdate: ProgressHandler
-    private let errorHandler: ErrorHandler
+    // MARK: ! Should not be called directly !
+    // Use function-based wrappers instead
+    private let _process: OperationHandler
+    private let _completion: CompletionHandler
+    private let _progressUpdate: ProgressHandler
+    private let _errorHandler: ErrorHandler
 
     private let fileManager = FileManager()
     private let bufferSize = Int(StorageSize.megabytes(count: 4))
 
     private var shouldStop: Bool = false
+
+    private let operationQueue = DispatchQueue(
+        label: String(describing: DiskWriter.self),
+        attributes: .concurrent
+    )
+
+    private let dispatchGroup = DispatchGroup()
 
     private init(
         progressUpdate: @escaping ProgressHandler,
@@ -39,10 +49,10 @@ class DiskWriter {
         error: @escaping ErrorHandler,
         completion: @escaping CompletionHandler
     ) {
-        self.progressUpdate = progressUpdate
-        self.process = process
-        self.errorHandler = error
-        self.completion = completion
+        _progressUpdate = progressUpdate
+        _process = process
+        _errorHandler = error
+        _completion = completion
     }
 
     static func start(
@@ -53,7 +63,7 @@ class DiskWriter {
         completion: @escaping CompletionHandler
     ) -> DiskWriter {
         let instance = DiskWriter(progressUpdate: progressUpdate, process: process, error: error, completion: completion)
-        instance.processOperations(queue)
+        instance.start(with: queue)
 
         return instance
     }
@@ -62,11 +72,52 @@ class DiskWriter {
         shouldStop = true
     }
 
-    private func stop() {
-        completion()
+    private func start(with queue: [DiskOperation]) {
+        operationQueue.async { [weak self] in
+            self?.processOperations(queue)
+        }
     }
 
-    private func processOperations(_ operations: [DiskOperation]) {
+    private func stop() {
+        DispatchQueue.main.async { [weak self] in
+            self?._completion()
+        }
+    }
+}
+
+private extension DiskWriter {
+    func process(_ operation: DiskOperation) {
+        DispatchQueue.main.async { [weak self] in
+            self?._process(operation)
+        }
+    }
+
+    func completion() {
+        DispatchQueue.main.async { [weak self] in
+            self?._completion()
+        }
+    }
+
+    func progressUpdate(_ update: ProgressUpdate) {
+        DispatchQueue.main.async { [weak self] in
+            self?._progressUpdate(update)
+        }
+    }
+
+    func errorHandler(_ error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            let shouldStop = (self?._errorHandler(error) == .stop)
+
+            if shouldStop {
+                self?.requestStop()
+            }
+        }
+    }
+}
+
+// MARK: - Helper
+private extension DiskWriter {
+    func processOperations(_ operations: [DiskOperation]) {
         for operation in operations {
             if shouldStop { break }
 
@@ -96,16 +147,9 @@ class DiskWriter {
 
         stop()
     }
-
-    private func handleOperationError(_ error: Error) {
-        let shouldStop = (errorHandler(error) == .stop)
-
-        if shouldStop {
-            requestStop()
-        }
-    }
 }
 
+// MARK: - Queue Processing Logic
 private extension DiskWriter {
     func handleCreateDirectory(path: URL) {
         do {
@@ -115,18 +159,18 @@ private extension DiskWriter {
                 attributes: nil
             )
         } catch {
-            handleOperationError(error)
+            errorHandler(error)
         }
     }
 
     func handleWriteFile(origin: URL, destination: URL) {
         guard let inputStream = InputStream(url: origin) else {
-            handleOperationError(DiskWriterError.cannotOpenInputFile)
+            errorHandler(DiskWriterError.cannotOpenInputFile)
             return
         }
 
         guard let outputStream = OutputStream(url: destination, append: false) else {
-            handleOperationError(DiskWriterError.cannotOpenOutputFile)
+            errorHandler(DiskWriterError.cannotOpenOutputFile)
             return
         }
 
@@ -137,7 +181,7 @@ private extension DiskWriter {
         defer { outputStream.close() }
 
         guard let fileSize = fileManager.fileSize(at: origin.path) else {
-            handleOperationError(DiskWriterError.cannotDetermineFileSize)
+            errorHandler(DiskWriterError.cannotDetermineFileSize)
             return
         }
 
@@ -151,7 +195,7 @@ private extension DiskWriter {
 
             let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
             if bytesRead < 0 {
-                handleOperationError(DiskWriterError.errorReadingFile(inputStream.streamError?.localizedDescription))
+                errorHandler(DiskWriterError.errorReadingFile(inputStream.streamError?.localizedDescription))
                 break
             }
 
@@ -161,7 +205,7 @@ private extension DiskWriter {
 
             let bytesWritten = outputStream.write(buffer, maxLength: bytesRead)
             if bytesWritten < 0 {
-                handleOperationError(DiskWriterError.errorWritingFile(outputStream.streamError?.localizedDescription))
+                errorHandler(DiskWriterError.errorWritingFile(outputStream.streamError?.localizedDescription))
                 break
             }
 
@@ -178,7 +222,7 @@ private extension DiskWriter {
         do {
             try fileManager.removeItem(at: path)
         } catch {
-            handleOperationError(error)
+            errorHandler(error)
         }
     }
 
