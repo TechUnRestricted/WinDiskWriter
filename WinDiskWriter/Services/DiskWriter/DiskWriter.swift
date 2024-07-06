@@ -36,7 +36,6 @@ class DiskWriter {
     
     private var shouldStop: Bool = false
 
-    private let dispatchGroup = DispatchGroup()
     private let operationQueue = DispatchQueue(
         label: String(describing: DiskWriter.self),
         attributes: .concurrent
@@ -73,16 +72,10 @@ class DiskWriter {
     }
     
     private func start(with queue: [DiskOperation]) {
-        dispatchGroup.enter()
-
         operationQueue.async { [self] in
             processOperations(queue)
 
-            dispatchGroup.leave()
-        }
-
-        dispatchGroup.notify(queue: .main) { [self] in
-            _completion()
+            completion()
         }
     }
     
