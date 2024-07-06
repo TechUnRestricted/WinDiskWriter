@@ -13,6 +13,8 @@ enum DiskWriterError: LocalizedError {
     case cannotDetermineFileSize
     case errorReadingFile(String?)
     case errorWritingFile(String?)
+    case invalidFileURL
+    case fileDoesNotExist
 
     var errorDescription: String? {
         switch self {
@@ -26,6 +28,10 @@ enum DiskWriterError: LocalizedError {
             return "Error reading file: \(unwrappedReason(for: description))"
         case .errorWritingFile(let description):
             return "Error writing file: \(unwrappedReason(for: description))"
+        case .invalidFileURL:
+            return "Invalid file URL"
+        case .fileDoesNotExist:
+            return "File does not exist at the specified path"
         }
     }
 
