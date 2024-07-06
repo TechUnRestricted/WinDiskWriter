@@ -32,7 +32,9 @@ class DiskWriter {
     private let _errorHandler: ErrorHandler
     
     private let fileManager = FileManager()
-    private let bufferSize = Int(StorageSize.megabytes(count: 4))
+    private let bufferSize = Int(
+        StorageSize.megabytes(count: 4)
+    )
     
     private var shouldStop: Bool = false
 
@@ -55,7 +57,7 @@ class DiskWriter {
     
     @discardableResult
     static func start(
-        with queue: [DiskOperation],
+        with queue: DiskOperationQueue,
         progressUpdate: @escaping ProgressHandler,
         process: @escaping OperationHandler,
         error: @escaping ErrorHandler,
@@ -71,7 +73,7 @@ class DiskWriter {
         shouldStop = true
     }
     
-    private func start(with queue: [DiskOperation]) {
+    private func start(with queue: DiskOperationQueue) {
         operationQueue.async { [self] in
             processOperations(queue)
 
@@ -117,7 +119,7 @@ private extension DiskWriter {
 
 // MARK: - Helper
 private extension DiskWriter {
-    func processOperations(_ operations: [DiskOperation]) {
+    func processOperations(_ operations: DiskOperationQueue) {
         for operation in operations {
             if shouldStop { break }
             
