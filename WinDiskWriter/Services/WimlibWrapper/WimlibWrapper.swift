@@ -26,6 +26,10 @@ final class WimlibWrapper {
         return Int32(currentWIM.pointee.hdr.image_count)
     }
 
+    var hasSolidResources: Bool {
+        return wim_has_solid_resources(currentWIM)
+    }
+
     init?(with wimURL: URL) {
         self.wimURL = wimURL
 
@@ -45,6 +49,7 @@ final class WimlibWrapper {
         }
     }
 
+    @discardableResult
     func applyChanges() -> Bool {
         guard let currentWIM = currentWIM else {
             return false
@@ -61,7 +66,8 @@ final class WimlibWrapper {
 
 // MARK: - Files Manipulation
 extension WimlibWrapper {
-    func extractFiles(_ files: [String], to destination: String, fromImageIndex index: Int32) -> Bool {
+    @discardableResult
+    func extractFiles(_ files: [String], to destination: URL, fromImageIndex index: Int32) -> Bool {
         guard let currentWIM = currentWIM else {
             return false
         }
@@ -72,7 +78,7 @@ extension WimlibWrapper {
             let result = wimlib_extract_paths(
                 currentWIM,
                 index,
-                destination,
+                destination.path,
                 charPointerArray,
                 files.count,
                 WIMLIB_EXTRACT_FLAG_NO_PRESERVE_DIR_STRUCTURE
@@ -99,6 +105,7 @@ extension WimlibWrapper {
         return String(cString: value)
     }
 
+    @discardableResult
     func setPropertyValue(_ value: String, forKey key: String, imageIndex: Int32) -> WimlibWrapperResult {
         guard let currentWIM = currentWIM else {
             return .failure
@@ -113,6 +120,7 @@ extension WimlibWrapper {
         return result == WIMLIB_ERR_SUCCESS ? .success : .failure
     }
 
+    @discardableResult
     func setPropertyValueForAllImages(_ value: String, forKey key: String) -> WimlibWrapperResult {
         var requiresOverwriting: Bool = false
 
