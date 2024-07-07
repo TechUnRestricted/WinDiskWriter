@@ -30,13 +30,13 @@ class DiskWriter {
     private let _completion: CompletionHandler
     private let _progressUpdate: ProgressHandler
     private let _errorHandler: ErrorHandler
-    
+
+    private var shouldStop: Bool = false
+
     private let fileManager = FileManager()
     private let bufferSize = Int(
         StorageSize.megabytes(count: 4)
     )
-    
-    private var shouldStop: Bool = false
 
     private let operationQueue = DispatchQueue(
         label: String(describing: DiskWriter.self),
@@ -68,11 +68,11 @@ class DiskWriter {
         
         return instance
     }
-    
+
     func requestStop() {
         shouldStop = true
     }
-    
+
     private func start(with queue: DiskOperationQueue) {
         operationQueue.async { [self] in
             processOperations(queue)
@@ -89,25 +89,25 @@ class DiskWriter {
 // MARK: - Thread-safe wrappers for closures
 private extension DiskWriter {
     func process(_ operation: DiskOperation) {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.sync { [self] in
             _process(operation)
         }
     }
     
     func completion() {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.sync { [self] in
             _completion()
         }
     }
     
     func progressUpdate(_ update: ProgressUpdate) {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.sync { [self] in
             _progressUpdate(update)
         }
     }
     
     func errorHandler(_ error: Error) {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.sync { [self] in
             let shouldStop = (_errorHandler(error) == .stop)
             
             if shouldStop {
@@ -122,9 +122,9 @@ private extension DiskWriter {
     func processOperations(_ operations: DiskOperationQueue) {
         for operation in operations {
             if shouldStop { break }
-            
+
             process(operation)
-            
+
             switch operation {
             case .createDirectory(let path):
                 handleCreateDirectory(path: path)
@@ -197,12 +197,10 @@ private extension DiskWriter {
         
         var buffer = [UInt8](repeating: 0, count: bufferSize)
         var totalBytesWritten: UInt64 = 0
-        
-        if shouldStop { return }
-        
+
         while inputStream.hasBytesAvailable {
-            if shouldStop { return }
-            
+            if shouldStop { break }
+
             let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
             if bytesRead < 0 {
                 errorHandler(DiskWriterError.errorReadingFile(inputStream.streamError?.localizedDescription))
@@ -223,8 +221,6 @@ private extension DiskWriter {
             
             let progress = ProgressUpdate(size: fileSize, written: totalBytesWritten)
             progressUpdate(progress)
-            
-            if shouldStop { return }
         }
     }
     
