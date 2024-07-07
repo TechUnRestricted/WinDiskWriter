@@ -72,7 +72,7 @@
 		E29C8AC92BEB6D15006A50D9 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */; };
 		E29C8ACB2BEB7100006A50D9 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29C8ACA2BEB7100006A50D9 /* AppService.swift */; };
 		E2A08CD82BDEBF8600E354BB /* AppRelauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */; };
-		E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CChar.swift */; };
+		E2A08CDA2BDEC42500E354BB /* String+CharUnsafePointerArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CD92BDEC42500E354BB /* String+CharUnsafePointerArray.swift */; };
 		E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */; };
 		E2A443B72BE4E28400701D56 /* ConfigurationValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */; };
 		E2A443B92BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A443B82BE5044D00701D56 /* NSView+SetEnabledStateForAllControls.swift */; };
@@ -150,6 +150,9 @@
 		E2EFC5B42C39F4BC0035CC07 /* unix_apply.c in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC56C2C39F4BC0035CC07 /* unix_apply.c */; };
 		E2EFC5B52C39F4BC0035CC07 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC56D2C39F4BC0035CC07 /* encoding.c */; };
 		E2EFC5B62C39F4BC0035CC07 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC56E2C39F4BC0035CC07 /* xpress_compress.c */; };
+		E2EFC5B82C3AE0240035CC07 /* WimlibWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5B72C3AE0240035CC07 /* WimlibWrapper.swift */; };
+		E2EFC5BC2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */; };
+		E2EFC5BE2C3AF3220035CC07 /* WimlibWrapperResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
 		E2F37B612BD5643D003D27BD /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B602BD5643D003D27BD /* BaseWindow.swift */; };
@@ -242,7 +245,7 @@
 		E29C8AC82BEB6D15006A50D9 /* Notification+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Names.swift"; sourceTree = "<group>"; };
 		E29C8ACA2BEB7100006A50D9 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		E2A08CD72BDEBF8600E354BB /* AppRelauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRelauncher.swift; sourceTree = "<group>"; };
-		E2A08CD92BDEC42500E354BB /* String+CChar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CChar.swift"; sourceTree = "<group>"; };
+		E2A08CD92BDEC42500E354BB /* String+CharUnsafePointerArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CharUnsafePointerArray.swift"; sourceTree = "<group>"; };
 		E2A08CDB2BDECFC100E354BB /* ExecuteWithPrivileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteWithPrivileges.h; sourceTree = "<group>"; };
 		E2A08CDC2BDECFC100E354BB /* ExecuteWithPrivileges.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ExecuteWithPrivileges.c; sourceTree = "<group>"; };
 		E2A443B62BE4E28400701D56 /* ConfigurationValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidationError.swift; sourceTree = "<group>"; };
@@ -394,6 +397,9 @@
 		E2EFC56C2C39F4BC0035CC07 /* unix_apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unix_apply.c; sourceTree = "<group>"; };
 		E2EFC56D2C39F4BC0035CC07 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
 		E2EFC56E2C39F4BC0035CC07 /* xpress_compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xpress_compress.c; sourceTree = "<group>"; };
+		E2EFC5B72C3AE0240035CC07 /* WimlibWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimlibWrapper.swift; sourceTree = "<group>"; };
+		E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimLibWrapperCPUArch.swift; sourceTree = "<group>"; };
+		E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimlibWrapperResult.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
 		E2F37B602BD5643D003D27BD /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
@@ -640,6 +646,7 @@
 				E2F4FB122BF36E8B00BFC59A /* FileReader */,
 				E2F4FB142BF36EAC00BFC59A /* CommandLine */,
 				E236E2452C0348D900E83056 /* DiskWriter */,
+				E2EFC5B92C3AE0270035CC07 /* WimlibWrapper */,
 				E27FD5142BDE7F580096C605 /* AttributedStringBuilder.swift */,
 				E2CF8FDF2BDEDB7400F7394E /* AlertBuilder.swift */,
 				E27FD4E02BDD1D3C0096C605 /* WeakProxy.swift */,
@@ -716,7 +723,7 @@
 			children = (
 				E27FD4FC2BDE3B3C0096C605 /* String+Stripped.swift */,
 				E27FD50D2BDE5CC00096C605 /* String+HasOneOfThePrefixes.swift */,
-				E2A08CD92BDEC42500E354BB /* String+CChar.swift */,
+				E2A08CD92BDEC42500E354BB /* String+CharUnsafePointerArray.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -932,6 +939,24 @@
 				E2EFC56E2C39F4BC0035CC07 /* xpress_compress.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		E2EFC5B92C3AE0270035CC07 /* WimlibWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				E2EFC5BA2C3AE8B80035CC07 /* Enums */,
+				E2EFC5B72C3AE0240035CC07 /* WimlibWrapper.swift */,
+			);
+			path = WimlibWrapper;
+			sourceTree = "<group>";
+		};
+		E2EFC5BA2C3AE8B80035CC07 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */,
+				E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		E2F37B5F2BD55DB4003D27BD /* ConstraintUtils */ = {
@@ -1173,7 +1198,9 @@
 				E234FC222BD53D780074C781 /* MainCoordinator.swift in Sources */,
 				E2EFC5AD2C39F4BC0035CC07 /* delete_image.c in Sources */,
 				E2EFC5A22C39F4BC0035CC07 /* win32_replacements.c in Sources */,
+				E2EFC5BE2C3AF3220035CC07 /* WimlibWrapperResult.swift in Sources */,
 				E2EFC56F2C39F4BC0035CC07 /* xml.c in Sources */,
+				E2EFC5B82C3AE0240035CC07 /* WimlibWrapper.swift in Sources */,
 				E2EFC5A52C39F4BC0035CC07 /* compress_parallel.c in Sources */,
 				E2A08CDD2BDECFC100E354BB /* ExecuteWithPrivileges.c in Sources */,
 				E217A9542BFA7448003AEF03 /* Encodable+AsJSONString.swift in Sources */,
@@ -1195,6 +1222,7 @@
 				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E2EFC5952C39F4BC0035CC07 /* inode.c in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
+				E2EFC5BC2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift in Sources */,
 				E2EFC5AF2C39F4BC0035CC07 /* registry.c in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
 				E2EFC5812C39F4BC0035CC07 /* reference.c in Sources */,
@@ -1300,7 +1328,7 @@
 				E2EFC59D2C39F4BC0035CC07 /* update_image.c in Sources */,
 				E2F37B752BD6DBCE003D27BD /* RoundedButtonView.swift in Sources */,
 				E234FC1E2BD53C800074C781 /* DiskWriterViewModel.swift in Sources */,
-				E2A08CDA2BDEC42500E354BB /* String+CChar.swift in Sources */,
+				E2A08CDA2BDEC42500E354BB /* String+CharUnsafePointerArray.swift in Sources */,
 				E2EFC5A42C39F4BC0035CC07 /* dentry.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

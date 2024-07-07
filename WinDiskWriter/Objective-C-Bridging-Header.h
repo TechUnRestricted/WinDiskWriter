@@ -4,4 +4,5 @@
 
 #import "LegacyExceptionHandler.h"
 #import "ExecuteWithPrivileges.h"
-
+#import "../Libraries/wimlib/include/wimlib.h"
+#import "../Libraries/wimlib/include/wimlib/wim.h"
