@@ -151,7 +151,7 @@
 		E2EFC5B52C39F4BC0035CC07 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC56D2C39F4BC0035CC07 /* encoding.c */; };
 		E2EFC5B62C39F4BC0035CC07 /* xpress_compress.c in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC56E2C39F4BC0035CC07 /* xpress_compress.c */; };
 		E2EFC5B82C3AE0240035CC07 /* WimlibWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5B72C3AE0240035CC07 /* WimlibWrapper.swift */; };
-		E2EFC5BC2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */; };
+		E2EFC5BC2C3AE8C20035CC07 /* WimlibWrapperCPUArch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5BB2C3AE8C20035CC07 /* WimlibWrapperCPUArch.swift */; };
 		E2EFC5BE2C3AF3220035CC07 /* WimlibWrapperResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */; };
 		E2F37B5C2BD55990003D27BD /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */; };
 		E2F37B5E2BD55C1F003D27BD /* ConstraintHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */; };
@@ -398,7 +398,7 @@
 		E2EFC56D2C39F4BC0035CC07 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
 		E2EFC56E2C39F4BC0035CC07 /* xpress_compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xpress_compress.c; sourceTree = "<group>"; };
 		E2EFC5B72C3AE0240035CC07 /* WimlibWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimlibWrapper.swift; sourceTree = "<group>"; };
-		E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimLibWrapperCPUArch.swift; sourceTree = "<group>"; };
+		E2EFC5BB2C3AE8C20035CC07 /* WimlibWrapperCPUArch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimlibWrapperCPUArch.swift; sourceTree = "<group>"; };
 		E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WimlibWrapperResult.swift; sourceTree = "<group>"; };
 		E2F37B5B2BD55990003D27BD /* ConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintMaker.swift; sourceTree = "<group>"; };
 		E2F37B5D2BD55C1F003D27BD /* ConstraintHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHandler.swift; sourceTree = "<group>"; };
@@ -953,7 +953,7 @@
 		E2EFC5BA2C3AE8B80035CC07 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				E2EFC5BB2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift */,
+				E2EFC5BB2C3AE8C20035CC07 /* WimlibWrapperCPUArch.swift */,
 				E2EFC5BD2C3AF3220035CC07 /* WimlibWrapperResult.swift */,
 			);
 			path = Enums;
@@ -1222,7 +1222,7 @@
 				E256A7E02BE77298003E24D3 /* MenuSection.swift in Sources */,
 				E2EFC5952C39F4BC0035CC07 /* inode.c in Sources */,
 				E234FC092BD5301F0074C781 /* AppDelegate.swift in Sources */,
-				E2EFC5BC2C3AE8C20035CC07 /* WimLibWrapperCPUArch.swift in Sources */,
+				E2EFC5BC2C3AE8C20035CC07 /* WimlibWrapperCPUArch.swift in Sources */,
 				E2EFC5AF2C39F4BC0035CC07 /* registry.c in Sources */,
 				E234FC182BD531EE0074C781 /* main.swift in Sources */,
 				E2EFC5812C39F4BC0035CC07 /* reference.c in Sources */,

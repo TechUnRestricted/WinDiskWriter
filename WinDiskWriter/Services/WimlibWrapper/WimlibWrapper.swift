@@ -13,6 +13,7 @@ fileprivate extension Int32 {
     }
 }
 
+// MARK: - Wrapper Main Components
 final class WimlibWrapper {
     private var currentWIM: UnsafeMutablePointer<WIMStruct>?
     private let wimURL: URL
@@ -35,6 +36,12 @@ final class WimlibWrapper {
 
         if wimOpenStatus != WIMLIB_ERR_SUCCESS {
             return nil
+        }
+    }
+
+    deinit {
+        if let currentWIM = currentWIM {
+            wimlib_free(currentWIM)
         }
     }
 

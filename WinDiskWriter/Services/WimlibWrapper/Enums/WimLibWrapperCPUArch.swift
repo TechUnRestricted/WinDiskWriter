@@ -1,5 +1,5 @@
 //
-//  WimLibWrapperCPUArch.swift
+//  WimlibWrapperCPUArch.swift
 //  WinDiskWriter
 //
 //  Created by Macintosh on 07.07.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WimLibWrapperCPUArch: Int {
+enum WimlibWrapperCPUArch: Int {
     case unknown = -1
     case intel = 0
     case mips = 1
