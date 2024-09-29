@@ -89,30 +89,22 @@ class DiskWriter {
 // MARK: - Thread-safe wrappers for closures
 private extension DiskWriter {
     func process(_ operation: DiskOperation) {
-        DispatchQueue.main.sync { [self] in
-            _process(operation)
-        }
+        _process(operation)
     }
     
     func completion() {
-        DispatchQueue.main.sync { [self] in
-            _completion()
-        }
+        _completion()
     }
     
     func progressUpdate(_ update: ProgressUpdate) {
-        DispatchQueue.main.sync { [self] in
-            _progressUpdate(update)
-        }
+        _progressUpdate(update)
     }
     
     func errorHandler(_ error: Error) {
-        DispatchQueue.main.sync { [self] in
-            let shouldStop = (_errorHandler(error) == .stop)
-            
-            if shouldStop {
-                requestStop()
-            }
+        let shouldStop = (_errorHandler(error) == .stop)
+
+        if shouldStop {
+            requestStop()
         }
     }
 }

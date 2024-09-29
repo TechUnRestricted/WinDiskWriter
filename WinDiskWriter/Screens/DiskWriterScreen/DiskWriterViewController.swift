@@ -359,9 +359,6 @@ extension DiskWriterViewController {
     
     private func setupImageSelectionVerticalStackView() {
         imageSelectionVerticalStackView.spacing = Constants.verticalSpacing
-        
-        // imageSelectionVerticalStackView.wantsLayer = true
-        // imageSelectionVerticalStackView.layer?.backgroundColor = NSColor.green.cgColor
     }
     
     private func setupImageSelectionLabelView() {
@@ -478,5 +475,9 @@ extension DiskWriterViewController {
         animatedSlideShowedButton.delayDuration = 8
         
         animatedSlideShowedButton.isSlideShowed = true
+
+        animatedSlideShowedButton.clickAction = { [weak self] in
+            self?.viewModel?.visitDevelopersPage()
+        }
     }
 }
