@@ -10,12 +10,12 @@ import Foundation
 class DiskEraser {
     private enum Constants {
         static let executablePath: String = "/usr/sbin/diskutil"
+        static let charactersFAT32Array: Array = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     }
 
     private init() { }
 
     static func generateFAT32Name(prefix: String? = nil, suffix: String? = nil, randomCharLimit: Int) -> String {
-        let characters = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         let maxLength = 11
 
         let prefixCount = prefix?.count ?? 0
@@ -24,7 +24,7 @@ class DiskEraser {
         let randomCharsCount = min(randomCharLimit, maxLength - prefixCount - suffixCount)
 
         let randomChars = (0..<randomCharsCount).compactMap { _ in
-            characters.randomElement()
+            Constants.charactersFAT32Array.randomElement()
         }
 
         let name = (prefix ?? "") + randomChars + (suffix ?? "")
