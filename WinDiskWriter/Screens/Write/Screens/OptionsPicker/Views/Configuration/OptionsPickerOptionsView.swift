@@ -27,6 +27,8 @@ struct OptionsPickerOptionsView: View {
     @State private var isDisplayingRelaunchPrompt: Bool = false
     @State private var isInstallLegacyBootSectorButtonAvailable: Bool = true
     
+    @State private var errorState: ErrorState?
+    
     init(isInstallLegacyBootSectorEnabled: Binding<Bool>, isPatchWindowsInstallerEnabled: Binding<Bool>) {
         __isInstallLegacyBootSectorEnabled = isInstallLegacyBootSectorEnabled
         _isPatchWindowsInstallerEnabled = isPatchWindowsInstallerEnabled
@@ -43,13 +45,19 @@ struct OptionsPickerOptionsView: View {
                     }
                     
                     Button("Continue", role: .destructive) {
-                        Task.runWithCompletion($isInstallLegacyBootSectorButtonAvailable) {
-                            try await AppRelauncher.restartApp(withElevatedPermissions: true)
-                        }
+                        relaunchApp()
                     }
                 },
                 message: {
                     Text("This operation requires administrator privileges — you'll be prompted for your password.")
+                }
+            )
+            .alert(
+                errorState: $errorState,
+                actions: {
+                    Button("Discard") {
+                        
+                    }
                 }
             )
     }
@@ -71,6 +79,21 @@ struct OptionsPickerOptionsView: View {
     
     private var patchWindowsInstallerCheckboxView: some View {
         Toggle("Patch Windows Installer Requirements", isOn: $isPatchWindowsInstallerEnabled)
+    }
+    
+    private func relaunchApp() {
+        Task.runWithCompletion($isInstallLegacyBootSectorButtonAvailable) {
+            do {
+                try await AppRelauncher.restartApp(withElevatedPermissions: true)
+            } catch {
+                await MainActor.run {
+                    errorState = ErrorState(
+                        title: LocalizedStringResource("Unable to relaunch the application").stringValue,
+                        description: error.localizedDescription
+                    )
+                }
+            }
+        }
     }
 }
 

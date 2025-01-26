@@ -248,6 +248,9 @@
     "This operation requires administrator privileges — you'll be prompted for your password." : {
 
     },
+    "Unable to relaunch the application" : {
+
+    },
     "Unknown Disk" : {
 
     },
