@@ -98,6 +98,9 @@
     "Discard" : {
 
     },
+    "Disk Erase Required" : {
+
+    },
     "Donations %u" : {
 
     },
@@ -246,6 +249,9 @@
 
     },
     "This operation requires administrator privileges — you'll be prompted for your password." : {
+
+    },
+    "To create a bootable drive, the selected disk must be erased. This action cannot be undone." : {
 
     },
     "Unable to relaunch the application" : {

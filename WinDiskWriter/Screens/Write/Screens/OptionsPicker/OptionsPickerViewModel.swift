@@ -41,14 +41,10 @@ class OptionsPickerViewModel: ObservableObject {
     }
     
     @Published var isPatchWindowsInstallerEnabled: Bool = false
-    
-    @Published var errorState: ErrorState?
+        
+    @Published var isDisplayingEraseWarning: Bool = false
     
     init(imageInfo: PickedImageInfo) {
         self.imageInfo = imageInfo
     }
-}
-
-extension OptionsPickerViewModel {
-    
 }

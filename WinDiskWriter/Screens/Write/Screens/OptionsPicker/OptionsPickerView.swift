@@ -22,6 +22,23 @@ struct OptionsPickerView: View {
     
     var body: some View {
         contentView
+            .alert(
+                "Disk Erase Required",
+                isPresented: $viewModel.isDisplayingEraseWarning,
+                actions: {
+                    Button("Cancel", role: .cancel) {
+                        
+                    }
+                    
+                    Button("Continue", role: .destructive) {
+                        
+                    }
+                },
+                message: {
+                    Text("To create a bootable drive, the selected disk must be erased. This action cannot be undone.")
+                }
+            )
+            .dialogSeverity(.critical)
     }
     
     private var contentView: some View {
@@ -72,7 +89,7 @@ struct OptionsPickerView: View {
             title: "Continue",
             executesOnReturn: true,
             action: {
-                
+                viewModel.isDisplayingEraseWarning = true
             }
         )
         .frame(maxHeight: .infinity)
