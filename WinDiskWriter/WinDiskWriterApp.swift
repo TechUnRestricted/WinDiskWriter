@@ -11,7 +11,7 @@ import SwiftUI
 struct WinDiskWriterApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    @State private var shouldDisplayWelcomePopover: Bool = !AppHelper.launchedBefore()
+    @State private var shouldDisplayWelcomePopover: Bool = !AppHelper.launchedBefore() && !AppHelper.hasElevatedPermissions()
     
     var body: some Scene {
         Window("WinDiskWriter", id: "Main Window") {
