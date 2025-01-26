@@ -1,27 +1,28 @@
+# C/C++ Build Artifacts
 *.d
-
 *.o
 *.ko
 *.obj
 *.elf
-
 *.ilk
 *.map
 *.exp
-
 *.gch
 *.pch
-
 *.lib
 *.a
 *.la
 *.lo
+*.slo
+*.mod
+*.smod
+*.lai
 
+# Dynamic Libraries and Executables
 *.dll
 *.so
 *.so.*
 *.dylib
-
 *.exe
 *.out
 *.app
@@ -29,11 +30,15 @@
 *.x86_64
 *.hex
 
+# Debug Files
 *.dSYM/
 *.su
 *.idb
 *.pdb
+*.dSYM.zip
+*.dSYM
 
+# Kernel Module Compile Results
 *.mod*
 *.cmd
 .tmp_versions/
@@ -42,21 +47,12 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-*.slo
-
-*.mod
-*.smod
-
-*.lai
-
+# macOS System Files
 .DS_Store
 .AppleDouble
 .LSOverride
-
 Icon
-
 ._*
-
 .DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
@@ -64,22 +60,18 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-
 .AppleDB
 .AppleDesktop
 Network Trash Folder
 Temporary Items
 .apdisk
-
 *.icloud
 
+# Xcode
+## User settings and state
 xcuserdata/
-
 *.xcscmblueprint
 *.xccheckout
-
-build/
-DerivedData/
 *.moved-aside
 *.pbxuser
 !default.pbxuser
@@ -89,35 +81,53 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+**/xcshareddata/WorkspaceSettings.xcsettings
 
+## Build and output
+build/
+DerivedData/
 *.hmap
-
 *.ipa
-*.dSYM.zip
-*.dSYM
 
-Carthage/Build/
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
 
+# Swift Package Manager
+.build/
+Package.resolved
+.swiftpm/
+.swiftpm/xcode/package.xcworkspace
+.swiftpm/xcode/xcuserdata/
+Packages
+Dependencies/
+.accio/
+
+# Swift Specific
+*.swiftdoc
+*.swiftmodule
+
+# CocoaPods
+Pods/
+*.xcworkspace
+!default.xcworkspace
+
+# Fastlane
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
+# Carthage
+Carthage/Build/
+
+# Code Coverage
+*.gcno
+*.gcda
+*.gcov
+
+# IDE Specific
+## AppCode
+.idea/
+## iOS Injection
 iOSInjectionProject/
-
-timeline.xctimeline
-playground.xcworkspace
-
-.build/
-
-Dependencies/
-.accio/
-
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
-**/xcshareddata/WorkspaceSettings.xcsettings
-

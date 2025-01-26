@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "C33A9CB3-AC05-470C-B7E8-0675B9D83908"
+   uuid = "6604A5B8-E253-4B70-A732-AF582BFBAA71"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "07049A75-19D9-4BDB-966D-F0DC78381D75"
+            uuid = "1D86AD37-4293-4033-BB35-CFA55003313A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WinDiskWriter/Classes/WimlibWrapper/WimlibWrapper.m"
+            filePath = "WinDiskWriter/Screens/Write/Screens/OptionsPicker/OptionsPickerViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-applyChanges"
-            landmarkType = "7">
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "isInstallLegacyBootSectorEnabled"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

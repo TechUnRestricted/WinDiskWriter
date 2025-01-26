@@ -1,0 +1,283 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "(Required: %@)" : {
+
+    },
+    "%@ (Exit Code: %d)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (Exit Code: %2$d)"
+          }
+        }
+      }
+    },
+    "About" : {
+
+    },
+    "About the Application" : {
+
+    },
+    "About WinDiskWriter XX" : {
+
+    },
+    "Additional Options" : {
+
+    },
+    "Allows to boot with UEFI or Legacy modes" : {
+
+    },
+    "An error occurred while attempting to read the ISO file." : {
+
+    },
+    "An unrecognized internal error occurred" : {
+
+    },
+    "Application arguments have a bad structure" : {
+
+    },
+    "Application arguments list is empty" : {
+
+    },
+    "Attach failed: %@" : {
+
+    },
+    "Attaching Image..." : {
+
+    },
+    "Can't create a DiskArbitration disk session for the specified initializer." : {
+
+    },
+    "Can't create a DiskArbitration session." : {
+
+    },
+    "Can't create an Authorization reference" : {
+
+    },
+    "Can't extract the descriptive information from the disk." : {
+
+    },
+    "Can't retrieve from the disk." : {
+
+    },
+    "Can't retrieve IO Services with specified options." : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Change File" : {
+
+    },
+    "Choose" : {
+
+    },
+    "Choose File" : {
+
+    },
+    "Choose the destination device" : {
+
+    },
+    "Click to open the list of available disks" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Contribute to the project's development" : {
+
+    },
+    "Create Bootable Drive" : {
+
+    },
+    "Detach failed: %@" : {
+
+    },
+    "Discard" : {
+
+    },
+    "Donations %u" : {
+
+    },
+    "Donations ❤️" : {
+
+    },
+    "Drag and drop your Windows ISO file here, or click to select" : {
+
+    },
+    "Easily create a Windows bootable drive on macOS" : {
+
+    },
+    "Enables TPM and Secure Boot bypass for seamless Windows 11 installation" : {
+
+    },
+    "Failed to decode plist output: %@" : {
+
+    },
+    "Failed to parse output as data." : {
+
+    },
+    "File System" : {
+
+    },
+    "Find answers to common issues and guides" : {
+
+    },
+    "Help" : {
+
+    },
+    "Help and Troubleshooting" : {
+
+    },
+    "Image Mount Failure" : {
+
+    },
+    "Image Picked" : {
+
+    },
+    "IMPORTANT: Make sure that you're choosing a supported image type." : {
+
+    },
+    "Install Legacy Boot Sector" : {
+
+    },
+    "Invalid command provided." : {
+
+    },
+    "Invalid executable path provided." : {
+
+    },
+    "Invalid FAT32 name: %@." : {
+
+    },
+    "Learn more about this application" : {
+
+    },
+    "Legacy Boot Support" : {
+
+    },
+    "Multiple Volumes Found" : {
+
+    },
+    "No Volumes Found" : {
+
+    },
+    "Patch Windows Installer Requirements" : {
+
+    },
+    "Required metadata could not be found in the ISO file." : {
+
+    },
+    "Restart" : {
+
+    },
+    "Select the destination device" : {
+
+    },
+    "Select Windows ISO Image" : {
+
+    },
+    "Source Code" : {
+
+    },
+    "Support the Project" : {
+
+    },
+    "Supported Images" : {
+
+    },
+    "Supports all Windows versions from the past 18 years" : {
+
+    },
+    "The attempt to execute the authorization tool failed to return a success or an error code" : {
+
+    },
+    "The authorization parameter is invalid" : {
+
+    },
+    "The authorization tag is invalid" : {
+
+    },
+    "The authorization tool failed to execute" : {
+
+    },
+    "The authorization was canceled by the user" : {
+
+    },
+    "The authorization was denied" : {
+
+    },
+    "The authorization was denied since no user interaction was possible" : {
+
+    },
+    "The authorizedRights parameter is invalid" : {
+
+    },
+    "The disk image contains multiple volumes, which is not supported." : {
+
+    },
+    "The disk image does not contain any volumes to attach." : {
+
+    },
+    "The file is not a valid ISO image or is corrupted." : {
+
+    },
+    "The ISO file format is not supported." : {
+
+    },
+    "The provided option flag(s) are invalid for this authorization operation" : {
+
+    },
+    "The requested socket address is invalid (must be 0-1023 inclusive)" : {
+
+    },
+    "The Security Server denied externalization of the authorization reference" : {
+
+    },
+    "The Security Server denied internalization of the authorization reference" : {
+
+    },
+    "The set parameter of authorization is invalid" : {
+
+    },
+    "The specified ISO file was not found." : {
+
+    },
+    "This operation requires administrator privileges — you'll be prompted for your password." : {
+
+    },
+    "Unknown Disk" : {
+
+    },
+    "Unknown Error" : {
+
+    },
+    "Unknown Model" : {
+
+    },
+    "Unknown Size" : {
+
+    },
+    "Unknown Vendor" : {
+
+    },
+    "View Supported Windows Images" : {
+
+    },
+    "WinDiskWriter" : {
+
+    },
+    "Windows bootable disk creator for macOS" : {
+
+    },
+    "Write" : {
+
+    },
+    "You can get detailed information by clicking the button below." : {
+
+    }
+  },
+  "version" : "1.0"
+}

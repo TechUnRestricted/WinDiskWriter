@@ -1,0 +1,90 @@
+//
+//  OptionsPickerView.swift
+//  WinDiskWriter
+//
+//  Created by Macintosh on 25.12.2024.
+//
+
+import SwiftUI
+
+struct OptionsPickerView: View {
+    @StateObject private var viewModel: OptionsPickerViewModel
+    
+    private let onImageRemove: () -> Void
+    
+    init(imageInfo: PickedImageInfo, onImageRemove: @escaping () -> Void) {
+        _viewModel = StateObject(
+            wrappedValue: OptionsPickerViewModel(imageInfo: imageInfo)
+        )
+        
+        self.onImageRemove = onImageRemove
+    }
+    
+    var body: some View {
+        contentView
+    }
+    
+    private var contentView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .leading) {
+                selectedImageView
+                selectedDiskView
+                selectedFilesystemView
+                additionalOptionsView
+            }
+            .padding([.horizontal, .top])
+            .frame(maxWidth: .infinity)
+                        
+            continueButtonView
+        }
+    }
+    
+    private var selectedImageView: some View {
+        OptionsPickerSelectedImageView(
+            imageInfo: viewModel.imageInfo,
+            onRemove: onImageRemove
+        )
+    }
+    
+    private var selectedDiskView: some View {
+        OptionsPickerDiskPickerView(
+            selectedDisk: $viewModel.selectedDisk,
+            approximateMinimumSpaceRequired: 1024 * 1024 * 1024
+        )
+    }
+    
+    private var selectedFilesystemView: some View {
+        OptionsPickerFilesystemView(
+            selectedFilesystem: $viewModel.selectedFilesystem
+        )
+    }
+    
+    private var additionalOptionsView: some View {
+        OptionsPickerOptionsView(
+            isInstallLegacyBootSectorEnabled: $viewModel.isInstallLegacyBootSectorEnabled,
+            isPatchWindowsInstallerEnabled: $viewModel.isPatchWindowsInstallerEnabled
+        )
+    }
+    
+    private var continueButtonView: some View {
+        ProminentButton(
+            title: "Continue",
+            executesOnReturn: true,
+            action: {
+                
+            }
+        )
+        .frame(maxHeight: .infinity)
+    }
+}
+
+#Preview {
+    OptionsPickerView(
+        imageInfo: PickedImageInfo(
+            attachEntity: .mock(),
+            imageFileURL: URL(filePath: "/Users/macintosh/WindowsISO/Windows10.iso")
+        ),
+        onImageRemove: { }
+    )
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+}
