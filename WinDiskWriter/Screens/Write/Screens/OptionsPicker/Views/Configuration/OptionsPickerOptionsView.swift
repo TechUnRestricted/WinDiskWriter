@@ -29,9 +29,17 @@ struct OptionsPickerOptionsView: View {
     
     @State private var errorState: ErrorState?
     
-    init(isInstallLegacyBootSectorEnabled: Binding<Bool>, isPatchWindowsInstallerEnabled: Binding<Bool>) {
+    private let filesystem: Filesystem
+    
+    init(
+        isInstallLegacyBootSectorEnabled: Binding<Bool>,
+        isPatchWindowsInstallerEnabled: Binding<Bool>,
+        filesystem: Filesystem
+    ) {
         __isInstallLegacyBootSectorEnabled = isInstallLegacyBootSectorEnabled
         _isPatchWindowsInstallerEnabled = isPatchWindowsInstallerEnabled
+        
+        self.filesystem = filesystem
     }
     
     var body: some View {
@@ -75,6 +83,7 @@ struct OptionsPickerOptionsView: View {
     private var installLegacyBootSectorCheckboxView: some View {
         Toggle("Install Legacy Boot Sector", isOn: isInstallLegacyBootSectorEnabled)
             .disabled(!isInstallLegacyBootSectorButtonAvailable)
+            .disabled(filesystem == .exFAT)
     }
     
     private var patchWindowsInstallerCheckboxView: some View {
@@ -100,7 +109,8 @@ struct OptionsPickerOptionsView: View {
 #Preview {
     OptionsPickerOptionsView(
         isInstallLegacyBootSectorEnabled: .constant(true),
-        isPatchWindowsInstallerEnabled: .constant(false)
+        isPatchWindowsInstallerEnabled: .constant(false),
+        filesystem: .FAT32
     )
     .padding(44)
 }

@@ -62,7 +62,8 @@ struct OptionsPickerView: View {
     private var additionalOptionsView: some View {
         OptionsPickerOptionsView(
             isInstallLegacyBootSectorEnabled: $viewModel.isInstallLegacyBootSectorEnabled,
-            isPatchWindowsInstallerEnabled: $viewModel.isPatchWindowsInstallerEnabled
+            isPatchWindowsInstallerEnabled: $viewModel.isPatchWindowsInstallerEnabled,
+            filesystem: viewModel.selectedFilesystem
         )
     }
     
