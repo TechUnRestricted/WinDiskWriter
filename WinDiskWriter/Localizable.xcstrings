@@ -4,6 +4,16 @@
     "(Required: %@)" : {
 
     },
+    "%@ (%@ on disk)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@ on disk)"
+          }
+        }
+      }
+    },
     "%@ (Exit Code: %d)" : {
       "localizations" : {
         "en" : {
