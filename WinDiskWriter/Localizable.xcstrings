@@ -98,6 +98,9 @@
     "Discard" : {
 
     },
+    "Disk erase operation failed: %@" : {
+
+    },
     "Disk Erase Required" : {
 
     },
@@ -147,6 +150,9 @@
 
     },
     "Invalid command provided." : {
+
+    },
+    "Invalid device identifier provided" : {
 
     },
     "Invalid executable path provided." : {
@@ -273,6 +279,25 @@
 
     },
     "View Supported Windows Images" : {
+
+    },
+    "Volume name cannot be empty" : {
+
+    },
+    "Volume name for %@ cannot begin or end with spaces" : {
+
+    },
+    "Volume name for %@ cannot exceed %lld characters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Volume name for %1$@ cannot exceed %2$lld characters"
+          }
+        }
+      }
+    },
+    "Volume name for %@ contains forbidden characters" : {
 
     },
     "WinDiskWriter" : {
