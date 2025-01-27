@@ -42,6 +42,14 @@ struct OptionsPickerView: View {
                 }
             }
             .alert(
+                errorState: $viewModel.errorState,
+                actions: {
+                    Button("Discard") {
+                        
+                    }
+                }
+            )
+            .alert(
                 "Disk Erase Required",
                 isPresented: $viewModel.isDisplayingEraseWarning,
                 actions: {
@@ -108,7 +116,7 @@ struct OptionsPickerView: View {
             title: "Continue",
             executesOnReturn: true,
             action: {
-                viewModel.isDisplayingEraseWarning = true
+                viewModel.verifyConfiguration()
             }
         )
         .frame(maxHeight: .infinity)

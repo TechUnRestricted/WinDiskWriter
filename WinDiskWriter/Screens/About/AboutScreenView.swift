@@ -14,7 +14,7 @@ struct AboutScreenView: View {
     
     var body: some View {
         VStack {
-            Text("About WinDiskWriter XX")
+            Text("About WinDiskWriter")
             
             Spacer()
         }

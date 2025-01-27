@@ -44,6 +44,21 @@ class OptionsPickerViewModel: ObservableObject {
         
     @Published var isDisplayingEraseWarning: Bool = false
     
+    @Published var errorState: ErrorState?
+    
+    func verifyConfiguration() {
+        guard selectedDisk != nil else {
+            errorState = ErrorState(
+                title: LocalizedStringResource("No Disk Selected").stringValue,
+                description: LocalizedStringResource("Please select a target disk to write the image").stringValue
+            )
+            
+            return
+        }
+        
+        isDisplayingEraseWarning = true
+    }
+    
     init(imageInfo: PickedImageInfo) {
         self.imageInfo = imageInfo
     }

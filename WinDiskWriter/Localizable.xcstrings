@@ -20,7 +20,7 @@
     "About the Application" : {
 
     },
-    "About WinDiskWriter XX" : {
+    "About WinDiskWriter" : {
 
     },
     "Additional Options" : {
@@ -170,10 +170,16 @@
     "Multiple Volumes Found" : {
 
     },
+    "No Disk Selected" : {
+
+    },
     "No Volumes Found" : {
 
     },
     "Patch Windows Installer Requirements" : {
+
+    },
+    "Please select a target disk to write the image" : {
 
     },
     "Required metadata could not be found in the ISO file." : {
