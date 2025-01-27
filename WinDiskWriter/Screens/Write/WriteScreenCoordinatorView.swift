@@ -10,6 +10,7 @@ import SwiftUI
 enum WriteScreenStage: Equatable {
     case imagePicker
     case optionsPicker(imageInfo: PickedImageInfo)
+    case writer(configuration: WriteConfiguration)
     
     static func == (lhs: WriteScreenStage, rhs: WriteScreenStage) -> Bool {
         switch (lhs, rhs) {
@@ -17,6 +18,8 @@ enum WriteScreenStage: Equatable {
             return true
         case let (.optionsPicker(leftImageInfo), .optionsPicker(rightImageInfo)):
             return leftImageInfo == rightImageInfo
+        case let (.writer(leftConfiguration), .writer(rightConfiguration)):
+            return leftConfiguration == rightConfiguration
         default:
             return false
         }
@@ -37,6 +40,8 @@ struct WriteScreenCoordinatorView: View {
                 imagePickerView
             case .optionsPicker(let imageInfo):
                 optionsPickerView(imageInfo: imageInfo)
+            case .writer(let configuration):
+                writerView(configuration: configuration)
             }
         }
         .animation(.snappy.speed(1.5), value: viewModel.stage)
@@ -51,12 +56,16 @@ struct WriteScreenCoordinatorView: View {
     private func optionsPickerView(imageInfo: PickedImageInfo) -> some View {
         OptionsPickerView(
             imageInfo: imageInfo,
-            onContinue: { writeConfiguration in
-                
+            onContinue: { configuration in
+                viewModel.stage = .writer(configuration: configuration)
             },
             onImageRemove: {
                 viewModel.reset()
             }
         )
+    }
+    
+    private func writerView(configuration: WriteConfiguration) -> some View {
+        Text("Writer \(String(describing: configuration.selectedDisk.device.model))")
     }
 }
