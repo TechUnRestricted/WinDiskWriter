@@ -12,11 +12,18 @@ struct OptionsPickerView: View {
     @StateObject private var directoryMonitor: DirectoryMonitor
     
     private let onImageRemove: () -> Void
+    private let onContinue: (WriteConfiguration) -> Void
     
-    init(imageInfo: PickedImageInfo, onImageRemove: @escaping () -> Void) {
+    init(
+        imageInfo: PickedImageInfo,
+        onContinue: @escaping (WriteConfiguration) -> Void,
+        onImageRemove: @escaping () -> Void
+    ) {
         _viewModel = StateObject(
             wrappedValue: OptionsPickerViewModel(imageInfo: imageInfo)
         )
+        
+        self.onContinue = onContinue
         
         _directoryMonitor = StateObject(
             wrappedValue: DirectoryMonitor(
@@ -56,9 +63,6 @@ struct OptionsPickerView: View {
     private var contentView: some View {
         VStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading) {
-                
-                Text("Directory Exists: \(directoryMonitor.isDirectoryAccessible)")
-                
                 selectedImageView
                 selectedDiskView
                 selectedFilesystemView
@@ -116,7 +120,9 @@ struct OptionsPickerView: View {
         imageInfo: PickedImageInfo(
             attachEntity: .mock(),
             imageFileURL: URL(filePath: "/Users/macintosh/WindowsISO/Windows10.iso")
-        ),
+        ), onContinue: { _ in
+            
+        },
         onImageRemove: { }
     )
     .frame(maxWidth: .infinity, maxHeight: .infinity)

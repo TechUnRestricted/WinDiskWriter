@@ -48,3 +48,25 @@ class OptionsPickerViewModel: ObservableObject {
         self.imageInfo = imageInfo
     }
 }
+
+struct WriteConfiguration {
+    let imageInfo: PickedImageInfo
+    let selectedDisk: DiskInfo
+    
+    let filesystem: Filesystem
+    let isInstallLegacyBootSectorEnabled: Bool
+    let isPatchWindowsInstallerEnabled: Bool
+    
+    init?(optionsPickerViewModel: OptionsPickerViewModel) {
+        self.imageInfo = optionsPickerViewModel.imageInfo
+        
+        guard let selectedDisk = optionsPickerViewModel.selectedDisk else {
+            return nil
+        }
+        
+        self.selectedDisk = selectedDisk
+        self.filesystem = optionsPickerViewModel.selectedFilesystem
+        self.isInstallLegacyBootSectorEnabled = optionsPickerViewModel.isInstallLegacyBootSectorEnabled
+        self.isPatchWindowsInstallerEnabled = optionsPickerViewModel.isPatchWindowsInstallerEnabled
+    }
+}

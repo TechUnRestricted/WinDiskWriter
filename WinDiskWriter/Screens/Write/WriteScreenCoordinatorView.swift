@@ -49,8 +49,14 @@ struct WriteScreenCoordinatorView: View {
     }
     
     private func optionsPickerView(imageInfo: PickedImageInfo) -> some View {
-        OptionsPickerView(imageInfo: imageInfo, onImageRemove: {
-            viewModel.reset()
-        })
+        OptionsPickerView(
+            imageInfo: imageInfo,
+            onContinue: { writeConfiguration in
+                
+            },
+            onImageRemove: {
+                viewModel.reset()
+            }
+        )
     }
 }
