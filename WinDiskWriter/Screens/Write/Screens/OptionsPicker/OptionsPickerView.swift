@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OptionsPickerView: View {
     @StateObject private var viewModel: OptionsPickerViewModel
+    @StateObject private var directoryMonitor: DirectoryMonitor
     
     private let onImageRemove: () -> Void
     
@@ -17,11 +18,22 @@ struct OptionsPickerView: View {
             wrappedValue: OptionsPickerViewModel(imageInfo: imageInfo)
         )
         
+        _directoryMonitor = StateObject(
+            wrappedValue: DirectoryMonitor(
+                url: URL(fileURLWithPath: imageInfo.attachEntity.mountPoint)
+            )
+        )
+        
         self.onImageRemove = onImageRemove
     }
     
     var body: some View {
         contentView
+            .onChange(of: directoryMonitor.isDirectoryAccessible) { isDirectoryAvailable in
+                if !isDirectoryAvailable {
+                    onImageRemove()
+                }
+            }
             .alert(
                 "Disk Erase Required",
                 isPresented: $viewModel.isDisplayingEraseWarning,
@@ -44,6 +56,9 @@ struct OptionsPickerView: View {
     private var contentView: some View {
         VStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading) {
+                
+                Text("Directory Exists: \(directoryMonitor.isDirectoryAccessible)")
+                
                 selectedImageView
                 selectedDiskView
                 selectedFilesystemView

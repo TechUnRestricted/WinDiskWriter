@@ -69,9 +69,11 @@ Temporary Items
 
 # Xcode
 ## User settings and state
-xcuserdata/
+xcuserdata
+xcuserdata/*
 *.xcscmblueprint
 *.xccheckout
+*.xcuserstate
 *.moved-aside
 *.pbxuser
 !default.pbxuser
