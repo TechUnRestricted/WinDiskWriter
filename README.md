@@ -155,7 +155,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
         <tr>
             <td>macOS Sequoia 15.0</td>
             <td rowspan="5" align="center">x86_64,<br>ARM64</td>
-            <td rowspan="12" align="center">Yes</td>
+            <td rowspan="13" align="center">Yes</td>
         </tr>
         <tr>
             <td>macOS Sonoma 14.0</td>
@@ -193,13 +193,13 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
         </tr>
         <tr>
             <td>Mac OS X Mountain Lion 10.8</td>
-            <td rowspan="3" align="center">
-              Not Yet<br>
-              <sub>(but it should work!)</sub>
-            </td>
         </tr>
         <tr>
             <td>Mac OS X Lion 10.7</td>
+          <td rowspan="2" align="center">
+              Not Yet<br>
+              <sub>(but it should work!)</sub>
+            </td>
         </tr>
         <tr>
             <td>Mac OS X Snow Leopard 10.6</td>
