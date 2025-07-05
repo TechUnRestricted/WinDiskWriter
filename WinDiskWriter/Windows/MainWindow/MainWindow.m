@@ -30,7 +30,7 @@
 
 #import "Constants.h"
 
-#import "DiskManager.h"
+#import "DiskManagerProcessor.h"
 #import "DiskWriter.h"
 
 #import "HelperFunctions.h"
@@ -188,6 +188,12 @@ WriteExitForce();                     \
         FrameLayoutHorizontal *devicePickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerHorizontalLayout width:INFINITY height:0];
             
+            if (@available(macOS 26.0, *)) {
+                
+            } else {
+                [devicePickerHorizontalLayout setSpacing: 6];
+            }
+                
             [devicePickerHorizontalLayout setHugHeightFrame:YES];
             
             devicePickerView = [[PickerView alloc] init]; {
@@ -779,7 +785,7 @@ WriteExitForce();                     \
     DiskInfo *destinationSavedDiskInfo = [(IdentifiableMenuItem *)devicePickerView.selectedItem diskInfo];
     
     // Making sure that the selected BSD Device name is still available
-    DiskManager *secondVerifyingStageDiskManager = [[DiskManager alloc] initWithBSDName:destinationSavedDiskInfo.BSDName];
+    DiskManagerProcessor *secondVerifyingStageDiskManager = [[DiskManagerProcessor alloc] initWithBSDName:destinationSavedDiskInfo.BSDName];
     DiskInfo *secondVerifyingStageDiskInfo = [secondVerifyingStageDiskManager diskInfo];
 
     if (secondVerifyingStageDiskManager == NULL || !destinationSavedDiskInfo.isDeviceUnit) {
@@ -1117,13 +1123,13 @@ WriteExitForce();                     \
 
     [devicePickerView removeAllItems];
         
-    NSArray<NSString *> *bsdNames = [DiskManager BSDDrivesNames];
+    NSArray<NSString *> *bsdNames = [DiskManagerProcessor BSDDrivesNames];
     
     NSString *textLog = [NSString stringWithFormat: @"%@: %@", [LocalizedStrings logviewRowPartialTitleFoundDevices], [bsdNames componentsJoinedByString:@", "]];
     [logsView appendRow:textLog logType:ASLogTypeLog];
     
     for (NSString *bsdName in bsdNames) {
-        DiskManager *diskManager = [[DiskManager alloc] initWithBSDName: bsdName];
+        DiskManagerProcessor *diskManager = [[DiskManagerProcessor alloc] initWithBSDName: bsdName];
         DiskInfo *diskInfo = [diskManager diskInfo];
                 
         // We only need to show the whole drives. So partitions (volumes / slices) are ignored.

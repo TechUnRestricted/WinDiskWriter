@@ -9,7 +9,7 @@
 #import <DiskArbitration/DiskArbitration.h>
 #import <Foundation/Foundation.h>
 #import "LocalizedStrings.h"
-#import "DiskManager.h"
+#import "DiskManagerProcessor.h"
 #import "CommandLine.h"
 #import "Constants.h"
 #import "HelperFunctions.h"
@@ -17,7 +17,7 @@
 #import "NSString+Common.h"
 #import "NSError+Common.h"
 
-@implementation DiskManager {
+@implementation DiskManagerProcessor {
     DASessionRef diskSession;
     DADiskRef currentDisk;
 }
@@ -171,7 +171,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
     
-    NSError *localError = [DiskManager errorFromDADiskReturn: callbackWrapper.daReturn];
+    NSError *localError = [DiskManagerProcessor errorFromDADiskReturn: callbackWrapper.daReturn];
     if (error) {
         *error = localError;
     }
@@ -190,7 +190,7 @@ void daDiskCallback(DADiskRef disk, DADissenterRef dissenter, void *context) {
     DASessionSetDispatchQueue(diskSession, dispatchDiskQueue);
     dispatch_semaphore_wait(callbackWrapper.semaphore, DISPATCH_TIME_FOREVER);
     
-    NSError *localError = [DiskManager errorFromDADiskReturn: callbackWrapper.daReturn];
+    NSError *localError = [DiskManagerProcessor errorFromDADiskReturn: callbackWrapper.daReturn];
     if (error) {
         *error = localError;
     }

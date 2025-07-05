@@ -115,7 +115,7 @@
 		E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB2752982C7A4004EE171 /* DiskWriter.m */; };
 		E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BBC29858D8000DF362B /* Filesystems.m */; };
 		E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B52BC02985925600DF362B /* PartitionSchemes.m */; };
-		E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManager.m */; };
+		E2DF0FAA2A894CAB00339DDB /* DiskManagerProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28D2983EE60004EE171 /* DiskManagerProcessor.m */; };
 		E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27A2982F8C3004EE171 /* HDIUtil.m */; };
 		E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB27E2982FB1B004EE171 /* CommandLine.m */; };
 		E2DF0FAD2A894CAB00339DDB /* HelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CCB28529833695004EE171 /* HelperFunctions.m */; };
@@ -354,8 +354,8 @@
 		E2CCB28529833695004EE171 /* HelperFunctions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelperFunctions.m; sourceTree = "<group>"; };
 		E2CCB2892983E5F2004EE171 /* NSString+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Common.h"; sourceTree = "<group>"; };
 		E2CCB28A2983E5F2004EE171 /* NSString+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Common.m"; sourceTree = "<group>"; };
-		E2CCB28C2983EE60004EE171 /* DiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskManager.h; sourceTree = "<group>"; };
-		E2CCB28D2983EE60004EE171 /* DiskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskManager.m; sourceTree = "<group>"; };
+		E2CCB28C2983EE60004EE171 /* DiskManagerProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskManagerProcessor.h; sourceTree = "<group>"; };
+		E2CCB28D2983EE60004EE171 /* DiskManagerProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiskManagerProcessor.m; sourceTree = "<group>"; };
 		E2CCCD852A3A11EE00D101DE /* FrameLayoutBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameLayoutBase.h; sourceTree = "<group>"; };
 		E2CCCD862A3A11EE00D101DE /* FrameLayoutBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameLayoutBase.m; sourceTree = "<group>"; };
 		E2CCCD8C2A3A476700D101DE /* FrameLayoutElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameLayoutElement.h; sourceTree = "<group>"; };
@@ -1296,8 +1296,8 @@
 				E27FF6612AAA2C1800C0356F /* DiskInfo */,
 				E2B52BBA29858D6E00DF362B /* Filesystems */,
 				E2B52BBE2985923400DF362B /* PartitionSchemes */,
-				E2CCB28C2983EE60004EE171 /* DiskManager.h */,
-				E2CCB28D2983EE60004EE171 /* DiskManager.m */,
+				E2CCB28C2983EE60004EE171 /* DiskManagerProcessor.h */,
+				E2CCB28D2983EE60004EE171 /* DiskManagerProcessor.m */,
 			);
 			path = DiskManager;
 			sourceTree = "<group>";
@@ -1623,7 +1623,7 @@
 				E2DF0FA62A894CAB00339DDB /* DiskWriter.m in Sources */,
 				E2DF0FA82A894CAB00339DDB /* Filesystems.m in Sources */,
 				E2DF0FA92A894CAB00339DDB /* PartitionSchemes.m in Sources */,
-				E2DF0FAA2A894CAB00339DDB /* DiskManager.m in Sources */,
+				E2DF0FAA2A894CAB00339DDB /* DiskManagerProcessor.m in Sources */,
 				E2DF0FAB2A894CAB00339DDB /* HDIUtil.m in Sources */,
 				E2DF0FAC2A894CAB00339DDB /* CommandLine.m in Sources */,
 				E29B5B9F2B1CA2EE009A8D0C /* MiddleAlignedCell.m in Sources */,

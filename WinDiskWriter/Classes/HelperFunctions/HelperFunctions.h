@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DiskManager.h"
+#import "DiskManagerProcessor.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *_Nullable)windowsSourceMountPath: (NSString *_Nonnull)sourcePath
                                         error: (NSError *_Nullable *_Nullable)error;
 
-+ (DiskManager *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
++ (DiskManagerProcessor *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
                                         isBSDDevice: (BOOL *_Nullable)isBSDDevice
                                               error: (NSError *_Nullable *_Nullable)error;
 

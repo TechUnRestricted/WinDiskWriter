@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  };
  */
 
-@interface DiskManager : NSObject
+@interface DiskManagerProcessor : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 

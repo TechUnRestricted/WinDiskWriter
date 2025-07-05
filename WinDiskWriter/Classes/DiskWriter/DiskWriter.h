@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) DWFilesContainer *filesContainer;
 @property (strong, nonatomic, readonly) NSString *destinationPath;
-@property (strong, nonatomic, readonly) DiskManager *destinationDiskManager;
+@property (strong, nonatomic, readonly) DiskManagerProcessor *destinationDiskManager;
 
 @property (strong, nonatomic, readwrite) Filesystem destinationFilesystem;
 @property (nonatomic, readwrite) BOOL patchInstallerRequirements;
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDWFilesContainer: (DWFilesContainer *)filesContainer
                          destinationPath: (NSString *)destinationPath
-                  destinationDiskManager: (DiskManager *)destinationDiskManager;
+                  destinationDiskManager: (DiskManagerProcessor *)destinationDiskManager;
 
 typedef DWAction (^ChainedCallbackAction)(DWFile *dwFile, uint64 copiedBytes, DWOperationType operationType, DWOperationResult operationResult, NSError *_Nullable error);
 

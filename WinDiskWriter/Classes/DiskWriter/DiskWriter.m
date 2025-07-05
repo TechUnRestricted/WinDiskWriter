@@ -15,7 +15,7 @@
 #import "NSError+Common.h"
 #import "WimlibWrapper.h"
 #include <sys/statvfs.h>
-#import "DiskManager.h"
+#import "DiskManagerProcessor.h"
 #import "Filesystems.h"
 #import "DiskWriter.h"
 #import "constants.h"
@@ -34,7 +34,7 @@ static const NSString *BUNDLE_BOOTLOADER_SUBDIRECTORY_NAME = @"grub4dos";
 
 - (instancetype)initWithDWFilesContainer: (DWFilesContainer *)filesContainer
                          destinationPath: (NSString *)destinationPath
-                  destinationDiskManager: (DiskManager *)destinationDiskManager {
+                  destinationDiskManager: (DiskManagerProcessor *)destinationDiskManager {
     self = [super init];
     
     // Just in case ¯\_(ツ)_/¯

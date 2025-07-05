@@ -112,7 +112,11 @@ ASLogType ASLogTypeAssertionError = @"AssertionFailure";
     dispatch_async(dispatch_get_main_queue(), ^{
         VibrantTableView *childView = (VibrantTableView *)self.tableViewInstance;
         
-        [self->dummyTextField setStringValue: string];
+        if (@available(macOS 26.0, *)) {
+            
+        } else {
+            [self->dummyTextField setStringValue: string];
+        }
         
         CGFloat requiredCellWidth = self->dummyTextField.cell.cellSize.width;
         

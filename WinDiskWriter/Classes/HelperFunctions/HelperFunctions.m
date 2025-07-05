@@ -12,7 +12,7 @@
 #import "NSString+Common.h"
 #import "NSError+Common.h"
 #import <AppKit/AppKit.h>
-#import "DiskManager.h"
+#import "DiskManagerProcessor.h"
 #import "CommandLine.h"
 #import "Constants.h"
 #import <sys/stat.h>
@@ -394,17 +394,17 @@ static void initializeStaticVariables() {
     return NULL;
 }
 
-+ (DiskManager *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
++ (DiskManagerProcessor *_Nullable)diskManagerWithDevicePath: (NSString *)devicePath
                                         isBSDDevice: (BOOL *_Nullable)isBSDDevice
                                               error: (NSError *_Nullable *_Nullable)error {
     
-    if ([DiskManager isBSDPath:devicePath]) {
+    if ([DiskManagerProcessor isBSDPath:devicePath]) {
         if (isBSDDevice != NULL) {
             *isBSDDevice = YES;
         }
         
         /* Received device destination path was defined as BSD Name. */
-        return [[DiskManager alloc] initWithBSDName:devicePath];
+        return [[DiskManagerProcessor alloc] initWithBSDName:devicePath];
     }
     else if ([devicePath hasPrefix:@"/Volumes/"]) {
         if (isBSDDevice != NULL) {
@@ -425,7 +425,7 @@ static void initializeStaticVariables() {
         
         /* Received device destination path was defined as Mounted Volume. */
         if (@available(macOS 10.7, *)) {
-            return [[DiskManager alloc] initWithVolumePath:devicePath];
+            return [[DiskManagerProcessor alloc] initWithVolumePath:devicePath];
         } else {
             // TODO: Fix Mac OS X 10.6 Snow Leopard support
             if (error) {
