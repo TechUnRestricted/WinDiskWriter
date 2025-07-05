@@ -188,11 +188,7 @@ WriteExitForce();                     \
         FrameLayoutHorizontal *devicePickerHorizontalLayout = [[FrameLayoutHorizontal alloc] init]; {
             [devicePickerVerticalLayout addView:devicePickerHorizontalLayout width:INFINITY height:0];
             
-            if (@available(macOS 26.0, *)) {
-                
-            } else {
-                [devicePickerHorizontalLayout setSpacing: 6];
-            }
+            [devicePickerHorizontalLayout setSpacing: 6];
                 
             [devicePickerHorizontalLayout setHugHeightFrame:YES];
             

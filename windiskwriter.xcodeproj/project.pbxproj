@@ -123,13 +123,13 @@
 		E2DF0FB92A8ECC2200339DDB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DF0FB72A8ECA0400339DDB /* Constants.m */; };
 		E2E64A892B1375AB00B99917 /* LogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A882B1375AB00B99917 /* LogView.m */; };
 		E2E64A8D2B13762400B99917 /* VibrantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E64A8C2B13762400B99917 /* VibrantTableView.m */; };
+		E2EA16B22E195D4100BDA153 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = E2EA16B12E195D4100BDA153 /* AppIcon.icon */; };
 		E2EE60852B1B7018001363EC /* ContaineredTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EE60842B1B7018001363EC /* ContaineredTableView.m */; };
 		E2F2D2B82A93D27300E1B7FF /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2B72A93D27300E1B7FF /* AboutWindow.m */; };
 		E2F2D2BD2A93E8AE00E1B7FF /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2BC2A93E8AE00E1B7FF /* CustomImageView.m */; };
 		E2F2D2C42A93EAB100E1B7FF /* NSMutableAttributedString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2C32A93EAB100E1B7FF /* NSMutableAttributedString+Common.m */; };
 		E2F2D2CD2A941ACC00E1B7FF /* Licenses-Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2CC2A941ACC00E1B7FF /* Licenses-Constants.m */; };
 		E2F2D2D22A95016E00E1B7FF /* SynchronizedAlertData.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */; };
-		E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F2D2E52A95307A00E1B7FF /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -369,6 +369,7 @@
 		E2E64A882B1375AB00B99917 /* LogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogView.m; sourceTree = "<group>"; };
 		E2E64A8B2B13762400B99917 /* VibrantTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VibrantTableView.h; sourceTree = "<group>"; };
 		E2E64A8C2B13762400B99917 /* VibrantTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VibrantTableView.m; sourceTree = "<group>"; };
+		E2EA16B12E195D4100BDA153 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		E2EE60832B1B7018001363EC /* ContaineredTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContaineredTableView.h; sourceTree = "<group>"; };
 		E2EE60842B1B7018001363EC /* ContaineredTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContaineredTableView.m; sourceTree = "<group>"; };
 		E2F2D2B62A93D27300E1B7FF /* AboutWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
@@ -382,7 +383,6 @@
 		E2F2D2D02A95016E00E1B7FF /* SynchronizedAlertData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynchronizedAlertData.h; sourceTree = "<group>"; };
 		E2F2D2D12A95016E00E1B7FF /* SynchronizedAlertData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynchronizedAlertData.m; sourceTree = "<group>"; };
 		E2F2D2D32A952CF400E1B7FF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		E2F2D2E52A95307A00E1B7FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1013,8 +1013,8 @@
 				E27FF65C2AA548E900C0356F /* AppDelegate */,
 				E27879812B28506800206720 /* LocalizedStrings */,
 				E23298B12A37C1FC00869736 /* main.m */,
+				E2EA16B12E195D4100BDA153 /* AppIcon.icon */,
 				E23298B32A37C1FC00869736 /* WinDiskWriter.entitlements */,
-				E2F2D2E52A95307A00E1B7FF /* Images.xcassets */,
 			);
 			path = WinDiskWriter;
 			sourceTree = "<group>";
@@ -1518,7 +1518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E248D8602B2B79BD00ACB361 /* Localizable.strings in Resources */,
-				E2F2D2E62A95307A00E1B7FF /* Images.xcassets in Resources */,
+				E2EA16B22E195D4100BDA153 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1692,7 +1692,7 @@
 					"@executable_path/../Frameworks",
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.techunrestricted.windiskwriter;
 				PRODUCT_NAME = WinDiskWriter;
@@ -1725,7 +1725,7 @@
 					"@executable_path/../Frameworks",
 				);
 				LOCALIZATION_EXPORT_SUPPORTED = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.techunrestricted.windiskwriter;
 				PRODUCT_NAME = WinDiskWriter;
