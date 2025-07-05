@@ -28,4 +28,8 @@
     return self;
 }
 
+- (BOOL)allowsVibrancy {
+    return YES;
+}
+
 @end
