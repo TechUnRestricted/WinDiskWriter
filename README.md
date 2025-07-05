@@ -34,7 +34,7 @@
 
 <p align="center">
   <a href="https://www.buymeacoffee.com/TechUnRestricted">
-    <img src="https://img.buymeacoffee.com/button-api/?text=Donate with Buy Me a Coffee&emoji=☕&slug=TechUnRestricted&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff" />
+    <img src="BuyMeCoffee.svg" />
   </a>
 <p>
   
@@ -153,8 +153,12 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
     </thead>
     <tbody>
         <tr>
+            <td>macOS Tahoe 26.0</td>
+            <td rowspan="6" align="center">x86_64,<br>ARM64</td>
+            <td align="center">Yes<br><sub>(separate build)</sub></td>
+        </tr>
+        <tr>
             <td>macOS Sequoia 15.0</td>
-            <td rowspan="5" align="center">x86_64,<br>ARM64</td>
             <td rowspan="13" align="center">Yes</td>
         </tr>
         <tr>
