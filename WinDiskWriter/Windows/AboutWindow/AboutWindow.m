@@ -93,7 +93,7 @@
             
             LabelView *applicationVersionLabelView = [[LabelView alloc] init]; {
                 
-                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@: (%@)", [LocalizedStrings labelviewTitleVersion], [Constants applicationVersion]]
+                NSAttributedString *attributedStringResult = [NSMutableAttributedString attributedStringWithString: [NSString stringWithFormat:@"%@: %@", [LocalizedStrings labelviewTitleVersion], [Constants applicationVersion]]
                                                                                                             weight: 3
                                                                                                               size: NSFont.systemFontSize];
                 
