@@ -292,7 +292,7 @@ With this USB drive, you can install and enjoy <strong>Windows</strong> on your 
     Tether USD [USDT] (<b>E</b>RC20): <b>0x1410acAc3e0De885f4fb8C305a2F7B586d47c5ff</b>
   </li>
   <li>
-    Tether USD [USDT] (<b>T</b>RC20): <b>TKR1dtAHsHwaQYwUx6FGTwpfUM9rzepGVu</b>
+    Tether USD [USDT] (<b>T</b>RC20): <b>TMRsfsEDMNwA1KYRTFHT55SxcFxyYQVzoH</b>
   </li>
 </ul>
 
