@@ -10,7 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MiddleAlignedCell : NSCell
+// NSTextField and cell-based log tables need AppKit's text-cell behavior.
+@interface MiddleAlignedCell : NSTextFieldCell
 
 @end
 
